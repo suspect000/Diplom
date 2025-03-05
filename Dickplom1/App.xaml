@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Dickplom1"
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Dictionary/WhiteTheme.xaml"/>
+                <ResourceDictionary Source="Resources/Dictionary/BlackTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
