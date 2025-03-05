@@ -24,5 +24,13 @@ namespace Dickplom1
         {
             InitializeComponent();
         }
+
+        private void MoveWin_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
     }
 }

@@ -1,0 +1,59 @@
+﻿<Window x:Class="Dickplom1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dickplom1"
+        mc:Ignorable="d"
+        Title="ClientPro" 
+        Height="980" Width="1540"
+        Background="Transparent"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        ResizeMode="CanResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="1180"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="129"/>
+            <RowDefinition Height="821"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Border Background="White"
+                CornerRadius="20"
+                BorderThickness="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="7"
+                Grid.Row="0"
+                Grid.RowSpan="7">
+        </Border>
+
+        <Rectangle x:Name="MoveWin"
+                   Fill="Transparent"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Top"
+                   Height="30" 
+                   PreviewMouseLeftButtonDown="MoveWin_PreviewMouseLeftButtonDown"
+                   Grid.ColumnSpan="7"/>
+
+        <Image 
+            Width="150" Height="auto"
+            VerticalAlignment="Center" HorizontalAlignment="Center" 
+            Source="/Resources/Images/MainWin/LogoWhite.png" 
+            RenderOptions.BitmapScalingMode="HighQuality"
+            Grid.Row="0"
+            Grid.Column="1"/>
+        
+    </Grid>
+</Window>
