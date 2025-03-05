@@ -29,8 +29,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
-        <Border Background="White"
+
+        <Border Background="{StaticResource MainBackgroundColor}"
                 CornerRadius="20"
                 BorderThickness="0"
                 Grid.Column="0"
@@ -55,6 +55,39 @@
             RenderOptions.BitmapScalingMode="HighQuality"
             Grid.Row="0"
             Grid.Column="1"/>
-        
+
+        <StackPanel
+            Grid.Column="3"
+            HorizontalAlignment="Left" VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Text="Отчеты"
+                Style="{StaticResource DefText15}"/>
+            <Image Source="/Resources/Images/MainWin/arrow.png"
+                   Margin="10,0,0,0"
+                   Name="ImgArrowDown"
+                   Width="8"
+                   Height="8"/>
+        </StackPanel>
+
+        <Grid 
+            Grid.Column="3"
+            Margin="0,0,200,0"
+            Width="228" Height="57"
+            HorizontalAlignment="Right">
+
+            <TextBox
+                Text="Найти"
+                Width="228" Height="57"
+                HorizontalAlignment="Right"
+                Style="{StaticResource SearchStyle}"/>
+            
+            <Image Source="/Resources/Images/MainWin/lupa.png"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Height="15"
+                   Width="13"
+                   HorizontalAlignment="Left"
+                   Margin="25,0,0,0"/>
+        </Grid>
     </Grid>
 </Window>
