@@ -48,6 +48,7 @@
                    Grid.ColumnSpan="7"/>
 
         <Image 
+            Name="Logo"
             Width="150" Height="auto"
             VerticalAlignment="Center" HorizontalAlignment="Center" 
             Source="/Resources/Images/MainWin/LogoWhite.png" 
