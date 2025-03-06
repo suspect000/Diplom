@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dickplom1.Class;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +26,28 @@ namespace Dickplom1
             InitializeComponent();
         }
 
-        private void MoveWin_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            HidenRect.Focus();
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbSearch.Text == "Найти")
             {
-                DragMove();
+                tbSearch.Text = "";
+                imgLupa.Visibility = Visibility.Collapsed;
+                Animations.WidthAnimation(tbSearch, tbSearch.Width, 610);
+            }
+        }
+
+        private void tbSearch_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbSearch.Text))
+            {
+                tbSearch.Text = "Найти";
+                imgLupa.Visibility = Visibility.Visible;
+                Animations.WidthAnimation(tbSearch, tbSearch.Width, 228);
             }
         }
     }

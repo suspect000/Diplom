@@ -7,22 +7,22 @@
         mc:Ignorable="d"
         Title="ClientPro" 
         Height="980" Width="1540"
-        Background="Transparent"
+        MinWidth="1540" MinHeight="980"
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
-        WindowStyle="None"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+        MouseDown="Window_MouseDown"
+        Background="{StaticResource MainBackgroundColor}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="1180"/>
+            <ColumnDefinition Width="*" MinWidth="1180"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="129"/>
             <RowDefinition Height="821"/>
@@ -30,21 +30,12 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Background="{StaticResource MainBackgroundColor}"
-                CornerRadius="20"
-                BorderThickness="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="7"
-                Grid.Row="0"
-                Grid.RowSpan="7">
-        </Border>
-
-        <Rectangle x:Name="MoveWin"
+        <Rectangle x:Name="HidenRect"
                    Fill="Transparent"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Top"
                    Height="30" 
-                   PreviewMouseLeftButtonDown="MoveWin_PreviewMouseLeftButtonDown"
+                   Focusable="True"
                    Grid.ColumnSpan="7"/>
 
         <Image 
@@ -71,23 +62,31 @@
         </StackPanel>
 
         <Grid 
+            Name="gridSearch"
+            Background="Green"
             Grid.Column="3"
             Margin="0,0,200,0"
-            Width="228" Height="57"
+            Width="auto" Height="57"
             HorizontalAlignment="Right">
 
             <TextBox
+                Name="tbSearch"
                 Text="Найти"
                 Width="228" Height="57"
                 HorizontalAlignment="Right"
-                Style="{StaticResource SearchStyle}"/>
+                Style="{StaticResource SearchStyle}" 
+                GotFocus="TextBox_GotFocus" 
+                LostFocus="tbSearch_LostFocus"
+                TextWrapping="NoWrap"/>
             
             <Image Source="/Resources/Images/MainWin/lupa.png"
+                   Name="imgLupa"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Height="15"
                    Width="13"
                    HorizontalAlignment="Left"
-                   Margin="25,0,0,0"/>
+                   Margin="25,0,0,0"
+                   IsHitTestVisible="False"/>
         </Grid>
     </Grid>
 </Window>

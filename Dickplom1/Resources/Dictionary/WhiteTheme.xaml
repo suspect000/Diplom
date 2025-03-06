@@ -5,6 +5,7 @@
     <SolidColorBrush x:Key="MainBackgroundColor" Color="White"/>
     <SolidColorBrush x:Key="MainTextForeground" Color="#687183"/>
     <SolidColorBrush x:Key="OtherBackground" Color="#ECEDF1"/>
+    <SolidColorBrush x:Key="SelectedItem" Color="#C3C7D2"/>
     <!---->
     
     <!--Стиль для обыного текста 15pt -->
@@ -36,10 +37,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="Gray"/>
+                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="{StaticResource SelectedItem}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="Gray"/>
+                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="{StaticResource SelectedItem}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
