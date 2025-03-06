@@ -26,6 +26,14 @@ namespace Dickplom1
             InitializeComponent();
         }
 
+        private void ExpanderHeader_Click(object sender, MouseButtonEventArgs e) // Экспандер в навигации
+        {
+            if (sender is Expander expander)
+            {
+                expander.IsExpanded = !expander.IsExpanded;
+            }
+        }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HidenRect.Focus();

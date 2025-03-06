@@ -9,13 +9,36 @@
     <SolidColorBrush x:Key="SelectedItem" Color="#C3C7D2"/>
     <!---->
     
+    
     <!--Стиль для обыного текста 15pt -->
     <Style x:Key="DefText15" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
         <Setter Property="FontFamily" Value="Proletarsk"/>
         <Setter Property="FontSize" Value="15"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <!---->
+
+    
+    <!--Стиль для обыного текста 15pt -->
+    <Style x:Key="DefText14" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <!---->
+
+    
+    <!--Стиль для обыного текста 15pt -->
+    <Style x:Key="DefText13" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <!---->
+
 
     <!--Стиль для поисковика -->
     <Style x:Key="SearchStyle" TargetType="TextBox">
@@ -50,6 +73,7 @@
     </Style>
     <!---->
 
+    
     <!--Стиль для круглой кнопки -->
     <Style x:Key="BtnCircle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource OtherBackground}"/>
@@ -75,5 +99,138 @@
         </Setter>
     </Style>
     <!---->
+
+    
+    <!--Стиль для ListBox навигации-->
+    <Style x:Key="ListBoxNav" TargetType="ListBox">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <!---->
+
+    
+    <!--Стиль для ListBoxItem навигации-->
+    <Style x:Key="ListBoxItemNav" TargetType="ListBoxItem">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="listBoxBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="15">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!---->
+
+    <!--Стиль для Expander навигации-->
+    <Style x:Key="expanderNav" TargetType="Expander">
+        <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Name="border"
+                            Background="Transparent"
+                            FocusVisualStyle="{x:Null}"
+                            CornerRadius="15">
+                        <StackPanel 
+                                    HorizontalAlignment="Left"
+                                    Margin="7,0,0,0">
+                            
+                            <!-- Заголовок Expander -->
+                            <DockPanel x:Name="HeaderPanel"
+                                       Focusable="False"
+                                       Height="50" Width="215">
+
+                                <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="25" Height="25"
+                                    Margin="2,0,20,0"/>
+
+                                <TextBlock Text="{TemplateBinding Header}"
+                                           x:Name="tblock"
+                                           Foreground="{StaticResource MainTextForeground}"
+                                           FontSize="14"
+                                           VerticalAlignment="Center"/>
+
+                                <Image x:Name="ArrowIcon"
+                                   Source="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowDown.png"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Width="8" Height="8"
+                                   Margin="0,0,16,0"
+                                   HorizontalAlignment="Right"
+                                   DockPanel.Dock="Right"/>
+                            </DockPanel>
+
+                            <!-- Контент Expander -->
+                            <ContentPresenter x:Name="ExpandSite" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Изменение иконки при разворачивании -->
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ArrowIcon" Property="Source" 
+                                Value="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowUp.png"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
+                            <Setter TargetName="HeaderPanel" Property="Background" Value="Transparent"/>
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!-- Используем EventTrigger (работает, если стиль не в ResourceDictionary) -->
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsExpanded">
+                            <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+    <!---->
+
+
 
 </ResourceDictionary>

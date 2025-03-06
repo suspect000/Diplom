@@ -28,6 +28,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <!--Header-->
         <Rectangle x:Name="HidenRect"
                    Fill="Transparent"
                    HorizontalAlignment="Stretch"
@@ -127,6 +128,86 @@
                     FontFamily="Proletarsk" FontSize="15"/>
             </Grid>
         </StackPanel>
+        <!--/Header-->
         
+        <!--Navigation-->
+        <Grid
+            x:Name="gridNavigation"
+            Grid.Column="1"
+            Grid.Row="1"
+            Width="280" Height="466"
+            VerticalAlignment="Top">
+            
+            <Border 
+                Background="{StaticResource OtherBackground}"
+                CornerRadius="20"/>
+
+            <ListBox x:Name="NavListBox"
+                     Style="{StaticResource ListBoxNav}"
+                     HorizontalContentAlignment="Left">
+
+                <ListBoxItem Tag="Dashboards"
+                             Width="224" Height="50"
+                             Margin="0,9,0,15"
+                             Background="Transparent"
+                             Style="{StaticResource ListBoxItemNav}">
+
+                    <StackPanel Orientation="Horizontal"
+                                Background="Transparent">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/IcnAnalBlue.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="25" Height="25"
+                            Margin="8,0,19,0"/>
+                        <TextBlock Text="Аналитика"
+                                   Style="{StaticResource DefText15}"
+                                   VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </ListBoxItem>
+
+                <Expander Header="Клиенты" Margin="12,-2,0,0"
+                          Style="{StaticResource expanderNav}">
+                    <StackPanel>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal" Height="50" Width="auto">
+                                <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="10" Height="12"
+                                    Margin="9,0,15,10"/>
+                                <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="25" Height="25"
+                                    Margin="0,0,20,0"/>
+                                <TextBlock Text="Пример"
+                                           Style="{StaticResource DefText14}"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal" Height="50">
+                                <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="10" Height="12"
+                                    Margin="9,0,15,10"/>
+                                <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="25" Height="25"
+                                    Margin="0,0,20,0"/>
+                                <TextBlock Text="Пример"
+                                           Style="{StaticResource DefText14}"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                    </StackPanel>
+                </Expander>
+
+            </ListBox>
+        </Grid>
+        <!--/Navigation-->
     </Grid>
 </Window>
