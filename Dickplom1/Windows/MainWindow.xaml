@@ -18,9 +18,7 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*" MinWidth="1180"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -61,32 +59,74 @@
                    Height="8"/>
         </StackPanel>
 
-        <Grid 
-            Name="gridSearch"
-            Background="Green"
+        <StackPanel
             Grid.Column="3"
-            Margin="0,0,200,0"
-            Width="auto" Height="57"
-            HorizontalAlignment="Right">
+            Orientation="Horizontal"
+            HorizontalAlignment="Right" VerticalAlignment="Center"
+            Width="auto" Height="57">
+            <Grid 
+                Name="gridSearch"
+                Margin="0,0,15,0"
+                Width="auto" Height="57"
+                HorizontalAlignment="Right">
 
-            <TextBox
-                Name="tbSearch"
-                Text="Найти"
-                Width="228" Height="57"
-                HorizontalAlignment="Right"
-                Style="{StaticResource SearchStyle}" 
-                GotFocus="TextBox_GotFocus" 
-                LostFocus="tbSearch_LostFocus"
-                TextWrapping="NoWrap"/>
-            
-            <Image Source="/Resources/Images/MainWin/lupa.png"
-                   Name="imgLupa"
-                   RenderOptions.BitmapScalingMode="HighQuality"
-                   Height="15"
-                   Width="13"
-                   HorizontalAlignment="Left"
-                   Margin="25,0,0,0"
-                   IsHitTestVisible="False"/>
-        </Grid>
+                <TextBox
+                    Name="tbSearch"
+                    Text="Найти"
+                    Width="228" Height="57"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource SearchStyle}" 
+                    GotFocus="TextBox_GotFocus" 
+                    LostFocus="tbSearch_LostFocus"
+                    TextWrapping="NoWrap"/>
+
+                <Image Source="/Resources/Images/MainWin/lupa.png"
+                    Name="imgLupa"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Height="15"
+                    Width="13"
+                    HorizontalAlignment="Left"
+                    Margin="25,0,0,0"
+                    IsHitTestVisible="False"/>
+            </Grid>
+
+            <Grid
+                x:Name="gridNotification"
+                Grid.Column="3"
+                Margin="0,0,15,0"
+                Width="auto" Height="auto"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right">
+
+                <Button
+                    Name="btnNotification"
+                    Width="54" Height="57"
+                    BorderBrush="Red"
+                    BorderThickness="1"
+                    Style="{StaticResource BtnCircle}">
+
+                    <Image 
+                        Source="/Resources/Images/MainWin/Notification.png"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Width="20" Height="20"/>
+                </Button>
+            </Grid>
+            <Grid
+                x:Name="gridProfile"
+                Grid.Column="3"
+                Margin="0,0,40,0"
+                Width="auto" Height="auto"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right">
+
+                <Button
+                    Name="btnProfile"
+                    Content="ВС"
+                    Width="54" Height="57"
+                    BorderThickness="1"
+                    Style="{StaticResource BtnCircle}"
+                    FontFamily="Proletarsk" FontSize="15"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
