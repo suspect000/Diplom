@@ -40,6 +40,9 @@ namespace Dickplom1.Class
             if (element is ListBoxItem lIItem)
                 lIItem.BorderBrush = brush;
 
+            if (element is Expander expander)
+                expander.BorderBrush = brush;
+
 
             var animation = new ColorAnimation
             {

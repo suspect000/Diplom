@@ -103,6 +103,8 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        
     </Style>
     <!---->
 
@@ -145,25 +147,25 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Expander">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Name="border"
                             Background="Transparent"
                             FocusVisualStyle="{x:Null}"
                             CornerRadius="15">
                         <StackPanel 
                                     HorizontalAlignment="Left"
-                                    Margin="7,0,0,0">
-                            
+                                    Margin="0,0,0,0">
+
                             <!-- Заголовок Expander -->
                             <DockPanel x:Name="HeaderPanel"
                                        Focusable="False"
-                                       Height="50" Width="215">
+                                       Height="50" >
 
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
                                     Width="25" Height="25"
-                                    Margin="2,0,20,0"/>
+                                    Margin="7,0,20,0"/>
 
                                 <TextBlock Text="{TemplateBinding Header}"
                                            x:Name="tblock"
@@ -175,7 +177,7 @@
                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowDown.png"
                                    RenderOptions.BitmapScalingMode="HighQuality"
                                    Width="8" Height="8"
-                                   Margin="0,0,16,0"
+                                   Margin="90,0,16,0"
                                    HorizontalAlignment="Right"
                                    DockPanel.Dock="Right"/>
                             </DockPanel>
@@ -217,6 +219,36 @@
     </Style>
     <!---->
 
+
+    
+    <!--Стиль ListBoxItem-->
+    <Style TargetType="ListBoxItem">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="224"/>
+        <Setter Property="Height" Value="189"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="border"
+                        CornerRadius="15"
+                        Background="{TemplateBinding Background}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!---->
 
 
 </ResourceDictionary>

@@ -153,6 +153,34 @@
             <ListBox x:Name="NavListBox"
                      Style="{StaticResource ListBoxNav}"
                      HorizontalContentAlignment="Left">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Width" Value="224"/>
+                        <Setter Property="Height" Value="189"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="border"
+                                            CornerRadius="15"
+                                            Background="{TemplateBinding Background}"
+                                            Width="{TemplateBinding Width}"
+                                            Height="{TemplateBinding Height}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}">
+                                        <ContentPresenter
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Width="{TemplateBinding Width}"
+                                            Height="{TemplateBinding Height}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
 
                 <ListBoxItem Tag="Dashboards"
                              x:Name="lIDashboard"
@@ -160,6 +188,7 @@
                              BorderThickness="1"
                              Margin="0,9,0,15"
                              Background="Transparent"
+                             BorderBrush="Transparent"
                              Style="{StaticResource ListBoxItemNav}"
                              MouseEnter="ListBoxItem_MouseEnter" MouseLeave="ListBoxItem_MouseLeave">
 
@@ -179,16 +208,22 @@
 
                 </ListBoxItem>
 
-                <Expander Header="Клиенты" Margin="12,-2,0,0"
-                          Style="{StaticResource expanderNav}">
-                    <StackPanel>
-                        <ListBoxItem>
-                            <StackPanel Orientation="Horizontal" Height="50" Width="auto">
+                <Expander Header="Клиенты" Margin="0,0,0,0"
+                          Name="expClients"
+                          BorderBrush="Transparent"
+                          Style="{StaticResource expanderNav}"
+                          MouseEnter="Expander_MouseEnter" MouseLeave="expClients_MouseLeave">
+                    <StackPanel Margin="0,15,0,0" Width="223">
+                        <ListBoxItem 
+                            Style="{StaticResource ListBoxItemNav}"
+                            Margin="10,0,0,15">
+                            <StackPanel Orientation="Horizontal"
+                                        Height="50">
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
                                     Width="10" Height="12"
-                                    Margin="9,0,15,10"/>
+                                    Margin="8,0,15,10"/>
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
@@ -198,13 +233,15 @@
                                            Style="{StaticResource DefText14}"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem>
+                        <ListBoxItem
+                            Style="{StaticResource ListBoxItemNav}"
+                            Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal" Height="50">
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
                                     Width="10" Height="12"
-                                    Margin="9,0,15,10"/>
+                                    Margin="8,0,15,10"/>
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"

@@ -108,6 +108,7 @@ namespace Dickplom1
 
 
 
+        //Анимация навигации (Аналитика)
         private void ListBoxItem_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
@@ -119,5 +120,22 @@ namespace Dickplom1
             Animations.AnimateBorderBrush
                 (lIDashboard, (Color)ColorConverter.ConvertFromString(lIDashboard.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
+        //-----------------------------------------------------------------------------------
+
+
+
+        //Анимация навигации (Клиенты дочерка)
+        private void Expander_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (expClients, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void expClients_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (expClients, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
     }
 }
