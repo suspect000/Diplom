@@ -23,5 +23,25 @@ namespace Dickplom1.Class
             };
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
         }
+
+        public static void AnimateBorderBrush(TextBox textBox, Color fromColor, Color toColor, double time)
+        {
+            if (textBox == null) return;
+
+            // Создаем новую кисть, чтобы избежать ошибки замороженного ресурса
+            var brush = new SolidColorBrush(fromColor);
+            textBox.BorderBrush = brush;
+
+            var animation = new ColorAnimation
+            {
+                From = fromColor,
+                To = toColor,
+                Duration = TimeSpan.FromSeconds(time),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            // Запускаем анимацию
+            brush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+        }
     }
 }

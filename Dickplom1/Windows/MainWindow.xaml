@@ -74,11 +74,14 @@
                     Name="tbSearch"
                     Text="Найти"
                     Width="228" Height="57"
+                    BorderThickness="1"
+                    BorderBrush="Transparent"
                     HorizontalAlignment="Right"
                     Style="{StaticResource SearchStyle}" 
                     GotFocus="TextBox_GotFocus" 
                     LostFocus="tbSearch_LostFocus"
-                    TextWrapping="NoWrap"/>
+                    TextWrapping="NoWrap"
+                    MouseEnter="tbSearch_MouseEnter"/>
 
                 <Image Source="/Resources/Images/MainWin/lupa.png"
                     Name="imgLupa"
@@ -148,6 +151,7 @@
 
                 <ListBoxItem Tag="Dashboards"
                              Width="224" Height="50"
+                             BorderThickness="1"
                              Margin="0,9,0,15"
                              Background="Transparent"
                              Style="{StaticResource ListBoxItemNav}">

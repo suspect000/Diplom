@@ -53,16 +53,13 @@
                 <ControlTemplate x:Name="controlTemplate" TargetType="TextBox">
                     <Border Name="borderForTextBox"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="Transparent"
+                        BorderBrush="{TemplateBinding BorderBrush}"
                         Background="{TemplateBinding Background}"
                         CornerRadius="25"
                         Padding="45,0">
                         <ScrollViewer x:Name="PART_ContentHost"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
-                        </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
                         </Trigger>
@@ -89,11 +86,6 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"/>
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="btnBorder" Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -136,9 +128,6 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
-            </Trigger>
         </Style.Triggers>
     </Style>
     <!---->
@@ -200,11 +189,6 @@
                             <Setter TargetName="ArrowIcon" Property="Source" 
                                 Value="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowUp.png"/>
                             <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
-                        </Trigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
-                            <Setter TargetName="HeaderPanel" Property="Background" Value="Transparent"/>
                         </Trigger>
 
                         <Trigger Property="IsFocused" Value="True">

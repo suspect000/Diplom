@@ -58,5 +58,11 @@ namespace Dickplom1
                 Animations.WidthAnimation(tbSearch, tbSearch.Width, 228);
             }
         }
+
+        private void tbSearch_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
     }
 }
