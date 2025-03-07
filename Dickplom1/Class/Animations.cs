@@ -20,17 +20,17 @@ namespace Dickplom1.Class
                 To = to,
                 Duration = TimeSpan.FromSeconds(0.5),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-            };s
+            };
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
         }
 
-        public static void HeightAnimation(UIElement element, double from, double to)
+        public static void HeightAnimation(UIElement element, double from, double to, double time)
         {
             DoubleAnimation animation = new DoubleAnimation
             {
                 From = from,
                 To = to,
-                Duration = TimeSpan.FromSeconds(0.3),
+                Duration = TimeSpan.FromSeconds(time),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
             element.BeginAnimation(FrameworkElement.HeightProperty, animation);

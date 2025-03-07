@@ -142,7 +142,7 @@ namespace Dickplom1
 
         private void expClients_Expanded(object sender, RoutedEventArgs e)
         {
-            Animations.HeightAnimation(expClients, expClients.ActualHeight, 189);
+            Animations.HeightAnimation(expClients, expClients.ActualHeight, 189, 0.3);
         }
     }
 }
