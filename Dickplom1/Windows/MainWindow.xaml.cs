@@ -59,10 +59,65 @@ namespace Dickplom1
             }
         }
 
+
+        //Анимация tBox поисковика
         private void tbSearch_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
                 (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void tbSearch_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+
+
+        //Анимация кнопки уведомлений
+        private void btnNotification_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void btnNotification_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+
+
+        //Анимация кнопки профиля
+        private void btnProfile_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void btnProfile_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+
+
+        private void ListBoxItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                            (lIDashboard, (Color)ColorConverter.ConvertFromString(lIDashboard.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void ListBoxItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (lIDashboard, (Color)ColorConverter.ConvertFromString(lIDashboard.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
     }
 }

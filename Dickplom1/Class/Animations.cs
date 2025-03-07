@@ -24,13 +24,22 @@ namespace Dickplom1.Class
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
         }
 
-        public static void AnimateBorderBrush(TextBox textBox, Color fromColor, Color toColor, double time)
+        public static void AnimateBorderBrush(UIElement element, Color fromColor, Color toColor, double time)
         {
-            if (textBox == null) return;
-
             // Создаем новую кисть, чтобы избежать ошибки замороженного ресурса
             var brush = new SolidColorBrush(fromColor);
-            textBox.BorderBrush = brush;
+
+            if (element == null) return;
+
+            if (element is TextBox textbox)
+                textbox.BorderBrush = brush;
+
+            if (element is Button button)
+                button.BorderBrush = brush;
+
+            if (element is ListBoxItem lIItem)
+                lIItem.BorderBrush = brush;
+
 
             var animation = new ColorAnimation
             {

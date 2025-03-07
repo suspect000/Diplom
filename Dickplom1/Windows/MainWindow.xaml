@@ -81,7 +81,7 @@
                     GotFocus="TextBox_GotFocus" 
                     LostFocus="tbSearch_LostFocus"
                     TextWrapping="NoWrap"
-                    MouseEnter="tbSearch_MouseEnter"/>
+                    MouseEnter="tbSearch_MouseEnter" MouseLeave="tbSearch_MouseLeave"/>
 
                 <Image Source="/Resources/Images/MainWin/lupa.png"
                     Name="imgLupa"
@@ -104,9 +104,13 @@
                 <Button
                     Name="btnNotification"
                     Width="54" Height="57"
-                    BorderBrush="Red"
+                    
                     BorderThickness="1"
-                    Style="{StaticResource BtnCircle}">
+                    
+                    Style="{StaticResource BtnCircle}" 
+                    
+                    MouseEnter="btnNotification_MouseEnter"
+                    MouseLeave="btnNotification_MouseLeave">
 
                     <Image 
                         Source="/Resources/Images/MainWin/Notification.png"
@@ -128,7 +132,8 @@
                     Width="54" Height="57"
                     BorderThickness="1"
                     Style="{StaticResource BtnCircle}"
-                    FontFamily="Proletarsk" FontSize="15"/>
+                    FontFamily="Proletarsk" FontSize="15"
+                    MouseEnter="btnProfile_MouseEnter" MouseLeave="btnProfile_MouseLeave" />
             </Grid>
         </StackPanel>
         <!--/Header-->
@@ -150,11 +155,13 @@
                      HorizontalContentAlignment="Left">
 
                 <ListBoxItem Tag="Dashboards"
+                             x:Name="lIDashboard"
                              Width="224" Height="50"
                              BorderThickness="1"
                              Margin="0,9,0,15"
                              Background="Transparent"
-                             Style="{StaticResource ListBoxItemNav}">
+                             Style="{StaticResource ListBoxItemNav}"
+                             MouseEnter="ListBoxItem_MouseEnter" MouseLeave="ListBoxItem_MouseLeave">
 
                     <StackPanel Orientation="Horizontal"
                                 Background="Transparent">
