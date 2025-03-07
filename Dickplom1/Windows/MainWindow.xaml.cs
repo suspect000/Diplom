@@ -137,5 +137,12 @@ namespace Dickplom1
                 (expClients, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
         //-----------------------------------------------------------------------------------
+
+
+
+        private void expClients_Expanded(object sender, RoutedEventArgs e)
+        {
+            Animations.HeightAnimation(expClients, expClients.ActualHeight, 189);
+        }
     }
 }

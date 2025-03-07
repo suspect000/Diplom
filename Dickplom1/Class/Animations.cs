@@ -20,8 +20,20 @@ namespace Dickplom1.Class
                 To = to,
                 Duration = TimeSpan.FromSeconds(0.5),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-            };
+            };s
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
+        }
+
+        public static void HeightAnimation(UIElement element, double from, double to)
+        {
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(0.3),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+            };
+            element.BeginAnimation(FrameworkElement.HeightProperty, animation);
         }
 
         public static void AnimateBorderBrush(UIElement element, Color fromColor, Color toColor, double time)

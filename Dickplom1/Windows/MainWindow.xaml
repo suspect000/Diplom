@@ -155,9 +155,8 @@
                      HorizontalContentAlignment="Left">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Width" Value="224"/>
                         <Setter Property="Height" Value="189"/>
                         <Setter Property="Template">
@@ -212,7 +211,9 @@
                           Name="expClients"
                           BorderBrush="Transparent"
                           Style="{StaticResource expanderNav}"
-                          MouseEnter="Expander_MouseEnter" MouseLeave="expClients_MouseLeave">
+                          Height="50"
+                          VerticalAlignment="Top"
+                          MouseEnter="Expander_MouseEnter" MouseLeave="expClients_MouseLeave" Expanded="expClients_Expanded">
                     <StackPanel Margin="0,15,0,0" Width="223">
                         <ListBoxItem 
                             Style="{StaticResource ListBoxItemNav}"
