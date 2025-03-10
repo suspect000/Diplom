@@ -124,7 +124,7 @@ namespace Dickplom1
 
 
 
-        //Анимация навигации (Клиенты дочерка)
+        //Анимация навигации (Клиенты)
         private void Expander_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
@@ -140,12 +140,39 @@ namespace Dickplom1
 
 
 
-        private void expClients_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        //Анимация навигации (Клиенты дочерка 1)
+        private void LBIClient1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void LBIClient1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+
+
+        //Анимация навигации (Клиенты дочерка 2)
+        private void LBIClient2_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void LBIClient2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+        private void GridExpanderClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (expClients.IsExpanded == false)
             {
                 expClients.IsExpanded = true;
-                Animations.HeightAnimation(expClients, expClients.ActualHeight, 189, 0.3);
+                Animations.HeightAnimation(expClients, expClients.ActualHeight, 187, 0.3);
 
             }
             else

@@ -211,23 +211,26 @@
                           Name="expClients"
                           BorderBrush="Transparent"
                           Style="{StaticResource expanderNav}"
-                          Height="50"
+                          Height="187"
+                          IsExpanded="True"
                           VerticalAlignment="Top"
                           
                           MouseEnter="Expander_MouseEnter"
-                          MouseLeave="expClients_MouseLeave" 
-                          PreviewMouseLeftButtonDown="expClients_PreviewMouseLeftButtonDown">
-                    <StackPanel Margin="0,15,0,0" Width="223">
+                          MouseLeave="expClients_MouseLeave">
+                    <StackPanel Margin="1,15,0,0" Width="auto">
                         <ListBoxItem 
+                            Name="LBIClient1"
                             Style="{StaticResource ListBoxItemNav}"
-                            Margin="10,0,0,15">
+                            Margin="0,0,0,15" 
+                            MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
                             <StackPanel Orientation="Horizontal"
                                         Height="50">
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
                                     Width="10" Height="12"
-                                    Margin="8,0,15,10"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="18,0,15,5"/>
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
@@ -237,15 +240,19 @@
                                            Style="{StaticResource DefText14}"/>
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem
+                        <ListBoxItem 
+                            Name="LBIClient2"
                             Style="{StaticResource ListBoxItemNav}"
-                            Margin="10,0,0,0">
-                            <StackPanel Orientation="Horizontal" Height="50">
+                            Margin="0,0,0,0" 
+                            MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
+                            <StackPanel Orientation="Horizontal"
+                                        Height="50">
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
                                     Width="10" Height="12"
-                                    Margin="8,0,15,10"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="18,0,15,5"/>
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
@@ -257,8 +264,17 @@
                         </ListBoxItem>
                     </StackPanel>
                 </Expander>
-
             </ListBox>
+            <Grid Width="224"
+                  Height="50"
+                  VerticalAlignment="Top"
+                  Name="GridExpanderClients"
+                  Background="Transparent"
+                  Margin="0,85,0,0"
+                  MouseEnter="Expander_MouseEnter"
+                  MouseLeave="expClients_MouseLeave"
+                  MouseLeftButtonDown="GridExpanderClients_MouseLeftButtonDown"
+                  Panel.ZIndex="1"/>
         </Grid>
         <!--/Navigation-->
     </Grid>
