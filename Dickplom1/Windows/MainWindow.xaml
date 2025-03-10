@@ -213,7 +213,10 @@
                           Style="{StaticResource expanderNav}"
                           Height="50"
                           VerticalAlignment="Top"
-                          MouseEnter="Expander_MouseEnter" MouseLeave="expClients_MouseLeave" Expanded="expClients_Expanded">
+                          
+                          MouseEnter="Expander_MouseEnter"
+                          MouseLeave="expClients_MouseLeave" 
+                          PreviewMouseLeftButtonDown="expClients_PreviewMouseLeftButtonDown">
                     <StackPanel Margin="0,15,0,0" Width="223">
                         <ListBoxItem 
                             Style="{StaticResource ListBoxItemNav}"

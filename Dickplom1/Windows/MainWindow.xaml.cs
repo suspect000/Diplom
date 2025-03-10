@@ -140,9 +140,18 @@ namespace Dickplom1
 
 
 
-        private void expClients_Expanded(object sender, RoutedEventArgs e)
+        private void expClients_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Animations.HeightAnimation(expClients, expClients.ActualHeight, 189, 0.3);
+            if (expClients.IsExpanded == false)
+            {
+                expClients.IsExpanded = true;
+                Animations.HeightAnimation(expClients, expClients.ActualHeight, 189, 0.3);
+
+            }
+            else
+            {
+                Animations.HeightAnimation(expClients, expClients.ActualHeight, 50, 0.3, expClients);
+            }
         }
     }
 }

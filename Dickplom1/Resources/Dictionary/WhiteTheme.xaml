@@ -158,8 +158,8 @@
 
                             <!-- Заголовок Expander -->
                             <DockPanel x:Name="HeaderPanel"
-                                       Focusable="False"
-                                       Height="50" >
+                                       Focusable="True"
+                                       Height="50">
 
                                 <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
@@ -195,6 +195,12 @@
                             <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
                         </Trigger>
 
+                        <Trigger Property="IsExpanded" Value="False">
+                            <Setter TargetName="ArrowIcon" Property="Source" 
+                                Value="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowDown.png"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+
                         <Trigger Property="IsFocused" Value="True">
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -203,19 +209,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <!-- Используем EventTrigger (работает, если стиль не в ResourceDictionary) -->
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="MouseLeftButtonDown">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsExpanded">
-                            <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
-                        </BooleanAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
     </Style>
     <!---->
 

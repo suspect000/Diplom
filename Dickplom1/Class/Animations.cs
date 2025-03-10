@@ -24,7 +24,7 @@ namespace Dickplom1.Class
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
         }
 
-        public static void HeightAnimation(UIElement element, double from, double to, double time)
+        public static void HeightAnimation(UIElement element, double from, double to, double time, Expander expanderToCollapse = null)
         {
             DoubleAnimation animation = new DoubleAnimation
             {
@@ -33,6 +33,14 @@ namespace Dickplom1.Class
                 Duration = TimeSpan.FromSeconds(time),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
+
+            if (expanderToCollapse != null) // Очень классная структура
+            {
+                animation.Completed += (s, e) =>
+                {
+                    expanderToCollapse.IsExpanded = false;
+                };
+            }
             element.BeginAnimation(FrameworkElement.HeightProperty, animation);
         }
 
