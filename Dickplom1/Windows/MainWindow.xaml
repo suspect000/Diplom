@@ -150,79 +150,78 @@
                 Background="{StaticResource OtherBackground}"
                 CornerRadius="20"/>
 
-            <ListBox x:Name="NavListBox"
-                     Style="{StaticResource ListBoxNav}"
-                     HorizontalContentAlignment="Left">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Width" Value="224"/>
-                        <Setter Property="Height" Value="189"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="border"
-                                            CornerRadius="15"
-                                            Background="{TemplateBinding Background}"
-                                            Width="{TemplateBinding Width}"
-                                            Height="{TemplateBinding Height}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            BorderBrush="{TemplateBinding BorderBrush}">
-                                        <ContentPresenter
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Width="{TemplateBinding Width}"
-                                            Height="{TemplateBinding Height}"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+            
 
-                <ListBoxItem Tag="Dashboards"
+                <StackPanel
+                    Width="auto" Height="auto"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Margin="0,20,0,0">
+                    <ListBoxItem Tag="Dashboards"
                              x:Name="lIDashboard"
                              Width="224" Height="50"
                              BorderThickness="1"
-                             Margin="0,9,0,15"
+                             Margin="0,0,0,15"
                              Background="Transparent"
                              BorderBrush="Transparent"
                              Style="{StaticResource ListBoxItemNav}"
                              MouseEnter="ListBoxItem_MouseEnter" MouseLeave="ListBoxItem_MouseLeave">
 
-                    <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="Horizontal"
                                 Background="Transparent">
 
-                        <Image 
+                            <Image 
                             Source="..//Resources/Images/MainWin/Navigation/IcnAnalBlue.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="25" Height="25"
                             Margin="8,0,19,0"/>
-                        <TextBlock Text="Аналитика"
+                            <TextBlock Text="Аналитика"
                                    Style="{StaticResource DefText15}"
                                    VerticalAlignment="Center"/>
 
-                    </StackPanel>
+                        </StackPanel>
 
-                </ListBoxItem>
+                    </ListBoxItem>
 
-                <Expander Header="Клиенты" Margin="0,0,0,0"
+
+
+                    <Expander Header="Клиенты" Margin="0,0,0,0"
                           Name="expClients"
                           BorderBrush="Transparent"
-                          Style="{StaticResource expanderNav}"
+                          Style="{StaticResource expanderNavClients}"
                           Height="187"
                           IsExpanded="True"
                           VerticalAlignment="Top"
                           
                           MouseEnter="Expander_MouseEnter"
                           MouseLeave="expClients_MouseLeave">
-                    <StackPanel Margin="1,15,0,0" Width="auto">
-                        <ListBoxItem 
+                        <StackPanel Margin="1,15,0,0" Width="auto">
+                            <ListBoxItem 
                             Name="LBIClient1"
                             Style="{StaticResource ListBoxItemNav}"
                             Margin="0,0,0,15" 
                             MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
+                                <StackPanel Orientation="Horizontal"
+                                        Height="50">
+                                    <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="10" Height="12"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="18,0,15,5"/>
+                                    <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="25" Height="25"
+                                    Margin="0,0,20,0"/>
+                                    <TextBlock Text="Пример"
+                                           Style="{StaticResource DefText14}"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                        <ListBoxItem 
+                                Name="LBIClient2"
+                                Style="{StaticResource ListBoxItemNav}"
+                                Margin="0,0,0,0" 
+                                MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
                             <StackPanel Orientation="Horizontal"
                                         Height="50">
                                 <Image 
@@ -240,8 +239,45 @@
                                            Style="{StaticResource DefText14}"/>
                             </StackPanel>
                         </ListBoxItem>
+                    </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Заказы"
+                          Name="expOrders"
+                          BorderBrush="Transparent"
+                          Style="{StaticResource expanderNavOrders}"
+                          Height="187"
+                          IsExpanded="True"
+                          VerticalAlignment="Top"
+
+                          
+                          MouseEnter="expOrders_MouseEnter"
+                          MouseLeave="expOrders_MouseLeave">
+                        <StackPanel Margin="1,15,0,0" Width="auto">
+                            <ListBoxItem 
+                            Name="LBIOrders1"
+                            Style="{StaticResource ListBoxItemNav}"
+                            Margin="0,0,0,15" 
+                            MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
+                                <StackPanel Orientation="Horizontal"
+                                        Height="50">
+                                    <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="10" Height="12"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="18,0,15,5"/>
+                                    <Image 
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnEdit.png"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Width="20" Height="20"
+                                    Margin="0,0,20,0"/>
+                                    <TextBlock Text="Редактирование"
+                                           Style="{StaticResource DefText14}"/>
+                                </StackPanel>
+                            </ListBoxItem>
                         <ListBoxItem 
-                            Name="LBIClient2"
+                            Name="LBIOrders2"
                             Style="{StaticResource ListBoxItemNav}"
                             Margin="0,0,0,0" 
                             MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
@@ -254,27 +290,19 @@
                                     HorizontalAlignment="Left" VerticalAlignment="Center"
                                     Margin="18,0,15,5"/>
                                 <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
+                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnStatus.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="25" Height="25"
+                                    Width="20" Height="20"
                                     Margin="0,0,20,0"/>
-                                <TextBlock Text="Пример"
+                                <TextBlock Text="Статусы"
                                            Style="{StaticResource DefText14}"/>
                             </StackPanel>
                         </ListBoxItem>
                     </StackPanel>
-                </Expander>
-            </ListBox>
-            <Grid Width="224"
-                  Height="50"
-                  VerticalAlignment="Top"
-                  Name="GridExpanderClients"
-                  Background="Transparent"
-                  Margin="0,85,0,0"
-                  MouseEnter="Expander_MouseEnter"
-                  MouseLeave="expClients_MouseLeave"
-                  MouseLeftButtonDown="GridExpanderClients_MouseLeftButtonDown"
-                  Panel.ZIndex="1"/>
+                    </Expander>
+            </StackPanel>
+
+
         </Grid>
         <!--/Navigation-->
     </Grid>

@@ -141,8 +141,8 @@
     </Style>
     <!---->
 
-    <!--Стиль для Expander навигации-->
-    <Style x:Key="expanderNav" TargetType="Expander">
+    <!--Стиль для Expander навигации Clients-->
+    <Style x:Key="expanderNavClients" TargetType="Expander">
         <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -217,8 +217,84 @@
     </Style>
     <!---->
 
+    <!--Стиль для Expander навигации Orders-->
+    <Style x:Key="expanderNavOrders" TargetType="Expander">
+        <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Name="border"
+                        Background="{TemplateBinding Background}"
+                        FocusVisualStyle="{x:Null}"
+                        CornerRadius="15">
+                        <StackPanel 
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,0">
 
-    
+                            <!-- Заголовок Expander -->
+                            <DockPanel x:Name="HeaderPanel"
+                                   Focusable="False"
+                                   Height="50">
+
+                                <Image 
+                                Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnOrder.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Width="24" Height="24"
+                                Margin="10,0,20,0"/>
+
+                                <TextBlock Text="{TemplateBinding Header}"
+                                       x:Name="tblock"
+                                       Foreground="{StaticResource MainTextForeground}"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"/>
+
+                                <Image x:Name="ArrowIcon"
+                               Source="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowDown.png"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Width="8" Height="8"
+                               Margin="90,0,16,0"
+                               HorizontalAlignment="Right"
+                               DockPanel.Dock="Right"/>
+                            </DockPanel>
+
+                            <!-- Контент Expander -->
+                            <ContentPresenter x:Name="ExpandSite" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Изменение иконки при разворачивании -->
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ArrowIcon" Property="Source" 
+                            Value="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowUp.png"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+
+                        <Trigger Property="IsExpanded" Value="False">
+                            <Setter TargetName="ArrowIcon" Property="Source" 
+                            Value="pack://application:,,,/Resources/Images/MainWin/Navigation/arrowDown.png"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!---->
+
+
+
     <!--Стиль ListBoxItem-->
     <Style TargetType="ListBoxItem">
         <Setter Property="BorderThickness" Value="0" />

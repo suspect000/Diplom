@@ -180,5 +180,39 @@ namespace Dickplom1
                 Animations.HeightAnimation(expClients, expClients.ActualHeight, 50, 0.3, expClients);
             }
         }
+
+        private void expOrders_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (expOrders, (Color)ColorConverter.ConvertFromString(expOrders.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void expOrders_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (expOrders, (Color)ColorConverter.ConvertFromString(expOrders.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+
+        private void GridExpanderOrders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (expOrders.IsExpanded == false)
+            {
+                expOrders.IsExpanded = true;
+                Animations.HeightAnimation(expOrders, expOrders.ActualHeight, 187, 0.3);
+
+            }
+            else
+            {
+                Animations.HeightAnimation(expOrders, expOrders.ActualHeight, 50, 0.3, expOrders);
+            }
+        }
+
+        private void ExpanderHeaderPanel_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DockPanel headerPanel && headerPanel.TemplatedParent is Expander expander)
+            {
+                expander.IsExpanded = !expander.IsExpanded;
+            }
+        }
     }
 }
