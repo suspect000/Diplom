@@ -258,7 +258,7 @@
                             Name="LBIOrders1"
                             Style="{StaticResource ListBoxItemNav}"
                             Margin="0,0,0,15" 
-                            MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
+                            MouseEnter="LBIOrders1_MouseEnter" MouseLeave="LBIOrders1_MouseLeave">
                                 <StackPanel Orientation="Horizontal"
                                         Height="50">
                                     <Image 
@@ -280,7 +280,7 @@
                             Name="LBIOrders2"
                             Style="{StaticResource ListBoxItemNav}"
                             Margin="0,0,0,0" 
-                            MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
+                            MouseEnter="LBIOrders2_MouseEnter" MouseLeave="LBIOrders2_MouseLeave">
                             <StackPanel Orientation="Horizontal"
                                         Height="50">
                                 <Image 

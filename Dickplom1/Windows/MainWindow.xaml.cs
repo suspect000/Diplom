@@ -144,12 +144,12 @@ namespace Dickplom1
         //Анимация навигации (Клиенты дочерка 1)
         private void LBIClient1_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(LBIClient1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
         }
 
         private void LBIClient1_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
+            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(LBIClient1.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
         //-----------------------------------------------------------------------------------
 
@@ -158,12 +158,12 @@ namespace Dickplom1
         //Анимация навигации (Клиенты дочерка 2)
         private void LBIClient2_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(LBIClient2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
         }
 
         private void LBIClient2_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
+            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(LBIClient2.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
         //-----------------------------------------------------------------------------------
 
@@ -213,6 +213,26 @@ namespace Dickplom1
             {
                 expander.IsExpanded = !expander.IsExpanded;
             }
+        }
+
+        private void LBIOrders1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIOrders1, (Color)ColorConverter.ConvertFromString(LBIOrders1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void LBIOrders1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIOrders1, (Color)ColorConverter.ConvertFromString(LBIOrders1.BorderBrush.ToString()), Colors.Transparent, 0.3);
+        }
+
+        private void LBIOrders2_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIOrders2, (Color)ColorConverter.ConvertFromString(LBIOrders2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+        }
+
+        private void LBIOrders2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush(LBIOrders2, (Color)ColorConverter.ConvertFromString(LBIOrders2.BorderBrush.ToString()), Colors.Transparent, 0.3);
         }
     }
 }
