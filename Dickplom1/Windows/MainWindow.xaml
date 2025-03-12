@@ -184,11 +184,11 @@
 
 
 
-                    <Expander Header="Клиенты" Margin="0,0,0,0"
+                    <Expander Header="Клиенты" Margin="0,0,0,15"
                           Name="expClients"
                           BorderBrush="Transparent"
                           Style="{StaticResource expanderNavClients}"
-                          Height="187"
+                          Height="auto"
                           IsExpanded="True"
                           VerticalAlignment="Top"
                           
@@ -198,7 +198,7 @@
                             <ListBoxItem 
                             Name="LBIClient1"
                             Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,15" 
+                            Margin="0,0,0,0" 
                             MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
                                 <StackPanel Orientation="Horizontal"
                                         Height="50">
@@ -220,7 +220,7 @@
                         <ListBoxItem 
                                 Name="LBIClient2"
                                 Style="{StaticResource ListBoxItemNav}"
-                                Margin="0,0,0,0" 
+                                Margin="0,0,0,1" 
                                 MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
                             <StackPanel Orientation="Horizontal"
                                         Height="50">
@@ -246,21 +246,19 @@
                           Name="expOrders"
                           BorderBrush="Transparent"
                           Style="{StaticResource expanderNavOrders}"
-                          Height="187"
+                          Height="auto"
                           IsExpanded="True"
-                          VerticalAlignment="Top"
-
-                          
+                          VerticalAlignment="Top"                          
                           MouseEnter="expOrders_MouseEnter"
                           MouseLeave="expOrders_MouseLeave">
-                        <StackPanel Margin="1,15,0,0" Width="auto">
+                        <StackPanel Margin="1,15,0,0" Width="220" HorizontalAlignment="Center">
                             <ListBoxItem 
                             Name="LBIOrders1"
                             Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,15" 
+                            Margin="0,0,0,0"
+                            Width="auto"
                             MouseEnter="LBIOrders1_MouseEnter" MouseLeave="LBIOrders1_MouseLeave">
-                                <StackPanel Orientation="Horizontal"
-                                        Height="50">
+                                <StackPanel Orientation="Horizontal" Height="50">
                                     <Image 
                                     Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
                                     RenderOptions.BitmapScalingMode="HighQuality"
@@ -279,7 +277,8 @@
                         <ListBoxItem 
                             Name="LBIOrders2"
                             Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,0" 
+                            Margin="0,0,0,1" 
+                            HorizontalAlignment="Stretch"
                             MouseEnter="LBIOrders2_MouseEnter" MouseLeave="LBIOrders2_MouseLeave">
                             <StackPanel Orientation="Horizontal"
                                         Height="50">
