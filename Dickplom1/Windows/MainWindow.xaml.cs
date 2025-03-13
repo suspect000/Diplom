@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Dickplom1.Class;
 
 
@@ -17,19 +19,12 @@ namespace Dickplom1
             InitializeComponent();
         }
 
-        private void ExpanderHeader_Click(object sender, MouseButtonEventArgs e) // Экспандер в навигации
-        {
-            if (sender is Expander expander)
-            {
-                expander.IsExpanded = !expander.IsExpanded;
-            }
-        }
-
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HidenRect.Focus();
         }
 
+        //Header
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (tbSearch.Text == "Найти")
@@ -50,180 +45,88 @@ namespace Dickplom1
             }
         }
 
-
         //Анимация tBox поисковика
         private void tbSearch_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
         }
 
         private void tbSearch_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), Colors.Transparent, 0.3);
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), Colors.Transparent, 0.2);
         }
-        //-----------------------------------------------------------------------------------
-
-
 
         //Анимация кнопки уведомлений
         private void btnNotification_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
         }
 
         private void btnNotification_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), Colors.Transparent, 0.3);
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), Colors.Transparent, 0.2);
         }
-        //-----------------------------------------------------------------------------------
-
-
 
         //Анимация кнопки профиля
         private void btnProfile_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
         }
 
         private void btnProfile_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), Colors.Transparent, 0.3);
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), Colors.Transparent, 0.2);
         }
-        //-----------------------------------------------------------------------------------
+        //Header-----------------------------------------------------------------------------------
 
 
+        //Navigation
+        private void gridDashboard_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+        }
 
+        private void gridDashboard_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), Colors.Transparent, 0.2);
+        }
+
+        private void gridClients_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+        }
+        private void gridClients_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), Colors.Transparent, 0.2);
+        }
+
+        private void gridClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SPClientsItems.Visibility == Visibility.Collapsed)
+            {
+                Animations.RotationAnimation(imgArrowClients, 0, 180, 0.2);
+                SPClientsItems.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Animations.RotationAnimation(imgArrowClients, 180, 0, 0.2);
+                SPClientsItems.Visibility = Visibility.Collapsed;
+            }
+        }
         //Анимация навигации (Аналитика)
-        private void ListBoxItem_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                            (lIDashboard, (Color)ColorConverter.ConvertFromString(lIDashboard.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
 
-        private void ListBoxItem_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (lIDashboard, (Color)ColorConverter.ConvertFromString(lIDashboard.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
         //-----------------------------------------------------------------------------------
 
-
-
-        //Анимация навигации (Клиенты)
-        private void Expander_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (expClients, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void expClients_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (expClients, (Color)ColorConverter.ConvertFromString(expClients.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
-        //-----------------------------------------------------------------------------------
-
-
-
-
-        //Анимация навигации (Клиенты дочерка 1)
-        private void LBIClient1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(LBIClient1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void LBIClient1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIClient1, (Color)ColorConverter.ConvertFromString(LBIClient1.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
-        //-----------------------------------------------------------------------------------
-
-
-
-        //Анимация навигации (Клиенты дочерка 2)
-        private void LBIClient2_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(LBIClient2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void LBIClient2_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIClient2, (Color)ColorConverter.ConvertFromString(LBIClient2.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
-        //-----------------------------------------------------------------------------------
-
-        private void GridExpanderClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (expClients.IsExpanded == false)
-            {
-                expClients.IsExpanded = true;
-                Animations.HeightAnimation(expClients, expClients.ActualHeight, 187, 0.3);
-
-            }
-            else
-            {
-                Animations.HeightAnimation(expClients, expClients.ActualHeight, 50, 0.3, expClients);
-            }
-        }
-
-        private void expOrders_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (expOrders, (Color)ColorConverter.ConvertFromString(expOrders.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void expOrders_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (expOrders, (Color)ColorConverter.ConvertFromString(expOrders.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
-
-        private void GridExpanderOrders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (expOrders.IsExpanded == false)
-            {
-                expOrders.IsExpanded = true;
-                Animations.HeightAnimation(expOrders, expOrders.ActualHeight, 187, 0.3);
-
-            }
-            else
-            {
-                Animations.HeightAnimation(expOrders, expOrders.ActualHeight, 50, 0.3, expOrders);
-            }
-        }
-
-        private void ExpanderHeaderPanel_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is DockPanel headerPanel && headerPanel.TemplatedParent is Expander expander)
-            {
-                expander.IsExpanded = !expander.IsExpanded;
-            }
-        }
-
-        private void LBIOrders1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIOrders1, (Color)ColorConverter.ConvertFromString(LBIOrders1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void LBIOrders1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIOrders1, (Color)ColorConverter.ConvertFromString(LBIOrders1.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
-
-        private void LBIOrders2_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIOrders2, (Color)ColorConverter.ConvertFromString(LBIOrders2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.3);
-        }
-
-        private void LBIOrders2_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush(LBIOrders2, (Color)ColorConverter.ConvertFromString(LBIOrders2.BorderBrush.ToString()), Colors.Transparent, 0.3);
-        }
+        //Navigation-----------------------------------------------------------------------------------
     }
 }

@@ -60,8 +60,8 @@ namespace Dickplom1.Class
             if (element is ListBoxItem lIItem)
                 lIItem.BorderBrush = brush;
 
-            if (element is Expander expander)
-                expander.BorderBrush = brush;
+            if (element is Border border)
+                border.BorderBrush = brush;
 
 
             var animation = new ColorAnimation
@@ -74,6 +74,22 @@ namespace Dickplom1.Class
 
             // Запускаем анимацию
             brush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+        }
+        public static void RotationAnimation(UIElement element, double from, double to, double time)
+        {
+            var rotateTransform = new RotateTransform(from);
+            element.RenderTransform = rotateTransform;
+            element.RenderTransformOrigin = new Point(0.5, 0.5);
+
+            var animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(time),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+            };
+
+            rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
         }
     }
 }

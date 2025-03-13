@@ -149,160 +149,191 @@
             
             <Border 
                 Background="{StaticResource OtherBackground}"
-                CornerRadius="20"/>
+                CornerRadius="20">
+            </Border>
 
-            
 
-                <StackPanel
-                    Width="auto" Height="auto"
-                    HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Margin="0,20,0,0">
-                    <ListBoxItem Tag="Dashboards"
-                             x:Name="lIDashboard"
-                             Width="224" Height="50"
-                             BorderThickness="1"
-                             Margin="0,0,0,15"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             Style="{StaticResource ListBoxItemNav}"
-                             MouseEnter="ListBoxItem_MouseEnter" MouseLeave="ListBoxItem_MouseLeave">
 
-                        <StackPanel Orientation="Horizontal"
-                                Background="Transparent">
+            <StackPanel
+                Width="auto" Height="auto"
+                HorizontalAlignment="Center" VerticalAlignment="Top">
 
-                            <Image 
+                <Separator Opacity="0" Height="20"/>
+
+                <Grid
+                    x:Name="gridDashboard"
+                    Width="224" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridDashboard_MouseEnter"
+                    MouseLeave="gridDashboard_MouseLeave">
+
+                    <Border
+                        x:Name="borderDashboard"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+                        
+                        <Image 
                             Source="..//Resources/Images/MainWin/Navigation/IcnAnalBlue.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
-                            Width="25" Height="25"
-                            Margin="8,0,19,0"/>
-                            <TextBlock Text="Аналитика"
-                                   Style="{StaticResource DefText15}"
-                                   VerticalAlignment="Center"/>
+                            Width="23"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Аналитика"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="20,0,0,0"/>
+                        
+                    </StackPanel>
+                </Grid>
+
+                <Separator Opacity="0" Height="15"/>
+
+                <Grid
+                    x:Name="gridClients"
+                    Width="224" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridClients_MouseEnter"
+                    MouseLeave="gridClients_MouseLeave"
+                    MouseLeftButtonDown="gridClients_MouseLeftButtonDown">
+
+                    <Border
+                        x:Name="borderClients"
+                        CornerRadius="15"
+                        BorderThickness="1" 
+                        BorderBrush="Transparent" 
+                        Background="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="23"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Клиенты"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="20,0,0,0"/>
+
+                        <Image 
+                            Name="imgArrowClients"
+                            Source="..//Resources/Images/MainWin/arrow.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            VerticalAlignment="Center"
+                            Margin="90,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <Separator Opacity="0" Height="15"/>
+
+                <StackPanel 
+                    x:Name="SPClientsItems"
+                    Orientation="Vertical"
+                    Height="auto"
+                    Margin="0,0"
+                    Visibility="Collapsed">
+
+                    <Grid
+                        x:Name="gridClientsItem1"
+                        Width="224" Height="50"
+                        Background="Transparent">
+
+                        <Border
+                            x:Name="borderClientsItem1"
+                            CornerRadius="15"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            BorderThickness="1" 
+                            BorderBrush="Transparent" 
+                            Background="Transparent"/>
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="5,0,0,9"/>
+
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            Width="200"
+                            Margin="24,0">
+
+                            <Image 
+                                Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Width="23"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+
+                            <TextBlock 
+                                Text="Клиенты пример"
+                                Style="{StaticResource DefText14}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="20,0,0,0"/>
 
                         </StackPanel>
+                    </Grid>
 
-                    </ListBoxItem>
+                    <Separator Opacity="0" Height="15"/>
 
+                    <Grid
+                        x:Name="gridClientsItem2"
+                        Width="224" Height="50"
+                        Background="Transparent">
 
+                        <Border
+                            x:Name="borderClientsItem2"
+                            CornerRadius="15"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            BorderThickness="1" 
+                            BorderBrush="Transparent" 
+                            Background="Transparent"/>
 
-                    <Expander Header="Клиенты" Margin="0,0,0,15"
-                          Name="expClients"
-                          BorderBrush="Transparent"
-                          Style="{StaticResource expanderNavClients}"
-                          Height="auto"
-                          IsExpanded="True"
-                          VerticalAlignment="Top"
-                          
-                          MouseEnter="Expander_MouseEnter"
-                          MouseLeave="expClients_MouseLeave">
-                        <StackPanel Margin="1,15,0,0" Width="auto">
-                            <ListBoxItem 
-                            Name="LBIClient1"
-                            Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,0" 
-                            MouseEnter="LBIClient1_MouseEnter" MouseLeave="LBIClient1_MouseLeave">
-                                <StackPanel Orientation="Horizontal"
-                                        Height="50">
-                                    <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="10" Height="12"
-                                    HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    Margin="18,0,15,5"/>
-                                    <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="25" Height="25"
-                                    Margin="0,0,20,0"/>
-                                    <TextBlock Text="Пример"
-                                           Style="{StaticResource DefText14}"/>
-                                </StackPanel>
-                            </ListBoxItem>
-                        <ListBoxItem 
-                                Name="LBIClient2"
-                                Style="{StaticResource ListBoxItemNav}"
-                                Margin="0,0,0,1" 
-                                MouseEnter="LBIClient2_MouseEnter" MouseLeave="LBIClient2_MouseLeave">
-                            <StackPanel Orientation="Horizontal"
-                                        Height="50">
-                                <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="10" Height="12"
-                                    HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    Margin="18,0,15,5"/>
-                                <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnClients.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="25" Height="25"
-                                    Margin="0,0,20,0"/>
-                                <TextBlock Text="Пример"
-                                           Style="{StaticResource DefText14}"/>
-                            </StackPanel>
-                        </ListBoxItem>
-                    </StackPanel>
-                    </Expander>
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="5,0,0,9"/>
 
-                    <Expander Header="Заказы"
-                          Name="expOrders"
-                          BorderBrush="Transparent"
-                          Style="{StaticResource expanderNavOrders}"
-                          Height="auto"
-                          IsExpanded="True"
-                          VerticalAlignment="Top"                          
-                          MouseEnter="expOrders_MouseEnter"
-                          MouseLeave="expOrders_MouseLeave">
-                        <StackPanel Margin="1,15,0,0" Width="220" HorizontalAlignment="Center">
-                            <ListBoxItem 
-                            Name="LBIOrders1"
-                            Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,0"
-                            Width="auto"
-                            MouseEnter="LBIOrders1_MouseEnter" MouseLeave="LBIOrders1_MouseLeave">
-                                <StackPanel Orientation="Horizontal" Height="50">
-                                    <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="10" Height="12"
-                                    HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    Margin="18,0,15,5"/>
-                                    <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnEdit.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="20" Height="20"
-                                    Margin="0,0,20,0"/>
-                                    <TextBlock Text="Редактирование"
-                                           Style="{StaticResource DefText14}"/>
-                                </StackPanel>
-                            </ListBoxItem>
-                        <ListBoxItem 
-                            Name="LBIOrders2"
-                            Style="{StaticResource ListBoxItemNav}"
-                            Margin="0,0,0,1" 
-                            HorizontalAlignment="Stretch"
-                            MouseEnter="LBIOrders2_MouseEnter" MouseLeave="LBIOrders2_MouseLeave">
-                            <StackPanel Orientation="Horizontal"
-                                        Height="50">
-                                <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/topicLine.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="10" Height="12"
-                                    HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    Margin="18,0,15,5"/>
-                                <Image 
-                                    Source="pack://application:,,,/Resources/Images/MainWin/Navigation/IcnStatus.png"
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    Width="20" Height="20"
-                                    Margin="0,0,20,0"/>
-                                <TextBlock Text="Статусы"
-                                           Style="{StaticResource DefText14}"/>
-                            </StackPanel>
-                        </ListBoxItem>
-                    </StackPanel>
-                    </Expander>
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            Width="200"
+                            Margin="24,0">
+
+                            <Image 
+                                Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Width="23"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+
+                            <TextBlock 
+                                Text="Клиенты пример 2"
+                                Style="{StaticResource DefText14}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
-
-
         </Grid>
         <!--/Navigation-->
     </Grid>
