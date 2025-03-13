@@ -235,20 +235,22 @@
                             Margin="90,0"/>
                     </StackPanel>
                 </Grid>
-
+                
                 <Separator Opacity="0" Height="15"/>
 
                 <StackPanel 
                     x:Name="SPClientsItems"
                     Orientation="Vertical"
                     Height="auto"
-                    Margin="0,0"
-                    Visibility="Collapsed">
+                    Margin="0,0,0,0"
+                    Visibility="Visible">
 
                     <Grid
                         x:Name="gridClientsItem1"
                         Width="224" Height="50"
-                        Background="Transparent">
+                        Background="Transparent"
+                        MouseEnter="gridClientsItem1_MouseEnter"
+                        MouseLeave="gridClientsItem1_MouseLeave">
 
                         <Border
                             x:Name="borderClientsItem1"
@@ -293,7 +295,9 @@
                     <Grid
                         x:Name="gridClientsItem2"
                         Width="224" Height="50"
-                        Background="Transparent">
+                        Background="Transparent"
+                        MouseEnter="gridClientsItem2_MouseEnter"
+                        MouseLeave="gridClientsItem2_MouseLeave">
 
                         <Border
                             x:Name="borderClientsItem2"

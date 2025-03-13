@@ -24,7 +24,7 @@ namespace Dickplom1.Class
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
         }
 
-        public static void HeightAnimation(UIElement element, double from, double to, double time, Expander expanderToCollapse = null)
+        public static void HeightAnimation(UIElement element, double from, double to, double time, StackPanel stackPanel = null)
         {
             DoubleAnimation animation = new DoubleAnimation
             {
@@ -34,11 +34,11 @@ namespace Dickplom1.Class
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
 
-            if (expanderToCollapse != null) // Очень классная структура
+            if (stackPanel != null) // Очень классная структура
             {
                 animation.Completed += (s, e) =>
                 {
-                    expanderToCollapse.IsExpanded = false;
+                    stackPanel.Visibility = Visibility.Collapsed;
                 };
             }
             element.BeginAnimation(FrameworkElement.HeightProperty, animation);
@@ -90,6 +90,17 @@ namespace Dickplom1.Class
             };
 
             rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
+        }
+        public static void OpacityAnimation(UIElement element, int from, int to, double time)
+        {
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(time),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+            };
+            element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
         }
     }
 }
