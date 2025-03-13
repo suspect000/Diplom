@@ -81,7 +81,8 @@
                     GotFocus="TextBox_GotFocus" 
                     LostFocus="tbSearch_LostFocus"
                     TextWrapping="NoWrap"
-                    MouseEnter="tbSearch_MouseEnter" MouseLeave="tbSearch_MouseLeave"/>
+                    MouseEnter="tbSearch_MouseEnter"
+                    MouseLeave="tbSearch_MouseLeave"/>
 
                 <Image Source="/Resources/Images/MainWin/lupa.png"
                     Name="imgLupa"
