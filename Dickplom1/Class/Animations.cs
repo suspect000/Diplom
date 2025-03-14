@@ -12,16 +12,28 @@ namespace Dickplom1.Class
 {
     public class Animations
     {
-        public static void WidthAnimation(UIElement element, double from, double to)
+        public static void WidthAnimation(UIElement element, double from, double to, double time)
         {
             DoubleAnimation animation = new DoubleAnimation
             {
                 From = from,
                 To = to,
-                Duration = TimeSpan.FromSeconds(0.5),
+                Duration = TimeSpan.FromSeconds(time),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
             element.BeginAnimation(FrameworkElement.WidthProperty, animation);
+        }
+
+        public static void MovingAnimation(UIElement element, Thickness from, Thickness to, double time)
+        {
+            ThicknessAnimation animation = new ThicknessAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(time),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+            };
+            element.BeginAnimation(FrameworkElement.MarginProperty, animation);
         }
 
         public static void HeightAnimation(UIElement element, double from, double to, double time, StackPanel stackPanel = null)

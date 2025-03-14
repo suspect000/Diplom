@@ -31,7 +31,7 @@ namespace Dickplom1
             {
                 tbSearch.Text = "";
                 imgLupa.Visibility = Visibility.Collapsed;
-                Animations.WidthAnimation(tbSearch, tbSearch.Width, 610);
+                Animations.WidthAnimation(tbSearch, tbSearch.Width, 610, 0.2);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Dickplom1
             {
                 tbSearch.Text = "Найти";
                 imgLupa.Visibility = Visibility.Visible;
-                Animations.WidthAnimation(tbSearch, tbSearch.Width, 228);
+                Animations.WidthAnimation(tbSearch, tbSearch.Width, 228, 0.2);
             }
         }
 
@@ -118,18 +118,19 @@ namespace Dickplom1
             if (SPClientsItems.Visibility == Visibility.Collapsed)
             {
                 //Раскрытие топиков
+                Animations.MovingAnimation(SPClientsItems, new Thickness(0,-30,0,0), new Thickness(0,0,0,0), 0.3);
                 Animations.RotationAnimation(imgArrowClients, 0, 180, 0.2);
                 SPClientsItems.Visibility = Visibility.Visible;
                 Animations.OpacityAnimation(SPClientsItems, 0, 1, 0.2);
-                Animations.HeightAnimation(SPClientsItems, 0, 119, 0.3);
+                Animations.HeightAnimation(SPClientsItems, 0, 138, 0.2);
             }
             else
             {
                 //Сворачивание топиков
+                Animations.MovingAnimation(SPClientsItems, SPClientsItems.Margin, new Thickness(0, -30, 0, 0), 0.3);
                 Animations.RotationAnimation(imgArrowClients, 180, 0, 0.2);
-                SPClientsItems.Visibility = Visibility.Collapsed;
                 Animations.OpacityAnimation(SPClientsItems, 1, 0, 0.2);
-                Animations.HeightAnimation(SPClientsItems, 119, 0, 0.3);
+                Animations.HeightAnimation(SPClientsItems, 138, 0, 0.3, SPClientsItems);
             }
         }
         //-----------------------------------------------------------------------------------
@@ -157,6 +158,68 @@ namespace Dickplom1
         {
             Animations.AnimateBorderBrush
                 (borderClientsItem2, (Color)ColorConverter.ConvertFromString(borderClientsItem2.BorderBrush.ToString()), Colors.Transparent, 0.2);
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Анимация заказы (навигация)
+        private void gridOrders_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+        }
+
+        private void gridOrders_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), Colors.Transparent, 0.2);
+        }
+
+        private void gridOrders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SPOrdersItems.Visibility == Visibility.Collapsed)
+            {
+                //Раскрытие топиков
+                Animations.MovingAnimation(SPOrdersItems, new Thickness(0, -30, 0, 0), new Thickness(0, 0, 0, 0), 0.3);
+                Animations.RotationAnimation(imgArrowOrders, 0, 180, 0.2);
+                SPOrdersItems.Visibility = Visibility.Visible;
+                Animations.OpacityAnimation(SPOrdersItems, 0, 1, 0.2);
+                Animations.HeightAnimation(SPOrdersItems, 0, 138, 0.2);
+            }
+            else
+            {
+                //Сворачивание топиков
+                Animations.MovingAnimation(SPOrdersItems, SPOrdersItems.Margin, new Thickness(0, -30, 0, 0), 0.3);
+                Animations.RotationAnimation(imgArrowOrders, 180, 0, 0.2);
+                Animations.OpacityAnimation(SPOrdersItems, 1, 0, 0.2);
+                Animations.HeightAnimation(SPOrdersItems, 138, 0, 0.3, SPOrdersItems);
+            }
+        }
+        //-----------------------------------------------------------------------------------
+
+
+        //Анимация вложений заказов (навигация)
+        private void gridOrdersItem1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+        }
+
+        private void gridOrdersItem1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), Colors.Transparent, 0.2);
+        }
+
+        private void gridOrdersItem2_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+        }
+
+        private void gridOrdersItem2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), Colors.Transparent, 0.2);
         }
         //-----------------------------------------------------------------------------------
 
