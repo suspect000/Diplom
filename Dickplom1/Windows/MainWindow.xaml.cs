@@ -31,7 +31,7 @@ namespace Dickplom1
             {
                 tbSearch.Text = "";
                 imgLupa.Visibility = Visibility.Collapsed;
-                Animations.WidthAnimation(tbSearch, tbSearch.Width, 610, 0.2);
+                Animations.WidthAnimation(tbSearch, tbSearch.Width, 610, 0.3);
             }
         }
 
@@ -49,39 +49,39 @@ namespace Dickplom1
         private void tbSearch_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void tbSearch_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (tbSearch, (Color)ColorConverter.ConvertFromString(tbSearch.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         //Анимация кнопки уведомлений
         private void btnNotification_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void btnNotification_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (btnNotification, (Color)ColorConverter.ConvertFromString(btnNotification.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         //Анимация кнопки профиля
         private void btnProfile_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void btnProfile_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (btnProfile, (Color)ColorConverter.ConvertFromString(btnProfile.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //Header-----------------------------------------------------------------------------------
 
@@ -91,13 +91,13 @@ namespace Dickplom1
         private void gridDashboard_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridDashboard_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                            (borderDashboard, (Color)ColorConverter.ConvertFromString(borderDashboard.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //-----------------------------------------------------------------------------------
 
@@ -105,12 +105,12 @@ namespace Dickplom1
         private void gridClients_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
         private void gridClients_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -118,10 +118,12 @@ namespace Dickplom1
             if (SPClientsItems.Visibility == Visibility.Collapsed)
             {
                 //Сворачивание всех остальных топиков
+                if (SPServicesItems.Visibility == Visibility.Visible)
+                    Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
+
                 if (SPOrdersItems.Visibility == Visibility.Visible)
-                {
                     Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
-                }
+
                 //Раскрытие топиков
                 Animations.MaximazedNavTopics(SPClientsItems, imgArrowClients);
             }
@@ -137,25 +139,25 @@ namespace Dickplom1
         private void gridClientsItem1_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderClientsItem1, (Color)ColorConverter.ConvertFromString(borderClientsItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (borderClientsItem1, (Color)ColorConverter.ConvertFromString(borderClientsItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridClientsItem1_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderClientsItem1, (Color)ColorConverter.ConvertFromString(borderClientsItem1.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (borderClientsItem1, (Color)ColorConverter.ConvertFromString(borderClientsItem1.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridClientsItem2_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderClientsItem2, (Color)ColorConverter.ConvertFromString(borderClientsItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (borderClientsItem2, (Color)ColorConverter.ConvertFromString(borderClientsItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridClientsItem2_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderClientsItem2, (Color)ColorConverter.ConvertFromString(borderClientsItem2.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (borderClientsItem2, (Color)ColorConverter.ConvertFromString(borderClientsItem2.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //-----------------------------------------------------------------------------------
 
@@ -163,13 +165,13 @@ namespace Dickplom1
         private void gridOrders_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridOrders_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridOrders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -178,9 +180,10 @@ namespace Dickplom1
             {
                 //Сворачивание всех остальных топиков
                 if (SPClientsItems.Visibility == Visibility.Visible)
-                {
                     Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
-                }
+
+                if (SPServicesItems.Visibility == Visibility.Visible)
+                    Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
                 //Раскрытие топиков
                 Animations.MaximazedNavTopics(SPOrdersItems, imgArrowOrders);
             }
@@ -197,30 +200,103 @@ namespace Dickplom1
         private void gridOrdersItem1_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridOrdersItem1_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (borderOrdersItem1, (Color)ColorConverter.ConvertFromString(borderOrdersItem1.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridOrdersItem2_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.2);
+                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridOrdersItem2_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), Colors.Transparent, 0.2);
+                (borderOrdersItem2, (Color)ColorConverter.ConvertFromString(borderOrdersItem2.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //-----------------------------------------------------------------------------------
 
 
+        //Анимация услуг (навигация)
+        private void gridServices_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServices, (Color)ColorConverter.ConvertFromString(borderServices.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+        }
 
+        private void gridServices_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServices, (Color)ColorConverter.ConvertFromString(borderServices.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+
+        private void gridServices_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SPServicesItems.Visibility == Visibility.Collapsed)
+            {
+                //Сворачивание всех остальных топиков
+                if (SPClientsItems.Visibility == Visibility.Visible)
+                    Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
+
+                if (SPOrdersItems.Visibility == Visibility.Visible)
+                    Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
+
+                //Раскрытие топиков
+                Animations.MaximazedNavTopics(SPServicesItems, imgArrowServices);
+            }
+            else
+            {
+                //Сворачивание топиков
+                Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
+            }
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Анимация вложений услуг (навигация)
+        private void gridServicesItem1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServicesItem1, (Color)ColorConverter.ConvertFromString(borderServicesItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+        }
+
+        private void gridServicesItem1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServicesItem1, (Color)ColorConverter.ConvertFromString(borderServicesItem1.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+
+        private void gridServicesItem2_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServicesItem2, (Color)ColorConverter.ConvertFromString(borderServicesItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+        }
+
+        private void gridServicesItem2_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderServicesItem2, (Color)ColorConverter.ConvertFromString(borderServicesItem2.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Анимация сотрудников (навигация)
+        private void gridStaff_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderStaff, (Color)ColorConverter.ConvertFromString(borderStaff.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+        }
+
+        private void gridStaff_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderStaff, (Color)ColorConverter.ConvertFromString(borderStaff.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }        
+        //-----------------------------------------------------------------------------------
         //Navigation-----------------------------------------------------------------------------------
     }
 }

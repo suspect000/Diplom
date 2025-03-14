@@ -144,7 +144,7 @@
             x:Name="gridNavigation"
             Grid.Column="1"
             Grid.Row="1"
-            Width="280" Height="466"
+            Width="280" Height="516"
             VerticalAlignment="Top">
             
             <Border 
@@ -176,7 +176,7 @@
 
                     <StackPanel 
                         Orientation="Horizontal">
-                        
+
                         <Image 
                             Source="..//Resources/Images/MainWin/Navigation/IcnAnalBlue.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
@@ -189,7 +189,7 @@
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
                             Margin="20,0,0,0"/>
-                        
+
                     </StackPanel>
                 </Grid>
 
@@ -242,7 +242,7 @@
                     Height="auto"
                     Margin="0,0,0,0"
                     Visibility="Collapsed">
-                    
+
                     <Separator Opacity="0" Height="15"/>
 
                     <Grid
@@ -329,7 +329,7 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Клиенты пример 2"
+                                Text="Клиенты пример"
                                 Style="{StaticResource DefText14}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
@@ -337,7 +337,7 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                
+
                 <Separator Opacity="0" Height="15"/>
 
                 <Grid
@@ -380,13 +380,13 @@
                             Margin="99,0"/>
                     </StackPanel>
                 </Grid>
-                
+
                 <StackPanel 
                     x:Name="SPOrdersItems"
                     Orientation="Vertical"
                     Height="auto"
                     Margin="0,0,0,0"
-                    Visibility="Visible">
+                    Visibility="Collapsed">
 
                     <Separator Opacity="0" Height="15"/>
 
@@ -482,6 +482,186 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
+
+                <Separator Opacity="0" Height="15"/>
+
+                <Grid
+                    x:Name="gridServices"
+                    Width="224" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridServices_MouseEnter"
+                    MouseLeave="gridServices_MouseLeave"
+                    MouseLeftButtonDown="gridServices_MouseLeftButtonDown">
+
+                    <Border
+                        x:Name="borderServices"
+                        CornerRadius="15"
+                        BorderThickness="1" 
+                        BorderBrush="Transparent" 
+                        Background="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="23"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Услуги"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="20,0,0,0"/>
+
+                        <Image 
+                            Name="imgArrowServices"
+                            Source="..//Resources/Images/MainWin/arrow.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            VerticalAlignment="Center"
+                            Margin="99.2,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel 
+                    x:Name="SPServicesItems"
+                    Orientation="Vertical"
+                    Height="auto"
+                    Margin="0,0,0,0"
+                    Visibility="Collapsed">
+
+                    <Separator Opacity="0" Height="15"/>
+
+                    <Grid
+                        x:Name="gridServicesItem1"
+                        Width="224" Height="50"
+                        Background="Transparent"
+                        MouseEnter="gridServicesItem1_MouseEnter"
+                        MouseLeave="gridServicesItem1_MouseLeave">
+
+                        <Border
+                            x:Name="borderServicesItem1"
+                            CornerRadius="15"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            BorderThickness="1" 
+                            BorderBrush="Transparent" 
+                            Background="Transparent"/>
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="5,0,0,9"/>
+
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            Width="200"
+                            Margin="24,0">
+
+                            <Image 
+                                Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Width="23"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+
+                            <TextBlock 
+                                Text="Пример услуги"
+                                Style="{StaticResource DefText14}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Opacity="0" Height="15"/>
+
+                    <Grid
+                        x:Name="gridServicesItem2"
+                        Width="224" Height="50"
+                        Background="Transparent"
+                        MouseEnter="gridServicesItem2_MouseEnter"
+                        MouseLeave="gridServicesItem2_MouseLeave">
+
+                        <Border
+                            x:Name="borderServicesItem2"
+                            CornerRadius="15"
+                            Width="200"
+                            HorizontalAlignment="Right"
+                            BorderThickness="1" 
+                            BorderBrush="Transparent" 
+                            Background="Transparent"/>
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="10"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="5,0,0,9"/>
+
+                        <StackPanel 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Left"
+                            Width="200"
+                            Margin="24,0">
+
+                            <Image 
+                                Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Width="23"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+
+                            <TextBlock 
+                                Text="Пример услуги"
+                                Style="{StaticResource DefText14}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                
+                <Separator Opacity="0" Height="15"/>
+
+                <Grid
+                    x:Name="gridStaff"
+                    Width="224" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridStaff_MouseEnter"
+                    MouseLeave="gridStaff_MouseLeave">
+
+                    <Border
+                        x:Name="borderStaff"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/Navigation/IcnStaff.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="23"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Сотрудники"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="20,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Grid>
         <!--/Navigation-->

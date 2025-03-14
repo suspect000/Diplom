@@ -130,7 +130,7 @@ namespace Dickplom1.Class
                 From = from,
                 To = to,
                 Duration = TimeSpan.FromSeconds(time),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
             element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
         }
