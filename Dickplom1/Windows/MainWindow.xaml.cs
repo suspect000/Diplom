@@ -117,20 +117,18 @@ namespace Dickplom1
         {
             if (SPClientsItems.Visibility == Visibility.Collapsed)
             {
+                //Сворачивание всех остальных топиков
+                if (SPOrdersItems.Visibility == Visibility.Visible)
+                {
+                    Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
+                }
                 //Раскрытие топиков
-                Animations.MovingAnimation(SPClientsItems, new Thickness(0,-30,0,0), new Thickness(0,0,0,0), 0.3);
-                Animations.RotationAnimation(imgArrowClients, 0, 180, 0.2);
-                SPClientsItems.Visibility = Visibility.Visible;
-                Animations.OpacityAnimation(SPClientsItems, 0, 1, 0.2);
-                Animations.HeightAnimation(SPClientsItems, 0, 138, 0.2);
+                Animations.MaximazedNavTopics(SPClientsItems, imgArrowClients);
             }
             else
             {
                 //Сворачивание топиков
-                Animations.MovingAnimation(SPClientsItems, SPClientsItems.Margin, new Thickness(0, -30, 0, 0), 0.3);
-                Animations.RotationAnimation(imgArrowClients, 180, 0, 0.2);
-                Animations.OpacityAnimation(SPClientsItems, 1, 0, 0.2);
-                Animations.HeightAnimation(SPClientsItems, 138, 0, 0.3, SPClientsItems);
+                Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
             }
         }
         //-----------------------------------------------------------------------------------
@@ -178,20 +176,18 @@ namespace Dickplom1
         {
             if (SPOrdersItems.Visibility == Visibility.Collapsed)
             {
+                //Сворачивание всех остальных топиков
+                if (SPClientsItems.Visibility == Visibility.Visible)
+                {
+                    Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
+                }
                 //Раскрытие топиков
-                Animations.MovingAnimation(SPOrdersItems, new Thickness(0, -30, 0, 0), new Thickness(0, 0, 0, 0), 0.3);
-                Animations.RotationAnimation(imgArrowOrders, 0, 180, 0.2);
-                SPOrdersItems.Visibility = Visibility.Visible;
-                Animations.OpacityAnimation(SPOrdersItems, 0, 1, 0.2);
-                Animations.HeightAnimation(SPOrdersItems, 0, 138, 0.2);
+                Animations.MaximazedNavTopics(SPOrdersItems, imgArrowOrders);
             }
             else
             {
                 //Сворачивание топиков
-                Animations.MovingAnimation(SPOrdersItems, SPOrdersItems.Margin, new Thickness(0, -30, 0, 0), 0.3);
-                Animations.RotationAnimation(imgArrowOrders, 180, 0, 0.2);
-                Animations.OpacityAnimation(SPOrdersItems, 1, 0, 0.2);
-                Animations.HeightAnimation(SPOrdersItems, 138, 0, 0.3, SPOrdersItems);
+                Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
             }
         }
         //-----------------------------------------------------------------------------------

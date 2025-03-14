@@ -12,6 +12,26 @@ namespace Dickplom1.Class
 {
     public class Animations
     {
+
+        //Методы для разворачивания/сворачивания топиков в навигации
+        public static void MaximazedNavTopics(StackPanel stackPanelItems, Image imgArrow)
+        {
+            Animations.MovingAnimation(stackPanelItems, new Thickness(0, -30, 0, 0), new Thickness(0, 0, 0, 0), 0.3);
+            Animations.RotationAnimation(imgArrow, 0, 180, 0.2);
+            stackPanelItems.Visibility = Visibility.Visible;
+            Animations.OpacityAnimation(stackPanelItems, 0, 1, 0.2);
+            Animations.HeightAnimation(stackPanelItems, 0, 138, 0.2);
+        }
+
+        public static void MinimazedNavTopics(StackPanel stackPanelItems, Image imgArrow)
+        {
+            Animations.MovingAnimation(stackPanelItems, stackPanelItems.Margin, new Thickness(0, -30, 0, 0), 0.3);
+            Animations.RotationAnimation(imgArrow, 180, 0, 0.2);
+            Animations.OpacityAnimation(stackPanelItems, 1, 0, 0.2);
+            Animations.HeightAnimation(stackPanelItems, 138, 0, 0.3, stackPanelItems);
+        }
+        //-----------------------------------------------------------------------------------
+
         public static void WidthAnimation(UIElement element, double from, double to, double time)
         {
             DoubleAnimation animation = new DoubleAnimation
