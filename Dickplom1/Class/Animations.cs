@@ -32,6 +32,20 @@ namespace Dickplom1.Class
         }
         //-----------------------------------------------------------------------------------
 
+        //Методы для разворачивания/сворачивания отчетов в header
+        public static void MaximazedReports(Image imgArrow, Grid gridReportsToMake)
+        {
+            Animations.RotationAnimation(imgArrow, 0, 180, 0.2);
+            Animations.OpacityAnimation(gridReportsToMake, 0, 1, 0.15);
+            gridReportsToMake.Visibility = Visibility.Visible;
+        }
+        public static void MinimazedReports(Image imgArrow, Grid gridReportsToMake)
+        {
+            Animations.RotationAnimation(imgArrow, 180, 0, 0.2);
+                Animations.OpacityAnimation(gridReportsToMake, 1, 0, 0.15, gridReportsToMake);
+        }       
+        //-----------------------------------------------------------------------------------
+
         public static void WidthAnimation(UIElement element, double from, double to, double time)
         {
             DoubleAnimation animation = new DoubleAnimation
@@ -76,6 +90,38 @@ namespace Dickplom1.Class
             element.BeginAnimation(FrameworkElement.HeightProperty, animation);
         }
 
+        public static void AnimateBackgroundBrush(UIElement element, Color fromColor, Color toColor, double time)
+        {
+            // Создаем новую кисть, чтобы избежать ошибки замороженного ресурса
+            var brush = new SolidColorBrush(fromColor);
+
+            if (element == null) return;
+
+            if (element is TextBox textbox)
+                textbox.Background = brush;
+
+            if (element is Button button)
+                button.Background = brush;
+
+            if (element is ListBoxItem lIItem)
+                lIItem.Background = brush;
+
+            if (element is Border border)
+                border.Background = brush;
+
+
+            var animation = new ColorAnimation
+            {
+                From = fromColor,
+                To = toColor,
+                Duration = TimeSpan.FromSeconds(time),
+                FillBehavior = FillBehavior.HoldEnd
+            };
+
+            brush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+        }
+
+
         public static void AnimateBorderBrush(UIElement element, Color fromColor, Color toColor, double time)
         {
             // Создаем новую кисть, чтобы избежать ошибки замороженного ресурса
@@ -104,7 +150,6 @@ namespace Dickplom1.Class
                 FillBehavior = FillBehavior.HoldEnd
             };
 
-            // Запускаем анимацию
             brush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
         }
         public static void RotationAnimation(UIElement element, double from, double to, double time)
@@ -123,7 +168,7 @@ namespace Dickplom1.Class
 
             rotateTransform.BeginAnimation(RotateTransform.AngleProperty, animation);
         }
-        public static void OpacityAnimation(UIElement element, int from, int to, double time)
+        public static void OpacityAnimation(UIElement element, double from, double to, double time, UIElement completedAnim = null)
         {
             DoubleAnimation animation = new DoubleAnimation
             {
@@ -132,6 +177,15 @@ namespace Dickplom1.Class
                 Duration = TimeSpan.FromSeconds(time),
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
+
+            if (completedAnim != null) // Очень классная структура, добавляет подписку на завершение анимации
+            {
+                animation.Completed += (s, e) =>
+                {
+                    completedAnim.Visibility = Visibility.Collapsed;
+                };
+            }
+
             element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -295,8 +296,63 @@ namespace Dickplom1
         {
             Animations.AnimateBorderBrush
                 (borderStaff, (Color)ColorConverter.ConvertFromString(borderStaff.BorderBrush.ToString()), Colors.Transparent, 0.35);
-        }        
+        }
         //-----------------------------------------------------------------------------------
         //Navigation-----------------------------------------------------------------------------------
+
+
+        //Закрепленные задачи (нижняя навигация)
+        private void spZakrepGoToOrders_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(spZakrepGoToOrders, spZakrepGoToOrders.Opacity, 0.3, 0.3);
+        }
+
+        private void spZakrepGoToOrders_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(spZakrepGoToOrders, spZakrepGoToOrders.Opacity, 0.5, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Отчеты (Header)
+        private void StackPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(spReports, spReports.Opacity, 0.5, 0.3);
+        }
+
+        private void StackPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(spReports, spReports.Opacity, 1, 0.3);
+        }
+
+        private void spReports_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (gridSelectReportsToMake.Visibility == Visibility.Collapsed)
+                Animations.MaximazedReports(ImgReportsArrowDown, gridSelectReportsToMake);
+            else
+                Animations.MinimazedReports(ImgReportsArrowDown, gridSelectReportsToMake);
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Отчеты топики (Header)
+        private void btnMakeReportOrders_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void btnMakeReportOrders_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), Colors.Transparent, 0.3);
+        }
+
+        private void btnMakeReportStaff_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void btnMakeReportStaff_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), Colors.Transparent, 0.3);
+        }
+        //-----------------------------------------------------------------------------------
     }
 }

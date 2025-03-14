@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Dickplom1"
         mc:Ignorable="d"
         Title="ClientPro" 
-        Height="980" Width="1540"
-        MinWidth="1540" MinHeight="980"
+        Height="1000" Width="1540"
+        MinWidth="1540" MinHeight="1000"
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
@@ -19,12 +19,11 @@
             <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="129"/>
-            <RowDefinition Height="821"/>
-            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -45,19 +44,73 @@
             RenderOptions.BitmapScalingMode="HighQuality"
             Grid.Row="0"
             Grid.Column="1"/>
+        
         <StackPanel
+            x:Name="spReports"
             Grid.Column="3"
             HorizontalAlignment="Left" VerticalAlignment="Center"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            Height="30"
+            MouseEnter="StackPanel_MouseEnter"
+            MouseLeave="StackPanel_MouseLeave"
+            MouseLeftButtonUp="spReports_MouseLeftButtonUp">
+            
             <TextBlock
                 Text="Отчеты"
                 Style="{StaticResource DefText15}"/>
+            
+            <Rectangle Opacity="0" Fill="Transparent" Width="25"/>
+            
             <Image Source="/Resources/Images/MainWin/arrow.png"
-                   Margin="10,0,0,0"
-                   Name="ImgArrowDown"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Name="ImgReportsArrowDown"
                    Width="8"
-                   Height="8"/>
+                   Height="30"
+                   Margin="-20,0,0,0"/>
         </StackPanel>
+
+        <Grid 
+            Name="gridSelectReportsToMake"
+            Grid.Column="3"
+            Grid.Row="0" Grid.RowSpan="2"
+            Panel.ZIndex="1"
+            Width="370" Height="74"
+            Background="Transparent"
+            Visibility="Collapsed"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Margin="0,90,0,0">
+
+            <Border BorderBrush="#C3C7D2"
+                    Background="White"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Opacity="0.15" ShadowDepth="15" Direction="270"/>
+                </Border.Effect>
+            </Border>
+            <StackPanel 
+                x:Name="spReportsSelect"
+                Orientation="Vertical">
+
+                <Button 
+                    x:Name="btnMakeReportOrders"
+                    Style="{StaticResource BtnClearBackground}"
+                    Height="37"
+                    Content="Сформировать отчет по продажам"
+                    MouseEnter="btnMakeReportOrders_MouseEnter"
+                    MouseLeave="btnMakeReportOrders_MouseLeave"/>
+
+                <Button 
+                    x:Name="btnMakeReportStaff"
+                    Style="{StaticResource BtnClearBackground}"
+                    Height="37"
+                    Content="Сформировать отчет по сотрудникам"
+                    MouseEnter="btnMakeReportStaff_MouseEnter"
+                    MouseLeave="btnMakeReportStaff_MouseLeave"/>
+
+            </StackPanel>
+
+        </Grid>
 
         <StackPanel
             Grid.Column="3"
@@ -122,7 +175,6 @@
             <Grid
                 x:Name="gridProfile"
                 Grid.Column="3"
-                Margin="0,0,40,0"
                 Width="auto" Height="auto"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right">
@@ -665,5 +717,78 @@
             </StackPanel>
         </Grid>
         <!--/Navigation-->
+
+        <!--Закрепленные задачи-->
+        <Grid
+            x:Name="gridZakrep"
+            Grid.Column="1"
+            Grid.Row="1"
+            Width="280" Height="279"
+            VerticalAlignment="Top"
+            Margin="0,546,0,0">
+
+            <Border 
+                Background="{StaticResource OtherBackground}"
+                CornerRadius="20">
+            </Border>
+            
+            <TextBlock 
+                    Text="Закрепленные задачи"
+                    Style="{StaticResource DefText15}"
+                    VerticalAlignment="Top" HorizontalAlignment="Center"
+                    Margin="0,20,0,0"/>
+
+            <StackPanel 
+                Orientation="Vertical"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <TextBlock 
+                    Text="Здесь пока пусто"
+                    Style="{StaticResource DefText13}"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Margin="0,0,0,0"/>
+
+                <Separator Opacity="0" Height="10"/>
+
+                <StackPanel
+                    x:Name="spZakrepGoToOrders"
+                    Orientation="Horizontal" 
+                    Opacity="0.5"
+                    MouseEnter="spZakrepGoToOrders_MouseEnter"
+                    MouseLeave="spZakrepGoToOrders_MouseLeave">
+
+                    <TextBlock 
+                        Text="Перейти в заказы"
+                        Style="{StaticResource DefText13}"
+                        VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+                    <Separator Opacity="0" Width="5"/>
+
+                    <Image 
+                        Source="..//Resources/Images/MainWin/Navigation/imgArrowRight.png"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Width="15"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <!--/Закрепленные задачи-->
+
+        
+        <!--Основное наполнение-->
+        <Frame
+            x:Name="MainFrame"
+            Grid.Column="3"
+            Grid.Row="1"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Stretch"
+            Background="{StaticResource OtherBackground}"
+            MinWidth="1180"
+            Height="825">
+
+        </Frame>
+        <!--/Основное наполнение-->
+
     </Grid>
 </Window>
