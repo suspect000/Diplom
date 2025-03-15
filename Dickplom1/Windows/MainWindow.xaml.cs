@@ -23,6 +23,14 @@ namespace Dickplom1
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HidenRect.Focus();
+
+            if (gridSelectReportsToMake.Visibility == Visibility.Visible)
+            {
+                if (!gridSelectReportsToMake.IsMouseOver && !spReports.IsMouseOver)
+                {
+                    Animations.MinimazedReports(ImgReportsArrowDown, gridSelectReportsToMake);
+                }
+            }
         }
 
         //Header
