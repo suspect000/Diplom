@@ -362,5 +362,61 @@ namespace Dickplom1
             Animations.AnimateBackgroundBrush(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), Colors.Transparent, 0.3);
         }
         //-----------------------------------------------------------------------------------
+
+        //Минипрофиль вложенные топики(Header)
+        private void gridMiniProfileWindowThemes_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderWindowThemes, (Color)ColorConverter.ConvertFromString(borderWindowThemes.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void gridMiniProfileWindowThemes_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderWindowThemes, (Color)ColorConverter.ConvertFromString(borderWindowThemes.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+
+        private void gridMiniProfileExit_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderMiniProfileExit, (Color)ColorConverter.ConvertFromString(borderMiniProfileExit.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void gridMiniProfileExit_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderMiniProfileExit, (Color)ColorConverter.ConvertFromString(borderMiniProfileExit.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+
+        private void gridWindowThemes_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        //Минипрофиль топики выбора темы (Header)
+        private void gridSetWhiteTheme_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderSetWhiteTheme, (Color)ColorConverter.ConvertFromString(borderSetWhiteTheme.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void gridSetWhiteTheme_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderSetWhiteTheme, (Color)ColorConverter.ConvertFromString(borderSetWhiteTheme.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+
+        private void gridSetBlackTheme_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderSetBlackTheme, (Color)ColorConverter.ConvertFromString(borderSetBlackTheme.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+        }
+
+        private void gridSetBlackTheme_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBackgroundBrush
+                            (borderSetBlackTheme, (Color)ColorConverter.ConvertFromString(borderSetBlackTheme.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
+        //-----------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------
     }
 }

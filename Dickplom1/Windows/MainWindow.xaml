@@ -775,7 +775,235 @@
         </Grid>
         <!--/Закрепленные задачи-->
 
-        
+        <!--Минипрофиль-->
+        <Grid
+            Name="gridMiniProfile"
+            Grid.Row="0"
+            Grid.Column="3"
+            Grid.RowSpan="2"
+            Panel.ZIndex="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Width="300" Height="300"
+            Margin="0,115,0,0">
+
+            <Border CornerRadius="20"
+                    Background="#F5F6F8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="50" ShadowDepth="0" Opacity="0.5"/>
+                </Border.Effect>
+            </Border>
+
+            <StackPanel 
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="20,20">
+
+                <Button 
+                    x:Name="btnMiniProfile"
+                    Style="{StaticResource BtnCircle}"
+                    Background="#E2E5F2"
+                    Content="ВС"
+                    FontSize="18"
+                    Width="90" Height="90"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                <Separator 
+                    Opacity="0" 
+                    Height="50" Width="20"
+                    VerticalAlignment="Center"/>
+
+                <StackPanel 
+                    Orientation="Vertical"
+                    HorizontalAlignment="Left" VerticalAlignment="Center">
+
+                    <TextBlock
+                        Text="Менеджер"
+                        Style="{StaticResource DefText15}"/>
+
+                    <Separator Opacity="0" Height="7"/>
+
+                    <TextBlock
+                        Text="Владислав С."
+                        Style="{StaticResource DefText18}"/>
+
+                </StackPanel>
+            </StackPanel>
+            
+            <Line 
+                Stroke="#E2E5F2"
+                X1="242"
+                X2="0"
+                Y1="0"
+                Y2="0"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Margin="0,136,0,0"/>
+
+            <StackPanel 
+                Orientation="Vertical"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Margin="0,151,0,0">
+
+                <Grid
+                    x:Name="gridWindowThemes"
+                    Width="242" Height="50"
+                    Background="Transparent"
+                    MouseLeftButtonUp="gridWindowThemes_MouseLeftButtonUp"
+                    MouseEnter="gridMiniProfileWindowThemes_MouseEnter"
+                    MouseLeave="gridMiniProfileWindowThemes_MouseLeave">
+
+                    <Border
+                        x:Name="borderWindowThemes"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/MiniProfile/IcnLuna.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="20"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Внешний вид"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="25,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
+
+                <Separator Opacity="0" Focusable="False" Height="15"/>
+
+                <Grid
+                    x:Name="gridMiniProfileExit"
+                    Width="242" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridMiniProfileExit_MouseEnter"
+                    MouseLeave="gridMiniProfileExit_MouseLeave">
+
+                    <Border
+                        x:Name="borderMiniProfileExit"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/MiniProfile/IcnExit.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="20"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Выход"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="25,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            
+            <Grid
+                Width="242" Height="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,0,0,100">
+                
+                <Border 
+                    CornerRadius="20"
+                    Background="White"
+                    BorderBrush="{StaticResource SelectedBorder}"
+                    BorderThickness="1"/>
+
+                <Grid
+                    x:Name="gridSetWhiteTheme"
+                    Width="242" Height="50"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    MouseEnter="gridSetWhiteTheme_MouseEnter"
+                    MouseLeave="gridSetWhiteTheme_MouseLeave">
+
+                    <Border
+                        x:Name="borderSetWhiteTheme"
+                        CornerRadius="21"
+                        BorderThickness="0"
+                        Opacity="0.5"
+                        BorderBrush="Transparent"
+                        Background="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/MiniProfile/IcnSun.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="20"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Светлая тема"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="25,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
+
+                <Grid
+                    x:Name="gridSetBlackTheme"
+                    Width="242" Height="50"
+                    VerticalAlignment="Bottom"
+                    Background="Transparent"
+                    MouseEnter="gridSetBlackTheme_MouseEnter"
+                    MouseLeave="gridSetBlackTheme_MouseLeave">
+
+                    <Border
+                        x:Name="borderSetBlackTheme"
+                        CornerRadius="21"
+                        BorderThickness="0"
+                        Opacity="0.5"
+                        BorderBrush="Transparent"
+                        Background="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            Source="..//Resources/Images/MainWin/MiniProfile/IcnLuna.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="20"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            Text="Темная тема"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="25,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+            
+        </Grid>
+        <!--/Минипрофиль-->
+
+
         <!--Основное наполнение-->
         <Frame
             x:Name="MainFrame"
