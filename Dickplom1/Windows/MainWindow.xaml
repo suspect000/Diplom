@@ -934,7 +934,8 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     MouseEnter="gridSetWhiteTheme_MouseEnter"
-                    MouseLeave="gridSetWhiteTheme_MouseLeave">
+                    MouseLeave="gridSetWhiteTheme_MouseLeave"
+                    MouseLeftButtonUp="gridSetWhiteTheme_MouseLeftButtonUp">
 
                     <Border
                         x:Name="borderSetWhiteTheme"
@@ -959,8 +960,23 @@
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
                             Margin="25,0,0,0"/>
-
                     </StackPanel>
+
+                    <RadioButton 
+                        x:Name="rbtnWhiteTheme"
+                        GroupName="rbtnsWindowsThemes"
+                        Style="{StaticResource RaddioButtonCheck}" 
+                        Width="15" Height="20" 
+                        IsChecked="False"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="0,0,20,0">
+                        <RadioButton.Content>
+                            <Image 
+                                Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </RadioButton.Content>
+                    </RadioButton>
+
                 </Grid>
 
                 <Grid
@@ -996,6 +1012,20 @@
                             Margin="25,0,0,0"/>
 
                     </StackPanel>
+                    <RadioButton 
+                        x:Name="rbtnBlackTheme"
+                        GroupName="windowsThemes"
+                        Style="{StaticResource RaddioButtonCheck}" 
+                        Width="15" Height="20" 
+                        IsChecked="False"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="0,0,20,0">
+                        <RadioButton.Content>
+                            <Image 
+                                Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </RadioButton.Content>
+                    </RadioButton>
                 </Grid>
 
             </Grid>

@@ -354,5 +354,28 @@
     </Style>
     <!---->
 
+    <!--Стиль RadioButton галочка-->
+    <Style TargetType="RadioButton" x:Key="RaddioButtonCheck">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <ContentPresenter
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="False">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!---->
+
 
 </ResourceDictionary>

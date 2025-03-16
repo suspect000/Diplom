@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Xml;
 using Dickplom1.Class;
 
 
@@ -18,8 +20,41 @@ namespace Dickplom1
         public MainWindow()
         {
             InitializeComponent();
-        }
 
+        }
+        public void ChangeWindowStyleTheme(string selectedTheme)
+        {
+            if (selectedTheme == "White")
+            {
+               rbtnWhiteTheme.IsChecked = true;
+
+                var uri = new Uri("..//Resources/Dictionary/WhiteTheme.xaml", UriKind.Relative);
+                // загружаем словарь ресурсов
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                // очищаем коллекцию ресурсов приложения
+                Application.Current.Resources.Clear();
+                // добавляем загруженный словарь ресурсов
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+
+                App.ApplyTheme("White");
+                App.SaveTheme("White");
+            }
+            if (selectedTheme == "Black")
+            {
+                rbtnWhiteTheme.IsChecked = true;
+
+                var uri = new Uri("..//Resources/Dictionary/BlackTheme.xaml", UriKind.Relative);
+                // загружаем словарь ресурсов
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                // очищаем коллекцию ресурсов приложения
+                Application.Current.Resources.Clear();
+                // добавляем загруженный словарь ресурсов
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+
+                App.ApplyTheme("Black");
+                App.SaveTheme("Black");
+            }
+        }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HidenRect.Focus();
@@ -392,7 +427,7 @@ namespace Dickplom1
         {
 
         }
-        //Минипрофиль топики выбора темы (Header)
+            //Минипрофиль топики выбора темы (Header)
         private void gridSetWhiteTheme_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBackgroundBrush
@@ -416,7 +451,14 @@ namespace Dickplom1
             Animations.AnimateBackgroundBrush
                             (borderSetBlackTheme, (Color)ColorConverter.ConvertFromString(borderSetBlackTheme.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
+            //-----------------------------------------------------------------------------------
         //-----------------------------------------------------------------------------------
+
+        //Переключатель тем окна (Header)
+        private void gridSetWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ChangeWindowStyleTheme("White");
+        }
         //-----------------------------------------------------------------------------------
     }
 }
