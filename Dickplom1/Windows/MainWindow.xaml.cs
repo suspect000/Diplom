@@ -51,6 +51,14 @@ namespace Dickplom1
                 }
             }
 
+            if (gridNotifications.Visibility == Visibility.Visible)
+            {
+                if (!gridNotifications.IsMouseOver && !btnNotification.IsMouseOver)
+                {
+                    gridNotifications.Visibility = Visibility.Collapsed;
+                }
+            }
+
         }
 
         //Header
@@ -422,6 +430,7 @@ namespace Dickplom1
                 gridSelectWindowThemes.Visibility = Visibility.Visible;
             }
         }
+
         //Минипрофиль топики выбора темы (Header)
         private void gridSetWhiteTheme_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -452,24 +461,48 @@ namespace Dickplom1
         //Переключатель тем окна (Header)
         private void gridSetWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+            Musor.HideElement(gridSelectWindowThemes);
             rbtnBlackTheme.IsChecked = false;
             rbtnWhiteTheme.IsChecked = true;
         }
 
         private void gridSetBlackTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+            Musor.HideElement(gridSelectWindowThemes);
             rbtnWhiteTheme.IsChecked = false;
             rbtnBlackTheme.IsChecked = true;
         }
+        //-----------------------------------------------------------------------------------
 
+        //Уведомления (Header)
+        private void btnNotification_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridNotifications.Visibility != Visibility.Visible)
+            {
+                Animations.OpacityAnimation(gridNotifications, 0, 1, 0.15);
+                Musor.ShowElement(gridNotifications);
+
+                if (gridMiniProfile.Visibility == Visibility.Visible)
+                {
+                     Musor.HideElement(gridMiniProfile);
+                }
+            }
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Кнопка минипрофиля (открыть) (Header)
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
             if (gridMiniProfile.Visibility != Visibility.Visible)
             {
                 Animations.OpacityAnimation(gridMiniProfile, 0, 1, 0.15);
-                gridMiniProfile.Visibility = Visibility.Visible;
+                Musor.ShowElement(gridMiniProfile);
+
+                if (gridNotifications.Visibility == Visibility.Visible)
+                {
+                    Musor.HideElement(gridNotifications);
+                    Musor.HideElement(gridSelectWindowThemes);
+                }
             }
         }
         //-----------------------------------------------------------------------------------

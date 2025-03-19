@@ -164,11 +164,13 @@
                     Style="{StaticResource BtnCircle}" 
                     
                     MouseEnter="btnNotification_MouseEnter"
-                    MouseLeave="btnNotification_MouseLeave">
+                    MouseLeave="btnNotification_MouseLeave"
+                    Click="btnNotification_Click">
 
                     <Image 
                         Source="/Resources/Images/MainWin/Notification.png"
                         RenderOptions.BitmapScalingMode="HighQuality"
+                        IsHitTestVisible="False"
                         Width="20" Height="20"/>
                 </Button>
             </Grid>
@@ -776,6 +778,40 @@
         </Grid>
         <!--/Закрепленные задачи-->
 
+        <!--Уведомления-->
+        <Grid
+            Name="gridNotifications"
+            Grid.Row="0"
+            Grid.Column="3"
+            Grid.RowSpan="2"
+            Panel.ZIndex="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            Width="300" Height="350"
+            Margin="0,115,69,0">
+
+            <Border CornerRadius="20"
+                    Background="#F5F6F8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="50" ShadowDepth="0" Opacity="0.5"/>
+                </Border.Effect>
+            </Border>
+
+            <TextBlock 
+                    Text="Уведомления"
+                    Style="{StaticResource DefText15}"
+                    VerticalAlignment="Top" HorizontalAlignment="Center"
+                    Margin="0,20,0,0"/>
+
+            <TextBlock 
+                    Text="Здесь пока пусто"
+                    Style="{StaticResource DefText13}"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        </Grid>
+        <!--/Уведомления-->
+
         <!--Минипрофиль-->
         <Grid
             Name="gridMiniProfile"
@@ -785,7 +821,7 @@
             Panel.ZIndex="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Visibility="Visible"
+            Visibility="Collapsed"
             Width="300" Height="300"
             Margin="0,115,0,0">
 
@@ -925,7 +961,7 @@
                 Width="242" Height="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Visibility="Visible"
+                Visibility="Collapsed"
                 Margin="0,0,0,100">
                 
                 <Border 
