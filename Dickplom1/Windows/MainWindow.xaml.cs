@@ -22,39 +22,6 @@ namespace Dickplom1
             InitializeComponent();
 
         }
-        public void ChangeWindowStyleTheme(string selectedTheme)
-        {
-            if (selectedTheme == "White")
-            {
-               rbtnWhiteTheme.IsChecked = true;
-
-                var uri = new Uri("..//Resources/Dictionary/WhiteTheme.xaml", UriKind.Relative);
-                // загружаем словарь ресурсов
-                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-                // очищаем коллекцию ресурсов приложения
-                Application.Current.Resources.Clear();
-                // добавляем загруженный словарь ресурсов
-                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-
-                App.ApplyTheme("White");
-                App.SaveTheme("White");
-            }
-            if (selectedTheme == "Black")
-            {
-                rbtnWhiteTheme.IsChecked = true;
-
-                var uri = new Uri("..//Resources/Dictionary/BlackTheme.xaml", UriKind.Relative);
-                // загружаем словарь ресурсов
-                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-                // очищаем коллекцию ресурсов приложения
-                Application.Current.Resources.Clear();
-                // добавляем загруженный словарь ресурсов
-                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-
-                App.ApplyTheme("Black");
-                App.SaveTheme("Black");
-            }
-        }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             HidenRect.Focus();
@@ -66,11 +33,35 @@ namespace Dickplom1
                     Animations.MinimazedReports(ImgReportsArrowDown, gridSelectReportsToMake);
                 }
             }
+
+            if (gridSelectWindowThemes.Visibility == Visibility.Visible)
+            {
+                if (!gridSelectWindowThemes.IsMouseOver && !gridWindowThemes.IsMouseOver)
+                {
+                    gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (gridMiniProfile.Visibility == Visibility.Visible)
+            {
+                if (!gridMiniProfile.IsMouseOver)
+                {
+                    gridMiniProfile.Visibility = Visibility.Collapsed;
+                    gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+                }
+            }
+
         }
 
         //Header
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            if (gridMiniProfile.Visibility == Visibility.Visible)
+            {
+                gridMiniProfile.Visibility = Visibility.Collapsed;
+                gridSelectWindowThemes.Visibility= Visibility.Collapsed;
+            }
+
             if (tbSearch.Text == "Найти")
             {
                 tbSearch.Text = "";
@@ -379,76 +370,80 @@ namespace Dickplom1
         //Отчеты топики (Header)
         private void btnMakeReportOrders_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+            Animations.MakeAnimBackground(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
         }
 
         private void btnMakeReportOrders_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), Colors.Transparent, 0.3);
+            Animations.MakeAnimBackground(btnMakeReportOrders, (Color)ColorConverter.ConvertFromString(btnMakeReportOrders.Background.ToString()), Colors.Transparent, 0.3);
         }
 
         private void btnMakeReportStaff_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+            Animations.MakeAnimBackground(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
         }
 
         private void btnMakeReportStaff_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), Colors.Transparent, 0.3);
+            Animations.MakeAnimBackground(btnMakeReportStaff, (Color)ColorConverter.ConvertFromString(btnMakeReportStaff.Background.ToString()), Colors.Transparent, 0.3);
         }
         //-----------------------------------------------------------------------------------
 
         //Минипрофиль вложенные топики(Header)
         private void gridMiniProfileWindowThemes_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
-                            (borderWindowThemes, (Color)ColorConverter.ConvertFromString(borderWindowThemes.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+            Animations.MakeAnimBackground
+                            (borderWindowThemes, (Color)ColorConverter.ConvertFromString(borderWindowThemes.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#ECEDF1"), 0.15);
         }
 
         private void gridMiniProfileWindowThemes_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderWindowThemes, (Color)ColorConverter.ConvertFromString(borderWindowThemes.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridMiniProfileExit_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
-                            (borderMiniProfileExit, (Color)ColorConverter.ConvertFromString(borderMiniProfileExit.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
+            Animations.MakeAnimBackground
+                            (borderMiniProfileExit, (Color)ColorConverter.ConvertFromString(borderMiniProfileExit.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#ECEDF1"), 0.15);
         }
 
         private void gridMiniProfileExit_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderMiniProfileExit, (Color)ColorConverter.ConvertFromString(borderMiniProfileExit.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridWindowThemes_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            if (gridSelectWindowThemes.Visibility != Visibility.Visible)
+            {
+                Animations.OpacityAnimation(gridSelectWindowThemes, 0, 1, 0.15);
+                gridSelectWindowThemes.Visibility = Visibility.Visible;
+            }
         }
-            //Минипрофиль топики выбора темы (Header)
+        //Минипрофиль топики выбора темы (Header)
         private void gridSetWhiteTheme_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderSetWhiteTheme, (Color)ColorConverter.ConvertFromString(borderSetWhiteTheme.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
         }
 
         private void gridSetWhiteTheme_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderSetWhiteTheme, (Color)ColorConverter.ConvertFromString(borderSetWhiteTheme.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
         private void gridSetBlackTheme_MouseEnter(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderSetBlackTheme, (Color)ColorConverter.ConvertFromString(borderSetBlackTheme.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#E8E8E8"), 0.15);
         }
 
         private void gridSetBlackTheme_MouseLeave(object sender, MouseEventArgs e)
         {
-            Animations.AnimateBackgroundBrush
+            Animations.MakeAnimBackground
                             (borderSetBlackTheme, (Color)ColorConverter.ConvertFromString(borderSetBlackTheme.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
             //-----------------------------------------------------------------------------------
@@ -457,7 +452,25 @@ namespace Dickplom1
         //Переключатель тем окна (Header)
         private void gridSetWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ChangeWindowStyleTheme("White");
+            gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+            rbtnBlackTheme.IsChecked = false;
+            rbtnWhiteTheme.IsChecked = true;
+        }
+
+        private void gridSetBlackTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            gridSelectWindowThemes.Visibility = Visibility.Collapsed;
+            rbtnWhiteTheme.IsChecked = false;
+            rbtnBlackTheme.IsChecked = true;
+        }
+
+        private void btnProfile_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridMiniProfile.Visibility != Visibility.Visible)
+            {
+                Animations.OpacityAnimation(gridMiniProfile, 0, 1, 0.15);
+                gridMiniProfile.Visibility = Visibility.Visible;
+            }
         }
         //-----------------------------------------------------------------------------------
     }

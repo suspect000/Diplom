@@ -14,7 +14,7 @@ namespace Dickplom1
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        /*protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -26,10 +26,17 @@ namespace Dickplom1
         {
             ResourceDictionary themeDict = new ResourceDictionary();
 
-            if (theme == "Dark")
-                themeDict.Source = new Uri("Themes/Dark.xaml", UriKind.Relative);
-            else
-                themeDict.Source = new Uri("Themes/Light.xaml", UriKind.Relative);
+            if (theme == "Black")
+            {
+                themeDict.Source = new Uri("Resources/Dictionary/BlackTheme.xaml", UriKind.Relative);
+                SaveTheme("Resources/Dictionary/BlackTheme.xaml");
+            }
+
+            else if (theme == "White")
+            {
+                themeDict.Source = new Uri("Resources/Dictionary/WhiteTheme.xaml", UriKind.Relative);
+                SaveTheme("Resources/Dictionary/WhiteTheme.xaml");
+            }
 
             // Очищаем старую тему и добавляем новую
             Application.Current.Resources.MergedDictionaries.Clear();
@@ -41,6 +48,6 @@ namespace Dickplom1
             // Сохраняем выбор пользователя
             Settings.Default.AppTheme = theme;
             Settings.Default.Save();
-        }
+        }*/
     }
 }

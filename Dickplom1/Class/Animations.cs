@@ -188,5 +188,11 @@ namespace Dickplom1.Class
 
             element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
         }
+
+        public static void MakeAnimBackground(UIElement element, Color fromColor, Color toColor, double time) // Метод анимации заднего фона элемента, предназначен для динамичного переключения тем приложения
+        {
+            // Сдесь сделать операторы if для проверки темы приложения и объявлять цвета статически в этом методе а не в окне
+            AnimateBackgroundBrush(element, fromColor, toColor, time);
+        }
     }
 }
