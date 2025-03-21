@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ClientPro" 
         Height="1000" Width="1540"
-        MinWidth="1540" MinHeight="1000"
+        MinWidth="1560" MinHeight="1000"
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
@@ -1078,17 +1078,28 @@
 
 
         <!--Основное наполнение-->
-        <Frame
-            x:Name="MainFrame"
+        <Border 
             Grid.Column="3"
             Grid.Row="1"
             VerticalAlignment="Top"
             HorizontalAlignment="Stretch"
             Background="{StaticResource OtherBackground}"
+            CornerRadius="20"
             MinWidth="1180"
             Height="825">
 
-        </Frame>
+            <Frame
+                x:Name="MainFrame"
+                Grid.Column="3"
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Stretch"
+                MinWidth="1180"
+                NavigationUIVisibility="Hidden"
+                Height="825">
+                
+            </Frame>
+        </Border>
         <!--/Основное наполнение-->
 
     </Grid>

@@ -4,9 +4,10 @@
     <!--Цвета белой темы-->
     <SolidColorBrush x:Key="MainBackgroundColor" Color="White"/>
     <SolidColorBrush x:Key="MainTextForeground" Color="#636C7F"/>
-    <SolidColorBrush x:Key="OtherBackground" Color="#ECEDF1"/>
+    <SolidColorBrush x:Key="OtherBackground" Color="#F6F6F8"/>
     <SolidColorBrush x:Key="SelectedBorder" Color="#9C9FA6"/>
     <SolidColorBrush x:Key="SelectedItem" Color="#C3C7D2"/>
+    <SolidColorBrush x:Key="PlitkaBackground" Color="#ECEDF1"/>
     <!---->
 
     <!--Стиль для обыного текста 18pt -->

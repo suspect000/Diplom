@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 using System.Xml;
 using Dickplom1.Class;
 
@@ -20,6 +21,8 @@ namespace Dickplom1
         public MainWindow()
         {
             InitializeComponent();
+
+            MainFrame.Navigate(new Pages.Manager.Dashboards());
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,12 +66,10 @@ namespace Dickplom1
 
         //Header
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (gridMiniProfile.Visibility == Visibility.Visible)
-            {
-                gridMiniProfile.Visibility = Visibility.Collapsed;
-                gridSelectWindowThemes.Visibility= Visibility.Collapsed;
-            }
+        { 
+            Musor.HideElement(gridMiniProfile);
+            Musor.HideElement(gridSelectWindowThemes);
+            Musor.HideElement(gridNotifications);
 
             if (tbSearch.Text == "Найти")
             {
