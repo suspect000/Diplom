@@ -28,12 +28,17 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="330" MaxWidth="371"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*" MinWidth="330" MaxWidth="371"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*" MinWidth="400" MaxWidth="772"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
-        
+
         <Border CornerRadius="20"
-                Grid.ColumnSpan="3"
+                Grid.ColumnSpan="7"
+                Grid.Column="0"
                 VerticalAlignment="Top"
                 Height="820"
                 MaxHeight="1120"
@@ -55,90 +60,79 @@
             </Border.Background>
         </Border>
 
-        
+        <Border></Border>
+
 
         <Grid
-            x:Name="SPFirstLevelTopics"
+            Name="gridSalesAll"
+            Grid.Column="1"
             Grid.Row="1"
-            Grid.Column="1">
+            HorizontalAlignment="Stretch">
 
-            <Grid
-                Name="gridSalesAll"
-                Width="330" Height="180"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center">
-
-                <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
-            </Grid>
-            
-            <Grid
-                Name="gridSalesLeader"
-                Width="330" Height="180"
-                HorizontalAlignment="Center"
-                Margin="0,0,70,0"
-                VerticalAlignment="Center">
-
-                <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
-            </Grid>
-            
-            <Grid
-                Name="gridSuccessfulSales"
-                Width="400" Height="180"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center">
-
-                <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
-            </Grid>
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
         </Grid>
 
         <Grid
-            x:Name="SPSecondLevelTopics"
-            HorizontalAlignment="Stretch"
+            Name="gridLeaderOfSales"
+            Grid.Column="3"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch">
+
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
+        </Grid>
+
+        <Grid
+            Name="gridRatioOrders"
+            Grid.Column="5"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch">
+
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
+        </Grid>
+
+        <Grid
+            Name="gridOrdersStatuses"
+            Grid.Column="1" Grid.ColumnSpan="3"
             Grid.Row="3"
-            Grid.Column="1">
+            HorizontalAlignment="Stretch">
 
-            <Grid
-                Name="gridOrdersStatus"
-                Width="690" Height="430"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center">
-
-                <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
-            </Grid>
-
-
-            <Grid
-                Name="gridOrdersDynamic"
-                Width="400" Height="430"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center">
-
-                <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
-            </Grid>
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
         </Grid>
 
         <Grid
-            Name="gridThirdLevelTopic"
-            Width="auto" Height="380"
-            VerticalAlignment="Center"
-            Grid.Row="5"
-            Grid.Column="1">
+            Name="gridDinamicOrders"
+            Grid.Column="5"
+            Grid.Row="3"
+            HorizontalAlignment="Stretch">
 
-            <Border 
-                    CornerRadius="20"
-                    Background="{StaticResource PlitkaBackground}"/>
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
         </Grid>
 
+        <Grid
+            Name="gridDashboardStaff"
+            Grid.Column="1" Grid.ColumnSpan="5"
+            Grid.Row="5"
+            HorizontalAlignment="Stretch">
 
+            <Border
+                CornerRadius="20"
+                Background="{StaticResource PlitkaBackground}"
+                HorizontalAlignment="Stretch"/>
+        </Grid>
     </Grid>
 </Page>
