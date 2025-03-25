@@ -25,6 +25,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="129"/>
             <RowDefinition/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <!--Header-->
@@ -44,7 +45,7 @@
             RenderOptions.BitmapScalingMode="HighQuality"
             Grid.Row="0"
             Grid.Column="1"/>
-        
+
         <StackPanel
             x:Name="spReports"
             Grid.Column="3"
@@ -54,13 +55,13 @@
             MouseEnter="StackPanel_MouseEnter"
             MouseLeave="StackPanel_MouseLeave"
             MouseLeftButtonUp="spReports_MouseLeftButtonUp">
-            
+
             <TextBlock
                 Text="Отчеты"
                 Style="{StaticResource DefText15}"/>
-            
+
             <Rectangle Opacity="0" Fill="Transparent" Width="25"/>
-            
+
             <Image Source="/Resources/Images/MainWin/arrow.png"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Name="ImgReportsArrowDown"
@@ -193,7 +194,7 @@
             </Grid>
         </StackPanel>
         <!--/Header-->
-        
+
         <!--Navigation-->
         <Grid
             x:Name="gridNavigation"
@@ -201,7 +202,7 @@
             Grid.Row="1"
             Width="280" Height="516"
             VerticalAlignment="Top">
-            
+
             <Border 
                 Background="{StaticResource OtherBackground}"
                 CornerRadius="20">
@@ -682,7 +683,7 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                
+
                 <Separator Opacity="0" Height="15"/>
 
                 <Grid
@@ -734,7 +735,7 @@
                 Background="{StaticResource OtherBackground}"
                 CornerRadius="20">
             </Border>
-            
+
             <TextBlock 
                     Text="Закрепленные задачи"
                     Style="{StaticResource DefText15}"
@@ -868,7 +869,7 @@
 
                 </StackPanel>
             </StackPanel>
-            
+
             <Line 
                 Stroke="#E2E5F2"
                 X1="242"
@@ -955,7 +956,7 @@
                     </StackPanel>
                 </Grid>
             </StackPanel>
-            
+
             <Grid
                 x:Name="gridSelectWindowThemes"
                 Width="242" Height="100"
@@ -963,7 +964,7 @@
                 VerticalAlignment="Center"
                 Visibility="Collapsed"
                 Margin="0,0,0,100">
-                
+
                 <Border 
                     CornerRadius="20"
                     Background="White"
@@ -1072,34 +1073,40 @@
                 </Grid>
 
             </Grid>
-            
+
         </Grid>
         <!--/Минипрофиль-->
 
 
         <!--Основное наполнение-->
-        <Border 
-            Grid.Column="3"
-            Grid.Row="1"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Stretch"
-            Background="{StaticResource OtherBackground}"
-            CornerRadius="20"
-            MinWidth="1180"
-            Height="825">
-
-            <Frame
-                x:Name="MainFrame"
+            <Border 
                 Grid.Column="3"
                 Grid.Row="1"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Stretch"
+                Background="{StaticResource OtherBackground}"
+                CornerRadius="20"
                 MinWidth="1180"
-                NavigationUIVisibility="Hidden"
                 Height="825">
-                
-            </Frame>
-        </Border>
+
+                <Frame
+                    x:Name="MainFrame"
+                    Grid.Column="3"
+                    Grid.Row="1"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    MinWidth="1180"
+                    NavigationUIVisibility="Hidden"
+                    Height="825">
+
+                </Frame>
+            </Border>
+        
+        <ScrollViewer 
+            Grid.Column="4" Grid.Row="1"
+            HorizontalAlignment="Right"
+            Width="15" VerticalAlignment="Stretch"
+            Style="{StaticResource VerticalScrollViewer}"/>
         <!--/Основное наполнение-->
 
     </Grid>
