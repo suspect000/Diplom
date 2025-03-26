@@ -384,39 +384,61 @@
     
 
     <!--Стиль для вертикального ScrollViewer-->
-        <Style TargetType="ScrollViewer" x:Key="VerticalScrollViewer">
+    <Style TargetType="ScrollViewer" x:Key="VerticalScrollViewer">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
-                    <Border x:Name="border" CornerRadius="7" BorderBrush="{TemplateBinding BorderBrush}" Width="15" Background="{StaticResource ScrollViewerBackgroundMain}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ScrollContentPresenter x:Name="ScrollContentPresenter"
-                                                  Cursor="{TemplateBinding Cursor}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    <Grid>
+                        <!-- Контент (слева) и скроллбар (справа) -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <!-- Контент -->
+                            <ColumnDefinition Width="15"/>
+                            <!-- Скролл -->
+                        </Grid.ColumnDefinitions>
 
+                        <!-- Контейнер для контента -->
+                        <ScrollContentPresenter 
+                        x:Name="ScrollContentPresenter"
+                        Cursor="{TemplateBinding Cursor}"
+                        Margin="0,0,20,0" 
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Grid.Column="0" />
 
+                        <!-- Обертка для скроллбара -->
+                        <Border 
+                        x:Name="border"
+                        Grid.Column="1"
+                        CornerRadius="7"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Background="{StaticResource ScrollViewerBackgroundMain}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                            <!-- Полоса прокрутки -->
                             <Track Name="PART_Track">
-                                <!--Ползунок -->
                                 <Track.Thumb>
                                     <Thumb
-                                        Width="7"
-                                        MinHeight="{TemplateBinding MinHeight}"
-                                        MaxHeight="{TemplateBinding MaxHeight}"
                                         Margin="4,5,0,100"
-                                        Background="{StaticResource ScrollViewerBackgroundOther}">
+                                    Width="7"
+                                    MinHeight="{TemplateBinding MinHeight}"
+                                    MaxHeight="{TemplateBinding MaxHeight}"
+                                    Background="{StaticResource ScrollViewerBackgroundOther}">
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
                                                 <Border 
-                                                    x:Name="border"
-                                                    Background="{TemplateBinding Background}"
-                                                    CornerRadius="4"/>
+                                                x:Name="border"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="4"/>
                                                 <ControlTemplate.Triggers>
                                                     <EventTrigger RoutedEvent="MouseEnter">
                                                         <EventTrigger.Actions>
                                                             <BeginStoryboard>
                                                                 <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" To="0.5" AutoReverse="False" />
+                                                                    <DoubleAnimation 
+                                                                    Storyboard.TargetProperty="Opacity" 
+                                                                    Duration="0:0:0.15" 
+                                                                    To="0.5" 
+                                                                    AutoReverse="False" />
                                                                 </Storyboard>
                                                             </BeginStoryboard>
                                                         </EventTrigger.Actions>
@@ -425,7 +447,11 @@
                                                         <EventTrigger.Actions>
                                                             <BeginStoryboard>
                                                                 <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" To="1" AutoReverse="False" />
+                                                                    <DoubleAnimation 
+                                                                    Storyboard.TargetProperty="Opacity" 
+                                                                    Duration="0:0:0.15" 
+                                                                    To="1" 
+                                                                    AutoReverse="False" />
                                                                 </Storyboard>
                                                             </BeginStoryboard>
                                                         </EventTrigger.Actions>
@@ -436,8 +462,8 @@
                                     </Thumb>
                                 </Track.Thumb>
                             </Track>
-                        </Grid>
-                    </Border>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

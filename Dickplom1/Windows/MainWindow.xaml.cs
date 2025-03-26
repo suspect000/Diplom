@@ -506,6 +506,12 @@ namespace Dickplom1
                 }
             }
         }
+
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            //MyFrame.ScrollToVerticalOffset(MyScrollViewer.VerticalOffset);
+            
+        }
         //-----------------------------------------------------------------------------------
     }
 }

@@ -728,11 +728,12 @@
             x:Name="gridZakrep"
             Grid.Column="1"
             Grid.Row="1"
-            Width="280" Height="279"
-            VerticalAlignment="Top"
+            Width="auto"
+            VerticalAlignment="Stretch"
             Margin="0,546,0,0">
 
             <Border 
+                VerticalAlignment="Stretch"
                 Background="{StaticResource OtherBackground}"
                 CornerRadius="20">
             </Border>
@@ -1077,39 +1078,54 @@
 
         </Grid>
         <!--/Минипрофиль-->
+        
+        <Border CornerRadius="20"
+        Grid.Column="3" Grid.Row="1"
+        VerticalAlignment="Stretch"
+        Height="auto">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                            <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#F6F6F8" Offset="1"/>
+                    <GradientStop Color="#F6F6F8" Offset="0"/>
+                    <GradientStop Color="#FFFEFEFE" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
 
+        <ScrollViewer
+                Grid.Column="3" Grid.ColumnSpan="2"
+                Tag="MainContentScroll"
+                Grid.Row="1" 
+                Width="auto"
+                Height="auto"
+                HorizontalAlignment="Stretch"
+                Margin="0,0,5,0"
+                VerticalAlignment="Stretch"
+                Style="{StaticResource VerticalScrollViewer}"
+                ScrollChanged="ScrollViewer_ScrollChanged">
+            
+                    <Frame
+                    x:Name="MainFrame"
+                    HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                    MinWidth="1195"
+                    NavigationUIVisibility="Hidden"
+                    Height="auto"
+                    MinHeight="800"/>
+
+        </ScrollViewer>
 
         <!--Основное наполнение-->
-            <Border 
-                Grid.Column="3"
-                Grid.Row="1"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Stretch"
-                Background="{StaticResource OtherBackground}"
-                CornerRadius="20"
-                MinWidth="1180"
-                Height="825">
 
-                <Frame
-                    x:Name="MainFrame"
-                    Grid.Column="3"
-                    Grid.Row="1"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"
-                    MinWidth="1180"
-                    NavigationUIVisibility="Hidden"
-                    Height="825">
-
-                </Frame>
-            </Border>
-        
-        <ScrollViewer 
-            Grid.Column="4" Grid.Row="1"
-            HorizontalAlignment="Right"
-            Margin="5,0"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource VerticalScrollViewer}"/>
         <!--/Основное наполнение-->
-
     </Grid>
+    
 </Window>

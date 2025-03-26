@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Dickplom1.Pages.Manager"
       mc:Ignorable="d"
-      d:DesignWidth="1180"
-      Height="820"
-      MaxHeight="1120"
+      d:DesignWidth="1195"
+      Height="auto"
       MinHeight="820" 
+      VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
       Title="Dashboards">
 
@@ -35,30 +35,6 @@
             <ColumnDefinition Width="*" MinWidth="400" MaxWidth="772"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
-
-        <Border CornerRadius="20"
-                Grid.ColumnSpan="7"
-                Grid.Column="0"
-                VerticalAlignment="Top"
-                Height="820"
-                MaxHeight="1120"
-                Grid.RowSpan="7">
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterX="0.5" CenterY="0.5"/>
-                            <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#F6F6F8" Offset="1"/>
-                    <GradientStop Color="#F6F6F8" Offset="0"/>
-                    <GradientStop Color="#FFFEFEFE" Offset="0.5"/>
-                </LinearGradientBrush>
-            </Border.Background>
-        </Border>
 
         <Border></Border>
 
