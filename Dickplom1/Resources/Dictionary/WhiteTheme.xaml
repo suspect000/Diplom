@@ -8,6 +8,9 @@
     <SolidColorBrush x:Key="SelectedBorder" Color="#9C9FA6"/>
     <SolidColorBrush x:Key="SelectedItem" Color="#C3C7D2"/>
     <SolidColorBrush x:Key="PlitkaBackground" Color="#ECEDF1"/>
+    <SolidColorBrush x:Key="ScrollViewerBackgroundMain" Color="#DADADB"/>
+    <SolidColorBrush x:Key="ScrollViewerBackgroundOther" Color="#687183"/>
+
     <!---->
 
     <!--Стиль для обыного текста 18pt -->
@@ -377,117 +380,62 @@
         </Style.Triggers>
     </Style>
     <!---->
+    
+    
 
     <!--Стиль для вертикального ScrollViewer-->
-    <Style x:Key="ScrollBarThumbStyle" TargetType="Thumb">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Height" Value="200"/>
-        <Setter Property="Margin" Value="1,0,1,0" />
-        <Setter Property="Background" Value="Honeydew" />
-        <Setter Property="BorderBrush" Value="Black" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Thumb">
-                    <Rectangle RadiusX="20" RadiusY="20" Height="{TemplateBinding Height}" Fill="Lime"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ScrollBarPageButtonStyle" TargetType="RepeatButton">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
-                    <Border Background="Transparent" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ScrollBarLineButtonStyle" TargetType="RepeatButton">
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
-                    <Grid Margin="1">
-                        <Ellipse Name="Border" StrokeThickness="2" Stroke="Black" Fill="Gray" />
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Fill" Value="Blue" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <ControlTemplate x:Key="scroll" TargetType="ScrollBar">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="5" />
-            </Grid.RowDefinitions>
-
-            <Track Grid.Row="1" ViewportSize="100" IsDirectionReversed="True" x:Name="PART_Track">
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumbStyle}" />
-                </Track.Thumb>
-            </Track>
-        </Grid>
-    </ControlTemplate>
-
-
-
-    <Style TargetType="ScrollViewer" x:Key="VerticalScrollViewer">
-        <Setter Property="Background" Value="Red"/>
+        <Style TargetType="ScrollViewer" x:Key="VerticalScrollViewer">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
-                    <Border x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="border" CornerRadius="7" BorderBrush="{TemplateBinding BorderBrush}" Width="15" Background="{StaticResource ScrollViewerBackgroundMain}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Background="{TemplateBinding Background}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
                             <ScrollContentPresenter x:Name="ScrollContentPresenter"
                                                   Cursor="{TemplateBinding Cursor}"
                                                   Margin="{TemplateBinding Padding}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"/>
 
-                            <Rectangle Grid.Column="1" Grid.Row="1" Fill="#FFE9EEF4"/>
 
-                            <ScrollBar Name="PART_VerticalScrollBar" Width="18"
-                                     IsTabStop="False"
-                                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                     Grid.Column="1" Grid.Row="0" Orientation="Vertical"
-                                     ViewportSize="{TemplateBinding ViewportHeight}"
-                                     Maximum="{TemplateBinding ScrollableHeight}"
-                                     Minimum="0"
-                                     Value="{TemplateBinding VerticalOffset}"
-                                     Margin="0,-1,-1,-1" Template="{StaticResource scroll}"
-                                           SnapsToDevicePixels="True" OverridesDefaultStyle="True"/>
-
-                            <ScrollBar Name="PART_HorizontalScrollBar" Height="18"
-                                     IsTabStop="False"
-                                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                     Grid.Column="0" Grid.Row="1" Orientation="Horizontal"
-                                     ViewportSize="{TemplateBinding ViewportWidth}"
-                                     Maximum="{TemplateBinding ScrollableWidth}"
-                                     Minimum="0"
-                                     Value="{TemplateBinding HorizontalOffset}"
-                                     Margin="-1,0,-1,-1"/>
-
+                            <Track Name="PART_Track">
+                                <!--Ползунок -->
+                                <Track.Thumb>
+                                    <Thumb
+                                        Width="7"
+                                        MinHeight="{TemplateBinding MinHeight}"
+                                        MaxHeight="{TemplateBinding MaxHeight}"
+                                        Margin="4,5,0,100"
+                                        Background="{StaticResource ScrollViewerBackgroundOther}">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border 
+                                                    x:Name="border"
+                                                    Background="{TemplateBinding Background}"
+                                                    CornerRadius="4"/>
+                                                <ControlTemplate.Triggers>
+                                                    <EventTrigger RoutedEvent="MouseEnter">
+                                                        <EventTrigger.Actions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" To="0.5" AutoReverse="False" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger.Actions>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="MouseLeave">
+                                                        <EventTrigger.Actions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" To="1" AutoReverse="False" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger.Actions>
+                                                    </EventTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
                         </Grid>
                     </Border>
                 </ControlTemplate>

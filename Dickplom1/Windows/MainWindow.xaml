@@ -8,6 +8,7 @@
         Title="ClientPro" 
         Height="1000" Width="1540"
         MinWidth="1560" MinHeight="1000"
+        MaxWidth="2000" MaxHeight="2000"
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
@@ -1105,7 +1106,8 @@
         <ScrollViewer 
             Grid.Column="4" Grid.Row="1"
             HorizontalAlignment="Right"
-            Width="15" VerticalAlignment="Stretch"
+            Margin="5,0"
+            VerticalAlignment="Stretch"
             Style="{StaticResource VerticalScrollViewer}"/>
         <!--/Основное наполнение-->
 
