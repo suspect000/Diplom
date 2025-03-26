@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -509,8 +510,30 @@ namespace Dickplom1
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            //MyFrame.ScrollToVerticalOffset(MyScrollViewer.VerticalOffset);
-            
+            ScrollViewer scrollViewer = sender as ScrollViewer;
+            if (scrollViewer == null) return;
+
+            // Получаем трек из стиля
+            Track track = GetScrollViewerTrack(scrollViewer);
+            if (track == null) return;
+
+            // Максимальный диапазон прокрутки
+            if (scrollViewer.ExtentHeight > scrollViewer.ViewportHeight)
+            {
+                // Очень удобная формула для плавной прокрутки
+                double scrollRatio = scrollViewer.VerticalOffset / (scrollViewer.ExtentHeight - scrollViewer.ViewportHeight);
+                track.Value = scrollRatio * (track.Maximum - track.Minimum);
+            }
+
+        }
+        // Метод для получения Track (ползунка)
+        private Track GetScrollViewerTrack(ScrollViewer scrollViewer)
+        {
+            if (scrollViewer.Template != null)
+            {
+                return scrollViewer.Template.FindName("PART_Track", scrollViewer) as Track;
+            }
+            return null;
         }
         //-----------------------------------------------------------------------------------
     }

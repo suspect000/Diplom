@@ -415,11 +415,13 @@
                         BorderThickness="{TemplateBinding BorderThickness}">
 
                             <!-- Полоса прокрутки -->
-                            <Track Name="PART_Track">
+                            <Track Name="PART_Track"
+                                   IsDirectionReversed="True"
+                                   Orientation="Vertical"
+                                   Margin="0,5,0,5">
                                 <Track.Thumb>
                                     <Thumb
-                                        Margin="4,5,0,100"
-                                    Width="7"
+                                    Width="7" Height="700"
                                     MinHeight="{TemplateBinding MinHeight}"
                                     MaxHeight="{TemplateBinding MaxHeight}"
                                     Background="{StaticResource ScrollViewerBackgroundOther}">
