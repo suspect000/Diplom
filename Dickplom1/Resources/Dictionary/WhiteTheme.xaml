@@ -81,9 +81,8 @@
         </Setter>
     </Style>
     <!---->
-
     
-    <!--Стиль для круглой кнопки -->
+    
     <Style x:Key="BtnCircle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource OtherBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
@@ -382,7 +381,6 @@
     <!---->
     
     
-
     <!--Стиль для вертикального ScrollViewer-->
     <Style TargetType="ScrollViewer" x:Key="VerticalScrollViewer">
         <Setter Property="Template">
@@ -405,65 +403,79 @@
                         ContentTemplate="{TemplateBinding ContentTemplate}"
                         Grid.Column="0" />
 
-                        <!-- Обертка для скроллбара -->
-                        <Border 
-                        x:Name="border"
-                        Grid.Column="1"
-                        CornerRadius="7"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Background="{StaticResource ScrollViewerBackgroundMain}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Height="{TemplateBinding Height}"
+                            CornerRadius="8"
+                            Background="{StaticResource ScrollViewerBackgroundMain}">
 
-                            <!-- Полоса прокрутки -->
-                            <Track Name="PART_Track"
-                                   IsDirectionReversed="True"
-                                   Orientation="Vertical"
-                                   Margin="0,5,0,5">
-                                <Track.Thumb>
-                                    <Thumb
-                                    Width="7" Height="700"
-                                    MinHeight="{TemplateBinding MinHeight}"
-                                    MaxHeight="{TemplateBinding MaxHeight}"
-                                    Background="{StaticResource ScrollViewerBackgroundOther}">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="Thumb">
-                                                <Border 
-                                                x:Name="border"
-                                                Background="{TemplateBinding Background}"
-                                                CornerRadius="4"/>
-                                                <ControlTemplate.Triggers>
-                                                    <EventTrigger RoutedEvent="MouseEnter">
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation 
-                                                                    Storyboard.TargetProperty="Opacity" 
-                                                                    Duration="0:0:0.15" 
-                                                                    To="0.5" 
-                                                                    AutoReverse="False" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="MouseLeave">
-                                                        <EventTrigger.Actions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation 
-                                                                    Storyboard.TargetProperty="Opacity" 
-                                                                    Duration="0:0:0.15" 
-                                                                    To="1" 
-                                                                    AutoReverse="False" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger.Actions>
-                                                    </EventTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                            </Track>
+                            <ScrollBar 
+                                x:Name="PART_VerticalScrollBar" 
+                                HorizontalAlignment="Center"
+                                AutomationProperties.AutomationId="VerticalScrollBar" 
+                                Cursor="Arrow" 
+                                Grid.Column="1" 
+                                Maximum="{TemplateBinding ScrollableHeight}" 
+                                Minimum="0" 
+                                Grid.Row="0" 
+                                Margin="0,5,0,5"
+                                Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+                                ViewportSize="{TemplateBinding ViewportHeight}" 
+                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                                <ScrollBar.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                        <Track Name="PART_Track"
+                                               IsDirectionReversed="True">
+                                            <Track.Thumb>
+                                                <Thumb
+                                                    Name="PART_Thumb"
+                                                    Width="7" Height="auto"
+                                                    MinHeight="80"
+                                                    Background="{StaticResource ScrollViewerBackgroundOther}">
+                                                    <Thumb.Template>
+                                                        <ControlTemplate TargetType="Thumb">
+                                                            <Border
+                                                                VerticalAlignment="Top"
+                                                                Background="{StaticResource ScrollViewerBackgroundOther}"
+                                                                Height="572"
+                                                                CornerRadius="5"/>
+                                                            <ControlTemplate.Triggers>
+                                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                                    <EventTrigger.Actions>
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation 
+                                                                                    Storyboard.TargetProperty="Opacity" 
+                                                                                    Duration="0:0:0.15" 
+                                                                                    To="0.5" 
+                                                                                    AutoReverse="False" />
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger.Actions>
+                                                                </EventTrigger>
+                                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                                    <EventTrigger.Actions>
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation 
+                                                                                    Storyboard.TargetProperty="Opacity" 
+                                                                                    Duration="0:0:0.15" 
+                                                                                    To="1" 
+                                                                                    AutoReverse="False"/>
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </EventTrigger.Actions>
+                                                                </EventTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                            </Track.Thumb>
+                                        </Track>
+                                    </ControlTemplate>
+                                </ScrollBar.Template>
+                            </ScrollBar>
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -471,7 +483,5 @@
         </Setter>
     </Style>
     <!---->
-
-
 
 </ResourceDictionary>

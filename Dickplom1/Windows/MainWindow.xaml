@@ -1109,17 +1109,15 @@
                 HorizontalAlignment="Stretch"
                 Margin="0,0,5,0"
                 VerticalAlignment="Stretch"
-                Style="{StaticResource VerticalScrollViewer}"
-                ScrollChanged="ScrollViewer_ScrollChanged">
-            
-                    <Frame
-                    x:Name="MainFrame"
-                    HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                    MinWidth="1195"
-                    NavigationUIVisibility="Hidden"
-                    Height="auto"
-                    MinHeight="800"/>
+                Style="{StaticResource VerticalScrollViewer}">
+            <Frame
+                x:Name="MainFrame"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                MinWidth="1195"
+                NavigationUIVisibility="Hidden"
+                Height="auto"
+                MinHeight="800"/>
 
         </ScrollViewer>
 
