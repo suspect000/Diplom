@@ -4,13 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Dickplom1.Pages.Manager"
+      xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
       mc:Ignorable="d"
       d:DesignWidth="1195"
       Height="auto"
       MinHeight="820" 
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
-      Title="Dashboards">
+      Title="Dashboards"
+      MouseDown="Page_MouseDown">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -49,6 +51,170 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Продано всего"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <TextBlock
+                Style="{StaticResource TextZagolovokValueDashboard}"
+                Text="0" MaxWidth="200"
+                Margin="20,75,0,0"
+                FontSize="75"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"/>
+
+            <Grid 
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Height="auto"
+                Width="90"
+                Cursor="Hand"
+                Margin="0,20,20,0"
+                MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                
+                <StackPanel 
+                    Orientation="Horizontal"
+                    Height="20"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right">
+                    
+                    <TextBlock
+                        Name="tbSalesAllChosenDate"
+                        Style="{StaticResource TextComboboxDashboard}"
+                        Text="за год"/>
+                    
+                    <Rectangle 
+                        Opacity="0"      
+                        Fill="Transparent" 
+                        Width="25"
+                        VerticalAlignment="Stretch"/>
+
+                    <Image Source="/Resources/Images/MainWin/arrowDownGray.png"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        VerticalAlignment="Center"
+                        Name="ImgReportsArrowDown"
+                        Width="8"
+                        Margin="-10,0,0,0"/>
+                </StackPanel>
+
+
+                <Grid 
+                    Name="gridSalesAllChoseDate"  
+                    Height="auto"
+                      Margin="0,20,0,0" 
+                      Width="80"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Visibility="Collapsed">
+                    
+                    <Border Background="White"
+                            BorderBrush="{StaticResource SelectedBorder}"
+                            BorderThickness="0.8"
+                            CornerRadius="10"/>
+                    <StackPanel 
+                        Orientation="Vertical">
+                        
+                        <Separator Opacity="0" Height="2"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Name="tbYear"
+                                Text="Год"
+                                Foreground="Gray"
+                                Width="75"
+                                Padding="5,0"
+                                Style="{StaticResource DefText13}"
+                                MouseLeftButtonUp="TextBlock_MouseLeftButtonUp_2"
+                                MouseEnter="TextBlock_MouseEnter"
+                                MouseLeave="TextBlock_MouseLeave"/>
+
+                            <RadioButton 
+                                x:Name="rbtnChoseDateSalesAllYear"
+                                GroupName="rbtnsDashboardSalesAll"
+                                Style="{StaticResource RaddioButtonCheck}" 
+                                Width="8" Height="16" 
+                                IsChecked="True"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="-10,0,0,0">
+                                <RadioButton.Content>
+                                    <Image 
+                                        Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
+                                        RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Height="2"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                x:Name="tbMounth"
+                                Text="Месяц"
+                                Foreground="Gray"
+                                Width="75"
+                                Padding="5,0"
+                                Style="{StaticResource DefText13}"
+                                MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
+                                MouseEnter="TextBlock_MouseEnter_1"
+                                MouseLeave="TextBlock_MouseLeave_1"/>
+                            
+                            <RadioButton 
+                                x:Name="rbtnChoseDateSalesAllMounth"
+                                GroupName="rbtnsDashboardSalesAll"
+                                Style="{StaticResource RaddioButtonCheck}" 
+                                Width="8" Height="16" 
+                                IsChecked="False"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="-10,0,0,0">
+                                <RadioButton.Content>
+                                    <Image 
+                                        Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
+                                        RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </RadioButton.Content>
+                                
+                            </RadioButton>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Height="2"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Name="tbWeek"
+                                Text="Неделя"
+                                Foreground="Gray"
+                                Width="75"
+                                Padding="5,0"
+                                Style="{StaticResource DefText13}"
+                                MouseLeftButtonUp="TextBlock_MouseLeftButtonUp_1"
+                                MouseEnter="tbWeek_MouseEnter"
+                                MouseLeave="tbWeek_MouseLeave"/>
+
+                            <RadioButton 
+                                x:Name="rbtnChoseDateSalesAllWeek"
+                                GroupName="rbtnsDashboardSalesAll"
+                                Style="{StaticResource RaddioButtonCheck}" 
+                                Width="8" Height="16" 
+                                IsChecked="False"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="-10,0,0,0">
+                                <RadioButton.Content>
+                                    <Image 
+                                        Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
+                                        RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </StackPanel>
+                        
+                        <Separator Opacity="0" Height="2"/>
+
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
 
         <Grid
@@ -61,6 +227,52 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+            
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Лидеры продаж"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <StackPanel 
+                Orientation="Vertical"
+                Margin="20,77,0,0"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+                <TextBlock
+                    Style="{StaticResource TextZagolovokValueDashboard}"
+                    Text="Пример товара" MaxWidth="200"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"/>
+                
+                <Separator Opacity="0" Height="10"/>
+
+                <TextBlock
+                    Style="{StaticResource TextZagolovokValueDashboard}"
+                    Text="Доп. информация" MaxWidth="200"
+                    FontSize="13"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"/>
+            </StackPanel>
+
+            <customControls:CustomComboboxForChoseDateGray 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Panel.ZIndex="1"/>
+            
+            <Image
+                Source="/Resources/Images/Dashboards/productPrimer.png"
+                Height="95" Width="80"
+                Panel.ZIndex="0"
+                Stretch="Fill"
+                IsHitTestVisible="False"
+                IsEnabled="False"
+                VerticalAlignment="Top" HorizontalAlignment="Right"
+                Margin="0,50,20,0"
+                RenderOptions.BitmapScalingMode="HighQuality"/>
+
+
         </Grid>
 
         <Grid
@@ -73,6 +285,79 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Процент успешных сделок"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <StackPanel 
+                Orientation="Vertical"
+                Width=" 180" Height="75"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="20,73,0,0">
+
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    Height="33">
+                    
+                    <Border
+                        Background="White"
+                        CornerRadius="5"/>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        
+                        <Separator Opacity="0" Width="10"/>
+                        
+                        <Image 
+                            Source="/Resources/Images/Dashboards/DotGray.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                        
+                        <Separator Opacity="0" Width="10"/>
+                        
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            Text="0 завершенных сделок" MaxWidth="200"
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <Separator Opacity="0" Height="5"/>
+                
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    Height="33">
+                    
+                    <Border
+                        Background="White"
+                        CornerRadius="5"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Separator Opacity="0" Width="10"/>
+
+                        <Image 
+                            Source="/Resources/Images/Dashboards/DotWhite.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Separator Opacity="0" Width="10"/>
+
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            Text="0 отмененных сделок" MaxWidth="200"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                </Grid>
+
+            </StackPanel>
+
         </Grid>
 
         <Grid
@@ -85,6 +370,7 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+
         </Grid>
 
         <Grid

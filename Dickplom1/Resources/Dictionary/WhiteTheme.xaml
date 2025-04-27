@@ -51,6 +51,29 @@
     </Style>
     <!---->
 
+    <!--Стиль для заголовков дашбордов-->
+    <Style x:Key="TextZagolovokDashboard" TargetType="Label">
+        <Setter Property="Foreground" Value="#687183"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="15"/>
+    </Style>
+    <!---->
+
+    <!--Стиль для больших значений в дашбордах-->
+    <Style x:Key="TextZagolovokValueDashboard" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#687183"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="75"/>
+    </Style>
+    <!---->
+
+    <!--Стиль для combobox(псевдо из textblock) выбора дат и сортировок в дашбордах-->
+    <Style x:Key="TextComboboxDashboard" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#848484"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+    <!---->
 
     <!--Стиль для поисковика -->
     <Style x:Key="SearchStyle" TargetType="TextBox">
