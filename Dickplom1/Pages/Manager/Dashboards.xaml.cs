@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,22 +25,20 @@ namespace Dickplom1.Pages.Manager
         public Dashboards()
         {
             InitializeComponent();
+            List< Person> people = new List<Person>
+            {
+                new Person {Number = "№ 21321321", Name = "Сапожников В. И.", Status = "Выполняется"}
+            };
+            DataGridCustom.dg.ItemsSource = people;
 
-            List<Person> people = new List<Person>
-        {
-            new Person { Name = "Андрей", Name1 = "Андрей", Name2 = "Андрей"},
-            new Person { Name = "Алекс", Name1 = "Алекс", Name2 = "Алекс"},
-        };
-            dataGridControl.dg.ItemsSource = people;
         }
         public class Person
         {
+            public string Number { get; set; }
             public string Name { get; set; }
-            public string Name1 { get; set; }
-            public string Name2 { get; set; }
-
-            public int Age { get; set; }
+            public string Status { get; set; }
         }
+
         private void Page_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
