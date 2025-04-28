@@ -396,8 +396,13 @@
                     Width="100" 
                     VerticalAlignment="Center"
                     Margin="0,1,0,0"/>
-                
             </StackPanel>
+
+            <customControls:DataGridMaterialDesignCustom 
+                x:Name="dataGridControl"
+                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
 
         </Grid>
 

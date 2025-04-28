@@ -24,6 +24,21 @@ namespace Dickplom1.Pages.Manager
         public Dashboards()
         {
             InitializeComponent();
+
+            List<Person> people = new List<Person>
+        {
+            new Person { Name = "Андрей", Name1 = "Андрей", Name2 = "Андрей"},
+            new Person { Name = "Алекс", Name1 = "Алекс", Name2 = "Алекс"},
+        };
+            dataGridControl.dg.ItemsSource = people;
+        }
+        public class Person
+        {
+            public string Name { get; set; }
+            public string Name1 { get; set; }
+            public string Name2 { get; set; }
+
+            public int Age { get; set; }
         }
         private void Page_MouseDown(object sender, MouseButtonEventArgs e)
         {
