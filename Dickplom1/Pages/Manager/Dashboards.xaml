@@ -296,7 +296,7 @@
 
             <StackPanel 
                 Orientation="Vertical"
-                Width=" 180" Height="75"
+                Width=" 190" Height="75"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Margin="20,73,0,0">
 
@@ -370,6 +370,34 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Статусы заказов"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <StackPanel 
+                Orientation="Horizontal"
+                Height="15"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,22,50,0">
+                
+                <TextBlock
+                    Style="{StaticResource DefText13}"     
+                    Text="0/0 сделок завершено"    
+                    VerticalAlignment="Center"/>
+
+                <Separator Opacity="0" Width="25"/>
+
+                <customControls:ProgressBarGray
+                    Width="100" 
+                    VerticalAlignment="Center"
+                    Margin="0,1,0,0"/>
+                
+            </StackPanel>
 
         </Grid>
 
