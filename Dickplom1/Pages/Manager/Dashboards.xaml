@@ -377,6 +377,41 @@
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
 
+            <Grid 
+                HorizontalAlignment="Right"  
+                VerticalAlignment="Top"
+                Height="auto"
+                Width="auto"
+                Cursor="Hand"
+                Grid.Column="1"
+                Margin="0,66,0,0"
+                MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                <StackPanel 
+                    Orientation="Horizontal"
+                    Height="20"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right">
+                    <TextBlock
+                        Style="{StaticResource TextComboboxDashboard}"
+                        HorizontalAlignment="Stretch"
+                        Text="Сортировать"/>
+
+                    <Rectangle 
+                        Opacity="0"      
+                        Fill="Transparent" 
+                        Width="25"
+                        VerticalAlignment="Stretch"/>
+
+                    <Image 
+                        Source="/Resources/Images/MainWin/arrowDownGray.png"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        VerticalAlignment="Center"
+                        Name="ImgStatusDashboardSorting"
+                        Width="8"
+                        Margin="-10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+
             <Label
                 Grid.Column="1"
                 Style="{StaticResource TextZagolovokDashboard}"
@@ -406,14 +441,22 @@
                     Margin="0,1,0,0"/>
             </StackPanel>
 
-                
-                <customControls:DataGridMaterialDesignCustom
-                    x:Name="DataGridCustom"
-                    Grid.Column="1"
-                    VerticalAlignment="Top"
-                    Margin="0,110,0,0"
-                    HorizontalAlignment="Stretch"
-                    MinWidth="636"/>
+            <Border
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                CornerRadius="8"
+                Background="White"
+                Height="30"
+                Margin="0,110,0,0"/>
+            
+            <customControls:DataGridMaterialDesignCustom
+                Panel.ZIndex="1"
+                x:Name="DataGridCustom"
+                Grid.Column="1"
+                VerticalAlignment="Top"
+                Margin="0,110,0,0"
+                HorizontalAlignment="Stretch"/>
             
 
         </Grid>

@@ -27,7 +27,9 @@ namespace Dickplom1.Pages.Manager
             InitializeComponent();
             List< Person> people = new List<Person>
             {
-                new Person {Number = "№ 21321321", Name = "Сапожников В. И.", Status = "Выполняется"}
+                new Person {Number = "№ 21321321", Name = "Сапожников В. И.", Status = "Выполняется"},
+                new Person {Number = "№ 11321321", Name = "Аапожников В. И.", Status = "В процессе"},
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"}
             };
             DataGridCustom.dg.ItemsSource = people;
 
