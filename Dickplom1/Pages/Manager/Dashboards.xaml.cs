@@ -29,7 +29,12 @@ namespace Dickplom1.Pages.Manager
             {
                 new Person {Number = "№ 21321321", Name = "Сапожников В. И.", Status = "Выполняется"},
                 new Person {Number = "№ 11321321", Name = "Аапожников В. И.", Status = "В процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"}
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
+                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
+
             };
             DataGridCustom.dg.ItemsSource = people;
 
@@ -102,5 +107,14 @@ namespace Dickplom1.Pages.Manager
         {
             tbWeek.Opacity = 1;
         }
+
+        private void gridStatusSalesSorting_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            /*if (gridst.Visibility == Visibility.Collapsed)
+                Animations.MaximazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);
+            else
+                Animations.MinimazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);*/
+        }
+
     }
 }

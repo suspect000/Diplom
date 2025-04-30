@@ -378,6 +378,7 @@
                 HorizontalAlignment="Stretch"/>
 
             <Grid 
+                x:Name="gridStatusSalesSorting"
                 HorizontalAlignment="Right"  
                 VerticalAlignment="Top"
                 Height="auto"
@@ -385,7 +386,7 @@
                 Cursor="Hand"
                 Grid.Column="1"
                 Margin="0,66,0,0"
-                MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                MouseLeftButtonUp="gridStatusSalesSorting_MouseLeftButtonUp">
                 <StackPanel 
                     Orientation="Horizontal"
                     Height="20"
@@ -442,22 +443,52 @@
             </StackPanel>
 
             <Border
-                Grid.Column="1"
+    Grid.Column="1" Grid.ColumnSpan="2"
+        CornerRadius="8"
+    Width="640" Height="308"
+    Background="#FFDADADB"
+        HorizontalAlignment="Left"
+    Margin="0,0,10,15"
+        VerticalAlignment="Bottom"/>
+
+            <Border
+                Grid.Column="1" Grid.ColumnSpan="2"
+                    CornerRadius="8"
+                Width="675"
+                Background="Transparent"
+                    HorizontalAlignment="Left"
+                Margin="0,0,10,15"
+                    VerticalAlignment="Bottom">
+
+                <ScrollViewer
+                
+                Tag="MainContentScroll"
+                Width="auto"
+                Height="310"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                CornerRadius="8"
-                Background="White"
-                Height="30"
-                Margin="0,110,0,0"/>
-            
-            <customControls:DataGridMaterialDesignCustom
-                Panel.ZIndex="1"
-                x:Name="DataGridCustom"
-                Grid.Column="1"
-                VerticalAlignment="Top"
-                Margin="0,110,0,0"
-                HorizontalAlignment="Stretch"/>
-            
+
+                    Grid.Column="1" Grid.ColumnSpan="2"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource VerticalScrollViewer}"
+                CanContentScroll="True">
+
+                    <Grid>
+                        <Border
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    CornerRadius="8"
+                    Background="White"
+                    Height="30"/>
+                        <customControls:DataGridMaterialDesignCustom
+                    x:Name="DataGridCustom"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+
 
         </Grid>
 
