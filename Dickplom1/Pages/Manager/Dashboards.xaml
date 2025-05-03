@@ -436,6 +436,7 @@
 
                 <Separator Opacity="0" Width="25"/>
 
+                <!--Чтобы передать значение для прогрессбара нужно как-то обратиться к его Value и задать его значение. Минимум 10-->
                 <customControls:ProgressBarGray
                     Width="100" 
                     VerticalAlignment="Center"
@@ -494,6 +495,26 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+            
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Динамика продаж"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <Grid>
+                <Border
+                    CornerRadius="20"
+                    Background="White"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="355" Width="360"
+                    Margin="20,60,0,0"/>
+                
+                
+            </Grid>
         </Grid>
 
         <Grid
@@ -506,6 +527,109 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
+            
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                Content="Аналитика сотрудников"
+                Margin="20,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Padding="0"/>
+
+            <Border
+                    CornerRadius="20"
+                    Background="White"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="271" Width="272"
+                    Margin="20,80,0,0">
+                <Grid>
+                    <TextBlock
+                        Style="{DynamicResource DefText13}"
+                        Text="Лидер по KPI"
+                        Margin="20,20"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+                </Grid>
+            </Border>
+
+            <Border
+                    CornerRadius="20"
+                    Background="White"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="300" Width="178"
+                    Margin="322,49,0,0">
+                <Grid>
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="Конверсия клиентов"
+                        Margin="0,15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="0%"
+                        Margin="0,35"
+                        FontSize="37.5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="Неуспешные сделки"
+                        Margin="0,110"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="0%"
+                        Margin="0,130"
+                        FontSize="37.5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="Среднее время сделок"
+                        Margin="0,70"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Padding="0"/>
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        Text="0 ч"
+                        Margin="0,20"
+                        FontSize="37.5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Padding="0"/>
+                </Grid>
+            </Border>
+
+            <Border
+                    CornerRadius="20"
+                    Background="White"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="301" Width="560"
+                    Margin="530,49,0,0">
+                <Grid>
+                    <Label
+                        Style="{StaticResource TextZagolovokDashboard}"
+                        Content="Таблица сотрудников"
+                        Margin="20,20"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Padding="0"/>
+                </Grid>
+            </Border>
+
         </Grid>
     </Grid>
 </Page>
