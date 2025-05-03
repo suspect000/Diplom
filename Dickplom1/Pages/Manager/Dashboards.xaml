@@ -442,54 +442,46 @@
                     Margin="0,1,0,0"/>
             </StackPanel>
 
-            <Border
-    Grid.Column="1" Grid.ColumnSpan="2"
-        CornerRadius="8"
-    Width="640" Height="308"
-    Background="#FFDADADB"
-        HorizontalAlignment="Left"
-    Margin="0,0,10,15"
-        VerticalAlignment="Bottom"/>
 
-            <Border
+
+            <Grid 
                 Grid.Column="1" Grid.ColumnSpan="2"
-                    CornerRadius="8"
-                Width="675"
                 Background="Transparent"
-                    HorizontalAlignment="Left"
+                HorizontalAlignment="Stretch"
                 Margin="0,0,10,15"
-                    VerticalAlignment="Bottom">
+                VerticalAlignment="Bottom">
+                <Border
+                    Grid.Column="1" Grid.ColumnSpan="2"
+                    CornerRadius="8"
+                    Background="#FFDADADB"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,0,35,0"
+                    VerticalAlignment="Stretch"/>
 
                 <ScrollViewer
-                
-                Tag="MainContentScroll"
-                Width="auto"
-                Height="310"
-                HorizontalAlignment="Stretch"
-
+                    x:Name="MainContentScroll"
+                    Tag="MainContentScroll"
+                    Height="310"
+                    HorizontalAlignment="Stretch"
                     Grid.Column="1" Grid.ColumnSpan="2"
-                VerticalAlignment="Bottom"
-                Style="{StaticResource VerticalScrollViewer}"
-                CanContentScroll="True">
-
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource VerticalScrollViewer}"
+                    CanContentScroll="True">
                     <Grid>
                         <Border
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    CornerRadius="8"
-                    Background="White"
-                    Height="30"/>
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            CornerRadius="8"
+                            Background="White"
+                            Height="30"/>
                         <customControls:DataGridMaterialDesignCustom
-                    x:Name="DataGridCustom"
-                    Grid.Column="1"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"/>
+                            x:Name="DataGridCustom"
+                            PreviewMouseWheel="DataGridCustom_PreviewMouseWheel"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"/>
                     </Grid>
                 </ScrollViewer>
-            </Border>
-
-
+            </Grid>
         </Grid>
 
         <Grid

@@ -116,5 +116,20 @@ namespace Dickplom1.Pages.Manager
                 Animations.MinimazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);*/
         }
 
+        private void DataGridCustom_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // Проверяем, что событие еще не обработано
+            if (!e.Handled)
+            {
+                // Передаем событие прокрутки родительскому ScrollViewer
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+                {
+                    RoutedEvent = UIElement.MouseWheelEvent,
+                    Source = sender
+                };
+                MainContentScroll.RaiseEvent(eventArg);
+            }
+        }
     }
 }
