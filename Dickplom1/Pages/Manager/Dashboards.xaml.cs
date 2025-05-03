@@ -1,4 +1,5 @@
-﻿using Dickplom1.Class;
+﻿using CustomControlsForDiplomFramework;
+using Dickplom1.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,12 +39,35 @@ namespace Dickplom1.Pages.Manager
             };
             DataGridCustom.dg.ItemsSource = people;
 
+            List<Staff> staff = new List<Staff>
+            {
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "15 сделок", KPI="100% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Мл. Менеджер", Salles = "10 сделок", KPI="80% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "5 сделок", KPI="60% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "3 сделок", KPI="40% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
+
+
+
+            };
+            dgStaff.dgStaff.ItemsSource = staff;
+            
+            
+
         }
         public class Person
         {
             public string Number { get; set; }
             public string Name { get; set; }
             public string Status { get; set; }
+        }
+
+        public class Staff
+        {
+            public string FIO { get; set; }
+            public string Post { get; set; }
+            public string Salles { get; set; }
+            public string KPI { get; set; }
         }
 
         private void Page_MouseDown(object sender, MouseButtonEventArgs e)

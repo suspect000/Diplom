@@ -627,6 +627,18 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Padding="0"/>
+
+                    <Grid Width="500" Height="211"
+                          Margin="0,20" VerticalAlignment="Bottom">
+
+                        <Border CornerRadius="20" Background="Green">
+                            <customControls:DataGridMaterialDesignCustomForStaff 
+                                x:Name="dgStaff"
+                                BorderBrush="Red" BorderThickness="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Border>
 
