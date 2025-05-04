@@ -46,6 +46,9 @@ namespace Dickplom1.Pages.Manager
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "5 сделок", KPI="60% KPI"},
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "3 сделок", KPI="40% KPI"},
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
+                new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
+
 
 
 
@@ -142,10 +145,8 @@ namespace Dickplom1.Pages.Manager
 
         private void DataGridCustom_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            // Проверяем, что событие еще не обработано
             if (!e.Handled)
             {
-                // Передаем событие прокрутки родительскому ScrollViewer
                 e.Handled = true;
                 var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
                 {
@@ -153,6 +154,20 @@ namespace Dickplom1.Pages.Manager
                     Source = sender
                 };
                 MainContentScroll.RaiseEvent(eventArg);
+            }
+        }
+
+        private void dgStaff_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+                {
+                    RoutedEvent = UIElement.MouseWheelEvent,
+                    Source = sender
+                };
+                StaffContentScroll.RaiseEvent(eventArg);
             }
         }
     }
