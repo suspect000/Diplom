@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Dickplom1.Pages.Manager"
+      xmlns:local="clr-namespace:Dickplom1.Class"
       xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
       mc:Ignorable="d"
       d:DesignWidth="1195"
       Height="auto"
@@ -13,6 +14,10 @@
       RenderOptions.BitmapScalingMode="HighQuality"
       Title="Dashboards"
       MouseDown="Page_MouseDown">
+    <Page.DataContext>
+        <local:ViewModel/>
+    </Page.DataContext>
+    
 
     <Grid>
         <Grid.RowDefinitions>
@@ -37,8 +42,6 @@
             <ColumnDefinition Width="*" MinWidth="400" MaxWidth="772"/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
-
-        <Border></Border>
 
 
         <Grid
@@ -280,8 +283,13 @@
             Grid.Column="5"
             Grid.Row="1"
             HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
             <Border
+                Grid.ColumnSpan="4"
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
@@ -294,6 +302,12 @@
                 VerticalAlignment="Top"
                 Padding="0"/>
 
+            <customControls:CustomComboboxForChoseDateGray 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Panel.ZIndex="1"/>
+
             <StackPanel 
                 Orientation="Vertical"
                 Width=" 190" Height="75"
@@ -303,22 +317,22 @@
                 <Grid
                     HorizontalAlignment="Stretch"
                     Height="33">
-                    
+
                     <Border
                         Background="White"
                         CornerRadius="5"/>
-                    
+
                     <StackPanel Orientation="Horizontal">
-                        
+
                         <Separator Opacity="0" Width="10"/>
-                        
+
                         <Image 
                             Source="/Resources/Images/Dashboards/DotGray.png"
                             Width="10"
                             RenderOptions.BitmapScalingMode="HighQuality"/>
-                        
+
                         <Separator Opacity="0" Width="10"/>
-                        
+
                         <TextBlock
                             Style="{StaticResource DefText13}"
                             Text="0 завершенных сделок" MaxWidth="200"
@@ -329,11 +343,11 @@
                 </Grid>
 
                 <Separator Opacity="0" Height="5"/>
-                
+
                 <Grid
                     HorizontalAlignment="Stretch"
                     Height="33">
-                    
+
                     <Border
                         Background="White"
                         CornerRadius="5"/>
@@ -353,10 +367,25 @@
                             Text="0 отмененных сделок" MaxWidth="200"
                             VerticalAlignment="Center"/>
                     </StackPanel>
-                    
+
                 </Grid>
 
             </StackPanel>
+            <!--Попробуй засунуть ее в грид и поставить максимальную длинну -->
+            <lvc:PieChart
+                Grid.Column="1"
+                FontFamily="Proletarsk"
+                Height="130" Width="130"
+                Series="{Binding Series}"
+                InitialRotation="-90"
+                MinValue="0"
+                MaxValue="100"
+                Padding="0"    
+                Background="Red"
+                LegendPosition="Hidden"
+                HorizontalAlignment="Center"
+                Margin="{Binding ElementName=MainGrid, Path=ActualWidth}">
+            </lvc:PieChart>
 
         </Grid>
 

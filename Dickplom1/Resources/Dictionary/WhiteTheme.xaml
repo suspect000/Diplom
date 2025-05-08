@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:WPF="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
 
     <!--Цвета белой темы-->
     <SolidColorBrush x:Key="MainBackgroundColor" Color="White"/>
@@ -272,7 +273,7 @@
         </Setter>
     </Style>
     <!---->
-
+    
     <!--Стиль для Expander навигации Orders-->
     <Style x:Key="expanderNavOrders" TargetType="Expander">
         <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
@@ -503,5 +504,7 @@
         </Setter>
     </Style>
     <!---->
+
+    <!--Стиль для кругового графика (скругление)-->
 
 </ResourceDictionary>

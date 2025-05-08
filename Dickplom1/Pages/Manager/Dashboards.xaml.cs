@@ -1,5 +1,7 @@
 ﻿using CustomControlsForDiplomFramework;
 using Dickplom1.Class;
+using LiveChartsCore.SkiaSharpView.Extensions;
+using LiveChartsCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveChartsCore.SkiaSharpView;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -54,10 +57,17 @@ namespace Dickplom1.Pages.Manager
 
             };
             dgStaff.dgStaff.ItemsSource = staff;
-            
-            
 
-        }
+    }
+        public ISeries[] Series { get; set; }
+            = new ISeries[]
+            {
+                new PieSeries<double> { Values = new double[] { 2 } },
+                new PieSeries<double> { Values = new double[] { 4 } },
+                new PieSeries<double> { Values = new double[] { 1 } },
+                new PieSeries<double> { Values = new double[] { 4 } },
+                new PieSeries<double> { Values = new double[] { 3 } }
+            };
         public class Person
         {
             public string Number { get; set; }
