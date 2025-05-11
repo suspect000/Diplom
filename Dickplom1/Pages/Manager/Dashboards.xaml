@@ -284,7 +284,8 @@
             Grid.Row="1"
             HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="*" MinWidth="190" MaxWidth="195"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -295,6 +296,8 @@
                 HorizontalAlignment="Stretch"/>
 
             <Label
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 Style="{StaticResource TextZagolovokDashboard}"
                 Content="Процент успешных сделок"
                 Margin="20,20"
@@ -381,12 +384,78 @@
                 MinValue="0"
                 MaxValue="100"
                 Padding="0"    
-                Background="Red"
+                Background="Transparent"
                 LegendPosition="Hidden"
-                HorizontalAlignment="Center"
-                Margin="{Binding ElementName=MainGrid, Path=ActualWidth}">
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,20,5">
             </lvc:PieChart>
 
+            <StackPanel 
+                x:Name="spSuccessfulSalesDop"
+                Grid.Column="2"
+                Visibility="Visible"
+                Orientation="Vertical"
+                Width="255" Height="75"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,73,20,0">
+
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    Height="33">
+
+                    <Border
+                        Background="White"
+                        CornerRadius="5"/>
+                    
+                    <StackPanel Orientation="Horizontal">
+
+                        <Separator Opacity="0" Width="10"/>
+
+                        <Image 
+                
+                            Source="/Resources/Images/Dashboards/DotGray.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Separator Opacity="0" Width="10"/>
+
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            Text="Среднее время сделок - 0 дней" MaxWidth="220"
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </Grid>
+                
+                <Separator Opacity="0" Height="5"/>
+                
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    Height="33">
+                    <Border
+                        Background="White"
+                        CornerRadius="5"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Separator Opacity="0" Width="10"/>
+
+                        <Image 
+                
+                            Source="/Resources/Images/Dashboards/DotGray.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Separator Opacity="0" Width="10"/>
+                        
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            Text="Лидер по продажам - Ростелеком" MaxWidth="220"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
 
         <Grid
