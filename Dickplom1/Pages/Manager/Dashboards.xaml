@@ -13,7 +13,8 @@
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
       Title="Dashboards"
-      MouseDown="Page_MouseDown">
+      MouseDown="Page_MouseDown"
+      SizeChanged="Page_SizeChanged">
     <Page.DataContext>
         <local:ViewModel/>
     </Page.DataContext>
@@ -374,7 +375,7 @@
                 </Grid>
 
             </StackPanel>
-            <!--Попробуй засунуть ее в грид и поставить максимальную длинну -->
+            
             <lvc:PieChart
                 Grid.Column="1"
                 FontFamily="Proletarsk"
@@ -395,6 +396,7 @@
                 x:Name="spSuccessfulSalesDop"
                 Grid.Column="2"
                 Visibility="Visible"
+                Opacity="0"
                 Orientation="Vertical"
                 Width="255" Height="75"
                 HorizontalAlignment="Right" VerticalAlignment="Top"
@@ -588,8 +590,14 @@
             Grid.Column="5"
             Grid.Row="3"
             HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
             <Border
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
@@ -602,16 +610,136 @@
                 VerticalAlignment="Top"
                 Padding="0"/>
 
-            <Grid>
+            <Grid Grid.Column="0">
                 <Border
                     CornerRadius="20"
                     Background="White"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Height="355" Width="360"
-                    Margin="20,60,0,0"/>
+                    Margin="20,60,0,0">
+                    <Grid>
+
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            Margin="20,0,0,0"
+                            HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <TextBlock
+                                x:Name="tbDynamicSalesValue"
+                                Text="0"
+                                Style="{DynamicResource TextZagolovokValueDashboard}"/>
+
+                            <TextBlock
+                                x:Name="tbDynamicSalesValueSalesOfChosenDate"
+                                Text="продаж за месяц"
+                                Style="{DynamicResource DefText15}"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="20,0,0,0"/>
+                        </StackPanel>
+
+                        <Grid 
+                            Height="33"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                            Margin="0,100,0,0">
+
+
+                            <TextBlock
+                                x:Name="btnDynamicSalesChoseWeek"
+                                Text="Неделя"
+                                Style="{DynamicResource DefText15}"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Margin="25,0"/>
+
+
+                            <TextBlock
+                                x:Name="btnDynamicSalesChoseMounth"
+                                Text="Месяц"
+                                Style="{DynamicResource DefText15}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+                            <TextBlock
+                                x:Name="btnDynamicSalesChoseYear"
+                                Text="Год"
+                                Style="{DynamicResource DefText15}"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="25,0"/>
+                        </Grid>
+                        <lvc:CartesianChart
+                            Height="205"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Stretch"
+                            Margin="15,0,15,15"
+                            Series="{Binding SeriesDynamicSales}"
+                            XAxes="{Binding XAxesDynamicSales}">
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="0,90,0,0">
+                    
+                    <StackPanel Orientation="Horizontal">
+                    <Image 
+                        Source="/Resources/Images/Dashboards/DotGray.png"
+                        Width="10"
+                        RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                    <Separator Opacity="0" Width="10"/>
+
+                    <TextBlock
+                        Style="{StaticResource DefText13}"
+                        FontSize="11"
+                        Text="Средний чек - " MaxWidth="255"
+                        VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Separator Opacity="0" Height="15"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Image 
+                            Source="/Resources/Images/Dashboards/DotGray.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Separator Opacity="0" Width="10"/>
+
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            FontSize="11"
+                            Text="На 0% больше продаж чем в прошлом месяце" MaxWidth="255"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <Separator Opacity="0" Height="15"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Image 
+                            Source="/Resources/Images/Dashboards/DotGray.png"
+                            Width="10"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Separator Opacity="0" Width="10"/>
+
+                        <TextBlock
+                            Style="{StaticResource DefText13}"
+                            FontSize="11"
+                            Text="День с максимальным числом продаж - 23.12.25" MaxWidth="255"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
                 
-                
+                <Border
+                    CornerRadius="20"
+                    Background="White"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Height="220" Width="280"
+                    Margin="0,195,0,0"/>
+
             </Grid>
         </Grid>
 

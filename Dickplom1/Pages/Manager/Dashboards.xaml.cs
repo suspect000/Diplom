@@ -51,14 +51,10 @@ namespace Dickplom1.Pages.Manager
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
                 new Staff {FIO = "Сапожников В. И.", Post = "Менеджер", Salles = "1 сделок", KPI="20% KPI"},
-
-
-
-
             };
             dgStaff.dgStaff.ItemsSource = staff;
 
-    }
+        }
         public ISeries[] Series { get; set; }
             = new ISeries[]
             {
@@ -91,9 +87,9 @@ namespace Dickplom1.Pages.Manager
         private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (gridSalesAllChoseDate.Visibility == Visibility.Collapsed)
-                Animations.MaximazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);
+                Dickplom1.Class.Animations.MaximazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);
             else
-                Animations.MinimazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);
+                Dickplom1.Class.Animations.MinimazedReports(ImgReportsArrowDown, gridSalesAllChoseDate);
         }
 
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -179,6 +175,30 @@ namespace Dickplom1.Pages.Manager
                 };
                 StaffContentScroll.RaiseEvent(eventArg);
             }
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (this.ActualWidth >= 1545)
+            {
+                if (spSuccessfulSalesDop.Opacity == 1)
+                {
+                    return;
+                }
+                else
+                    Dickplom1.Class.Animations.OpacityAnimation(spSuccessfulSalesDop, spSuccessfulSalesDop.Opacity, 1, 0.3);
+
+            }
+            if (this.ActualWidth <= 1545)
+            {
+                if (spSuccessfulSalesDop.Opacity == 0)
+                {
+                    return;
+                }
+                else
+                    Dickplom1.Class.Animations.OpacityAnimation(spSuccessfulSalesDop, spSuccessfulSalesDop.Opacity, 0, 0.3);
+            }
+
         }
     }
 }
