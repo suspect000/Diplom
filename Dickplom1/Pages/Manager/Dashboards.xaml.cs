@@ -1,23 +1,10 @@
-﻿using CustomControlsForDiplomFramework;
-using Dickplom1.Class;
-using LiveChartsCore.SkiaSharpView.Extensions;
-using LiveChartsCore;
-using System;
+﻿using LiveChartsCore;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LiveChartsCore.SkiaSharpView;
+using Dickplom1.Class;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -199,6 +186,67 @@ namespace Dickplom1.Pages.Manager
                     Dickplom1.Class.Animations.OpacityAnimation(spSuccessfulSalesDop, spSuccessfulSalesDop.Opacity, 0, 0.3);
             }
 
+        }
+
+        private void btnDynamicSalesChoseMounth_MouseEnter(object sender, MouseEventArgs e)
+        {
+                
+                Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseMounth, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
+        }
+
+        private void btnDynamicSalesChoseMounth_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseMounth, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
+        }
+
+        private void btnDynamicSalesChoseWeek_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseWeek, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
+        }
+
+        private void btnDynamicSalesChoseWeek_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseWeek, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
+        }
+
+        private void btnDynamicSalesChoseYear_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseYear, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
+        }
+
+        private void btnDynamicSalesChoseYear_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseYear, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
+
+        }
+
+        private void btnDynamicSalesChoseYear_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ChartDynamicSales.XAxes = null;
+            ChartDynamicSales.Series = null;
+            var charts = this.DataContext as Dickplom1.Class.Charts;
+            if (charts != null)
+            {
+                charts.UpdateXAxis("Год");
+            }
+        }
+
+        private void btnDynamicSalesChoseMounth_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var charts = this.DataContext as Dickplom1.Class.Charts;
+            if (charts != null)
+            {
+                charts.UpdateXAxis("Месяц");
+            }
+        }
+
+        private void btnDynamicSalesChoseWeek_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var charts = this.DataContext as Dickplom1.Class.Charts;
+            if (charts != null)
+            {
+                charts.UpdateXAxis("Неделя");
+            }
         }
     }
 }

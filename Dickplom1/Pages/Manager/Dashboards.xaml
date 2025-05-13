@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Dickplom1.Class"
       xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
       xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+      xmlns:local="clr-namespace:Dickplom1.Class"
       mc:Ignorable="d"
       d:DesignWidth="1195"
       Height="auto"
@@ -16,7 +16,7 @@
       MouseDown="Page_MouseDown"
       SizeChanged="Page_SizeChanged">
     <Page.DataContext>
-        <local:ViewModel/>
+        <local:Charts/>
     </Page.DataContext>
     
 
@@ -648,6 +648,10 @@
                                 Text="Неделя"
                                 Style="{DynamicResource DefText15}"
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Cursor="Hand"
+                                MouseEnter="btnDynamicSalesChoseWeek_MouseEnter"
+                                MouseLeave="btnDynamicSalesChoseWeek_MouseLeave"
+                                MouseLeftButtonDown="btnDynamicSalesChoseWeek_MouseLeftButtonDown"
                                 Margin="25,0"/>
 
 
@@ -655,7 +659,11 @@
                                 x:Name="btnDynamicSalesChoseMounth"
                                 Text="Месяц"
                                 Style="{DynamicResource DefText15}"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Cursor="Hand"
+                                MouseEnter="btnDynamicSalesChoseMounth_MouseEnter"
+                                MouseLeave="btnDynamicSalesChoseMounth_MouseLeave"
+                                MouseLeftButtonDown="btnDynamicSalesChoseMounth_MouseLeftButtonDown"/>
 
 
                             <TextBlock
@@ -663,9 +671,14 @@
                                 Text="Год"
                                 Style="{DynamicResource DefText15}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Cursor="Hand"
+                                MouseEnter="btnDynamicSalesChoseYear_MouseEnter"
+                                MouseLeave="btnDynamicSalesChoseYear_MouseLeave"
+                                MouseLeftButtonDown="btnDynamicSalesChoseYear_MouseLeftButtonDown"
                                 Margin="25,0"/>
                         </Grid>
                         <lvc:CartesianChart
+                            x:Name="ChartDynamicSales"
                             Height="205"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Stretch"
@@ -710,7 +723,8 @@
                         <TextBlock
                             Style="{StaticResource DefText13}"
                             FontSize="11"
-                            Text="На 0% больше продаж чем в прошлом месяце" MaxWidth="255"
+                            Text="На 0% больше продаж чем в прошлом месяце" 
+                            MaxWidth="255"
                             VerticalAlignment="Center"/>
                     </StackPanel>
                     
@@ -727,18 +741,109 @@
                         <TextBlock
                             Style="{StaticResource DefText13}"
                             FontSize="11"
-                            Text="День с максимальным числом продаж - 23.12.25" MaxWidth="255"
+                            Text="День с максимальным числом продаж - -" 
+                            MaxWidth="255"
                             VerticalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <Border
                     CornerRadius="20"
                     Background="White"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Height="220" Width="280"
-                    Margin="0,195,0,0"/>
+                    Margin="0,195,0,0">
+
+                    <Grid>
+                        <StackPanel 
+                            Orientation="Vertical"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="20,20,0,0">
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Foreground="Gray"
+                                Text="Всего позиций" 
+                                MaxWidth="255"
+                                VerticalAlignment="Center"/>
+
+                            <Separator Opacity="0" Height="5"/>
+
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Text="0" 
+                                MaxWidth="255"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                        <StackPanel 
+                            Orientation="Vertical"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="0,20,20,0">
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Foreground="Gray"
+                                Text="Дата" 
+                                MaxWidth="255"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+
+                            <Separator Opacity="0" Height="5"/>
+
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Text="00:00:00" 
+                                MaxWidth="255"
+                                TextWrapping="NoWrap"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top"
+                              Margin="0,75,0,0"
+                              Width="200"
+                              Height="auto">
+
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Foreground="Gray"
+                                Text="Позиции" 
+                                MaxWidth="255"
+                                TextWrapping="NoWrap"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"/>
+
+                            <TextBlock
+                                Style="{StaticResource DefText15}"
+                                FontSize="11"
+                                Foreground="Gray"
+                                Text="Ничего не выбрано" 
+                                MaxWidth="255"
+                                TextWrapping="WrapWithOverflow"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"
+                                Margin="0,30,0,0" LineHeight="20"/>
+
+
+                        </Grid>
+                        
+                        <Separator Width="230" Height="0.5"
+                                   HorizontalAlignment="Center" VerticalAlignment="Top"
+                                   Margin="0,90,0,0"/>
+
+
+
+                    </Grid>
+
+                </Border>
 
             </Grid>
         </Grid>

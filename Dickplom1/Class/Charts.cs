@@ -1,27 +1,21 @@
-﻿using LiveChartsCore;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.Painting;
+﻿using Dickplom1.Pages.Manager;
+using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.SkiaSharpView.VisualElements;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
 using System.Linq;
-using System.Windows.Media;
+using System.Net.NetworkInformation;
 
 namespace Dickplom1.Class
 {
-    public class ViewModel
+    public class Charts
     {
-        public ViewModel()
+        public Charts() 
         {
             UpdateXAxis("Месяц");
         }
-
         //Настройки графика пирога для соотношения выполненных заказов
         public IEnumerable<ISeries> Series { get; set; } =
         new List<ISeries>
@@ -81,9 +75,9 @@ namespace Dickplom1.Class
                 {
                     Labels = GenerateXAxisLabels(selectedPeriod),
                     LabelsRotation = 0
-                    }
-                };
-            }
+                }
+            };
+        }
 
         //Метод для генерации генерации чисел и передачи их в AxisX исходя из того какой радиобатон выбра (неделя, месяц, год)
         public string[] GenerateXAxisLabels(string period)
