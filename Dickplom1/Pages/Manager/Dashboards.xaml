@@ -889,6 +889,44 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Padding="0"/>
+
+
+                    <Grid 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Top"
+                        Margin="0,60,0,0">
+                        <Image x:Name="imgStaffLidBackground"
+                               Stretch="Fill"
+                               Width="212" Height="181"
+                               Source="/Resources/Images/Dashboards/Sidny.png">
+                            <Image.Clip>
+                                <RectangleGeometry Rect="0,0,212,181" RadiusX="20" RadiusY="20"/>
+                            </Image.Clip>
+                            <Image.Effect>
+                                <BlurEffect Radius="50" KernelType="Gaussian" RenderingBias="Quality" />
+                            </Image.Effect>
+                        </Image>
+
+                        <Border 
+                            Width="180" Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="20"
+                            x:Name="ImageContainer">
+                            <Border.Clip>
+                                <RectangleGeometry Rect="0,0,180,150" RadiusX="20" RadiusY="20"/>
+                            </Border.Clip>
+
+                            <Image 
+                                x:Name="imgStaffLid"
+                                Stretch="Fill"
+                                
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Source="/Resources/Images/Dashboards/Sidny.png"/>
+                        </Border>
+
+                    </Grid>
+
                 </Grid>
             </Border>
 
