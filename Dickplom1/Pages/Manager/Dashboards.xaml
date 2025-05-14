@@ -14,6 +14,7 @@
       RenderOptions.BitmapScalingMode="HighQuality"
       Title="Dashboards"
       MouseDown="Page_MouseDown"
+      Loaded="Page_Loaded"
       SizeChanged="Page_SizeChanged">
     <Page.DataContext>
         <local:Charts/>

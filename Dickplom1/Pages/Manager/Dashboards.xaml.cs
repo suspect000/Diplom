@@ -315,5 +315,15 @@ namespace Dickplom1.Pages.Manager
                 }
             }
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Xml;
 using Dickplom1.Class;
+using Dickplom1.Pages.Manager;
 
 
 namespace Dickplom1
