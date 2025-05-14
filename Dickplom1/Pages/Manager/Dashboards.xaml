@@ -18,7 +18,7 @@
     <Page.DataContext>
         <local:Charts/>
     </Page.DataContext>
-    
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -80,18 +80,18 @@
                 Cursor="Hand"
                 Margin="0,20,20,0"
                 MouseLeftButtonUp="Grid_MouseLeftButtonUp">
-                
+
                 <StackPanel 
                     Orientation="Horizontal"
                     Height="20"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right">
-                    
+
                     <TextBlock
                         Name="tbSalesAllChosenDate"
                         Style="{StaticResource TextComboboxDashboard}"
                         Text="за год"/>
-                    
+
                     <Rectangle 
                         Opacity="0"      
                         Fill="Transparent" 
@@ -115,14 +115,14 @@
                       HorizontalAlignment="Right"
                       VerticalAlignment="Top"
                       Visibility="Collapsed">
-                    
+
                     <Border Background="White"
                             BorderBrush="{StaticResource SelectedBorder}"
                             BorderThickness="0.8"
                             CornerRadius="10"/>
                     <StackPanel 
                         Orientation="Vertical">
-                        
+
                         <Separator Opacity="0" Height="2"/>
 
                         <StackPanel Orientation="Horizontal">
@@ -166,7 +166,7 @@
                                 MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
                                 MouseEnter="TextBlock_MouseEnter_1"
                                 MouseLeave="TextBlock_MouseLeave_1"/>
-                            
+
                             <RadioButton 
                                 x:Name="rbtnChoseDateSalesAllMounth"
                                 GroupName="rbtnsDashboardSalesAll"
@@ -180,7 +180,7 @@
                                         Source="/Resources/Images/MainWin/MiniProfile/ImgCheck.png"
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </RadioButton.Content>
-                                
+
                             </RadioButton>
                         </StackPanel>
 
@@ -213,7 +213,7 @@
                                 </RadioButton.Content>
                             </RadioButton>
                         </StackPanel>
-                        
+
                         <Separator Opacity="0" Height="2"/>
 
                     </StackPanel>
@@ -231,7 +231,7 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
-            
+
             <Label
                 Style="{StaticResource TextZagolovokDashboard}"
                 Content="Лидеры продаж"
@@ -250,7 +250,7 @@
                     FontSize="20"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"/>
-                
+
                 <Separator Opacity="0" Height="10"/>
 
                 <TextBlock
@@ -264,7 +264,7 @@
             <customControls:CustomComboboxForChoseDateGray 
                 HorizontalAlignment="Right" VerticalAlignment="Top"
                 Panel.ZIndex="1"/>
-            
+
             <Image
                 Source="/Resources/Images/Dashboards/productPrimer.png"
                 Height="95" Width="80"
@@ -375,7 +375,7 @@
                 </Grid>
 
             </StackPanel>
-            
+
             <lvc:PieChart
                 Grid.Column="1"
                 FontFamily="Proletarsk"
@@ -409,7 +409,7 @@
                     <Border
                         Background="White"
                         CornerRadius="5"/>
-                    
+
                     <StackPanel Orientation="Horizontal">
 
                         <Separator Opacity="0" Width="10"/>
@@ -430,9 +430,9 @@
                     </StackPanel>
 
                 </Grid>
-                
+
                 <Separator Opacity="0" Height="5"/>
-                
+
                 <Grid
                     HorizontalAlignment="Stretch"
                     Height="33">
@@ -450,7 +450,7 @@
                             RenderOptions.BitmapScalingMode="HighQuality"/>
 
                         <Separator Opacity="0" Width="10"/>
-                        
+
                         <TextBlock
                             Style="{StaticResource DefText13}"
                             Text="Лидер по продажам - Ростелеком" MaxWidth="220"
@@ -601,7 +601,7 @@
                 CornerRadius="20"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
-            
+
             <Label
                 Style="{StaticResource TextZagolovokDashboard}"
                 Content="Динамика продаж"
@@ -694,16 +694,16 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             Margin="0,90,0,0">
-                    
+
                     <StackPanel Orientation="Horizontal">
-                    <Image 
+                        <Image 
                         Source="/Resources/Images/Dashboards/DotGray.png"
                         Width="10"
                         RenderOptions.BitmapScalingMode="HighQuality"/>
 
-                    <Separator Opacity="0" Width="10"/>
+                        <Separator Opacity="0" Width="10"/>
 
-                    <TextBlock
+                        <TextBlock
                         Style="{StaticResource DefText13}"
                         FontSize="11"
                         Text="Средний чек - " MaxWidth="255"
@@ -727,7 +727,7 @@
                             MaxWidth="255"
                             VerticalAlignment="Center"/>
                     </StackPanel>
-                    
+
                     <Separator Opacity="0" Height="15"/>
 
                     <StackPanel Orientation="Horizontal">
@@ -834,7 +834,7 @@
 
 
                         </Grid>
-                        
+
                         <Separator Width="230" Height="0.5"
                                    HorizontalAlignment="Center" VerticalAlignment="Top"
                                    Margin="0,90,0,0"/>
@@ -864,7 +864,7 @@
                 Grid.ColumnSpan="3"
                 Background="{StaticResource PlitkaBackground}"
                 HorizontalAlignment="Stretch"/>
-            
+
             <Label
                 Style="{StaticResource TextZagolovokDashboard}"
                 Content="Аналитика сотрудников"
@@ -895,36 +895,107 @@
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Top"
                         Margin="0,60,0,0">
+                        <Grid.Effect>
+                            <DropShadowEffect 
+                                Color="Black" 
+                                ShadowDepth="15"
+                                BlurRadius="30"
+                                Direction="270"/>
+                        </Grid.Effect>
                         <Image x:Name="imgStaffLidBackground"
                                Stretch="Fill"
                                Width="212" Height="181"
-                               Source="/Resources/Images/Dashboards/Sidny.png">
+                               Source="/Resources/Images/Dashboards/peopleStaff.jpg">
                             <Image.Clip>
                                 <RectangleGeometry Rect="0,0,212,181" RadiusX="20" RadiusY="20"/>
                             </Image.Clip>
                             <Image.Effect>
-                                <BlurEffect Radius="50" KernelType="Gaussian" RenderingBias="Quality" />
+                                <BlurEffect Radius="50" KernelType="Gaussian" RenderingBias="Quality"/>
                             </Image.Effect>
                         </Image>
 
-                        <Border 
-                            Width="180" Height="150"
+
+                        <Image     
+                            x:Name="imgStaffLid"
+                            Stretch="Uniform"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            CornerRadius="20"
-                            x:Name="ImageContainer">
-                            <Border.Clip>
-                                <RectangleGeometry Rect="0,0,180,150" RadiusX="20" RadiusY="20"/>
-                            </Border.Clip>
+                            Height="150"
+                            MaxWidth="190"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Loaded="imgStaffLid_Loaded"
+                            Source="/Resources/Images/Dashboards/peopleStaff.jpg"/>
 
-                            <Image 
-                                x:Name="imgStaffLid"
-                                Stretch="Fill"
-                                
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Source="/Resources/Images/Dashboards/Sidny.png"/>
+                        <Rectangle x:Name="rectStaffLidBlur" Height="75" ClipToBounds="True" Margin="0,106,0,0">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="1"/>
+                                    <GradientStop Color="#053D3D3D" Offset="0"/>
+                                    <GradientStop Color="#0A3C3C3C" Offset="0.056"/>
+                                    <GradientStop Color="#113B3B3B" Offset="0.113"/>
+                                    <GradientStop Color="#19373737" Offset="0.165"/>
+                                    <GradientStop Color="#23353535" Offset="0.216"/>
+                                    <GradientStop Color="#66323232" Offset="0.273"/>
+                                    <GradientStop Color="#7F2F2F2F" Offset="0.325"/>
+                                    <GradientStop Color="#7F2C2C2C" Offset="0.381"/>
+                                    <GradientStop Color="#A5282828" Offset="0.494"/>
+                                    <GradientStop Color="#B2232323" Offset="0.576"/>
+                                    <GradientStop Color="#BF1E1E1E" Offset="0.649"/>
+                                    <GradientStop Color="#CC181717" Offset="0.745"/>
+                                    <GradientStop Color="#D8111111" Offset="0.848"/>
+                                    <GradientStop Color="#F2090909" Offset="0.926"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                            <Rectangle.Effect>
+                                <BlurEffect Radius="10"/>
+                            </Rectangle.Effect>
+                            <Rectangle.Clip>
+                                <RectangleGeometry Rect="0,0,212,75" RadiusX="20" RadiusY="20"/>
+                            </Rectangle.Clip>
+                        </Rectangle>
+                        <TextBlock
+                            x:Name="tbStaffLidName"
+                            Style="{DynamicResource DefText13}"
+                            Foreground="White"
+                            Text="-"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Loaded="tbStaffLidName_Loaded"
+                            Margin="10,0,0,28"/>
+                        
+                        <TextBlock
+                            x:Name="tbStaffLidPost"
+                            Style="{DynamicResource DefText13}"
+                            Foreground="Gray"
+                            Text="-"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            MaxWidth="125"
+                            Loaded="tbStaffLidPost_Loaded"
+                            Margin="10,0,0,10"/>
+
+                        <Border 
+                            BorderBrush="#C3C3C3"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Width="48"
+                            Height="20"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,10,15">
+
+                            <TextBlock
+                                x:Name="tbStaffLidKPI"
+                                Style="{DynamicResource DefText13}"
+                                Foreground="#C3C3C3"
+                                Text="-%"
+                                MaxWidth="30"
+                                Padding="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+
                         </Border>
-
+                        
                     </Grid>
 
                 </Grid>

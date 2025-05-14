@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using LiveChartsCore.SkiaSharpView;
 using Dickplom1.Class;
+using System.Windows.Media;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -246,6 +247,72 @@ namespace Dickplom1.Pages.Manager
             if (charts != null)
             {
                 charts.UpdateXAxis("Неделя");
+            }
+        }
+
+        private void imgStaffLid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var image = sender as Image;
+            
+            var cornerRadius = 20.0;
+            var clipRect = new RectangleGeometry
+            {
+                Rect = new Rect(0, 0, image.ActualWidth, image.ActualHeight),
+                RadiusX = cornerRadius,
+                RadiusY = cornerRadius
+            };
+
+            image.Clip = clipRect;
+        }
+
+        private void tbStaffLidName_Loaded(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBlock;
+
+            if (tb != null)
+            {
+                double maxWidth = 136;
+
+                if (tb.ActualWidth > maxWidth)
+                {
+                    string[] parts = tb.Text.Split(' ');
+
+                    if (parts.Length >= 2)
+                    {
+                        string firstInitial = parts[0].Substring(0, 1) + ".";
+                        string lastName = parts[1];
+
+                        tb.Text = $"{firstInitial} {lastName}";
+                    }
+                }
+            }
+                
+        }
+
+        private void tbStaffLidPost_Loaded(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBlock;
+
+            if (tb != null)
+            {
+                double maxWidth = 136;
+
+                if (tb.ActualWidth > maxWidth)
+                {
+                    string[] parts = tb.Text.Split(' ');
+
+                    if (parts.Length >= 2)
+                    {
+                        string firstInitial = parts[0].Substring(0, 1) + ".";
+                        string lastName = parts[1];
+
+                        tb.Text = $"{firstInitial} {lastName}";
+                    }
+                    else
+                    {
+                        tb.Text = tb.Text.Remove(1, tb.Text.Length - 1) + ".";
+                    }
+                }
             }
         }
     }
