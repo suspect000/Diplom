@@ -126,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\Manager\ClientsNaturalPersons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Manager\Dashboards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -149,6 +153,9 @@
     <Compile Include="Class\Animations.cs" />
     <Compile Include="Class\Charts.cs" />
     <Compile Include="Class\Musor.cs" />
+    <Compile Include="Pages\Manager\ClientsNaturalPersons.xaml.cs">
+      <DependentUpon>ClientsNaturalPersons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Manager\Dashboards.xaml.cs">
       <DependentUpon>Dashboards.xaml</DependentUpon>
     </Compile>

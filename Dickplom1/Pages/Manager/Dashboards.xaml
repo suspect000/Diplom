@@ -12,7 +12,6 @@
       MinHeight="820" 
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
-      Title="Dashboards"
       MouseDown="Page_MouseDown"
       Loaded="Page_Loaded"
       SizeChanged="Page_SizeChanged">

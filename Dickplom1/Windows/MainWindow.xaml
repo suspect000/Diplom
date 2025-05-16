@@ -299,7 +299,7 @@
                     Orientation="Vertical"
                     Height="auto"
                     Margin="0,0,0,0"
-                    Visibility="Collapsed">
+                    Visibility="Visible">
 
                     <Separator Opacity="0" Height="15"/>
 
@@ -340,8 +340,8 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Клиенты пример"
-                                Style="{StaticResource DefText14}"
+                                Text="Физические лица"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
@@ -387,8 +387,8 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Клиенты пример"
-                                Style="{StaticResource DefText14}"
+                                Text="Юридические лица"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
@@ -486,7 +486,7 @@
 
                             <TextBlock 
                                 Text="Редактирование"
-                                Style="{StaticResource DefText14}"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
@@ -533,7 +533,7 @@
 
                             <TextBlock 
                                 Text="Статусы"
-                                Style="{StaticResource DefText14}"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
@@ -569,7 +569,7 @@
                             Margin="10,0,0,0"/>
 
                         <TextBlock 
-                            Text="Услуги"
+                            Text="Подписки"
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
                             Margin="20,0,0,0"/>
@@ -580,7 +580,7 @@
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="10"
                             VerticalAlignment="Center"
-                            Margin="99.2,0"/>
+                            Margin="81,0"/>
                     </StackPanel>
                 </Grid>
 
@@ -630,8 +630,8 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Пример услуги"
-                                Style="{StaticResource DefText14}"
+                                Text="Для физ. лиц"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
@@ -677,8 +677,8 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Пример услуги"
-                                Style="{StaticResource DefText14}"
+                                Text="Для юр. лиц"
+                                Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
 
