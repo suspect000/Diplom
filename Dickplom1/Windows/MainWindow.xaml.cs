@@ -24,12 +24,11 @@ namespace Dickplom1
         {
             InitializeComponent();
 
-            MainFrame.Navigate(new Pages.Manager.ClientsNaturalPersons());
+            MainFrameScrollOff.Navigate(new Pages.Manager.ClientsNaturalPersons());
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            HidenRect.Focus();
 
             if (gridSelectReportsToMake.Visibility == Visibility.Visible)
             {

@@ -12,7 +12,6 @@ namespace Dickplom1.Class
 {
     public class Animations
     {
-
         //Методы для разворачивания/сворачивания топиков в навигации
         public static void MaximazedNavTopics(StackPanel stackPanelItems, Image imgArrow)
         {

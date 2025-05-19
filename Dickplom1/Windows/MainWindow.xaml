@@ -30,14 +30,6 @@
         </Grid.RowDefinitions>
 
         <!--Header-->
-        <Rectangle x:Name="HidenRect"
-                   Fill="Transparent"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Top"
-                   Height="30" 
-                   Focusable="True"
-                   Grid.ColumnSpan="7"/>
-
         <Image 
             Name="Logo"
             Width="150" Height="auto"
@@ -299,7 +291,7 @@
                     Orientation="Vertical"
                     Height="auto"
                     Margin="0,0,0,0"
-                    Visibility="Visible">
+                    Visibility="Collapsed">
 
                     <Separator Opacity="0" Height="15"/>
 
@@ -1079,29 +1071,17 @@
 
         </Grid>
         <!--/Минипрофиль-->
-        
-        <Border CornerRadius="20"
-        Grid.Column="3" Grid.Row="1"
-        VerticalAlignment="Stretch"
-        Height="auto">
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterX="0.5" CenterY="0.5"/>
-                            <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#F6F6F8" Offset="1"/>
-                    <GradientStop Color="#F6F6F8" Offset="0"/>
-                    <GradientStop Color="#FFFEFEFE" Offset="0.5"/>
-                </LinearGradientBrush>
-            </Border.Background>
+
+        <Border 
+            CornerRadius="20"
+            Grid.Column="3" Grid.Row="1"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource OtherBackground}"
+            Height="auto">
         </Border>
 
         <ScrollViewer
+                x:Name="scrollMainWin"
                 Grid.Column="3" Grid.ColumnSpan="2"
                 Tag="MainContentScroll"
                 Grid.Row="1" 
@@ -1121,6 +1101,16 @@
                 MinHeight="800"/>
 
         </ScrollViewer>
+
+        <Frame
+            x:Name="MainFrameScrollOff"
+            VerticalAlignment="Stretch"
+            MinWidth="1195"
+            NavigationUIVisibility="Hidden"
+            MinHeight="800"
+            Grid.Row="1"
+            Grid.Column="3"
+            HorizontalAlignment="Stretch"/>
 
         <!--Основное наполнение-->
 
