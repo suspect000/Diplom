@@ -126,9 +126,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\Manager\ClientsLegalEntities.xaml.cs">
+      <DependentUpon>ClientsLegalEntities.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\ClientsNaturalPersonAddWin.xaml.cs">
       <DependentUpon>ClientsNaturalPersonAddWin.xaml</DependentUpon>
     </Compile>
+    <Page Include="Pages\Manager\ClientsLegalEntities.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Manager\ClientsNaturalPersons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
