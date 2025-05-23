@@ -1,4 +1,4 @@
-﻿<Window x:Class="Dickplom1.Windows.Others.ClientsNaturalPersonAddWin"
+﻿<Window x:Class="Dickplom1.Windows.Others.ClientsLegalEntitiesAddWin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,11 +12,11 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         VerticalAlignment="Center"
-        Height="600" Width="500"
+        Height="650" Width="1130"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Loaded="Window_Loaded">
     <Border
-        Width="400" Height="500"
+        Width="1030" Height="550"
         CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
@@ -115,40 +115,160 @@
 
             <Grid 
                 Panel.ZIndex="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="300" 
+                Margin="30,116,0,0">
+                <StackPanel
+                    Orientation="Vertical">
+
+                    <Label 
+                        Style="{StaticResource TextZagolovokDashboard}"
+                        Content="Реквизиты компании"
+                        HorizontalAlignment="Center"/>
+
+                    <Separator Opacity="0" Height="20"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxCompanyName"
+                        LostFocus="tboxSurname_LostFocus"
+                        Text="Название компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxINN"
+                        LostFocus="tboxName_LostFocus"
+                        Text="ИНН компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxKPP"
+                        Text="КПП компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxOGRN"
+                        Text="ОГРН компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder
+                        x:Name="tboxAdressLegalEntitie"
+                        Text="Юридический адрес компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder
+                        x:Name="tboxEmployeeCount"
+                        Text="Количество сотрудников компании"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder
+                        x:Name="tboxRegistrationDate"
+                        Text="Дата регистрации компании"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid 
+                Panel.ZIndex="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Width="250" Height="206"
+                Width="300" 
                 Margin="0,200,0,0">
                 <StackPanel
                     Orientation="Vertical">
+
+                    <Label 
+                        Style="{StaticResource TextZagolovokDashboard}"
+                        Content="Данные представителя компании"
+                        HorizontalAlignment="Center"/>
+
+                    <Separator Opacity="0" Height="20"/>
+
                     <customControls:TextboxWithBorder 
                         x:Name="tboxSurname"
                         LostFocus="tboxSurname_LostFocus"
-                        Text="Фамилия"/>
-                    <Separator Opacity="0" Height="10"/>
+                        Text="Фамилия представителя"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
                     <customControls:TextboxWithBorder 
                         x:Name="tboxName"
                         LostFocus="tboxName_LostFocus"
-                        Text="Имя"/>
-                    <Separator Opacity="0" Height="10"/>
+                        Text="Имя представителя"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
                     <customControls:TextboxWithBorder 
-                        x:Name="tboxMiddleName"
-                        Text="Отчество"/>
-                    <Separator Opacity="0" Height="10"/>
+                        x:Name="tboxMiddlename"
+                        Text="Отчество представителя"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
                     <customControls:TextboxWithBorder 
                         x:Name="tboxPhoneNumber"
-                        Text="Номер телефона"/>
-                    <Separator Opacity="0" Height="10"/>
+                        Text="Номер телефона представителя"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
                     <customControls:TextboxWithBorder 
-                        Name="tboxEmail"
-                        Text="Электронная почта"/>
+                        x:Name="tboxEmail"
+                        Text="Электронная почта представителя"/>
                 </StackPanel>
             </Grid>
+
+            <Grid 
+                Panel.ZIndex="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Width="300" 
+                Margin="0,242,30,0">
+                <StackPanel
+                    Orientation="Vertical">
+
+                    <Label 
+                        Style="{StaticResource TextZagolovokDashboard}"
+                        Content="Реквизиты банка"
+                        HorizontalAlignment="Center"/>
+
+                    <Separator Opacity="0" Height="20"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxBankName"
+                        LostFocus="tboxSurname_LostFocus"
+                        Text="Название банка"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxBankBIK"
+                        LostFocus="tboxName_LostFocus"
+                        Text="БИК банка"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxBankAccount"
+                        Text="Рас. счет банка"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxBankCorrAccount"
+                        Text="Кор. счет банка"/>
+
+                </StackPanel>
+            </Grid>
+            
             <customControls:ButtomWithBorder 
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20" Loaded="ButtomWithBorder_Loaded"/>
         </Grid>
     </Border>
 </Window>

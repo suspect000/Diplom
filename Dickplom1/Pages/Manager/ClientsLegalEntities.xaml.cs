@@ -56,7 +56,7 @@ namespace Dickplom1.Pages.Manager
 
         private void ButtomWithBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Windows.Others.ClientsNaturalPersonAddWin win = new Windows.Others.ClientsNaturalPersonAddWin();
+            Windows.Others.ClientsLegalEntitiesAddWin win = new Windows.Others.ClientsLegalEntitiesAddWin();
             win.ShowDialog();
         }
 

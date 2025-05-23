@@ -129,6 +129,9 @@
     <Compile Include="Pages\Manager\ClientsLegalEntities.xaml.cs">
       <DependentUpon>ClientsLegalEntities.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
+      <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\ClientsNaturalPersonAddWin.xaml.cs">
       <DependentUpon>ClientsNaturalPersonAddWin.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\Others\ClientsNaturalPersonAddWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
