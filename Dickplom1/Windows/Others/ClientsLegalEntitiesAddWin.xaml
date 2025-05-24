@@ -12,11 +12,11 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         VerticalAlignment="Center"
-        Height="650" Width="1130"
+        Height="850" Width="810"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Loaded="Window_Loaded">
     <Border
-        Width="1030" Height="550"
+        Width="710" Height="750"
         CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
@@ -62,6 +62,21 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Margin="0,20,20,0"/>
+
+
+            <Border
+                BorderBrush="#636C7F"
+                BorderThickness="0.5"
+                Width="320"
+                Height="420"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                CornerRadius="20">
+            <Grid>
+                
+                
+               
             <Grid
                 Width="120" Height="auto"
                 VerticalAlignment="Top" HorizontalAlignment="Center"
@@ -113,12 +128,63 @@
                 Margin="0,150,0,0"
                 MouseLeftButtonUp="ButtonBackgroundOff_MouseLeftButtonUp"/>
 
+                <Grid 
+                    Panel.ZIndex="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Width="300" 
+                    Margin="0,200,0,0">
+                    <StackPanel
+                        Orientation="Vertical">
+
+                        <Label 
+                            Style="{StaticResource TextZagolovokDashboard}"
+                            Content="Данные представителя компании"
+                            HorizontalAlignment="Center"/>
+
+                        <Separator Opacity="0" Height="20"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxSurname"
+                            LostFocus="tboxSurname_LostFocus"
+                            Text="Фамилия представителя"/>
+
+                        <Separator Opacity="0" Height="8"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxName"
+                            LostFocus="tboxName_LostFocus"
+                            Text="Имя представителя"/>
+
+                        <Separator Opacity="0" Height="8"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxMiddlename"
+                            Text="Отчество представителя"/>
+
+                        <Separator Opacity="0" Height="8"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxPhoneNumber"
+                            Text="Номер телефона представителя"/>
+
+                        <Separator Opacity="0" Height="8"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxEmail"
+                            Text="Электронная почта представителя"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            </Border>
+
+
             <Grid 
                 Panel.ZIndex="1"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Width="300" 
-                Margin="30,116,0,0">
+                Margin="0,50,20,0">
                 <StackPanel
                     Orientation="Vertical">
 
@@ -173,60 +239,14 @@
                 </StackPanel>
             </Grid>
 
-            <Grid 
-                Panel.ZIndex="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Width="300" 
-                Margin="0,200,0,0">
-                <StackPanel
-                    Orientation="Vertical">
-
-                    <Label 
-                        Style="{StaticResource TextZagolovokDashboard}"
-                        Content="Данные представителя компании"
-                        HorizontalAlignment="Center"/>
-
-                    <Separator Opacity="0" Height="20"/>
-
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxSurname"
-                        LostFocus="tboxSurname_LostFocus"
-                        Text="Фамилия представителя"/>
-
-                    <Separator Opacity="0" Height="8"/>
-
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxName"
-                        LostFocus="tboxName_LostFocus"
-                        Text="Имя представителя"/>
-
-                    <Separator Opacity="0" Height="8"/>
-
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxMiddlename"
-                        Text="Отчество представителя"/>
-
-                    <Separator Opacity="0" Height="8"/>
-
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxPhoneNumber"
-                        Text="Номер телефона представителя"/>
-
-                    <Separator Opacity="0" Height="8"/>
-
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxEmail"
-                        Text="Электронная почта представителя"/>
-                </StackPanel>
-            </Grid>
+            
 
             <Grid 
                 Panel.ZIndex="1"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Top"
+                VerticalAlignment="Bottom"
                 Width="300" 
-                Margin="0,242,30,0">
+                Margin="0,0,20,100">
                 <StackPanel
                     Orientation="Vertical">
 
@@ -268,7 +288,7 @@
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20" Loaded="ButtomWithBorder_Loaded"/>
+                Margin="0,0,0,20"/>
         </Grid>
     </Border>
 </Window>
