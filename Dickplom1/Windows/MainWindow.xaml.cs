@@ -24,7 +24,7 @@ namespace Dickplom1
         {
             InitializeComponent();
 
-            MainFrameScrollOff.Navigate(new Pages.Manager.OrdersNaturalPersons());
+            MainFrameScrollOff.Navigate(new Pages.Manager.Staff());
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

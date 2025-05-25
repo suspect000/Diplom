@@ -1,0 +1,254 @@
+﻿<Window x:Class="Dickplom1.Windows.Others.OrdersLegalEntitiesAddWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dickplom1.Windows.Others"
+        xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
+        WindowStyle="None"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        VerticalAlignment="Center"
+        mc:Ignorable="d"
+        Title="OrdersNaturalPersonsAddWin" Height="750" Width="600">
+    <Border
+        Width="500" Height="650"
+        CornerRadius="20">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                        <RotateTransform Angle="135" CenterX="0.5" CenterY="0.5"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </LinearGradientBrush.RelativeTransform>
+                <GradientStop Color="#C3C7D2"/>
+                <GradientStop Color="#F7F7FA" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect 
+                BlurRadius="50" 
+                ShadowDepth="10" 
+                Direction="270"/>
+        </Border.Effect>
+        <Grid
+            x:Name="mainGrid"
+            Background="Transparent"
+            PreviewMouseLeftButtonDown="mainGrid_PreviewMouseLeftButtonDown">
+            <Grid 
+                x:Name="gridFocus"
+                Focusable="True"
+                Width="1" Height="1"
+                Background="Transparent">
+
+            </Grid>
+            <Grid
+                x:Name="gridMovingWin"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Height="20"
+                Background="Transparent"
+                GotKeyboardFocus="gridMovingWin_GotKeyboardFocus"
+                Focusable="False"/>
+
+            <customControls:ButtonClose
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,20,0"/>
+
+            <Grid 
+                Panel.ZIndex="1">
+
+                <Label 
+                    Style="{StaticResource TextZagolovokDashboard}"
+                    Foreground="#636C7F"                    
+                    FontSize="25"
+                    Padding="0"
+                    Content="Информация о заказе"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0,40,0,0"/>
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Width="360"
+                    Orientation="Vertical"
+                    Margin="0,120,0,0">
+
+                    <customControls:CustomComboboxWithBorder
+                        Content="Выберите компанию"/>
+
+                    <Separator Opacity="0" Height="10"/>
+
+                    <customControls:CustomComboboxWithBorder
+                        Content="Выберите представителя"/>
+
+                    <Separator Opacity="0" Height="10"/>
+
+                    <customControls:CustomComboboxWithBorder
+                        Content="Выберите подписку"/>
+
+                    <Separator Opacity="0" Height="10"/>
+
+                    <customControls:CustomDatePickerWithBorder/>
+
+                    <Separator Opacity="0" Height="10"/>
+
+                    <customControls:CustomComboboxWithBorder
+                        Content="Выберите статус заказа"/>
+
+                    <Separator Opacity="0" Height="40"/>
+
+                    <Border
+                        BorderBrush="{StaticResource ScrollViewerBackgroundOther}"
+                        BorderThickness="1"
+                        Height="185"
+                        CornerRadius="20">
+
+                        <Grid
+                            VerticalAlignment="Center">
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="55,0,0,0">
+                                <Label
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Компания:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="ООО 'Ромашка'"/>
+                            </StackPanel>
+                            
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="55,30,0,0">
+                                <Label 
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Подписка:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="Корпоративная"/>
+                            </StackPanel>
+
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="13,60,0,0">
+                                <Label 
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Сроки подписки:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="22.05.25 - 22.06.25"/>
+                            </StackPanel>
+
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="24,90,0,0">
+                                <Label 
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Представитель:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="Балабанов Сергей Братович"/>
+                            </StackPanel>
+
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="74,120,0,0">
+                                <Label 
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Статус:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="Оплата"/>
+                            </StackPanel>
+
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="82,150,0,0">
+                                <Label 
+                                    Style="{StaticResource TextZagolovokDashboard}"
+                                    Content="Итого:"
+                                    Foreground="#A1A2A2"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                <Separator Opacity="0" Width="5"/>
+
+                                <TextBlock
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="77 руб"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+            </Grid>
+
+            <customControls:ButtomWithBorder 
+                Content="Сохранить"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,20"/>
+        </Grid>
+    </Border>
+</Window>

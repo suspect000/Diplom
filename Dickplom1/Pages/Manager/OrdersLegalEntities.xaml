@@ -1,0 +1,123 @@
+﻿<Page x:Class="Dickplom1.Pages.Manager.OrdersLegalEntities"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Dickplom1.Pages.Manager"
+      xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
+      xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+      mc:Ignorable="d"
+      d:DesignWidth="1195"
+      Height="auto"
+      MinHeight="820" 
+      VerticalAlignment="Stretch"
+      RenderOptions.BitmapScalingMode="HighQuality"
+      Background="Transparent">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid 
+            x:Name="gridFocus"
+            VerticalAlignment="Top"/>
+        <TextBlock
+            Text="Заказы (Юридические лица)"
+            Style="{DynamicResource DefText15}"
+            FontSize="25"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="40,40,0,0"/>
+
+        <StackPanel 
+            Orientation="Vertical"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Margin="40,110,40,30">
+
+            <Grid
+                VerticalAlignment="Top"
+                HorizontalAlignment="Stretch">
+                <Border
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    CornerRadius="8"
+                    Background="White"
+                    Height="30"/>
+                <customControls:DataGridMaterialDesignCustomForOrdersLegalEntities
+                    x:Name="dataGrid"
+                    Height="625"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"/>
+            </Grid>
+            <Grid
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Stretch">
+
+                <Border
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    CornerRadius="8"
+                    Background="White"
+                    Height="50"/>
+                <StackPanel 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Height="20"
+                    Margin="0,10,0,0">
+                    <customControls:PagginationButtons/>
+                    <customControls:PagginationButtons/>
+                    <customControls:PagginationButtons/>
+                </StackPanel>
+
+                <Button 
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                Content="Прошлая"
+                Foreground="{StaticResource MainTextForeground}"
+                FontSize="10"
+                Background="Transparent"
+                Width="90"
+                BorderThickness="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="20,10,0,0"
+                Cursor="Hand"/>
+                <Button 
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                Content="Следующая"
+                Foreground="{StaticResource MainTextForeground}"
+                FontSize="10"
+                Background="Transparent"
+                Width="90"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Margin="0,10,20,0"
+                Cursor="Hand"/>
+                <Rectangle 
+                VerticalAlignment="Top"
+                Fill="{StaticResource OtherBackground}" 
+                Height="10"
+                Margin="0,0,0,0"/>
+            </Grid>
+        </StackPanel>
+
+        <customControls:CustomComboboxFilterForClients
+            x:Name="ComboboxesFilter"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,50,235,0"/>
+
+        <customControls:ButtomWithBorder
+            x:Name="btnAddOrder"
+            Content="Добавить заказ"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,40,40,0"/>
+    </Grid>
+</Page>

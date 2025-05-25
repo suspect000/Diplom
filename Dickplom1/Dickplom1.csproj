@@ -129,8 +129,17 @@
     <Compile Include="Pages\Manager\ClientsLegalEntities.xaml.cs">
       <DependentUpon>ClientsLegalEntities.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Manager\OrdersLegalEntities.xaml.cs">
+      <DependentUpon>OrdersLegalEntities.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Manager\OrdersNaturalPersons.xaml.cs">
       <DependentUpon>OrdersNaturalPersons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Manager\Staff.xaml.cs">
+      <DependentUpon>Staff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Manager\Subscriptions.xaml.cs">
+      <DependentUpon>Subscriptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
       <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
@@ -138,8 +147,14 @@
     <Compile Include="Windows\Others\ClientsNaturalPersonAddWin.xaml.cs">
       <DependentUpon>ClientsNaturalPersonAddWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Others\OrdersLegalEntitiesAddWin.xaml.cs">
+      <DependentUpon>OrdersLegalEntitiesAddWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\OrdersNaturalPersonsAddWin.xaml.cs">
       <DependentUpon>OrdersNaturalPersonsAddWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Others\SubscriptionAddWin.xaml.cs">
+      <DependentUpon>SubscriptionAddWin.xaml</DependentUpon>
     </Compile>
     <Page Include="Pages\Manager\ClientsLegalEntities.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -153,7 +168,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Manager\OrdersLegalEntities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Manager\OrdersNaturalPersons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Manager\Staff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Manager\Subscriptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,7 +222,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Others\OrdersLegalEntitiesAddWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Others\OrdersNaturalPersonsAddWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Others\SubscriptionAddWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
