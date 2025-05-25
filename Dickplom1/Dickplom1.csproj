@@ -129,11 +129,17 @@
     <Compile Include="Pages\Manager\ClientsLegalEntities.xaml.cs">
       <DependentUpon>ClientsLegalEntities.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Manager\OrdersNaturalPersons.xaml.cs">
+      <DependentUpon>OrdersNaturalPersons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
       <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\ClientsNaturalPersonAddWin.xaml.cs">
       <DependentUpon>ClientsNaturalPersonAddWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Others\OrdersNaturalPersonsAddWin.xaml.cs">
+      <DependentUpon>OrdersNaturalPersonsAddWin.xaml</DependentUpon>
     </Compile>
     <Page Include="Pages\Manager\ClientsLegalEntities.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Manager\Dashboards.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Manager\OrdersNaturalPersons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,6 +192,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\Others\ClientsNaturalPersonAddWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Others\OrdersNaturalPersonsAddWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
