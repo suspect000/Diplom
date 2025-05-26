@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dickplom1.Windows.Others"
-                xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
+        xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
         WindowStyle="None"
         Background="Transparent"
         ResizeMode="NoResize"
@@ -82,27 +82,31 @@
                     Margin="0,120,0,0">
 
                     <customControls:TextboxWithBorder
+                        x:Name="tboxSubscriptionName"
                         Text="Название"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Период подписки"/>
+                        x:Name="tboxSubsriptionsPeriod"
+                        Text="Период подписки"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Тип подписки"/>
+                        x:Name="tboxSubscriptionsType"
+                        Text="Тип подписки"/>
                     
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:TextboxWithBorder
+                        x:Name="tboxPriceForMonth"
                         Text="Цена за месяц"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:TextboxWithBorder
-                        x:Name="tb"
+                        x:Name="tboxComment"
                         Text="Комментарий"
                         Loaded="TextboxWithBorder_Loaded"/>
 

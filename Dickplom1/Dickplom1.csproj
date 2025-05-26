@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="CustomControlsForDiplomFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\CustomControlsForDiplomFramework\CustomControlsForDiplomFramework\bin\Debug\CustomControlsForDiplomFramework.dll</HintPath>
+      <HintPath>..\..\..\..\CustomControlsForDiplomFramework\CustomControlsForDiplomFramework\bin\Debug\CustomControlsForDiplomFramework.dll</HintPath>
     </Reference>
     <Reference Include="HarfBuzzSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\HarfBuzzSharp.7.3.0.3\lib\net462\HarfBuzzSharp.dll</HintPath>

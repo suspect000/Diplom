@@ -118,6 +118,7 @@
             Content="Добавить заказ"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,40,40,0"/>
+            Margin="0,40,40,0"
+            Loaded="btnAddOrder_Loaded"/>
     </Grid>
 </Page>

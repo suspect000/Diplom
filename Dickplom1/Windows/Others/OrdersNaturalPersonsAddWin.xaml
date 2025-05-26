@@ -99,7 +99,7 @@
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="cboxOrderStatus"
-                        Text="Выберите статус подписки"/>
+                        Text="Выберите статус заказа"/>
                     
                     <Separator Opacity="0" Height="40"/>
 
@@ -109,12 +109,13 @@
                         Height="185"
                         CornerRadius="20">
 
-                        <Grid>
+                        <Grid
+                            VerticalAlignment="Center">
                             <StackPanel 
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="55,25,0,0">
+                                Margin="55,0,0,0">
                             <Label 
                                 Style="{StaticResource TextZagolovokDashboard}"
                                 Content="Подписка:"
@@ -126,6 +127,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockSubscription"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Базовая (1 мес)"/>
@@ -135,7 +137,7 @@
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="13,50,0,0">
+                                Margin="13,30,0,0">
                                 <Label 
                                     Style="{StaticResource TextZagolovokDashboard}"
                                     Content="Сроки подписки:"
@@ -147,16 +149,17 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
-                                Style="{StaticResource DefText13}"
-                                HorizontalAlignment="Left" VerticalAlignment="Top"
-                                Text="22.05.25 - 22.06.25"/>
+                                    x:Name="tblockPeriod"
+                                    Style="{StaticResource DefText13}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Text="22.05.25 - 22.06.25"/>
                             </StackPanel>
 
                             <StackPanel 
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="33,75,0,0">
+                                Margin="33,60,0,0">
                                 <Label 
                                     Style="{StaticResource TextZagolovokDashboard}"
                                     Content="ФИО клиента:"
@@ -168,6 +171,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockClientFIO"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Балабанов Сергей Братович"/>
@@ -177,7 +181,7 @@
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="74,100,0,0">
+                                Margin="74,90,0,0">
                                 <Label 
                                     Style="{StaticResource TextZagolovokDashboard}"
                                     Content="Статус:"
@@ -189,6 +193,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockStatus"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Оплата"/>
@@ -198,7 +203,7 @@
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="82,125,0,0">
+                                Margin="82,120,0,0">
                                 <Label 
                                     Style="{StaticResource TextZagolovokDashboard}"
                                     Content="Итого:"
@@ -210,6 +215,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockItogo"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="77 руб"/>

@@ -37,9 +37,9 @@ namespace Dickplom1.Windows.Others
 
         private void TextboxWithBorder_Loaded(object sender, RoutedEventArgs e)
         {
-            tb.tb.Height = 215;
+            tboxComment.tb.Height = 215;
             Padding = new Thickness(5,5,5,5);
-            tb.tb.VerticalAlignment = VerticalAlignment.Top;
+            tboxComment.tb.VerticalAlignment = VerticalAlignment.Top;
         }
     }
 }

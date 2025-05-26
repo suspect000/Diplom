@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dickplom1.Windows.Others;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,5 +54,14 @@ namespace Dickplom1.Pages.Manager
 
         }
 
+        private void btnAddOrder_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnAddOrder.btnWithBorder.Click += btnAddOrder_Click;
+        }
+        private void btnAddOrder_Click(object sender, RoutedEventArgs e)
+        {
+            OrdersLegalEntitiesAddWin win = new OrdersLegalEntitiesAddWin();
+            win.ShowDialog();
+        }
     }
 }

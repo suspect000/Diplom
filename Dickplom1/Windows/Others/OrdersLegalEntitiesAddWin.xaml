@@ -83,19 +83,19 @@
 
                     <customControls:CustomComboboxWithBorder
                         Name="cboxCompany"
-                        Loaded="cboxCompany_Loaded"/>
+                        Text="Выберите компанию"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="cboxContactPerson"
-                        Loaded="cboxContactPerson_Loaded"/>
+                        Text="Выберите представителя"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="cboxSubscription"
-                        Loaded="cboxSubscription_Loaded"/>
+                        Text="Выберите подписку"/>
 
                     <Separator Opacity="0" Height="10"/>
 
@@ -105,7 +105,7 @@
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="cboxOrderStatus"
-                        Loaded="cboxOrderStatus_Loaded"/>
+                        Text="Выберите статус заказа"/>
 
                     <Separator Opacity="0" Height="40"/>
 
@@ -133,6 +133,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockCompanyName"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="ООО 'Ромашка'"/>
@@ -154,6 +155,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockSubscriptionName"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Корпоративная"/>
@@ -175,6 +177,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockPeriod"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="22.05.25 - 22.06.25"/>
@@ -196,6 +199,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockContactPerson"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Балабанов Сергей Братович"/>
@@ -217,6 +221,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockStatus"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="Оплата"/>
@@ -238,6 +243,7 @@
                                 <Separator Opacity="0" Width="5"/>
 
                                 <TextBlock
+                                    x:Name="tblockItogo"
                                     Style="{StaticResource DefText13}"
                                     HorizontalAlignment="Left" VerticalAlignment="Top"
                                     Text="77 руб"/>
