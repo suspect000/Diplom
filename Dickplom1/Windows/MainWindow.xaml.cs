@@ -24,8 +24,7 @@ namespace Dickplom1
         {
             InitializeComponent();
 
-            MainFrameScrollOff.Navigate(new Pages.Manager.Staff());
-
+            Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -150,22 +149,19 @@ namespace Dickplom1
         private void gridClients_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+                            (navBorderClients, (Color)ColorConverter.ConvertFromString(navBorderClients.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
         private void gridClients_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                            (borderClients, (Color)ColorConverter.ConvertFromString(borderClients.BorderBrush.ToString()), Colors.Transparent, 0.35);
+                            (navBorderClients, (Color)ColorConverter.ConvertFromString(navBorderClients.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
-        private void gridClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void gridClients_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (SPClientsItems.Visibility == Visibility.Collapsed)
             {
                 //Сворачивание всех остальных топиков
-                if (SPServicesItems.Visibility == Visibility.Visible)
-                    Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
-
                 if (SPOrdersItems.Visibility == Visibility.Visible)
                     Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
 
@@ -219,7 +215,7 @@ namespace Dickplom1
                 (borderOrders, (Color)ColorConverter.ConvertFromString(borderOrders.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
 
-        private void gridOrders_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void gridOrders_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (SPOrdersItems.Visibility == Visibility.Collapsed)
             {
@@ -227,8 +223,6 @@ namespace Dickplom1
                 if (SPClientsItems.Visibility == Visibility.Visible)
                     Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
 
-                if (SPServicesItems.Visibility == Visibility.Visible)
-                    Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
                 //Раскрытие топиков
                 Animations.MaximazedNavTopics(SPOrdersItems, imgArrowOrders);
             }
@@ -268,64 +262,17 @@ namespace Dickplom1
         //-----------------------------------------------------------------------------------
 
 
-        //Анимация услуг (навигация)
+        //Анимация подписок (навигация)
         private void gridServices_MouseEnter(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderServices, (Color)ColorConverter.ConvertFromString(borderServices.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+                (borderSubscriptions, (Color)ColorConverter.ConvertFromString(borderSubscriptions.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
         }
 
         private void gridServices_MouseLeave(object sender, MouseEventArgs e)
         {
             Animations.AnimateBorderBrush
-                (borderServices, (Color)ColorConverter.ConvertFromString(borderServices.BorderBrush.ToString()), Colors.Transparent, 0.35);
-        }
-
-        private void gridServices_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (SPServicesItems.Visibility == Visibility.Collapsed)
-            {
-                //Сворачивание всех остальных топиков
-                if (SPClientsItems.Visibility == Visibility.Visible)
-                    Animations.MinimazedNavTopics(SPClientsItems, imgArrowClients);
-
-                if (SPOrdersItems.Visibility == Visibility.Visible)
-                    Animations.MinimazedNavTopics(SPOrdersItems, imgArrowOrders);
-
-                //Раскрытие топиков
-                Animations.MaximazedNavTopics(SPServicesItems, imgArrowServices);
-            }
-            else
-            {
-                //Сворачивание топиков
-                Animations.MinimazedNavTopics(SPServicesItems, imgArrowServices);
-            }
-        }
-        //-----------------------------------------------------------------------------------
-
-        //Анимация вложений услуг (навигация)
-        private void gridServicesItem1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (borderServicesItem1, (Color)ColorConverter.ConvertFromString(borderServicesItem1.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
-        }
-
-        private void gridServicesItem1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (borderServicesItem1, (Color)ColorConverter.ConvertFromString(borderServicesItem1.BorderBrush.ToString()), Colors.Transparent, 0.35);
-        }
-
-        private void gridServicesItem2_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (borderServicesItem2, (Color)ColorConverter.ConvertFromString(borderServicesItem2.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
-        }
-
-        private void gridServicesItem2_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.AnimateBorderBrush
-                (borderServicesItem2, (Color)ColorConverter.ConvertFromString(borderServicesItem2.BorderBrush.ToString()), Colors.Transparent, 0.35);
+                (borderSubscriptions, (Color)ColorConverter.ConvertFromString(borderSubscriptions.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //-----------------------------------------------------------------------------------
 
@@ -506,6 +453,43 @@ namespace Dickplom1
                     Musor.HideElement(gridSelectWindowThemes);
                 }
             }
+        }
+
+        private void gridDashboard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
+        }
+
+        private void gridClientsItem1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("clientsNatural", borderClientsItem1, navIcnClientNaturalPerson, navTboxClientNaturalPerson);
+
+        }
+
+        private void gridClientsItem2_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("clientsLegal", borderClientsItem2, navIcnClientLegalEntities, navTboxClientLegalEntities);
+
+        }
+
+        private void gridOrdersItem1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("ordersNatural", borderOrdersItem1, navIcnOrdersNaturalPersons, navTboxOrdersNaturalPersons);
+        }
+
+        private void gridOrdersItem2_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("ordersLegal", borderOrdersItem2, navIcnOrderLegalEntities, navTboxOrdersLegalEntities);
+        }
+
+        private void gridServices_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("subscriptions", borderSubscriptions, navIcnSubscriptions, navTboxSubscriptions);
+        }
+
+        private void gridStaff_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("staff", borderStaff, navIcnStaff, navTboxStaff);
         }
         //-----------------------------------------------------------------------------------
     }

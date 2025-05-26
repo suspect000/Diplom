@@ -82,17 +82,20 @@
                     Margin="0,120,0,0">
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Выберите компанию"/>
+                        Name="cboxCompany"
+                        Loaded="cboxCompany_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Выберите представителя"/>
+                        x:Name="cboxContactPerson"
+                        Loaded="cboxContactPerson_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Выберите подписку"/>
+                        x:Name="cboxSubscription"
+                        Loaded="cboxSubscription_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
@@ -101,7 +104,8 @@
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
-                        Content="Выберите статус заказа"/>
+                        x:Name="cboxOrderStatus"
+                        Loaded="cboxOrderStatus_Loaded"/>
 
                     <Separator Opacity="0" Height="40"/>
 

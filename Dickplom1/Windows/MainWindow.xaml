@@ -215,7 +215,8 @@
                     Width="224" Height="50"
                     Background="Transparent"
                     MouseEnter="gridDashboard_MouseEnter"
-                    MouseLeave="gridDashboard_MouseLeave">
+                    MouseLeave="gridDashboard_MouseLeave"
+                    MouseLeftButtonUp="gridDashboard_MouseLeftButtonUp">
 
                     <Border
                         x:Name="borderDashboard"
@@ -228,6 +229,7 @@
                         Orientation="Horizontal">
 
                         <Image 
+                            x:Name="navImgDashboards"
                             Source="..//Resources/Images/MainWin/Navigation/IcnAnalBlue.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="23"
@@ -235,6 +237,7 @@
                             Margin="10,0,0,0"/>
 
                         <TextBlock 
+                            x:Name="navTboxDashboards"
                             Text="Аналитика"
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -251,10 +254,10 @@
                     Background="Transparent"
                     MouseEnter="gridClients_MouseEnter"
                     MouseLeave="gridClients_MouseLeave"
-                    MouseLeftButtonDown="gridClients_MouseLeftButtonDown">
+                    MouseLeftButtonUp="gridClients_MouseLeftButtonUp">
 
                     <Border
-                        x:Name="borderClients"
+                        x:Name="navBorderClients"
                         CornerRadius="15"
                         BorderThickness="1" 
                         BorderBrush="Transparent" 
@@ -264,6 +267,7 @@
                         Orientation="Horizontal">
 
                         <Image 
+                            x:Name="navIcnClients"
                             Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="23"
@@ -300,7 +304,8 @@
                         Width="224" Height="50"
                         Background="Transparent"
                         MouseEnter="gridClientsItem1_MouseEnter"
-                        MouseLeave="gridClientsItem1_MouseLeave">
+                        MouseLeave="gridClientsItem1_MouseLeave"
+                        MouseLeftButtonUp="gridClientsItem1_MouseLeftButtonUp">
 
                         <Border
                             x:Name="borderClientsItem1"
@@ -312,6 +317,7 @@
                             Background="Transparent"/>
 
                         <Image 
+                            x:Name="navIcnClientNaturalPersonLine"
                             Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="10"
@@ -325,6 +331,7 @@
                             Margin="24,0">
 
                             <Image 
+                                x:Name="navIcnClientNaturalPerson"
                                 Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Width="23"
@@ -332,6 +339,7 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
+                                x:Name="navTboxClientNaturalPerson"
                                 Text="Физические лица"
                                 Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -347,7 +355,8 @@
                         Width="224" Height="50"
                         Background="Transparent"
                         MouseEnter="gridClientsItem2_MouseEnter"
-                        MouseLeave="gridClientsItem2_MouseLeave">
+                        MouseLeave="gridClientsItem2_MouseLeave"
+                        MouseLeftButtonUp="gridClientsItem2_MouseLeftButtonUp">
 
                         <Border
                             x:Name="borderClientsItem2"
@@ -372,6 +381,7 @@
                             Margin="24,0">
 
                             <Image 
+                                x:Name="navIcnClientLegalEntities"
                                 Source="..//Resources/Images/MainWin/Navigation/IcnClients.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Width="23"
@@ -379,6 +389,7 @@
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
+                                x:Name="navTboxClientLegalEntities"
                                 Text="Юридические лица"
                                 Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -396,7 +407,7 @@
                     Background="Transparent"
                     MouseEnter="gridOrders_MouseEnter"
                     MouseLeave="gridOrders_MouseLeave"
-                    MouseLeftButtonDown="gridOrders_MouseLeftButtonDown">
+                    MouseLeftButtonUp="gridOrders_MouseLeftButtonUp">
 
                     <Border
                         x:Name="borderOrders"
@@ -445,7 +456,8 @@
                         Width="224" Height="50"
                         Background="Transparent"
                         MouseEnter="gridOrdersItem1_MouseEnter"
-                        MouseLeave="gridOrdersItem1_MouseLeave">
+                        MouseLeave="gridOrdersItem1_MouseLeave"
+                        MouseLeftButtonUp="gridOrdersItem1_MouseLeftButtonUp">
 
                         <Border
                             x:Name="borderOrdersItem1"
@@ -470,14 +482,16 @@
                             Margin="24,0">
 
                             <Image 
-                                Source="..//Resources/Images/MainWin/Navigation/IcnEdit.png"
+                                x:Name="navIcnOrdersNaturalPersons"
+                                Source="..//Resources/Images/MainWin/Navigation/IcnOrder.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Width="23"
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Margin="10,0,0,0"/>
 
-                            <TextBlock 
-                                Text="Редактирование"
+                            <TextBlock
+                                x:Name="navTboxOrdersNaturalPersons"
+                                Text="Физические лица"
                                 Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
@@ -492,7 +506,8 @@
                         Width="224" Height="50"
                         Background="Transparent"
                         MouseEnter="gridOrdersItem2_MouseEnter"
-                        MouseLeave="gridOrdersItem2_MouseLeave">
+                        MouseLeave="gridOrdersItem2_MouseLeave"
+                        MouseLeftButtonUp="gridOrdersItem2_MouseLeftButtonUp">
 
                         <Border
                             x:Name="borderOrdersItem2"
@@ -517,14 +532,16 @@
                             Margin="24,0">
 
                             <Image 
-                                Source="..//Resources/Images/MainWin/Navigation/IcnStatus.png"
+                                x:Name="navIcnOrderLegalEntities"
+                                Source="..//Resources/Images/MainWin/Navigation/IcnOrder.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Width="23"
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Margin="10,0,0,0"/>
 
                             <TextBlock 
-                                Text="Статусы"
+                                x:Name="navTboxOrdersLegalEntities"
+                                Text="Юридические лица"
                                 Style="{StaticResource DefText13}"
                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="20,0,0,0"/>
@@ -541,10 +558,10 @@
                     Background="Transparent"
                     MouseEnter="gridServices_MouseEnter"
                     MouseLeave="gridServices_MouseLeave"
-                    MouseLeftButtonDown="gridServices_MouseLeftButtonDown">
+                    MouseLeftButtonUp="gridServices_MouseLeftButtonUp">
 
                     <Border
-                        x:Name="borderServices"
+                        x:Name="borderSubscriptions"
                         CornerRadius="15"
                         BorderThickness="1" 
                         BorderBrush="Transparent" 
@@ -554,6 +571,7 @@
                         Orientation="Horizontal">
 
                         <Image 
+                            x:Name="navIcnSubscriptions"
                             Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="23"
@@ -561,123 +579,14 @@
                             Margin="10,0,0,0"/>
 
                         <TextBlock 
+                            x:Name="navTboxSubscriptions"
                             Text="Подписки"
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
                             Margin="20,0,0,0"/>
-
-                        <Image 
-                            Name="imgArrowServices"
-                            Source="..//Resources/Images/MainWin/arrow.png"
-                            RenderOptions.BitmapScalingMode="HighQuality"
-                            Width="10"
-                            VerticalAlignment="Center"
-                            Margin="81,0"/>
                     </StackPanel>
                 </Grid>
-
-                <StackPanel 
-                    x:Name="SPServicesItems"
-                    Orientation="Vertical"
-                    Height="auto"
-                    Margin="0,0,0,0"
-                    Visibility="Collapsed">
-
-                    <Separator Opacity="0" Height="15"/>
-
-                    <Grid
-                        x:Name="gridServicesItem1"
-                        Width="224" Height="50"
-                        Background="Transparent"
-                        MouseEnter="gridServicesItem1_MouseEnter"
-                        MouseLeave="gridServicesItem1_MouseLeave">
-
-                        <Border
-                            x:Name="borderServicesItem1"
-                            CornerRadius="15"
-                            Width="200"
-                            HorizontalAlignment="Right"
-                            BorderThickness="1" 
-                            BorderBrush="Transparent" 
-                            Background="Transparent"/>
-
-                        <Image 
-                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
-                            RenderOptions.BitmapScalingMode="HighQuality"
-                            Width="10"
-                            HorizontalAlignment="Left" VerticalAlignment="Center"
-                            Margin="5,0,0,9"/>
-
-                        <StackPanel 
-                            Orientation="Horizontal" 
-                            HorizontalAlignment="Left"
-                            Width="200"
-                            Margin="24,0">
-
-                            <Image 
-                                Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Width="23"
-                                HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Margin="10,0,0,0"/>
-
-                            <TextBlock 
-                                Text="Для физ. лиц"
-                                Style="{StaticResource DefText13}"
-                                VerticalAlignment="Center" HorizontalAlignment="Left"
-                                Margin="20,0,0,0"/>
-
-                        </StackPanel>
-                    </Grid>
-
-                    <Separator Opacity="0" Height="15"/>
-
-                    <Grid
-                        x:Name="gridServicesItem2"
-                        Width="224" Height="50"
-                        Background="Transparent"
-                        MouseEnter="gridServicesItem2_MouseEnter"
-                        MouseLeave="gridServicesItem2_MouseLeave">
-
-                        <Border
-                            x:Name="borderServicesItem2"
-                            CornerRadius="15"
-                            Width="200"
-                            HorizontalAlignment="Right"
-                            BorderThickness="1" 
-                            BorderBrush="Transparent" 
-                            Background="Transparent"/>
-
-                        <Image 
-                            Source="..//Resources/Images/MainWin/Navigation/topicLine.png"
-                            RenderOptions.BitmapScalingMode="HighQuality"
-                            Width="10"
-                            HorizontalAlignment="Left" VerticalAlignment="Center"
-                            Margin="5,0,0,9"/>
-
-                        <StackPanel 
-                            Orientation="Horizontal" 
-                            HorizontalAlignment="Left"
-                            Width="200"
-                            Margin="24,0">
-
-                            <Image 
-                                Source="..//Resources/Images/MainWin/Navigation/IcnServices.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Width="23"
-                                HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Margin="10,0,0,0"/>
-
-                            <TextBlock 
-                                Text="Для юр. лиц"
-                                Style="{StaticResource DefText13}"
-                                VerticalAlignment="Center" HorizontalAlignment="Left"
-                                Margin="20,0,0,0"/>
-
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-
+                
                 <Separator Opacity="0" Height="15"/>
 
                 <Grid
@@ -685,7 +594,8 @@
                     Width="224" Height="50"
                     Background="Transparent"
                     MouseEnter="gridStaff_MouseEnter"
-                    MouseLeave="gridStaff_MouseLeave">
+                    MouseLeave="gridStaff_MouseLeave"
+                    MouseLeftButtonUp="gridStaff_MouseLeftButtonUp">
 
                     <Border
                         x:Name="borderStaff"
@@ -698,6 +608,7 @@
                         Orientation="Horizontal">
 
                         <Image 
+                            x:Name="navIcnStaff"
                             Source="..//Resources/Images/MainWin/Navigation/IcnStaff.png"
                             RenderOptions.BitmapScalingMode="HighQuality"
                             Width="23"
@@ -705,6 +616,7 @@
                             Margin="10,0,0,0"/>
 
                         <TextBlock 
+                            x:Name="navTboxStaff"
                             Text="Сотрудники"
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"

@@ -24,8 +24,6 @@ namespace Dickplom1.Pages.Manager
         public ClientsNaturalPersons()
         {
             InitializeComponent();
-            var mainWin = Application.Current.MainWindow as MainWindow;
-            mainWin.scrollMainWin.Visibility = Visibility.Collapsed;
 
             List<Person> people = new List<Person>
             {

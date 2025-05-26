@@ -169,5 +169,10 @@ namespace Dickplom1.Windows.Others
                 ClientPhotoFI.Text = "НН";
             }
         }
+
+        private void tboxSurname_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

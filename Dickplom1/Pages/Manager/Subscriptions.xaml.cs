@@ -24,8 +24,6 @@ namespace Dickplom1.Pages.Manager
         public Subscriptions()
         {
             InitializeComponent();
-            var mainWin = Application.Current.MainWindow as MainWindow;
-            mainWin.scrollMainWin.Visibility = Visibility.Collapsed;
 
             List<Person> people = new List<Person>
             {

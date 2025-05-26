@@ -34,5 +34,20 @@ namespace Dickplom1.Windows.Others
             gridFocus.Focus();
             Keyboard.ClearFocus();
         }
+
+/*        private void cboxSubscription_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxSubscription.Text = "Выберите подписку";
+        }
+
+        private void cboxClient_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxClient.Text = "Выберите клиента";
+        }
+
+        private void orderStatus_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxOrderStatus.Text = "Выберите статус заказа";
+        }*/
     }
 }

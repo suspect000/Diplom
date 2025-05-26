@@ -34,5 +34,25 @@ namespace Dickplom1.Windows.Others
         {
             e.Handled = true;
         }
+
+        private void cboxCompany_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxCompany.Content = "Выберите компанию";
+        }
+
+        private void cboxContactPerson_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxContactPerson.Content = "Выберите представителя";
+        }
+
+        private void cboxSubscription_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxSubscription.Content = "Выберите подписку";
+        }
+
+        private void cboxOrderStatus_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxOrderStatus.Content = "Выберите статус заказа";
+        }
     }
 }
