@@ -1,4 +1,6 @@
-﻿using LiveChartsCore.SkiaSharpView;
+﻿using CustomControlsForDiplomFramework;
+using Dickplom1.DataFolder;
+using LiveChartsCore.SkiaSharpView;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

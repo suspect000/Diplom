@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static Dickplom1.Pages.Manager.Dashboards;
+using Dickplom1.DataFolder;
+using System.Runtime.Remoting.Contexts;
+using System.Data.Entity;
+using CustomControlsForDiplomFramework;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -24,32 +28,6 @@ namespace Dickplom1.Pages.Manager
         public ClientsNaturalPersons()
         {
             InitializeComponent();
-
-            List<Person> people = new List<Person>
-            {
-                new Person {Number = "1", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Аюпов В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "2", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Коженков В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "3", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Никольский В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "4", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "5", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "6", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "7", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "8", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "9", ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-                new Person {Number = "10",ClientPhoto = "..//..//Resources/Images/Dashboards/Sidny.png", FullName = "Сапожников В. И.", PhoneNumber = "89256610484", Email="sapozhnikov@gmail.com", SubscriptionStatus="Не оформлена"},
-
-            };
-            DataGridCustomForClients.dgForClients.ItemsSource = people;
-        }
-        public class Person
-        {
-            public string Number { get; set; }
-            public string ClientPhoto { get; set; }
-            public string FullName { get; set; }
-            public string PhoneNumber { get; set; }
-            public string Email { get; set; }
-            public string SubscriptionStatus { get; set; }
-
         }
 
         private void ButtomWithBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -66,6 +44,120 @@ namespace Dickplom1.Pages.Manager
             {
                 Dickplom1.Class.Animations.MinimazedReports(ComboboxesFilter.imageArrow, ComboboxesFilter.gridFilter);
             }
+        }
+
+
+        //Загрузка данных в датагрид и паггинация
+        private List<ClientViewModel> allClients;
+        private int currentPage = 1;
+        private int itemsPerPage = 10;
+        private int totalPages = 1;
+
+        private void DataGridCustomForClients_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            allClients = context.ClientsNaturalPersons
+                .Select(c => new ClientViewModel
+                {
+                    ClientId = c.ClientNaturalPersonsId,
+                    ClientPhoto = c.ClientPhoto,
+                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.Email,
+                    SubscriptionStatus = context.Orders
+                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
+                    .Select(o => o.OrderStatus.StatusValue)
+                    .FirstOrDefault() ?? "Не оформлена"
+                })
+                .ToList();
+
+            totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+            currentPage = 1;
+
+            LoadCurrentPage();
+            GeneratePaginationButtons();
+        }
+        private void GeneratePaginationButtons()
+        {
+            sPanelPaggination.Children.Clear();
+
+            void AddButton(int pageNumber, bool isCurrent = false)
+            {
+                var btn = new PagginationButtons();
+                btn.rbtnPag.Content = pageNumber.ToString();
+                btn.rbtnPag.Tag = pageNumber;
+                btn.rbtnPag.IsChecked = isCurrent;
+                btn.rbtnPag.Click += RbtnPag_Click;
+                sPanelPaggination.Children.Add(btn);
+            }
+
+            void AddEllipsis()
+            {
+                var textBlock = new TextBlock
+                {
+                    Text = "...",
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(5, 0, 5, 0)
+                };
+                sPanelPaggination.Children.Add(textBlock);
+            }
+
+            const int maxVisibleButtons = 15;
+
+            if (totalPages <= maxVisibleButtons)
+            {
+                // Показываем все страницы
+                for (int i = 1; i <= totalPages; i++)
+                {
+                    AddButton(i, i == currentPage);
+                }
+            }
+            else
+            {
+                AddButton(1, currentPage == 1);
+
+                // Левая сторона
+                if (currentPage > 4)
+                    AddEllipsis();
+
+                int start = Math.Max(2, currentPage - 2);
+                int end = Math.Min(totalPages - 1, currentPage + 2);
+
+                for (int i = start; i <= end; i++)
+                {
+                    AddButton(i, i == currentPage);
+                }
+
+                // Правая сторона
+                if (currentPage < totalPages - 3)
+                    AddEllipsis();
+
+                AddButton(totalPages, currentPage == totalPages);
+            }
+        }
+
+        private void RbtnPag_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton rbtn && int.TryParse(rbtn.Tag.ToString(), out int page))
+            {
+                currentPage = page;
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+        }
+        private void LoadCurrentPage()
+        {
+            var itemsToShow = allClients
+                .Skip((currentPage - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select((c, index) => {
+                    c.Number = (currentPage - 1) * itemsPerPage + index + 1;
+                    return c;
+                })
+                .ToList();
+
+            DataGridCustomForClients.dgForClients.ItemsSource = itemsToShow;
         }
     }
 }

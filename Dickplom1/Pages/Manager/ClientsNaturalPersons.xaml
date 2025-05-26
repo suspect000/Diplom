@@ -54,9 +54,11 @@
                 x:Name="DataGridCustomForClients"
                 Height="625"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Stretch"/>
+                HorizontalAlignment="Stretch"
+                Loaded="DataGridCustomForClients_Loaded"/>
         </Grid>
         <Grid
+            x:Name="gridPaginations"
             VerticalAlignment="Bottom"
             HorizontalAlignment="Stretch">
             <Border
@@ -66,39 +68,14 @@
                 Background="White"
                 Height="50"/>
             <StackPanel 
+                x:Name="sPanelPaggination"
                 Orientation="Horizontal"
                 HorizontalAlignment="Center"
                 Height="20"
                 Margin="0,10,0,0">
-                <customControls:PagginationButtons/>
-                <customControls:PagginationButtons/>
-                <customControls:PagginationButtons/>
+
             </StackPanel>
 
-            <Button 
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                Content="Прошлая"
-                Foreground="{StaticResource MainTextForeground}"
-                FontSize="10"
-                Background="Transparent"
-                Width="90"
-                BorderThickness="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Margin="20,10,0,0"
-                Cursor="Hand"/>
-            <Button 
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                Content="Следующая"
-                Foreground="{StaticResource MainTextForeground}"
-                FontSize="10"
-                Background="Transparent"
-                Width="90"
-                BorderThickness="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Margin="0,10,20,0"
-                Cursor="Hand"/>
             <Rectangle 
                 VerticalAlignment="Top"
                 Fill="{StaticResource OtherBackground}" 
