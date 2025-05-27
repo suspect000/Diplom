@@ -1,7 +1,10 @@
 ﻿using Dickplom1.Class;
+using Dickplom1.DataFolder;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,19 +32,146 @@ namespace Dickplom1.Windows.Others
             tboxSurname.tb.TextChanged += tboxSurname_TextChanged;
             tboxName.tb.TextChanged += tboxName_TextChanged;
         }
+        public int ClientId { get; set; } = 0;
+        /*public  string Surname { get; set; } = null;
+        public  string Name { get; set; } = null;
+        public  string Middlename { get; set; } = null;
+        public  string PhoneNumber { get; set; } = null;
+        public  string Email { get; set; } = null;*/
+        public BitmapImage PhotoPath { get; set; } = null;
+
+
+        // Преобразование фотографии в ImageSource
+        public static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ClientPhoto.Source != null)
+            var context = DBEntities.GetContext().ClientsNaturalPersons
+                .Where(c=>c.ClientNaturalPersonsId == ClientId)
+                .FirstOrDefault();
+
+            if (context != null)
             {
-                ClientPhotoFI.Visibility = Visibility.Collapsed;
-                imgDelete.Visibility = Visibility.Visible; // Включаем кнопку отмены выбора фотографии пользователя
+                if (context.ClientPhoto != null)
+                {
+                    PhotoPath = LoadImage(context.ClientPhoto);
+                }
+
+                //Загрузка данных клиента в текстовые поля и изображение
+                if (ClientId != 0)
+                {
+                    tboxSurname.tb.Text = context.Surname;
+                    tboxName.tb.Text = context.Name;
+                    tboxMiddleName.tb.Text = context.MiddleName;
+                    tboxPhoneNumber.tb.Text = context.PhoneNumber;
+                    tboxEmail.tb.Text = context.Email;
+                    ForEditWin();
+                }
+                    
+
+                //Изображение
+                if (PhotoPath != null)
+                {
+                    try
+                    {
+                        ClientPhoto.Source = PhotoPath;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                if (ClientPhoto.Source != null)
+                {
+                    Dickplom1.Class.Musor.HideElement(ClientPhotoFI);
+                    Dickplom1.Class.Musor.ShowElement(imgDelete); // Включаем кнопку отмены выбора фотографии пользователя
+                }
+                else
+                {
+                    Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
+                    Dickplom1.Class.Musor.HideElement(imgDelete);
+                }
             }
             else
             {
-                ClientPhotoFI.Visibility = Visibility.Visible;
-                imgDelete.Visibility = Visibility.Collapsed;
+                ForCreateWin();
+
+                //Изображение
+                if (PhotoPath != null)
+                {
+                    try
+                    {
+                        ClientPhoto.Source = PhotoPath;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                if (ClientPhoto.Source != null)
+                {
+                    Dickplom1.Class.Musor.HideElement(ClientPhotoFI);
+                    Dickplom1.Class.Musor.ShowElement(imgDelete); // Включаем кнопку отмены выбора фотографии пользователя
+                }
+                else
+                {
+                    Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
+                    Dickplom1.Class.Musor.HideElement(imgDelete);
+                }
             }
+
+            
+            
+
+            
                 
+        }
+        public void ForEditWin()
+        {
+            Dickplom1.Class.Musor.ShowElement(edit1);
+            Dickplom1.Class.Musor.ShowElement(edit2);
+            Dickplom1.Class.Musor.ShowElement(edit3);
+            Dickplom1.Class.Musor.ShowElement(edit4);
+            Dickplom1.Class.Musor.ShowElement(edit5);
+
+            Dickplom1.Class.Musor.HideElement(btnSave.btnWithBorder);
+
+            tboxSurname.IsEnabled = false;
+            tboxName.IsEnabled = false;
+            tboxMiddleName.IsEnabled = false;
+            tboxPhoneNumber.IsEnabled = false;
+            tboxEmail.IsEnabled = false;
+        }
+        public void ForCreateWin()
+        {
+            Dickplom1.Class.Musor.HideElement(edit1);
+            Dickplom1.Class.Musor.HideElement(edit2);
+            Dickplom1.Class.Musor.HideElement(edit3);
+            Dickplom1.Class.Musor.HideElement(edit4);
+            Dickplom1.Class.Musor.HideElement(edit5);
+
+            Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+
+            tboxSurname.IsEnabled = true;
+            tboxName.IsEnabled = true;
+            tboxMiddleName.IsEnabled = true;
+            tboxPhoneNumber.IsEnabled = true;
+            tboxEmail.IsEnabled = true;
         }
 
         private void ButtonBackgroundOff_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -52,7 +182,12 @@ namespace Dickplom1.Windows.Others
                 "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
                 "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
+            {
                 ClientPhoto.Source = new BitmapImage(new Uri(op.FileName));
+                PhotoPath = new BitmapImage(new Uri(op.FileName));
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+            }
+                
 
             imgDelete.Visibility = Visibility.Visible; // Включаем кнопку отмены выбора фотографии пользователя
             ClientPhotoFI.Visibility = Visibility.Collapsed;
@@ -148,9 +283,16 @@ namespace Dickplom1.Windows.Others
 
         private void imgDelete_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ClientPhoto.Source = null;
-            imgDelete.Visibility = Visibility.Collapsed;
-            ClientPhotoFI.Visibility = Visibility.Visible;
+            MessageBoxButton btns = MessageBoxButton.YesNo;
+            MessageBoxResult mb = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+            if (mb == MessageBoxResult.Yes)
+            {
+                ClientPhoto.Source = null;
+                imgDelete.Visibility = Visibility.Collapsed;
+                ClientPhotoFI.Visibility = Visibility.Visible;
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+            }
+            
         }
 
         private void tboxName_LostFocus(object sender, RoutedEventArgs e)
@@ -168,6 +310,174 @@ namespace Dickplom1.Windows.Others
             {
                 ClientPhotoFI.Text = "НН";
             }
+        }
+
+        private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSave.btnWithBorder.Click += BtnWithBorder_Click;
+        }
+
+        private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+
+            if (tboxSurname.tb.Text == "Фамилия" 
+                || tboxName.tb.Text == "Имя"
+                || tboxMiddleName.tb.Text == "Отчество"
+                || tboxPhoneNumber.tb.Text == "Номер телефона"
+                || tboxEmail.tb.Text == "Электронная почта")
+            {
+                MessageBox.Show("Необходимо заполнить все поля");
+                return;
+            }
+
+            if (ClientId != 0) // При редактировании клиента
+            {
+                ClientsNaturalPersons selectedClient = context.ClientsNaturalPersons
+                    .Where(c => c.ClientNaturalPersonsId == ClientId)
+                    .FirstOrDefault();
+
+                selectedClient.ClientNaturalPersonsId = ClientId;
+                selectedClient.Surname = tboxSurname.tb.Text;
+                selectedClient.Name = tboxName.tb.Text;
+                selectedClient.MiddleName = tboxMiddleName.tb.Text;
+                selectedClient.PhoneNumber = tboxPhoneNumber.tb.Text;
+                selectedClient.Email = tboxEmail.tb.Text;
+
+                if (ClientPhoto.Source != null)
+                    selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
+                else
+                    selectedClient.ClientPhoto = null;
+
+
+
+                context.SaveChanges();
+                this.Close();
+            }
+            else
+            {
+                ClientsNaturalPersons selectedClient = new  ClientsNaturalPersons()
+                {
+                    Surname = tboxSurname.tb.Text,
+                    Name = tboxName.tb.Text,
+                    MiddleName = tboxMiddleName.tb.Text,
+                    PhoneNumber = tboxPhoneNumber.tb.Text,
+                    Email = tboxEmail.tb.Text,
+                };
+
+                if (ClientPhoto.Source != null)
+                    selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
+                else
+                    selectedClient.ClientPhoto = null;
+
+                context.ClientsNaturalPersons.Add(selectedClient);
+                context.SaveChanges();
+                this.Close();
+            }
+        }
+        public static byte[] BitmapImageToByteArray(BitmapImage bitmapImage)
+        {
+            if (bitmapImage == null)
+                return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder(); // или PngBitmapEncoder
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                encoder.Save(ms);
+                return ms.ToArray();
+            }
+        }
+
+        private void edit1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxSurname.IsEnabled = true;
+
+            Dickplom1.Class.Musor.ShowElement(save1);
+            Dickplom1.Class.Musor.HideElement(edit1);
+
+            if (btnSave.btnWithBorder.Visibility == Visibility.Collapsed)
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+        }
+
+        private void save1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxSurname.IsEnabled = false;
+            Dickplom1.Class.Musor.ShowElement(edit1);
+            Dickplom1.Class.Musor.HideElement(save1);
+        }
+
+        private void edit2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxName.IsEnabled = true;
+
+            Dickplom1.Class.Musor.ShowElement(save2);
+            Dickplom1.Class.Musor.HideElement(edit2);
+
+            if (btnSave.btnWithBorder.Visibility == Visibility.Collapsed)
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+        }
+
+        private void save2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxName.IsEnabled = false;
+            Dickplom1.Class.Musor.ShowElement(edit2);
+            Dickplom1.Class.Musor.HideElement(save2);
+        }
+
+        private void edit3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxMiddleName.IsEnabled = true;
+
+            Dickplom1.Class.Musor.ShowElement(save3);
+            Dickplom1.Class.Musor.HideElement(edit3);
+
+            if (btnSave.btnWithBorder.Visibility == Visibility.Collapsed)
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+        }
+
+        private void save3_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxMiddleName.IsEnabled = false;
+            Dickplom1.Class.Musor.ShowElement(edit3);
+            Dickplom1.Class.Musor.HideElement(save3);
+        }
+
+        private void edit4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxPhoneNumber.IsEnabled = true;
+
+            Dickplom1.Class.Musor.ShowElement(save4);
+            Dickplom1.Class.Musor.HideElement(edit4);
+
+            if (btnSave.btnWithBorder.Visibility == Visibility.Collapsed)
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+        }
+
+        private void save4_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxPhoneNumber.IsEnabled = false;
+            Dickplom1.Class.Musor.ShowElement(edit4);
+            Dickplom1.Class.Musor.HideElement(save4);
+        }
+
+        private void edit5_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxEmail.IsEnabled = true;
+
+            Dickplom1.Class.Musor.ShowElement(save5);
+            Dickplom1.Class.Musor.HideElement(edit5);
+
+            if (btnSave.btnWithBorder.Visibility == Visibility.Collapsed)
+                Dickplom1.Class.Musor.ShowElement(btnSave.btnWithBorder);
+        }
+
+        private void save5_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            tboxEmail.IsEnabled = false;
+            Dickplom1.Class.Musor.ShowElement(edit5);
+            Dickplom1.Class.Musor.HideElement(save5);
         }
     }
 }

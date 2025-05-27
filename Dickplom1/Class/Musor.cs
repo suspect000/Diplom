@@ -4,6 +4,7 @@ using LiveChartsCore.SkiaSharpView;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Security.Principal;
@@ -100,9 +101,43 @@ namespace Dickplom1.Class
                     win.scrollMainWin.Visibility = Visibility.Collapsed;
                     win.MainFrameScrollOff.Visibility = Visibility.Visible;
                     break;
-            }
+            }            
+        }
 
-            
+        // Преобразование фотографии из byte[] -> ImageSource
+        public static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
+        }
+
+
+        // Преобразование фотографии из ImageSource -> byte[]  
+        public static byte[] BitmapImageToByteArray(BitmapImage bitmapImage)
+        {
+            if (bitmapImage == null)
+                return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder(); // или PngBitmapEncoder
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                encoder.Save(ms);
+                return ms.ToArray();
+            }
         }
         public static void OffOtherNavigation()
         {

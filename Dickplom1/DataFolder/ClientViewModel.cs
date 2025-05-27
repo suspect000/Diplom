@@ -16,5 +16,6 @@ namespace Dickplom1.DataFolder
         public string SubscriptionStatus { get; set; }
         public byte[] ClientPhoto { get; set; }
         public string CompanyName { get; set; }
+        public int? CreatorId { get; set; }
     }
 }

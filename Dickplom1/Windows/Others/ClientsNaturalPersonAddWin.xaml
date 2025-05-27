@@ -117,38 +117,169 @@
                 Panel.ZIndex="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Width="250" Height="206"
+                Width="300" Height="206"
                 Margin="0,200,0,0">
                 <StackPanel
                     Orientation="Vertical">
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxSurname"
-                        LostFocus="tboxSurname_LostFocus"
-                        Text="Фамилия"/>
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxSurname"
+                            LostFocus="tboxSurname_LostFocus"
+                            Text="Фамилия"
+                            Width="265"/>
+                        <Separator Opacity="0" Width="10"/>
+                        <Image 
+                            x:Name="edit1"
+                            Source="/Resources/Images/OtherWins/EditIcnBlue.png"
+                            Width="25"
+                            Height="25"
+                            Cursor="Hand"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Visible"
+                            MouseLeftButtonDown="edit1_MouseLeftButtonDown"/>
+                        <Image 
+                            x:Name="save1"
+                            Source="/Resources/Images/OtherWins/GalkaIcnBlue.png"
+                            Width="25"
+                            Height="25"
+                            Cursor="Hand"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            MouseLeftButtonDown="save1_MouseLeftButtonDown"
+                            Visibility="Collapsed"/>
+
+                    </StackPanel>
                     <Separator Opacity="0" Height="10"/>
-                    <customControls:TextboxWithBorder 
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <customControls:TextboxWithBorder 
                         x:Name="tboxName"
+                        Width="265"
                         LostFocus="tboxName_LostFocus"
                         Text="Имя"/>
+                        <Separator Opacity="0" Width="10"/>
+                        <Image 
+                            x:Name="edit2"
+                            Source="/Resources/Images/OtherWins/EditIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Visible"
+                            MouseLeftButtonDown="edit2_MouseLeftButtonDown"/>
+                        <Image 
+                            x:Name="save2"
+                            Source="/Resources/Images/OtherWins/GalkaIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Collapsed"
+                            MouseLeftButtonDown="save2_MouseLeftButtonDown"/>
+                        
+                    </StackPanel>
                     <Separator Opacity="0" Height="10"/>
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxMiddleName"
-                        Text="Отчество"/>
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxMiddleName"
+                            Width="265"
+                            Text="Отчество"/>
+                        <Separator Opacity="0" Width="10"/>
+                        <Image 
+                            x:Name="edit3"
+                            Source="/Resources/Images/OtherWins/EditIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Visible"
+                            MouseLeftButtonDown="edit3_MouseLeftButtonDown"/>
+                        <Image 
+                            x:Name="save3"
+                            Source="/Resources/Images/OtherWins/GalkaIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Collapsed"
+                            MouseLeftButtonDown="save3_MouseLeftButtonDown"/>
+                        
+                    </StackPanel>
                     <Separator Opacity="0" Height="10"/>
-                    <customControls:TextboxWithBorder 
-                        x:Name="tboxPhoneNumber"
-                        Text="Номер телефона"/>
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxPhoneNumber"
+                            Width="265"
+                            Text="Номер телефона"/>
+                        <Separator Opacity="0" Width="10"/>
+                        <Image 
+                            x:Name="edit4"
+                            Source="/Resources/Images/OtherWins/EditIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Visible"
+                            MouseLeftButtonDown="edit4_MouseLeftButtonDown"/>
+                        <Image 
+                            x:Name="save4"
+                            Source="/Resources/Images/OtherWins/GalkaIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Collapsed"
+                            MouseLeftButtonDown="save4_MouseLeftButtonDown"/>
+                    </StackPanel>
                     <Separator Opacity="0" Height="10"/>
-                    <customControls:TextboxWithBorder 
-                        Name="tboxEmail"
-                        Text="Электронная почта"/>
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <customControls:TextboxWithBorder 
+                            Name="tboxEmail"
+                            Width="265"
+                            Text="Электронная почта"/>
+                        <Separator Opacity="0" Width="10"/>
+                        <Image 
+                            x:Name="edit5"
+                            Source="/Resources/Images/OtherWins/EditIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Visible"
+                            MouseLeftButtonDown="edit5_MouseLeftButtonDown"/>
+                        <Image 
+                            x:Name="save5"
+                            Source="/Resources/Images/OtherWins/GalkaIcnBlue.png"
+                            Width="25"
+                            Cursor="Hand"
+                            Height="25"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Visibility="Collapsed"
+                            MouseLeftButtonDown="save5_MouseLeftButtonDown"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <customControls:ButtomWithBorder 
+                Name="btnSave"
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20"
+                Loaded="ButtomWithBorder_Loaded"
+                Visibility="Visible"/>
         </Grid>
     </Border>
 </Window>

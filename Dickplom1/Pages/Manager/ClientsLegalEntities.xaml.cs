@@ -152,8 +152,13 @@ namespace Dickplom1.Pages.Manager
                 .Select((c, index) => {
                     c.Number = (currentPage - 1) * itemsPerPage + index + 1;
                     return c;
-        })
-        .ToList();
+                    })
+                .ToList();
+
+            if (itemsToShow.Count <= 0)
+                tbInfo.Visibility = Visibility.Visible;
+            else
+                tbInfo.Visibility = Visibility.Collapsed;
 
             DataGridCustomForClients.dgForClients.ItemsSource = itemsToShow;
         }

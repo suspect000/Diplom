@@ -50,13 +50,24 @@
                 CornerRadius="8"
                 Background="White"
                 Height="30"/>
-            <customControls:DataGridMaterialDesignCustomForClients
-                x:Name="DataGridCustomForClients"
-                Height="625"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Stretch"
-                Loaded="DataGridCustomForClients_Loaded"/>
-        </Grid>
+                <customControls:DataGridMaterialDesignCustomForClients
+                    x:Name="DataGridCustomForClients"
+                    Height="625"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    Loaded="DataGridCustomForClients_Loaded">
+                    <customControls:DataGridMaterialDesignCustomForClients.ContextMenu>
+                        <ContextMenu 
+                            Background="White"
+                            HasDropShadow="True"
+                            Foreground="#687183">
+                            <MenuItem Header="О клиенте" Click="miClient_Click"/>
+                            <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
+                            <MenuItem Header="Удалить" Click="miDelete_Click"/>
+                        </ContextMenu>
+                    </customControls:DataGridMaterialDesignCustomForClients.ContextMenu>
+                </customControls:DataGridMaterialDesignCustomForClients>
+            </Grid>
         <Grid
             x:Name="gridPaginations"
             VerticalAlignment="Bottom"
@@ -84,11 +95,19 @@
         </Grid>
         </StackPanel>
 
+        <TextBlock 
+            x:Name="tbInfo"
+            Style="{StaticResource DefText15}"
+            Text="Данные не найдены"
+            TextAlignment="Center"
+            Visibility="Collapsed"/>
+
         <customControls:CustomComboboxFilterForClients
             x:Name="ComboboxesFilter"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,50,235,0"/>
+            Margin="0,50,235,0"
+            Loaded="ComboboxesFilter_Loaded"/>
 
         <customControls:ButtomWithBorder
             Content="Добавить клиента"
