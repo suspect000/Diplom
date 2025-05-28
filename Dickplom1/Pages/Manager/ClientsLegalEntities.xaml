@@ -50,13 +50,24 @@
                 CornerRadius="8"
                 Background="White"
                 Height="30"/>
-            <customControls:DataGridMaterialDesignCustomForClientsLegalEntities
+                <customControls:DataGridMaterialDesignCustomForClientsLegalEntities
                 x:Name="DataGridCustomForClients"
                 Height="625"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Stretch"
-                Loaded="DataGridCustomForClients_Loaded"/>
-        </Grid>
+                Loaded="DataGridCustomForClients_Loaded">
+                    <customControls:DataGridMaterialDesignCustomForClientsLegalEntities.ContextMenu>
+                        <ContextMenu 
+                            Background="White"
+                            HasDropShadow="True"
+                            Foreground="#687183">
+                            <MenuItem Header="О клиенте" Click="miClient_Click"/>
+                            <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
+                            <MenuItem Header="Удалить" Click="miDelete_Click"/>
+                        </ContextMenu>
+                    </customControls:DataGridMaterialDesignCustomForClientsLegalEntities.ContextMenu>
+                </customControls:DataGridMaterialDesignCustomForClientsLegalEntities>
+            </Grid>
         <Grid
             VerticalAlignment="Bottom"
             HorizontalAlignment="Stretch">
@@ -92,7 +103,8 @@
             x:Name="ComboboxesFilter"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,50,235,0"/>
+            Margin="0,50,235,0"
+            Loaded="ComboboxesFilter_Loaded"/>
 
         <customControls:ButtomWithBorder
             Content="Добавить клиента"

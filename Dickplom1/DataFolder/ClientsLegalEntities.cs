@@ -17,7 +17,7 @@ namespace Dickplom1.DataFolder
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ClientsLegalEntities()
         {
-            this.Orders = new HashSet<Orders>();
+            this.OrdersLegalEntities = new HashSet<OrdersLegalEntities>();
         }
     
         public int ClientsLegalEntitiesId { get; set; }
@@ -27,13 +27,13 @@ namespace Dickplom1.DataFolder
         public Nullable<int> BankDataId { get; set; }
         public Nullable<int> CreatorId { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual ClientsLegalEntitiesBankData ClientsLegalEntitiesBankData { get; set; }
         public virtual ClientsLegalEntitiesCompanyData ClientsLegalEntitiesCompanyData { get; set; }
         public virtual ClientsLegalEntitiesContactPerson ClientsLegalEntitiesContactPerson { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<OrdersLegalEntities> OrdersLegalEntities { get; set; }
     }
 }

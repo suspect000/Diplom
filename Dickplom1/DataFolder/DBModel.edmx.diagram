@@ -4,57 +4,60 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7c5b236342ec4eb08793da68fcb045c2" Name="Diagram1">
-        <EntityTypeShape EntityType="DiplomModel.AccountStatus" Width="1.5" PointX="9.75" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Address" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.AddressLegalEntities" Width="1.5" PointX="7.5" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.City" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsLegalEntities" Width="1.5" PointX="17.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsLegalEntitiesBankData" Width="1.5" PointX="15" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsLegalEntitiesCompanyData" Width="1.5" PointX="9.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsLegalEntitiesContactPerson" Width="1.5" PointX="15" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsNaturalPersons" Width="1.5" PointX="14.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.ClientsTypes" Width="1.5" PointX="17.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Country" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Logs" Width="1.5" PointX="14.25" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Orders" Width="1.5" PointX="19.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.OrderStatus" Width="1.5" PointX="17.25" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Roles" Width="1.5" PointX="9.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Sexes" Width="1.5" PointX="7.5" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Street" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Subscription" Width="1.5" PointX="14.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.SubscriptionPeriodMonth" Width="1.5" PointX="12" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.SubscriptionType" Width="1.5" PointX="12" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.UserData" Width="1.5" PointX="9.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.UserPassportData" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DiplomModel.Users" Width="1.5" PointX="12" PointY="6.5" IsExpanded="true" />
-        <AssociationConnector Association="DiplomModel.FK_Users_AccountStatus" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK__Address__StreetI__7C6F7215" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_UserPassportData_Address" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_AddressLegalEntities_Street" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_ClientsLegalEntitiesCompanyData_AddressLegalEntities" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK__City__CountryId__76B698BF" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK__Street__CityId__7993056A" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_ClientsLegalEntities_ClientsLegalEntitiesBankData" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_ClientsLegalEntities_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_OrdersNaturalPersons_ClientsLegalEntities" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Clients_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_OrdersNaturalPersons_ClientsNaturalPersons" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Orders_ClientsTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK__Logs__UserID__5AEE82B9" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Orders_OrderStatus" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_OrdersNaturalPersons_Subscription" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_OrdersNaturalPersons_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Users_Roles" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_UserPassportData_Sexes" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Subscription_SubscriptionPeriod" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Subscription_SubscriptionType" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Subscription_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Users_UserData" ManuallyRouted="false" />
-        <AssociationConnector Association="DiplomModel.FK_Users_UserPassportData" ManuallyRouted="false" />
+      <Diagram DiagramId="cbe11893e601436ba334bf6648adf8bd" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.AccountStatus" Width="1.5" PointX="9.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Address" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.AddressLegalEntities" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.City" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsLegalEntities" Width="1.5" PointX="17.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsLegalEntitiesBankData" Width="1.5" PointX="15" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsLegalEntitiesCompanyData" Width="1.5" PointX="9.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsLegalEntitiesContactPerson" Width="1.5" PointX="15" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsNaturalPersons" Width="1.5" PointX="14.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ClientsTypes" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Country" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Logs" Width="1.5" PointX="14.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Orders" Width="1.5" PointX="19.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.OrdersLegalEntities" Width="1.5" PointX="22.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.OrderStatus" Width="1.5" PointX="20.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Roles" Width="1.5" PointX="9.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Sexes" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Street" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Subscription" Width="1.5" PointX="14.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.SubscriptionPeriodMonth" Width="1.5" PointX="12" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.SubscriptionType" Width="1.5" PointX="12" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.UserData" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.UserPassportData" Width="1.5" PointX="9.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Users" Width="1.5" PointX="12" PointY="6.25" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Users_AccountStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Address__StreetI__7C6F7215" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_UserPassportData_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_AddressLegalEntities_Street" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ClientsLegalEntitiesCompanyData_AddressLegalEntities" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__City__CountryId__76B698BF" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Street__CityId__7993056A" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ClientsLegalEntities_ClientsLegalEntitiesBankData" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_ClientsLegalEntities_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersLegalEntities_ClientsLegalEntities" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Clients_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersNaturalPersons_ClientsNaturalPersons" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Logs__UserID__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Orders_OrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersNaturalPersons_Subscription" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersNaturalPersons_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersLegalEntities_OrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersLegalEntities_Subscription" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_OrdersLegalEntities_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_UserPassportData_Sexes" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Subscription_SubscriptionPeriod" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Subscription_SubscriptionType" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Subscription_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Users_UserData" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Users_UserPassportData" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -16,10 +16,11 @@ namespace Dickplom1.DataFolder
         public int ClientId { get; set; }
         public string FullNameClient { get; set; }
         public string OrderStatus { get; set; }
+        public int OrderStatusId { get; set; }
         public int ClientTypeId { get; set; }
         public string FIOManager { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         public string Price { get; set; }
         public int CreatorId { get; set; }
         public string CreatedAt { get; set; }

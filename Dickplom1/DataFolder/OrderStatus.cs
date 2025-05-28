@@ -18,6 +18,7 @@ namespace Dickplom1.DataFolder
         public OrderStatus()
         {
             this.Orders = new HashSet<Orders>();
+            this.OrdersLegalEntities = new HashSet<OrdersLegalEntities>();
         }
     
         public int StatusId { get; set; }
@@ -25,5 +26,7 @@ namespace Dickplom1.DataFolder
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdersLegalEntities> OrdersLegalEntities { get; set; }
     }
 }

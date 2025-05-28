@@ -75,31 +75,34 @@
                     Margin="0,40,0,0"/>
 
                 <StackPanel
+                    x:Name="sp"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Width="360"
                     Orientation="Vertical"
                     Margin="0,120,0,0">
 
-                    <customControls:CustomComboboxWithBorder
+                    <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxSubscription"
-                        Text="Выберите подписку"/>
+                        Loaded="cboxSubscription_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
                     
-                    <customControls:CustomDatePickerWithBorder/>
+                    <customControls:CustomDatePickerWithBorder
+                        x:Name="datePicker"
+                        Loaded="datePicker_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
-                        x:Name="cboxClient"
-                        Text="Выберите клиента"/>
+                    <customControls:ComboboxMaterialDesignWithBorder
+                        Loaded="cboxClient_Loaded"
+                        x:Name="cboxClient"/>
                     
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
-                        x:Name="cboxOrderStatus"
-                        Text="Выберите статус заказа"/>
+                    <customControls:ComboboxMaterialDesignWithBorder
+                        Loaded="cboxOrderStatus_Loaded"
+                        x:Name="cboxOrderStatus"/>
                     
                     <Separator Opacity="0" Height="40"/>
 
@@ -129,8 +132,8 @@
                                 <TextBlock
                                     x:Name="tblockSubscription"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Базовая (1 мес)"/>
+                                    FontFamily="Franklin Gothic Medium"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -151,8 +154,8 @@
                                 <TextBlock
                                     x:Name="tblockPeriod"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="22.05.25 - 22.06.25"/>
+                                    FontFamily="Franklin Gothic Medium"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -173,8 +176,8 @@
                                 <TextBlock
                                     x:Name="tblockClientFIO"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Балабанов Сергей Братович"/>
+                                    FontFamily="Franklin Gothic Medium"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -195,8 +198,8 @@
                                 <TextBlock
                                     x:Name="tblockStatus"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Оплата"/>
+                                    FontFamily="Franklin Gothic Medium"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -217,8 +220,8 @@
                                 <TextBlock
                                     x:Name="tblockItogo"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="77 руб"/>
+                                    FontFamily="Franklin Gothic Medium"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -227,10 +230,12 @@
             </Grid>
 
             <customControls:ButtomWithBorder 
+                x:Name="btnSave"
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20"
+                Loaded="btnSave_Loaded"/>
         </Grid>
     </Border>
 </Window>

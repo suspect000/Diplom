@@ -39,8 +39,6 @@ namespace Dickplom1.Pages.Manager
             win.ShowDialog();
         }
 
-
-
         //Загрузка данных в датагрид и паггинация
         private List<OrdersViewModel> allOrders;
         private int currentPage = 1;
@@ -48,24 +46,24 @@ namespace Dickplom1.Pages.Manager
         private int totalPages = 1;
         private void dataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-
             var context = DBEntities.GetContext();
 
+            allOrders = context.OrdersLegalEntities
+                .Where(c => c.IsDeleted == false)
+                .ToList()
+                .Select(o => new OrdersViewModel    
+                {    
+                    SubscriptionName = o.Subscription.SubscriptionName,
+                    CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
+                    StartDate = o.StartDate?.ToString("g"),
+                    EndDate = o.EndDate?.ToString("g"),
+                    OrderStatus = o.OrderStatus.StatusValue,
+                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                })
+                .ToList();
 
-            allOrders = context.Orders.Where(o=>o.ClientTypeId == 2)
-                    .Select(o => new OrdersViewModel
-                    {
-                        SubscriptionName = o.Subscription.SubscriptionName,
-                        CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
-                        StartDate = o.StartDate.Value,
-                        EndDate = o.EndDate.Value,
-                        OrderStatus = o.OrderStatus.StatusValue,
-                        FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
-                    })
-                    .ToList();
 
-
-            totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
+            CheckTotalPages();
             currentPage = 1;
 
             LoadCurrentPage();
@@ -156,6 +154,116 @@ namespace Dickplom1.Pages.Manager
                 tbInfo.Visibility = Visibility.Collapsed;
 
             dataGrid.dg.ItemsSource = itemsToShow;
+        }
+
+        private void ComboboxesFilter_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            var items = new List<object>();
+
+            // Заглушка — объект с FullName и UserDataId = 0 или null
+            items.Add(new { UserDataId = 0, FullName = "Создатель записи" });
+
+            items.AddRange(context.UserData
+                .Select(u => new
+                {
+                    u.UserDataId,
+                    FullName = u.Surname + " " + u.Name + " " + u.MiddleName
+                }));
+
+            ComboboxesFilter.firstCombobox.ItemsSource = items;
+            ComboboxesFilter.firstCombobox.DisplayMemberPath = "FullName";
+            ComboboxesFilter.firstCombobox.SelectedValuePath = "UserDataId";
+            ComboboxesFilter.firstCombobox.SelectedIndex = 0;
+            ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged; ; ;
+
+
+            //Добавить 2-ой комбобокс
+            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
+
+            var items2 = new List<object>();
+            items2.Add(new { StatusId = 0, StatusValue = "Статус подписки" });
+
+            items2.AddRange(context.OrderStatus
+                .Select(u => new
+                {
+                    u.StatusId,
+                    u.StatusValue,
+                }));
+
+
+            cbox.cbox.ItemsSource = items2;
+            cbox.cbox.DisplayMemberPath = "StatusValue";
+            cbox.cbox.SelectedValuePath = "StatusId";
+            cbox.cbox.SelectedIndex = 0;
+            cbox.cbox.SelectionChanged += Cbox_SelectionChanged; ; ;
+
+            ComboboxesFilter.spCboxes.Children.Add(cbox);
+        }
+        public int comboboxCreatorValue { get; set; } = 0;
+        public int comboboxStatusValue { get; set; } = 0;
+
+        private void FirstCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            comboboxCreatorValue = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
+            ApplyFilters();
+        }
+
+        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.ComboBox cbox)
+            {
+                comboboxStatusValue = Convert.ToInt32(cbox.SelectedValue);
+                ApplyFilters();
+            }
+        }
+        private void CheckTotalPages()
+        {
+            totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
+        }
+        private void ApplyFilters()
+        {
+            var context = DBEntities.GetContext();
+
+            var clientsQuery = context.OrdersLegalEntities
+            .Where(c => !c.IsDeleted);
+
+            // фильтр по создателю записи
+            if (comboboxCreatorValue != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+            }
+
+            // фильтр по статусу заказа
+            if (comboboxStatusValue != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
+            }
+
+            var filteredClients = clientsQuery
+                .ToList() // Загружаем данные в память
+                .Select(c => new OrdersViewModel
+                {
+                    OrderId = c.OrderId,
+                    SubcriptionId = (int)c.SubscriptionId,
+                    SubscriptionName = c.Subscription.SubscriptionName,
+                    CompanyName = c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
+                    StartDate = c.StartDate?.ToString("g"),
+                    EndDate = c.EndDate?.ToString("g"),
+                    OrderStatusId = c.OrderStatus.StatusId,
+                    OrderStatus = c.OrderStatus.StatusValue,
+                    CreatorId = c.CreatorId.Value,
+                    FIOManager = c.Users.UserData.Surname + " " + c.Users.UserData.Name + " " + c.Users.UserData.MiddleName
+                })
+                .ToList();
+
+            allOrders.Clear();
+            allOrders = filteredClients;
+
+            CheckTotalPages();
+            GeneratePaginationButtons();
+            LoadCurrentPage();
         }
     }
 }

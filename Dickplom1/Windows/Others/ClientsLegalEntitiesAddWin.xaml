@@ -12,11 +12,11 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         VerticalAlignment="Center"
-        Height="850" Width="810"
+        Height="1050" Width="810"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Loaded="Window_Loaded">
     <Border
-        Width="710" Height="750"
+        Width="710" Height="950"
         CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
@@ -57,7 +57,15 @@
                 Background="Transparent"
                 GotKeyboardFocus="gridMovingWin_GotKeyboardFocus"
                 Focusable="False"/>
-            
+
+            <customControls:ButtomWithBorder
+                x:Name="btnEdit"
+                Content="Редактировать"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="20,20,0,0"
+                Loaded="ButtomWithBorder_Loaded"/>
+
             <customControls:ButtonClose
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -68,11 +76,12 @@
                 BorderBrush="#636C7F"
                 BorderThickness="0.5"
                 Width="320"
-                Height="420"
+                Height="450"
                 Margin="20,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 CornerRadius="20">
+                
             <Grid>
                 
                 
@@ -131,9 +140,9 @@
                 <Grid 
                     Panel.ZIndex="1"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Bottom"
                     Width="300" 
-                    Margin="0,200,0,0">
+                    Margin="0,0,0,10">
                     <StackPanel
                         Orientation="Vertical">
 
@@ -146,6 +155,7 @@
 
                         <customControls:TextboxWithBorder 
                             x:Name="tboxSurname"
+                            ToolTip="Фамилия представителя"
                             LostFocus="tboxSurname_LostFocus"
                             Text="Фамилия представителя"/>
 
@@ -154,25 +164,29 @@
                         <customControls:TextboxWithBorder 
                             x:Name="tboxName"
                             LostFocus="tboxName_LostFocus"
+                            ToolTip="Имя представителя"
                             Text="Имя представителя"/>
 
                         <Separator Opacity="0" Height="8"/>
 
                         <customControls:TextboxWithBorder 
                             x:Name="tboxMiddlename"
+                            ToolTip="Отчество представителя"
                             Text="Отчество представителя"/>
+                            <Separator Opacity="0" Height="8"/>
 
-                        <Separator Opacity="0" Height="8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tboxEmail"
+                                ToolTip="Электронная почта представителя"
+                                Text="Электронная почта представителя"/>
+
+                            <Separator Opacity="0" Height="8"/>
 
                         <customControls:TextboxWithBorder 
                             x:Name="tboxPhoneNumber"
+                            ToolTip="Номер телефона представителя"
                             Text="Номер телефона представителя"/>
 
-                        <Separator Opacity="0" Height="8"/>
-
-                        <customControls:TextboxWithBorder 
-                            x:Name="tboxEmail"
-                            Text="Электронная почта представителя"/>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -184,7 +198,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Width="300" 
-                Margin="0,50,20,0">
+                Margin="0,70,20,0">
                 <StackPanel
                     Orientation="Vertical">
 
@@ -198,6 +212,7 @@
                     <customControls:TextboxWithBorder 
                         x:Name="tboxCompanyName"
                         LostFocus="tboxSurname_LostFocus"
+                        ToolTip="Название компании"
                         Text="Название компании"/>
 
                     <Separator Opacity="0" Height="8"/>
@@ -205,48 +220,94 @@
                     <customControls:TextboxWithBorder 
                         x:Name="tboxINN"
                         LostFocus="tboxName_LostFocus"
+                        ToolTip="ИНН компании"
                         Text="ИНН компании"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxKPP"
+                        ToolTip="КПП компании"
                         Text="КПП компании"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxOGRN"
+                        ToolTip="ОГРН компании"
                         Text="ОГРН компании"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder
-                        x:Name="tboxAdressLegalEntitie"
-                        Text="Юридический адрес компании"/>
-
-                    <Separator Opacity="0" Height="8"/>
-
-                    <customControls:TextboxWithBorder
                         x:Name="tboxEmployeeCount"
+                        ToolTip="Количество сотрудников компании"
                         Text="Количество сотрудников компании"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxRegistrationDate"
+                        ToolTip="Дата регистрации компании"
                         Text="Дата регистрации компании"/>
                 </StackPanel>
             </Grid>
 
-            
+            <Grid 
+                Panel.ZIndex="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Width="300" 
+                Margin="0,40,20,0">
+                <StackPanel
+                    Orientation="Vertical">
+
+                    <Label 
+                        Style="{StaticResource TextZagolovokDashboard}"
+                        Content="Юридический адрес"
+                        HorizontalAlignment="Center"/>
+
+                    <Separator Opacity="0" Height="20"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxAddressCountry"
+                        LostFocus="tboxSurname_LostFocus"
+                        ToolTip="Страна"
+                        Text="Страна"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxAddressCity"
+                        LostFocus="tboxName_LostFocus"
+                        ToolTip="Город"
+                        Text="Город"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxAddressStreet"
+                        ToolTip="Улица"
+                        Text="Улица"/>
+
+                    <Separator Opacity="0" Height="8"/>
+
+                    <customControls:TextboxWithBorder 
+                        x:Name="tboxAddressHouse"
+                        ToolTip="Дом"
+                        Text="Дом"/>
+
+                </StackPanel>
+            </Grid>
+
+
 
             <Grid 
                 Panel.ZIndex="1"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Width="300" 
-                Margin="0,0,20,100">
+                Margin="0,0,20,120">
                 <StackPanel
                     Orientation="Vertical">
 
@@ -260,6 +321,7 @@
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankName"
                         LostFocus="tboxSurname_LostFocus"
+                        ToolTip="Название банка"
                         Text="Название банка"/>
 
                     <Separator Opacity="0" Height="8"/>
@@ -267,28 +329,33 @@
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankBIK"
                         LostFocus="tboxName_LostFocus"
+                        ToolTip="БИК банка"
                         Text="БИК банка"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankAccount"
+                        ToolTip="Рас. счет банка"
                         Text="Рас. счет банка"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankCorrAccount"
+                        ToolTip="Кор. счет банка"
                         Text="Кор. счет банка"/>
 
                 </StackPanel>
             </Grid>
             
             <customControls:ButtomWithBorder 
+                x:Name="btnSave"
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20"
+                Loaded="btnSave_Loaded"/>
         </Grid>
     </Border>
 </Window>

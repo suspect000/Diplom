@@ -14,16 +14,7 @@ namespace Dickplom1.DataFolder
     
     public partial class ClientsTypes
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ClientsTypes()
-        {
-            this.Orders = new HashSet<Orders>();
-        }
-    
         public int ClientTypeId { get; set; }
         public string ClientTypeValue { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

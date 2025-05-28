@@ -92,7 +92,8 @@
             x:Name="ComboboxesFilter"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,50,235,0"/>
+            Margin="0,50,235,0"
+            Loaded="ComboboxesFilter_Loaded"/>
 
         <customControls:ButtomWithBorder
             x:Name="btnAddOrder"

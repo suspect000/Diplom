@@ -38,6 +38,7 @@ namespace Dickplom1.DataFolder
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<OrdersLegalEntities> OrdersLegalEntities { get; set; }
         public virtual DbSet<OrderStatus> OrderStatus { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Sexes> Sexes { get; set; }

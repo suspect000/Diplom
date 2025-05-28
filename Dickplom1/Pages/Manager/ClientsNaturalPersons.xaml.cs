@@ -42,8 +42,8 @@ namespace Dickplom1.Pages.Manager
 
         private void Win_Closed1(object sender, EventArgs e)
         {
-            RefreshItemsList();
             LoadCurrentPage();
+            GeneratePaginationButtons();
         }
 
         private void Page_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -113,7 +113,7 @@ namespace Dickplom1.Pages.Manager
                     PhoneNumber = c.PhoneNumber,
                     Email = c.Email,
                     SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
+                    .Where(o => o.ClientId == c.ClientNaturalPersonsId)
                     .Select(o => o.OrderStatus.StatusValue)
                     .FirstOrDefault() ?? "Не оформлена",
                     CreatorId = c.CreatorId,
@@ -341,7 +341,6 @@ namespace Dickplom1.Pages.Manager
             {
                 clientsQuery = clientsQuery.Where(c => context.Orders
                 .Any(o => o.ClientId == c.ClientNaturalPersonsId 
-                && o.ClientTypeId == 1 
                 && !o.IsDeleted 
                 && o.StatusId == comboboxStatusValue
                 ));
@@ -355,7 +354,7 @@ namespace Dickplom1.Pages.Manager
                     PhoneNumber = c.PhoneNumber,
                     ClientPhoto = c.ClientPhoto,
                     SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1 && !o.IsDeleted)
+                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && !o.IsDeleted)
                     .Select(o => o.OrderStatus.StatusValue)
                     .FirstOrDefault() ?? "Не оформлена"
                     })
@@ -363,24 +362,6 @@ namespace Dickplom1.Pages.Manager
 
             allClients.Clear();
             allClients = filteredClients;
-
-            /*allClients = context.ClientsNaturalPersons
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new ClientViewModel
-                {
-                    ClientId = c.ClientNaturalPersonsId,
-                    ClientPhoto = c.ClientPhoto,
-                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
-                    PhoneNumber = c.PhoneNumber,
-                    Email = c.Email,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена",
-                    CreatorId = c.CreatorId,
-                })
-                .ToList();*/
-
 
             CheckTotalPages();
             GeneratePaginationButtons();

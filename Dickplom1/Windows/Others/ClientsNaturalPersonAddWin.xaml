@@ -129,6 +129,7 @@
                             x:Name="tboxSurname"
                             LostFocus="tboxSurname_LostFocus"
                             Text="Фамилия"
+                            ToolTip="Фамилия"
                             Width="265"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
@@ -160,6 +161,7 @@
                         x:Name="tboxName"
                         Width="265"
                         LostFocus="tboxName_LostFocus"
+                            ToolTip="Имя"
                         Text="Имя"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
@@ -190,6 +192,7 @@
                         <customControls:TextboxWithBorder 
                             x:Name="tboxMiddleName"
                             Width="265"
+                            ToolTip="Отчество"
                             Text="Отчество"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
@@ -220,6 +223,7 @@
                         <customControls:TextboxWithBorder 
                             x:Name="tboxPhoneNumber"
                             Width="265"
+                            ToolTip="Номер телефона"
                             Text="Номер телефона"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
@@ -249,6 +253,7 @@
                         <customControls:TextboxWithBorder 
                             Name="tboxEmail"
                             Width="265"
+                            ToolTip="Электронная почта"
                             Text="Электронная почта"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 

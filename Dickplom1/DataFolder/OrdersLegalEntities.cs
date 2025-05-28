@@ -12,7 +12,7 @@ namespace Dickplom1.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class Orders
+    public partial class OrdersLegalEntities
     {
         public int OrderId { get; set; }
         public Nullable<int> SubscriptionId { get; set; }
@@ -25,10 +25,9 @@ namespace Dickplom1.DataFolder
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual ClientsNaturalPersons ClientsNaturalPersons { get; set; }
+        public virtual ClientsLegalEntities ClientsLegalEntities { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual Subscription Subscription { get; set; }
         public virtual Users Users { get; set; }
-
     }
 }

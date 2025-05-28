@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DiplomModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountStatus">
           <Key>
             <PropertyRef Name="AccountStatusId" />
@@ -133,7 +133,21 @@
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionId" Type="int" />
           <Property Name="ClientId" Type="int" />
-          <Property Name="ClientTypeId" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="CreatorId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrdersLegalEntities">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubscriptionId" Type="int" />
+          <Property Name="ClientId" Type="int" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="StatusId" Type="int" />
@@ -386,18 +400,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_ClientsTypes">
-          <End Role="ClientsTypes" Type="Self.ClientsTypes" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClientsTypes">
-              <PropertyRef Name="ClientTypeId" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ClientTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Orders_OrderStatus">
           <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -410,15 +412,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdersNaturalPersons_ClientsLegalEntities">
+        <Association Name="FK_OrdersLegalEntities_ClientsLegalEntities">
           <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClientsLegalEntities">
               <PropertyRef Name="ClientsLegalEntitiesId" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="OrdersLegalEntities">
               <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_OrderStatus">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_Subscription">
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
+              <PropertyRef Name="CreatorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -566,7 +604,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище DiplomModelContainer">
+        <EntityContainer Name="Хранилище DBModelContainer">
           <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddressLegalEntities" EntityType="Self.AddressLegalEntities" Schema="dbo" store:Type="Tables" />
@@ -580,6 +618,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdersLegalEntities" EntityType="Self.OrdersLegalEntities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sexes" EntityType="Self.Sexes" Schema="dbo" store:Type="Tables" />
@@ -635,17 +674,25 @@
             <End Role="AddressLegalEntities" EntitySet="AddressLegalEntities" />
             <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orders_ClientsTypes" Association="Self.FK_Orders_ClientsTypes">
-            <End Role="ClientsTypes" EntitySet="ClientsTypes" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdersNaturalPersons_ClientsLegalEntities" Association="Self.FK_OrdersNaturalPersons_ClientsLegalEntities">
+          <AssociationSet Name="FK_OrdersLegalEntities_ClientsLegalEntities" Association="Self.FK_OrdersLegalEntities_ClientsLegalEntities">
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_OrderStatus" Association="Self.FK_OrdersLegalEntities_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_Subscription" Association="Self.FK_OrdersLegalEntities_Subscription">
+            <End Role="Subscription" EntitySet="Subscription" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_Users" Association="Self.FK_OrdersLegalEntities_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
           </AssociationSet>
           <AssociationSet Name="FK_OrdersNaturalPersons_ClientsNaturalPersons" Association="Self.FK_OrdersNaturalPersons_ClientsNaturalPersons">
             <End Role="ClientsNaturalPersons" EntitySet="ClientsNaturalPersons" />
@@ -700,7 +747,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DiplomModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AccountStatus">
           <Key>
             <PropertyRef Name="AccountStatusId" />
@@ -756,7 +803,7 @@
           <NavigationProperty Name="ClientsLegalEntitiesCompanyData" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesCompanyData" />
           <NavigationProperty Name="ClientsLegalEntitiesContactPerson" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesContactPerson" />
           <NavigationProperty Name="Users" Relationship="Self.FK_ClientsLegalEntities_Users" FromRole="ClientsLegalEntities" ToRole="Users" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_OrdersNaturalPersons_ClientsLegalEntities" FromRole="ClientsLegalEntities" ToRole="Orders" />
+          <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_ClientsLegalEntities" FromRole="ClientsLegalEntities" ToRole="OrdersLegalEntities" />
         </EntityType>
         <EntityType Name="ClientsLegalEntitiesBankData">
           <Key>
@@ -821,7 +868,6 @@
           </Key>
           <Property Name="ClientTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_ClientsTypes" FromRole="ClientsTypes" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -850,7 +896,6 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubscriptionId" Type="Int32" />
           <Property Name="ClientId" Type="Int32" />
-          <Property Name="ClientTypeId" Type="Int32" />
           <Property Name="StartDate" Type="DateTime" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Precision="3" />
           <Property Name="StatusId" Type="Int32" />
@@ -858,12 +903,29 @@
           <Property Name="CreatorId" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ClientsLegalEntities" Relationship="Self.FK_OrdersNaturalPersons_ClientsLegalEntities" FromRole="Orders" ToRole="ClientsLegalEntities" />
           <NavigationProperty Name="ClientsNaturalPersons" Relationship="Self.FK_OrdersNaturalPersons_ClientsNaturalPersons" FromRole="Orders" ToRole="ClientsNaturalPersons" />
-          <NavigationProperty Name="ClientsTypes" Relationship="Self.FK_Orders_ClientsTypes" FromRole="Orders" ToRole="ClientsTypes" />
           <NavigationProperty Name="OrderStatus" Relationship="Self.FK_Orders_OrderStatus" FromRole="Orders" ToRole="OrderStatus" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_OrdersNaturalPersons_Subscription" FromRole="Orders" ToRole="Subscription" />
           <NavigationProperty Name="Users" Relationship="Self.FK_OrdersNaturalPersons_Users" FromRole="Orders" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="OrdersLegalEntities">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscriptionId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="CreatorId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ClientsLegalEntities" Relationship="Self.FK_OrdersLegalEntities_ClientsLegalEntities" FromRole="OrdersLegalEntities" ToRole="ClientsLegalEntities" />
+          <NavigationProperty Name="OrderStatus" Relationship="Self.FK_OrdersLegalEntities_OrderStatus" FromRole="OrdersLegalEntities" ToRole="OrderStatus" />
+          <NavigationProperty Name="Subscription" Relationship="Self.FK_OrdersLegalEntities_Subscription" FromRole="OrdersLegalEntities" ToRole="Subscription" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_OrdersLegalEntities_Users" FromRole="OrdersLegalEntities" ToRole="Users" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -872,6 +934,7 @@
           <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StatusValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_OrderStatus" FromRole="OrderStatus" ToRole="Orders" />
+          <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_OrderStatus" FromRole="OrderStatus" ToRole="OrdersLegalEntities" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -915,6 +978,7 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_OrdersNaturalPersons_Subscription" FromRole="Subscription" ToRole="Orders" />
+          <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_Subscription" FromRole="Subscription" ToRole="OrdersLegalEntities" />
           <NavigationProperty Name="SubscriptionPeriodMonth" Relationship="Self.FK_Subscription_SubscriptionPeriod" FromRole="Subscription" ToRole="SubscriptionPeriodMonth" />
           <NavigationProperty Name="SubscriptionType" Relationship="Self.FK_Subscription_SubscriptionType" FromRole="Subscription" ToRole="SubscriptionType" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Subscription_Users" FromRole="Subscription" ToRole="Users" />
@@ -997,6 +1061,7 @@
           <NavigationProperty Name="ClientsNaturalPersons" Relationship="Self.FK_Clients_Users" FromRole="Users" ToRole="ClientsNaturalPersons" />
           <NavigationProperty Name="Logs" Relationship="Self.FK__Logs__UserID__5AEE82B9" FromRole="Users" ToRole="Logs" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_OrdersNaturalPersons_Users" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_Users" FromRole="Users" ToRole="OrdersLegalEntities" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_Users" FromRole="Users" ToRole="Subscription" />
           <NavigationProperty Name="UserData" Relationship="Self.FK_Users_UserData" FromRole="Users" ToRole="UserData" />
@@ -1134,14 +1199,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdersNaturalPersons_ClientsLegalEntities">
+        <Association Name="FK_OrdersLegalEntities_ClientsLegalEntities">
           <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClientsLegalEntities">
               <PropertyRef Name="ClientsLegalEntitiesId" />
             </Principal>
-            <Dependent Role="Orders">
+            <Dependent Role="OrdersLegalEntities">
               <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1167,18 +1232,6 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_ClientsTypes">
-          <End Role="ClientsTypes" Type="Self.ClientsTypes" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClientsTypes">
-              <PropertyRef Name="ClientTypeId" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ClientTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1226,6 +1279,42 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="Orders">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_OrderStatus">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_Subscription">
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="SubscriptionId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdersLegalEntities_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="OrdersLegalEntities" Type="Self.OrdersLegalEntities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="OrdersLegalEntities">
               <PropertyRef Name="CreatorId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1328,6 +1417,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" />
           <EntitySet Name="Logs" EntityType="Self.Logs" />
           <EntitySet Name="Orders" EntityType="Self.Orders" />
+          <EntitySet Name="OrdersLegalEntities" EntityType="Self.OrdersLegalEntities" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Sexes" EntityType="Self.Sexes" />
@@ -1383,9 +1473,9 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdersNaturalPersons_ClientsLegalEntities" Association="Self.FK_OrdersNaturalPersons_ClientsLegalEntities">
+          <AssociationSet Name="FK_OrdersLegalEntities_ClientsLegalEntities" Association="Self.FK_OrdersLegalEntities_ClientsLegalEntities">
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
-            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
           </AssociationSet>
           <AssociationSet Name="FK_Clients_Users" Association="Self.FK_Clients_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1393,10 +1483,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_OrdersNaturalPersons_ClientsNaturalPersons" Association="Self.FK_OrdersNaturalPersons_ClientsNaturalPersons">
             <End Role="ClientsNaturalPersons" EntitySet="ClientsNaturalPersons" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_ClientsTypes" Association="Self.FK_Orders_ClientsTypes">
-            <End Role="ClientsTypes" EntitySet="ClientsTypes" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK__Logs__UserID__5AEE82B9" Association="Self.FK__Logs__UserID__5AEE82B9">
@@ -1414,6 +1500,18 @@
           <AssociationSet Name="FK_OrdersNaturalPersons_Users" Association="Self.FK_OrdersNaturalPersons_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_OrderStatus" Association="Self.FK_OrdersLegalEntities_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_Subscription" Association="Self.FK_OrdersLegalEntities_Subscription">
+            <End Role="Subscription" EntitySet="Subscription" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdersLegalEntities_Users" Association="Self.FK_OrdersLegalEntities_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -1449,9 +1547,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище DiplomModelContainer" CdmEntityContainer="DBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DBModelContainer" CdmEntityContainer="DBEntities">
           <EntitySetMapping Name="AccountStatus">
-            <EntityTypeMapping TypeName="DiplomModel.AccountStatus">
+            <EntityTypeMapping TypeName="DBModel.AccountStatus">
               <MappingFragment StoreEntitySet="AccountStatus">
                 <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
                 <ScalarProperty Name="AccountStatusValue" ColumnName="AccountStatusValue" />
@@ -1459,7 +1557,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Address">
-            <EntityTypeMapping TypeName="DiplomModel.Address">
+            <EntityTypeMapping TypeName="DBModel.Address">
               <MappingFragment StoreEntitySet="Address">
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="StreetId" ColumnName="StreetId" />
@@ -1469,7 +1567,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AddressLegalEntities">
-            <EntityTypeMapping TypeName="DiplomModel.AddressLegalEntities">
+            <EntityTypeMapping TypeName="DBModel.AddressLegalEntities">
               <MappingFragment StoreEntitySet="AddressLegalEntities">
                 <ScalarProperty Name="AddressLegalEntitiesId" ColumnName="AddressLegalEntitiesId" />
                 <ScalarProperty Name="StreetId" ColumnName="StreetId" />
@@ -1478,7 +1576,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="City">
-            <EntityTypeMapping TypeName="DiplomModel.City">
+            <EntityTypeMapping TypeName="DBModel.City">
               <MappingFragment StoreEntitySet="City">
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="CityName" ColumnName="CityName" />
@@ -1487,7 +1585,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsLegalEntities">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsLegalEntities">
+            <EntityTypeMapping TypeName="DBModel.ClientsLegalEntities">
               <MappingFragment StoreEntitySet="ClientsLegalEntities">
                 <ScalarProperty Name="ClientsLegalEntitiesId" ColumnName="ClientsLegalEntitiesId" />
                 <ScalarProperty Name="ClientUserId" ColumnName="ClientUserId" />
@@ -1501,7 +1599,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsLegalEntitiesBankData">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsLegalEntitiesBankData">
+            <EntityTypeMapping TypeName="DBModel.ClientsLegalEntitiesBankData">
               <MappingFragment StoreEntitySet="ClientsLegalEntitiesBankData">
                 <ScalarProperty Name="BankDataId" ColumnName="BankDataId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
@@ -1512,7 +1610,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsLegalEntitiesCompanyData">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsLegalEntitiesCompanyData">
+            <EntityTypeMapping TypeName="DBModel.ClientsLegalEntitiesCompanyData">
               <MappingFragment StoreEntitySet="ClientsLegalEntitiesCompanyData">
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
@@ -1526,7 +1624,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsLegalEntitiesContactPerson">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsLegalEntitiesContactPerson">
+            <EntityTypeMapping TypeName="DBModel.ClientsLegalEntitiesContactPerson">
               <MappingFragment StoreEntitySet="ClientsLegalEntitiesContactPerson">
                 <ScalarProperty Name="ContactPersonId" ColumnName="ContactPersonId" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -1539,7 +1637,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsNaturalPersons">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsNaturalPersons">
+            <EntityTypeMapping TypeName="DBModel.ClientsNaturalPersons">
               <MappingFragment StoreEntitySet="ClientsNaturalPersons">
                 <ScalarProperty Name="ClientNaturalPersonsId" ColumnName="ClientNaturalPersonsId" />
                 <ScalarProperty Name="ClientUserId" ColumnName="ClientUserId" />
@@ -1556,7 +1654,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientsTypes">
-            <EntityTypeMapping TypeName="DiplomModel.ClientsTypes">
+            <EntityTypeMapping TypeName="DBModel.ClientsTypes">
               <MappingFragment StoreEntitySet="ClientsTypes">
                 <ScalarProperty Name="ClientTypeId" ColumnName="ClientTypeId" />
                 <ScalarProperty Name="ClientTypeValue" ColumnName="ClientTypeValue" />
@@ -1564,7 +1662,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Country">
-            <EntityTypeMapping TypeName="DiplomModel.Country">
+            <EntityTypeMapping TypeName="DBModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
@@ -1572,7 +1670,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logs">
-            <EntityTypeMapping TypeName="DiplomModel.Logs">
+            <EntityTypeMapping TypeName="DBModel.Logs">
               <MappingFragment StoreEntitySet="Logs">
                 <ScalarProperty Name="LogID" ColumnName="LogID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1584,12 +1682,27 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="DiplomModel.Orders">
+            <EntityTypeMapping TypeName="DBModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="ClientTypeId" ColumnName="ClientTypeId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdersLegalEntities">
+            <EntityTypeMapping TypeName="DBModel.OrdersLegalEntities">
+              <MappingFragment StoreEntitySet="OrdersLegalEntities">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
@@ -1601,7 +1714,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderStatus">
-            <EntityTypeMapping TypeName="DiplomModel.OrderStatus">
+            <EntityTypeMapping TypeName="DBModel.OrderStatus">
               <MappingFragment StoreEntitySet="OrderStatus">
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="StatusValue" ColumnName="StatusValue" />
@@ -1609,7 +1722,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="DiplomModel.Roles">
+            <EntityTypeMapping TypeName="DBModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="NameRole" ColumnName="NameRole" />
@@ -1617,7 +1730,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sexes">
-            <EntityTypeMapping TypeName="DiplomModel.Sexes">
+            <EntityTypeMapping TypeName="DBModel.Sexes">
               <MappingFragment StoreEntitySet="Sexes">
                 <ScalarProperty Name="SexId" ColumnName="SexId" />
                 <ScalarProperty Name="SexName" ColumnName="SexName" />
@@ -1625,7 +1738,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Street">
-            <EntityTypeMapping TypeName="DiplomModel.Street">
+            <EntityTypeMapping TypeName="DBModel.Street">
               <MappingFragment StoreEntitySet="Street">
                 <ScalarProperty Name="StreetId" ColumnName="StreetId" />
                 <ScalarProperty Name="StreetName" ColumnName="StreetName" />
@@ -1634,7 +1747,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Subscription">
-            <EntityTypeMapping TypeName="DiplomModel.Subscription">
+            <EntityTypeMapping TypeName="DBModel.Subscription">
               <MappingFragment StoreEntitySet="Subscription">
                 <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
                 <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
@@ -1650,7 +1763,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SubscriptionPeriodMonth">
-            <EntityTypeMapping TypeName="DiplomModel.SubscriptionPeriodMonth">
+            <EntityTypeMapping TypeName="DBModel.SubscriptionPeriodMonth">
               <MappingFragment StoreEntitySet="SubscriptionPeriodMonth">
                 <ScalarProperty Name="SubscriptionPeriodMonthId" ColumnName="SubscriptionPeriodMonthId" />
                 <ScalarProperty Name="SubscriptionPeriodMonthValue" ColumnName="SubscriptionPeriodMonthValue" />
@@ -1658,7 +1771,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SubscriptionType">
-            <EntityTypeMapping TypeName="DiplomModel.SubscriptionType">
+            <EntityTypeMapping TypeName="DBModel.SubscriptionType">
               <MappingFragment StoreEntitySet="SubscriptionType">
                 <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
                 <ScalarProperty Name="SubscriptionTypeValue" ColumnName="SubscriptionTypeValue" />
@@ -1666,7 +1779,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DiplomModel.sysdiagrams">
+            <EntityTypeMapping TypeName="DBModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1677,7 +1790,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserData">
-            <EntityTypeMapping TypeName="DiplomModel.UserData">
+            <EntityTypeMapping TypeName="DBModel.UserData">
               <MappingFragment StoreEntitySet="UserData">
                 <ScalarProperty Name="UserDataId" ColumnName="UserDataId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1691,7 +1804,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserPassportData">
-            <EntityTypeMapping TypeName="DiplomModel.UserPassportData">
+            <EntityTypeMapping TypeName="DBModel.UserPassportData">
               <MappingFragment StoreEntitySet="UserPassportData">
                 <ScalarProperty Name="UserPassportDataId" ColumnName="UserPassportDataId" />
                 <ScalarProperty Name="PassportCountry" ColumnName="PassportCountry" />
@@ -1707,7 +1820,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="DiplomModel.Users">
+            <EntityTypeMapping TypeName="DBModel.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />

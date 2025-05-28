@@ -165,10 +165,6 @@
     <Compile Include="DataFolder\ClientsTypes.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\StaffViewModel.cs" />
-    <Compile Include="DataFolder\SubscriptionsViewModel.cs" />
-    <Compile Include="DataFolder\ClientViewModel.cs" />
-    <Compile Include="DataFolder\ContextClass.cs" />
     <Compile Include="DataFolder\Country.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -193,16 +189,19 @@
     <Compile Include="DataFolder\Orders.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\OrdersLegalEntities.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFolder\OrderStatus.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\OrdersViewModel.cs" />
     <Compile Include="DataFolder\Roles.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Sexes.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\StaffViewModel.cs" />
     <Compile Include="DataFolder\Street.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -212,6 +211,10 @@
     <Compile Include="DataFolder\SubscriptionPeriodMonth.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\SubscriptionsViewModel.cs" />
+    <Compile Include="DataFolder\ClientViewModel.cs" />
+    <Compile Include="DataFolder\ContextClass.cs" />
+    <Compile Include="DataFolder\OrdersViewModel.cs" />
     <Compile Include="DataFolder\SubscriptionType.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -528,6 +531,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\OtherWins\galkaIcnBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\OtherWins\editIcnBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataFolder\DBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DBModel.edmx</DependentUpon>
@@ -538,12 +549,6 @@
       <DependentUpon>DBModel.edmx</DependentUpon>
       <LastGenOutput>DBModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\Images\OtherWins\galkaIcnBlue.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Images\OtherWins\editIcnBlue.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
