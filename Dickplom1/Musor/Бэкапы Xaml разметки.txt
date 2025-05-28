@@ -100,3 +100,77 @@
         </Setter>
     </Style>
     <!---->
+
+
+
+
+
+
+
+    if (ManagerId != 0)
+            {
+                var context = DBEntities.GetContext();
+
+                allClients = context.ClientsNaturalPersons
+                    .Where(c => c.IsDeleted == false && c.CreatorId == ManagerId)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientNaturalPersonsId,
+                        ClientPhoto = c.ClientPhoto,
+                        FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                        PhoneNumber = c.PhoneNumber,
+                        Email = c.Email,
+                        SubscriptionStatus = context.Orders
+                        .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
+                        .Select(o => o.OrderStatus.StatusValue)
+                        .FirstOrDefault() ?? "Не оформлена",
+                        CreatorId = c.CreatorId,
+                    })
+                    .ToList();
+            }
+
+            if (StatusId != 0)
+            {
+                var context = DBEntities.GetContext();
+
+                if (StatusId == -1)
+                {
+                    allClients = context.Orders
+                                        .Where(o => o.StatusId != 1 && o.StatusId != 2 && o.StatusId != 3 && o.StatusId != 4 && o.StatusId != 5 && o.StatusId != 6)
+                                        .Select(o => o.ClientsNaturalPersons)
+                                        .Where(o => o.IsDeleted == false)
+                                        .Select(c => new ClientViewModel
+                                        {
+                                            ClientId = c.ClientNaturalPersonsId,
+                                            ClientPhoto = c.ClientPhoto,
+                                            FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                                            PhoneNumber = c.PhoneNumber,
+                                            Email = c.Email,
+                                            SubscriptionStatus = "Не оформлена",
+                                            CreatorId = c.CreatorId,
+                                        })
+                                        .ToList();
+                }
+                else
+                {
+                    allClients = context.Orders
+                        .Where(o => o.StatusId != 1 && o.StatusId != 2 && o.StatusId != 3 && o.StatusId != 4 && o.StatusId != 5 && o.StatusId != 6)
+                        .Select(o => o.ClientsNaturalPersons)
+                        .Where(o => o.IsDeleted == false)
+                        .Select(c => new ClientViewModel
+                        {
+                            ClientId = c.ClientNaturalPersonsId,
+                            ClientPhoto = c.ClientPhoto,
+                            FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                            PhoneNumber = c.PhoneNumber,
+                            Email = c.Email,
+                            SubscriptionStatus = context.Orders
+                            .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
+                            .Select(o => o.OrderStatus.StatusValue)
+                            .FirstOrDefault() ?? "Не оформлена",
+                            CreatorId = c.CreatorId,
+                            
+                        })
+                        .ToList();
+                }
+            }    

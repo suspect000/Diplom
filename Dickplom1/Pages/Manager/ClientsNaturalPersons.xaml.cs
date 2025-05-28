@@ -81,13 +81,18 @@ namespace Dickplom1.Pages.Manager
         private int itemsPerPage = 10;
         private int totalPages = 1;
 
+
+        private void CheckTotalPages()
+        {
+            totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+        }
         private void DataGridCustomForClients_Loaded(object sender, RoutedEventArgs e)
         {
             var context = DBEntities.GetContext();
 
             RefreshItemsList();
 
-            totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+            CheckTotalPages();
             currentPage = 1;
 
             LoadCurrentPage();
@@ -273,6 +278,114 @@ namespace Dickplom1.Pages.Manager
             ComboboxesFilter.firstCombobox.DisplayMemberPath = "FullName";
             ComboboxesFilter.firstCombobox.SelectedValuePath = "UserDataId";
             ComboboxesFilter.firstCombobox.SelectedIndex = 0;
+            ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
+
+
+            //Добавить 2-ой комбобокс
+            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
+
+            var items2 = new List<object>();
+            items2.Add(new { StatusId = 0, StatusValue = "Статус подписки" });
+
+            items2.AddRange(context.OrderStatus
+                .Select(u => new
+                {
+                    u.StatusId,
+                    u.StatusValue,
+                }));
+
+
+            cbox.cbox.ItemsSource = items2;
+            cbox.cbox.DisplayMemberPath = "StatusValue";
+            cbox.cbox.SelectedValuePath = "StatusId";
+            cbox.cbox.SelectedIndex= 0;
+            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
+
+            ComboboxesFilter.spCboxes.Children.Add(cbox);
+        }
+        public int comboboxCreatorValue {  get; set; } = 0;
+        public int comboboxStatusValue { get; set; } = 0;
+
+        private void FirstCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            comboboxCreatorValue = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
+            ApplyFilters();
+        }
+
+        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.ComboBox cbox)
+            {
+                comboboxStatusValue = Convert.ToInt32(cbox.SelectedValue);
+                ApplyFilters();
+
+            }
+
+        }
+
+        private void ApplyFilters()
+        {
+            var context = DBEntities.GetContext();
+
+            var clientsQuery = context.ClientsNaturalPersons
+            .Where(c => !c.IsDeleted);
+
+            // фильтр по создателю записи
+            if (comboboxCreatorValue != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+            }
+
+            // фильтр по статусу заказа
+            if (comboboxStatusValue != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => context.Orders
+                .Any(o => o.ClientId == c.ClientNaturalPersonsId 
+                && o.ClientTypeId == 1 
+                && !o.IsDeleted 
+                && o.StatusId == comboboxStatusValue
+                ));
+            }
+            var filteredClients = clientsQuery
+                .Select(c => new ClientViewModel
+                {
+                    ClientId = c.ClientNaturalPersonsId,
+                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    ClientPhoto = c.ClientPhoto,
+                    SubscriptionStatus = context.Orders
+                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1 && !o.IsDeleted)
+                    .Select(o => o.OrderStatus.StatusValue)
+                    .FirstOrDefault() ?? "Не оформлена"
+                    })
+                .ToList();
+
+            allClients.Clear();
+            allClients = filteredClients;
+
+            /*allClients = context.ClientsNaturalPersons
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new ClientViewModel
+                {
+                    ClientId = c.ClientNaturalPersonsId,
+                    ClientPhoto = c.ClientPhoto,
+                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.Email,
+                    SubscriptionStatus = context.Orders
+                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && o.ClientTypeId == 1)
+                    .Select(o => o.OrderStatus.StatusValue)
+                    .FirstOrDefault() ?? "Не оформлена",
+                    CreatorId = c.CreatorId,
+                })
+                .ToList();*/
+
+
+            CheckTotalPages();
+            GeneratePaginationButtons();
+            LoadCurrentPage();
+
         }
     }
 }
