@@ -48,7 +48,7 @@
           <Property Name="BankDataId" Type="int" />
           <Property Name="CreatorId" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
-          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientsLegalEntitiesBankData">
           <Key>
@@ -133,8 +133,8 @@
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionId" Type="int" />
           <Property Name="ClientId" Type="int" />
-          <Property Name="StartDate" Type="datetime" />
-          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="StatusId" Type="int" />
           <Property Name="Price" Type="decimal" Precision="10" Scale="0" />
           <Property Name="CreatorId" Type="int" />
@@ -148,8 +148,8 @@
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionId" Type="int" />
           <Property Name="ClientId" Type="int" />
-          <Property Name="StartDate" Type="datetime" />
-          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="StatusId" Type="int" />
           <Property Name="Price" Type="decimal" Precision="10" Scale="0" />
           <Property Name="CreatorId" Type="int" />
@@ -798,7 +798,7 @@
           <Property Name="BankDataId" Type="Int32" />
           <Property Name="CreatorId" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ClientsLegalEntitiesBankData" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesBankData" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesBankData" />
           <NavigationProperty Name="ClientsLegalEntitiesCompanyData" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesCompanyData" />
           <NavigationProperty Name="ClientsLegalEntitiesContactPerson" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesContactPerson" />
@@ -896,8 +896,8 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubscriptionId" Type="Int32" />
           <Property Name="ClientId" Type="Int32" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="StatusId" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="0" />
           <Property Name="CreatorId" Type="Int32" />
@@ -915,8 +915,8 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubscriptionId" Type="Int32" />
           <Property Name="ClientId" Type="Int32" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="StatusId" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="0" />
           <Property Name="CreatorId" Type="Int32" />

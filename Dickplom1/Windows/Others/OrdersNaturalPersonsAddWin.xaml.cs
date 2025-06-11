@@ -44,6 +44,11 @@ namespace Dickplom1.Windows.Others
 
         private void cboxSubscription_Loaded(object sender, RoutedEventArgs e)
         {
+            SubscriptionsRefresh();
+        }
+
+        public void SubscriptionsRefresh()
+        {
             var context = DBEntities.GetContext();
 
             var items = new List<object>();
@@ -52,7 +57,7 @@ namespace Dickplom1.Windows.Others
             items.Add(new { SubscriptionId = 0, SubscriptionName = "Выберите подписку" });
 
             items.AddRange(context.Subscription
-                .Where(s=>s.SubscriptionTypeId == 1)
+                .Where(s => s.SubscriptionTypeId == 1)
                 .Select(u => new
                 {
                     u.SubscriptionId,
@@ -67,6 +72,11 @@ namespace Dickplom1.Windows.Others
         }
 
         private void cboxClient_Loaded(object sender, RoutedEventArgs e)
+        {
+            ClientsRefresh();
+        }
+
+        public void ClientsRefresh()
         {
             var context = DBEntities.GetContext();
 
@@ -180,13 +190,16 @@ namespace Dickplom1.Windows.Others
                 else
                 {
                     DateTime.TryParse(datePicker.dp.SelectedDate.ToString(), out DateTime startDate);
-                    int month = Convert.ToInt32(cboxSubscription.cbox.Text.Substring(cboxSubscription.cbox.Text.Length - 1));
-                    DateTime endDate = startDate.AddMonths(month);
+                    if (cboxSubscription.cbox.Text != "Выберите подписку")
+                    {
+                        int month = Convert.ToInt32(cboxSubscription.cbox.Text.Substring(cboxSubscription.cbox.Text.Length - 1));
+                        DateTime endDate = startDate.AddMonths(month);
 
-                    tblockPeriod.Text = string.Empty;
-                    tblockPeriod.Text = $"{startDate.ToString("d")} - {endDate.ToString("d")}";
+                        tblockPeriod.Text = string.Empty;
+                        tblockPeriod.Text = $"{startDate.ToString("d")} - {endDate.ToString("d")}";
 
-                    endDatE = endDate.ToString();
+                        endDatE = endDate.ToString();
+                    }
                 }
                 
             }
@@ -295,15 +308,25 @@ namespace Dickplom1.Windows.Others
                     if (endDatE == null) return;
                     if (priceAll == null) return;
 
+                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
+                    {
+                        if (dateParsed.Date < DateTime.Now.Date || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
+                        {
+                            datePicker.dp.Text = string.Empty;
+                            MessageBox.Show("Дата недействительна");
+                            return;
+                        }
+                    }
+
                     Orders newOrder = new Orders
                     {
                         SubscriptionId = cboxSubscription.cbox.SelectedIndex,
                         ClientId = cboxClient.cbox.SelectedIndex,
                         StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
                         EndDate = DateTime.Parse(endDatE),
-                        StatusId = cboxOrderStatus.cbox.SelectedIndex,
+                        StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
                         Price = Convert.ToInt32(priceAll),
-                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
+                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("d"))
                         //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
                     };
                     context.Orders.Add(newOrder);
@@ -315,6 +338,36 @@ namespace Dickplom1.Windows.Others
                 {
                 }
             }
+        }
+
+        private void btnAddSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            SubscriptionAddWin win = new SubscriptionAddWin();
+            win.Closed += Win_Closed1;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed1(object sender, EventArgs e)
+        {
+            SubscriptionsRefresh();
+        }
+
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            ClientsNaturalPersonAddWin client = new ClientsNaturalPersonAddWin();
+            client.ShowDialog();
+        }
+
+        private void btnAddPlusWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ClientsNaturalPersonAddWin win = new ClientsNaturalPersonAddWin();
+            win.Closed += Win_Closed;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            ClientsRefresh();
         }
     }
 }

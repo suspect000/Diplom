@@ -55,8 +55,8 @@ namespace Dickplom1.Pages.Manager
                 {    
                     SubscriptionName = o.Subscription.SubscriptionName,
                     CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
-                    StartDate = o.StartDate?.ToString("g"),
-                    EndDate = o.EndDate?.ToString("g"),
+                    StartDate = o.StartDate?.ToString("d"),
+                    EndDate = o.EndDate?.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
                     FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
                 })

@@ -29,6 +29,5 @@ namespace Dickplom1.DataFolder
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual Subscription Subscription { get; set; }
         public virtual Users Users { get; set; }
-
     }
 }

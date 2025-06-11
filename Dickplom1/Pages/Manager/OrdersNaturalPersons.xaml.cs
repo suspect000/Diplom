@@ -59,8 +59,8 @@ namespace Dickplom1.Pages.Manager
                    FullNameClient = o.ClientsNaturalPersons.Surname
                    + " " + o.ClientsNaturalPersons.Name
                    + " " + o.ClientsNaturalPersons.MiddleName,
-                   StartDate = o.StartDate.Value.ToString("g"),
-                   EndDate = o.EndDate.Value.ToString("g"),
+                   StartDate = o.StartDate.Value.ToString("d"),
+                   EndDate = o.EndDate.Value.ToString("d"),
                    OrderStatus = o.OrderStatus.StatusValue,
                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
                })
@@ -80,19 +80,16 @@ namespace Dickplom1.Pages.Manager
         { 
                 
             var context = DBEntities.GetContext();
-
-                
+          
             allOrders = context.Orders
                 .Where(c=>c.IsDeleted == false)  
                 .ToList()
                 .Select(o => new OrdersViewModel  
                 { 
                     SubscriptionName = o.Subscription.SubscriptionName,
-                    FullNameClient = o.ClientsNaturalPersons.Surname 
-                    + " " + o.ClientsNaturalPersons.Name 
-                    + " " + o.ClientsNaturalPersons.MiddleName,
-                    StartDate = o.StartDate.Value.ToString("g"),
-                    EndDate = o.EndDate.Value.ToString("g"),
+                    FullNameClient = o.ClientsNaturalPersons.Surname + " " + o.ClientsNaturalPersons.Name + " " + o.ClientsNaturalPersons.MiddleName,
+                    StartDate = o.StartDate.Value.ToString("d"),
+                    EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
                     FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
                 })
