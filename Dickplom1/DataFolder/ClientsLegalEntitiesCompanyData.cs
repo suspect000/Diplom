@@ -18,6 +18,7 @@ namespace Dickplom1.DataFolder
         public ClientsLegalEntitiesCompanyData()
         {
             this.ClientsLegalEntities = new HashSet<ClientsLegalEntities>();
+            this.ClientsLegalEntitiesContactPerson = new HashSet<ClientsLegalEntitiesContactPerson>();
         }
     
         public int CompanyId { get; set; }
@@ -32,5 +33,7 @@ namespace Dickplom1.DataFolder
         public virtual AddressLegalEntities AddressLegalEntities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientsLegalEntities> ClientsLegalEntities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClientsLegalEntitiesContactPerson> ClientsLegalEntitiesContactPerson { get; set; }
     }
 }

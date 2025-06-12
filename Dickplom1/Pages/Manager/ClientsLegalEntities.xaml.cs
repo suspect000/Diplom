@@ -51,11 +51,13 @@ namespace Dickplom1.Pages.Manager
                 .Select(c => new ClientViewModel
                 {
                     ClientId = c.ClientsLegalEntitiesId,
-                    ClientPhoto = c.ClientsLegalEntitiesContactPerson.Photo,
-                    FullName = c.ClientsLegalEntitiesContactPerson.Surname + " " + c.ClientsLegalEntitiesContactPerson.Name + " " + c.ClientsLegalEntitiesContactPerson.Middlename,
+                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w=>w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname 
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name 
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                     CreatorId = c.CreatorId,
-                    Email = c.ClientsLegalEntitiesContactPerson.Email,
+                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
                     SubscriptionStatus = context.Orders
                     .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
                     .Select(o => o.OrderStatus.StatusValue)
@@ -85,15 +87,17 @@ namespace Dickplom1.Pages.Manager
             var context = DBEntities.GetContext();
 
             allClients = context.ClientsLegalEntities
-                .Where(c=>c.IsDeleted == false)
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new ClientViewModel
                 {
                     ClientId = c.ClientsLegalEntitiesId,
-                    ClientPhoto = c.ClientsLegalEntitiesContactPerson.Photo,
-                    FullName = c.ClientsLegalEntitiesContactPerson.Surname + " " + c.ClientsLegalEntitiesContactPerson.Name + " " + c.ClientsLegalEntitiesContactPerson.Middlename,
+                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Photo,
+                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Surname
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Name
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Middlename,
                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                     CreatorId = c.CreatorId,
-                    Email = c.ClientsLegalEntitiesContactPerson.Email,
+                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
                     SubscriptionStatus = context.Orders
                     .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
                     .Select(o => o.OrderStatus.StatusValue)
@@ -283,15 +287,19 @@ namespace Dickplom1.Pages.Manager
                 ));
             }
             var filteredClients = clientsQuery
+                .Where(c => c.IsDeleted == false)
                 .Select(c => new ClientViewModel
                 {
                     ClientId = c.ClientsLegalEntitiesId,
-                    FullName = c.ClientsLegalEntitiesContactPerson.Surname + " " + c.ClientsLegalEntitiesContactPerson.Name + " " + c.ClientsLegalEntitiesContactPerson.Middlename,
-                    Email = c.ClientsLegalEntitiesContactPerson.Email,
-                    PhoneNumber = c.ClientsLegalEntitiesContactPerson.Phone,
-                    ClientPhoto = c.ClientsLegalEntitiesContactPerson.Photo,
-                    SubscriptionStatus = context.OrdersLegalEntities
-                    .Where(o => o.ClientId == c.ContactPersonId && !o.IsDeleted)
+                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Photo,
+                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Surname
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Name
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Middlename,
+                    CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                    CreatorId = c.CreatorId,
+                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
+                    SubscriptionStatus = context.Orders
+                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
                     .Select(o => o.OrderStatus.StatusValue)
                     .FirstOrDefault() ?? "Не оформлена"
                 })

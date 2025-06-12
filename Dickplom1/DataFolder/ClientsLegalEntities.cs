@@ -23,7 +23,6 @@ namespace Dickplom1.DataFolder
         public int ClientsLegalEntitiesId { get; set; }
         public string ClientUserId { get; set; }
         public Nullable<int> CompanyId { get; set; }
-        public Nullable<int> ContactPersonId { get; set; }
         public Nullable<int> BankDataId { get; set; }
         public Nullable<int> CreatorId { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
@@ -31,7 +30,6 @@ namespace Dickplom1.DataFolder
     
         public virtual ClientsLegalEntitiesBankData ClientsLegalEntitiesBankData { get; set; }
         public virtual ClientsLegalEntitiesCompanyData ClientsLegalEntitiesCompanyData { get; set; }
-        public virtual ClientsLegalEntitiesContactPerson ClientsLegalEntitiesContactPerson { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdersLegalEntities> OrdersLegalEntities { get; set; }

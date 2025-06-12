@@ -3,10 +3,13 @@ using Dickplom1.DataFolder;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -113,21 +116,27 @@ namespace Dickplom1.Windows.Others
                 .Where(c => c.ClientsLegalEntitiesId == ClientId)
                 .FirstOrDefault();
 
+
             if (context != null)
             {
-                if (context.ClientsLegalEntitiesContactPerson.Photo != null)
+                var clientContactPerson = DBEntities.GetContext()
+                    .ClientsLegalEntitiesContactPerson
+                    .Where(w => w.IsActive == true && w.CompanyId == context.CompanyId)
+                    .FirstOrDefault();
+
+                if (clientContactPerson.Photo != null)
                 {
-                    PhotoPath = LoadImage(context.ClientsLegalEntitiesContactPerson.Photo);
+                    PhotoPath = LoadImage(clientContactPerson.Photo);
                 }
 
                 //Загрузка данных клиента в текстовые поля и изображение
                 if (ClientId != 0)
                 {
-                    tboxSurname.tb.Text = context.ClientsLegalEntitiesContactPerson.Surname;
-                    tboxName.tb.Text = context.ClientsLegalEntitiesContactPerson.Name;
-                    tboxMiddlename.tb.Text = context.ClientsLegalEntitiesContactPerson.Middlename;
-                    tboxPhoneNumber.tb.Text = context.ClientsLegalEntitiesContactPerson.Phone;
-                    tboxEmail.tb.Text = context.ClientsLegalEntitiesContactPerson.Email;
+                    tboxSurname.tb.Text = clientContactPerson.Surname;
+                    tboxName.tb.Text = clientContactPerson.Name;
+                    tboxMiddlename.tb.Text = clientContactPerson.Middlename;
+                    tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
+                    tboxEmail.tb.Text = clientContactPerson.Email;
 
                     tboxCompanyName.tb.Text = context.ClientsLegalEntitiesCompanyData.CompanyName;
                     tboxINN.tb.Text = context.ClientsLegalEntitiesCompanyData.INN;
@@ -143,7 +152,6 @@ namespace Dickplom1.Windows.Others
                     tboxBankCorrAccount.tb.Text = context.ClientsLegalEntitiesBankData.BankCorrAccount;
                     tboxEmployeeCount.tb.Text = context.ClientsLegalEntitiesCompanyData.EmployeeCount.ToString();
                     tboxRegistrationDate.tb.Text = context.ClientsLegalEntitiesCompanyData.RegistrationDate?.ToString("d");
-
 
                     ForEditWin();
                 }
@@ -280,7 +288,7 @@ namespace Dickplom1.Windows.Others
         {
             if (gridMovingWin.IsMouseOver)
             {
-                this.DragMove();
+                //this.DragMove();
             } 
 
             
@@ -288,13 +296,13 @@ namespace Dickplom1.Windows.Others
 
         private void gridMovingWin_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            e.Handled = true;
+            //e.Handled = true;
         }
 
         private void mainGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            gridFocus.Focus();
-            Keyboard.ClearFocus();
+            /*gridFocus.Focus();
+            Keyboard.ClearFocus();*/
         }
 
         private void imgDelete_MouseEnter(object sender, MouseEventArgs e)
@@ -405,7 +413,6 @@ namespace Dickplom1.Windows.Others
 
             if (tboxSurname.tb.Text == "Фамилия"
                 || tboxName.tb.Text == "Имя"
-                || tboxMiddlename.tb.Text == "Отчество"
                 || tboxPhoneNumber.tb.Text == "Номер телефона"
                 || tboxEmail.tb.Text == "Электронная почта"
                 || tboxCompanyName.tb.Text == "Название компании"
@@ -433,12 +440,18 @@ namespace Dickplom1.Windows.Others
                     .Where(c => c.ClientsLegalEntitiesId == ClientId)
                     .FirstOrDefault();
 
+                ClientsLegalEntitiesContactPerson selectedClientContactPerson = context
+                    .ClientsLegalEntitiesContactPerson
+                    .Where(w=>w.IsActive == true && w.CompanyId == selectedClient.CompanyId)
+                    .FirstOrDefault();
+
                 selectedClient.ClientsLegalEntitiesId = ClientId;
-                selectedClient.ClientsLegalEntitiesContactPerson.Surname = tboxSurname.tb.Text;
-                selectedClient.ClientsLegalEntitiesContactPerson.Name = tboxName.tb.Text;
-                selectedClient.ClientsLegalEntitiesContactPerson.Middlename = tboxMiddlename.tb.Text;
-                selectedClient.ClientsLegalEntitiesContactPerson.Phone = tboxPhoneNumber.tb.Text;
-                selectedClient.ClientsLegalEntitiesContactPerson.Email= tboxEmail.tb.Text;
+
+                selectedClientContactPerson.Surname = tboxSurname.tb.Text;
+                selectedClientContactPerson.Name = tboxName.tb.Text;
+                selectedClientContactPerson.Middlename = tboxMiddlename.tb.Text;
+                selectedClientContactPerson.Phone = tboxPhoneNumber.tb.Text;
+                selectedClientContactPerson.Email= tboxEmail.tb.Text;
 
                 selectedClient.ClientsLegalEntitiesCompanyData.CompanyName = tboxCompanyName.tb.Text;
                 selectedClient.ClientsLegalEntitiesCompanyData.INN = tboxINN.tb.Text;
@@ -464,33 +477,17 @@ namespace Dickplom1.Windows.Others
                 selectedClient.ClientsLegalEntitiesBankData.BankCorrAccount = tboxBankCorrAccount.tb.Text;
 
                 if (ClientPhoto.Source != null)
-                    selectedClient.ClientsLegalEntitiesContactPerson.Photo = BitmapImageToByteArray(PhotoPath);
+                    selectedClientContactPerson.Photo = BitmapImageToByteArray(PhotoPath);
                 else
-                    selectedClient.ClientsLegalEntitiesContactPerson.Photo = null;
+                    selectedClientContactPerson.Photo = null;
 
                 context.SaveChanges();
+                Thread.Sleep(100);
+                MessageBox.Show("Запись успешно добавлена");
                 this.Close();
             }
-            else
+            else // При создании клиента
             {
-                //Создание данных контактного лица
-                ClientsLegalEntitiesContactPerson newContactPeson = new ClientsLegalEntitiesContactPerson()
-                {
-                    Surname = tboxSurname.tb.Text,
-                    Name = tboxName.tb.Text,
-                    Middlename = tboxMiddlename.tb.Text,
-                    Phone = tboxPhoneNumber.tb.Text,
-                    Email = tboxEmail.tb.Text,
-                };
-                if (ClientPhoto.Source != null)
-                    newContactPeson.Photo = BitmapImageToByteArray(PhotoPath);
-                else
-                    newContactPeson.Photo = null;
-
-                context.ClientsLegalEntitiesContactPerson.Add(newContactPeson);
-                context.SaveChanges();
-
-
                 //Адресс
                 var countryName = tboxAddressCountry.Text.Trim();
                 var country = context.Country.FirstOrDefault(c => c.CountryName == countryName);
@@ -560,14 +557,125 @@ namespace Dickplom1.Windows.Others
                 ClientsLegalEntities newClientLegalEntitites = new ClientsLegalEntities()
                 {
                     CompanyId = newCompanyData.CompanyId,
-                    ContactPersonId = newContactPeson.ContactPersonId,
+                    //ContactPersonId = newContactPeson.ContactPersonId,
                     BankDataId = newCompanyBank.BankDataId
                     //Здесь добавить creatorId = указать авторизованный id менеджера
                 };
 
                 context.ClientsLegalEntities.Add(newClientLegalEntitites);
                 context.SaveChanges();
+
+                //Создание данных контактного лица
+                ClientsLegalEntitiesContactPerson newContactPeson = new ClientsLegalEntitiesContactPerson()
+                {
+                    Surname = tboxSurname.tb.Text,
+                    Name = tboxName.tb.Text,
+                    Middlename = tboxMiddlename.tb.Text,
+                    Phone = tboxPhoneNumber.tb.Text,
+                    Email = tboxEmail.tb.Text,
+                    IsActive = true,
+                    CompanyId = context.ClientsLegalEntitiesCompanyData.FirstOrDefault(f=>f.CompanyName == newCompanyData.CompanyName).CompanyId
+                };
+                if (ClientPhoto.Source != null)
+                    newContactPeson.Photo = BitmapImageToByteArray(PhotoPath);
+                else
+                    newContactPeson.Photo = null;
+
+                context.ClientsLegalEntitiesContactPerson.Add(newContactPeson);
+                context.SaveChanges();
+                Thread.Sleep(200);
+                MessageBox.Show("Запись успешно добавлена");
                 this.Close();
+            }
+        }
+
+        private void cboxActiveContactPerson_Loaded(object sender, RoutedEventArgs e)
+        {
+            cboxContactPersonRefresh();
+        }
+
+        public void cboxContactPersonRefresh()
+        {
+            var context = DBEntities.GetContext();
+
+            var selectedClientLegal = context.ClientsLegalEntities
+                .FirstOrDefault(f => f.ClientsLegalEntitiesId == ClientId);
+
+            if (ClientId != null && ClientId != 0 && selectedClientLegal != null)
+            {
+
+                var items = new List<object>();
+
+                try
+                {
+                    // Заглушка
+                    items.Add(new { ContactPersonId = 0, ContactPersonName = "Активный представитель" });
+
+                    items.AddRange(selectedClientLegal
+                        .ClientsLegalEntitiesCompanyData
+                        .ClientsLegalEntitiesContactPerson
+                        .Where(w => w.ClientsLegalEntitiesCompanyData.CompanyId == selectedClientLegal.CompanyId)
+                        .Select(u => new
+                        {
+                            ContactPersonId = u.ContactPersonId,
+                            ContactPersonName = u.Surname
+                            + " " + u.Name
+                            + " " + u.Middlename
+                        }));
+
+                    cboxActiveContactPerson.cbox.ItemsSource = items;
+                    cboxActiveContactPerson.cbox.DisplayMemberPath = "ContactPersonName";
+                    cboxActiveContactPerson.cbox.SelectedValuePath = "ContactPersonId";
+                    cboxActiveContactPerson.cbox.SelectedIndex = selectedClientLegal
+                        .ClientsLegalEntitiesCompanyData
+                        .ClientsLegalEntitiesContactPerson
+                        .FirstOrDefault(w => w.ClientsLegalEntitiesCompanyData.CompanyId == selectedClientLegal.CompanyId
+                        && w.IsActive == true)
+                        .ContactPersonId;
+                    cboxActiveContactPerson.cbox.SelectionChanged += Cbox_SelectionChanged;
+
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cboxActiveContactPerson.cbox.SelectedValue != null && (int)cboxActiveContactPerson.cbox.SelectedValue != 0)
+            {
+                var clientContactPerson = DBEntities.GetContext().ClientsLegalEntitiesContactPerson
+               .Where(c => c.ContactPersonId == (int)cboxActiveContactPerson.cbox.SelectedValue)
+               .FirstOrDefault();
+
+                try
+                {
+                    if (clientContactPerson != null)
+                    {
+                        if (clientContactPerson.Photo != null)
+                        {
+                            PhotoPath = LoadImage(clientContactPerson.Photo);
+                        }
+
+                        //Загрузка данных клиента в текстовые поля и изображение
+                        if (ClientId != 0)
+                        {
+                            tboxSurname.tb.Text = clientContactPerson.Surname;
+                            tboxName.tb.Text = clientContactPerson.Name;
+                            tboxMiddlename.tb.Text = clientContactPerson.Middlename;
+                            tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
+                            tboxEmail.tb.Text = clientContactPerson.Email;
+                            EditableSettingOn();
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
     }

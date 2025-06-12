@@ -14,13 +14,9 @@ namespace Dickplom1.DataFolder
     
     public partial class ClientsLegalEntitiesContactPerson
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ClientsLegalEntitiesContactPerson()
-        {
-            this.ClientsLegalEntities = new HashSet<ClientsLegalEntities>();
-        }
-    
         public int ContactPersonId { get; set; }
+        public Nullable<int> CompanyId { get; set; }
+        public bool IsActive { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
         public string Middlename { get; set; }
@@ -28,7 +24,6 @@ namespace Dickplom1.DataFolder
         public string Email { get; set; }
         public byte[] Photo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClientsLegalEntities> ClientsLegalEntities { get; set; }
+        public virtual ClientsLegalEntitiesCompanyData ClientsLegalEntitiesCompanyData { get; set; }
     }
 }

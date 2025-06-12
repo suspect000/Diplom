@@ -105,7 +105,8 @@
                         x:Name="datePicker"
                         Loaded="datePicker_Loaded"
                         Width="360"
-                        HorizontalAlignment="Left"/>
+                        HorizontalAlignment="Left"
+                        TextInput="datePicker_TextInput"/>
 
 
                     <Separator Opacity="0" Height="10"/>
@@ -115,7 +116,6 @@
                         <customControls:ComboboxMaterialDesignWithBorder
                             Loaded="cboxClient_Loaded"
                             x:Name="cboxClient"
-                            Visibility="Visible"
                             Width="360"
                             HorizontalAlignment="Left"/>
 
@@ -196,10 +196,10 @@
                                 Orientation="Horizontal"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
-                                Margin="33,60,0,0">
+                                Margin="73,60,0,0">
                                 <Label 
                                     Style="{StaticResource TextZagolovokDashboard}"
-                                    Content="ФИО клиента:"
+                                    Content="Клиент:"
                                     Foreground="#A1A2A2"
                                     FontSize="13"
                                     Padding="0"

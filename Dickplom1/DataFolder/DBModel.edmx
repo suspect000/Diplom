@@ -44,7 +44,6 @@
           <Property Name="ClientsLegalEntitiesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientUserId" Type="nvarchar" MaxLength="50" />
           <Property Name="CompanyId" Type="int" />
-          <Property Name="ContactPersonId" Type="int" />
           <Property Name="BankDataId" Type="int" />
           <Property Name="CreatorId" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -78,6 +77,8 @@
             <PropertyRef Name="ContactPersonId" />
           </Key>
           <Property Name="ContactPersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
           <Property Name="Surname" Type="nvarchar" MaxLength="70" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Middlename" Type="nvarchar" MaxLength="70" Nullable="false" />
@@ -364,18 +365,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson">
-          <End Role="ClientsLegalEntitiesContactPerson" Type="Self.ClientsLegalEntitiesContactPerson" Multiplicity="0..1" />
-          <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClientsLegalEntitiesContactPerson">
-              <PropertyRef Name="ContactPersonId" />
-            </Principal>
-            <Dependent Role="ClientsLegalEntities">
-              <PropertyRef Name="ContactPersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ClientsLegalEntities_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="*" />
@@ -397,6 +386,18 @@
             </Principal>
             <Dependent Role="ClientsLegalEntitiesCompanyData">
               <PropertyRef Name="AddressLegalEntitiesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData">
+          <End Role="ClientsLegalEntitiesCompanyData" Type="Self.ClientsLegalEntitiesCompanyData" Multiplicity="0..1" />
+          <End Role="ClientsLegalEntitiesContactPerson" Type="Self.ClientsLegalEntitiesContactPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsLegalEntitiesCompanyData">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ClientsLegalEntitiesContactPerson">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -662,10 +663,6 @@
             <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" Association="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson">
-            <End Role="ClientsLegalEntitiesContactPerson" EntitySet="ClientsLegalEntitiesContactPerson" />
-            <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
-          </AssociationSet>
           <AssociationSet Name="FK_ClientsLegalEntities_Users" Association="Self.FK_ClientsLegalEntities_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
@@ -673,6 +670,10 @@
           <AssociationSet Name="FK_ClientsLegalEntitiesCompanyData_AddressLegalEntities" Association="Self.FK_ClientsLegalEntitiesCompanyData_AddressLegalEntities">
             <End Role="AddressLegalEntities" EntitySet="AddressLegalEntities" />
             <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData" Association="Self.FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData">
+            <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
+            <End Role="ClientsLegalEntitiesContactPerson" EntitySet="ClientsLegalEntitiesContactPerson" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
@@ -794,14 +795,12 @@
           <Property Name="ClientsLegalEntitiesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CompanyId" Type="Int32" />
-          <Property Name="ContactPersonId" Type="Int32" />
           <Property Name="BankDataId" Type="Int32" />
           <Property Name="CreatorId" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ClientsLegalEntitiesBankData" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesBankData" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesBankData" />
           <NavigationProperty Name="ClientsLegalEntitiesCompanyData" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesCompanyData" />
-          <NavigationProperty Name="ClientsLegalEntitiesContactPerson" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" FromRole="ClientsLegalEntities" ToRole="ClientsLegalEntitiesContactPerson" />
           <NavigationProperty Name="Users" Relationship="Self.FK_ClientsLegalEntities_Users" FromRole="ClientsLegalEntities" ToRole="Users" />
           <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_ClientsLegalEntities" FromRole="ClientsLegalEntities" ToRole="OrdersLegalEntities" />
         </EntityType>
@@ -830,19 +829,22 @@
           <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="AddressLegalEntities" Relationship="Self.FK_ClientsLegalEntitiesCompanyData_AddressLegalEntities" FromRole="ClientsLegalEntitiesCompanyData" ToRole="AddressLegalEntities" />
           <NavigationProperty Name="ClientsLegalEntities" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntitiesCompanyData" ToRole="ClientsLegalEntities" />
+          <NavigationProperty Name="ClientsLegalEntitiesContactPerson" Relationship="Self.FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntitiesCompanyData" ToRole="ClientsLegalEntitiesContactPerson" />
         </EntityType>
         <EntityType Name="ClientsLegalEntitiesContactPerson">
           <Key>
             <PropertyRef Name="ContactPersonId" />
           </Key>
           <Property Name="ContactPersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <Property Name="Surname" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Middlename" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="ClientsLegalEntities" Relationship="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" FromRole="ClientsLegalEntitiesContactPerson" ToRole="ClientsLegalEntities" />
+          <NavigationProperty Name="ClientsLegalEntitiesCompanyData" Relationship="Self.FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData" FromRole="ClientsLegalEntitiesContactPerson" ToRole="ClientsLegalEntitiesCompanyData" />
         </EntityType>
         <EntityType Name="ClientsNaturalPersons">
           <Key>
@@ -1175,18 +1177,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson">
-          <End Role="ClientsLegalEntitiesContactPerson" Type="Self.ClientsLegalEntitiesContactPerson" Multiplicity="0..1" />
-          <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClientsLegalEntitiesContactPerson">
-              <PropertyRef Name="ContactPersonId" />
-            </Principal>
-            <Dependent Role="ClientsLegalEntities">
-              <PropertyRef Name="ContactPersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ClientsLegalEntities_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="ClientsLegalEntities" Type="Self.ClientsLegalEntities" Multiplicity="*" />
@@ -1208,6 +1198,18 @@
             </Principal>
             <Dependent Role="OrdersLegalEntities">
               <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData">
+          <End Role="ClientsLegalEntitiesCompanyData" Type="Self.ClientsLegalEntitiesCompanyData" Multiplicity="0..1" />
+          <End Role="ClientsLegalEntitiesContactPerson" Type="Self.ClientsLegalEntitiesContactPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsLegalEntitiesCompanyData">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="ClientsLegalEntitiesContactPerson">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1465,10 +1467,6 @@
             <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson" Association="Self.FK_ClientsLegalEntities_ClientsLegalEntitiesContactPerson">
-            <End Role="ClientsLegalEntitiesContactPerson" EntitySet="ClientsLegalEntitiesContactPerson" />
-            <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
-          </AssociationSet>
           <AssociationSet Name="FK_ClientsLegalEntities_Users" Association="Self.FK_ClientsLegalEntities_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
@@ -1476,6 +1474,10 @@
           <AssociationSet Name="FK_OrdersLegalEntities_ClientsLegalEntities" Association="Self.FK_OrdersLegalEntities_ClientsLegalEntities">
             <End Role="ClientsLegalEntities" EntitySet="ClientsLegalEntities" />
             <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData" Association="Self.FK_ClientsLegalEntitiesContactPerson_ClientsLegalEntitiesCompanyData">
+            <End Role="ClientsLegalEntitiesCompanyData" EntitySet="ClientsLegalEntitiesCompanyData" />
+            <End Role="ClientsLegalEntitiesContactPerson" EntitySet="ClientsLegalEntitiesContactPerson" />
           </AssociationSet>
           <AssociationSet Name="FK_Clients_Users" Association="Self.FK_Clients_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1590,7 +1592,6 @@
                 <ScalarProperty Name="ClientsLegalEntitiesId" ColumnName="ClientsLegalEntitiesId" />
                 <ScalarProperty Name="ClientUserId" ColumnName="ClientUserId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="ContactPersonId" ColumnName="ContactPersonId" />
                 <ScalarProperty Name="BankDataId" ColumnName="BankDataId" />
                 <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
@@ -1627,6 +1628,8 @@
             <EntityTypeMapping TypeName="DBModel.ClientsLegalEntitiesContactPerson">
               <MappingFragment StoreEntitySet="ClientsLegalEntitiesContactPerson">
                 <ScalarProperty Name="ContactPersonId" ColumnName="ContactPersonId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Middlename" ColumnName="Middlename" />

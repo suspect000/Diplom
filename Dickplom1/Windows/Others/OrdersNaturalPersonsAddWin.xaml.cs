@@ -369,5 +369,10 @@ namespace Dickplom1.Windows.Others
         {
             ClientsRefresh();
         }
+
+        private void datePicker_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            SetDataToTextBlocks();
+        }
     }
 }

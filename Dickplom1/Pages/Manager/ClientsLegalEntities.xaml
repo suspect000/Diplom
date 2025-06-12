@@ -51,11 +51,11 @@
                 Background="White"
                 Height="30"/>
                 <customControls:DataGridMaterialDesignCustomForClientsLegalEntities
-                x:Name="DataGridCustomForClients"
-                Height="625"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Stretch"
-                Loaded="DataGridCustomForClients_Loaded">
+                    x:Name="DataGridCustomForClients"
+                    Height="625"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    Loaded="DataGridCustomForClients_Loaded">
                     <customControls:DataGridMaterialDesignCustomForClientsLegalEntities.ContextMenu>
                         <ContextMenu 
                             Background="White"

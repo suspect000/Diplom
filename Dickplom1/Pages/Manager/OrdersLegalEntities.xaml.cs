@@ -197,7 +197,8 @@ namespace Dickplom1.Pages.Manager
             cbox.cbox.DisplayMemberPath = "StatusValue";
             cbox.cbox.SelectedValuePath = "StatusId";
             cbox.cbox.SelectedIndex = 0;
-            cbox.cbox.SelectionChanged += Cbox_SelectionChanged; ; ;
+            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
+            cbox.Margin = new Thickness(15, 0, 15, 0);
 
             ComboboxesFilter.spCboxes.Children.Add(cbox);
         }

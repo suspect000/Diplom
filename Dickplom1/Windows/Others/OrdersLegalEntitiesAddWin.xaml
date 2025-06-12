@@ -81,31 +81,33 @@
                     Orientation="Vertical"
                     Margin="0,120,0,0">
 
-                    <customControls:CustomComboboxWithBorder
+                    <customControls:ComboboxMaterialDesignWithBorder
                         Name="cboxCompany"
-                        Text="Выберите компанию"/>
+                        Loaded="cboxCompany_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
+                    <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxContactPerson"
-                        Text="Выберите представителя"/>
+                        IsEnabled="False"
+                        Opacity="0.5"/>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
+                    <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxSubscription"
-                        Text="Выберите подписку"/>
+                        Loaded="cboxSubscription_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomDatePickerWithBorder/>
+                    <customControls:CustomDatePickerWithBorder
+                        x:Name="datePicker"/>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
+                    <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxOrderStatus"
-                        Text="Выберите статус заказа"/>
+                        Loaded="cboxOrderStatus_Loaded"/>
 
                     <Separator Opacity="0" Height="40"/>
 
@@ -135,8 +137,7 @@
                                 <TextBlock
                                     x:Name="tblockCompanyName"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="ООО 'Ромашка'"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
                             
                             <StackPanel 
@@ -157,8 +158,7 @@
                                 <TextBlock
                                     x:Name="tblockSubscriptionName"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Корпоративная"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -179,8 +179,7 @@
                                 <TextBlock
                                     x:Name="tblockPeriod"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="22.05.25 - 22.06.25"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -201,8 +200,7 @@
                                 <TextBlock
                                     x:Name="tblockContactPerson"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Балабанов Сергей Братович"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -223,8 +221,7 @@
                                 <TextBlock
                                     x:Name="tblockStatus"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="Оплата"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
 
                             <StackPanel 
@@ -245,8 +242,7 @@
                                 <TextBlock
                                     x:Name="tblockItogo"
                                     Style="{StaticResource DefText13}"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                                    Text="77 руб"/>
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             </StackPanel>
                         </Grid>
                     </Border>
