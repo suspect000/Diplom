@@ -245,6 +245,9 @@
     <Compile Include="Pages\Manager\Subscriptions.xaml.cs">
       <DependentUpon>Subscriptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Images\OtherWins\ContactPersonAdd.xaml.cs">
+      <DependentUpon>ContactPersonAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
       <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
     </Compile>
@@ -296,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Dictionary\WhiteTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Images\OtherWins\ContactPersonAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

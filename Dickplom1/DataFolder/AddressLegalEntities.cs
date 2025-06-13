@@ -23,7 +23,10 @@ namespace Dickplom1.DataFolder
         public int AddressLegalEntitiesId { get; set; }
         public int StreetId { get; set; }
         public string HouseNumber { get; set; }
-    
+        public string Apartment { get; set; }
+        public string Office { get; set; }
+
+
         public virtual Street Street { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientsLegalEntitiesCompanyData> ClientsLegalEntitiesCompanyData { get; set; }

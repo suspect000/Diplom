@@ -12,11 +12,11 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         VerticalAlignment="Center"
-        Height="1050" Width="810"
+        Height="1100" Width="810"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Loaded="Window_Loaded">
     <Border
-        Width="710" Height="950"
+        Width="710" Height="1000"
         CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
@@ -71,27 +71,43 @@
                 VerticalAlignment="Top"
                 Margin="0,20,20,0"/>
 
-            <StackPanel
-                Orientation="Horizontal"
-                Height="30"
-                Width="320"
+
+            <Grid
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="20,190,0,0">
+                Height="80"
+                Margin="20,155,0,0">
+                
+                <Label 
+                    Style="{StaticResource TextZagolovokDashboard}"
+                    Content="Реквизиты компании"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0,1,0,0"/>
 
-                <customControls:ComboboxMaterialDesignWithBorder
-                    Name="cboxActiveContactPerson"
-                    Width="284"
-                    Loaded="cboxActiveContactPerson_Loaded"/>
+                <StackPanel
+                    x:Name="selectorActiveContactPersons"
+                    Orientation="Horizontal"
+                    Height="30"
+                    Width="320"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,0">
 
-                <Separator Opacity="0" Width="15"/>
+                    <customControls:ComboboxMaterialDesignWithBorder
+                        Name="cboxActiveContactPerson"
+                        Width="284"
+                        Loaded="cboxActiveContactPerson_Loaded"/>
 
-                <customControls:btnAddPlusWhiteTheme
-                    Width="20"
-                    Source="/Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"/>
+                    <Separator Opacity="0" Width="15"/>
 
-            </StackPanel>
+                    <customControls:btnAddPlusWhiteTheme
+                        x:Name="btnAddPlus"
+                        Width="20"
+                        Source="/Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"
+                        MouseLeftButtonUp="btnAddPlus_MouseLeftButtonUp"/>
 
+                </StackPanel>
+            </Grid>
 
             <Border
                 BorderBrush="#636C7F"
@@ -219,7 +235,8 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Width="300" 
-                Margin="0,70,20,0">
+                Margin="0,80,20,0">
+                
                 <StackPanel
                     Orientation="Vertical">
 
@@ -279,7 +296,8 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Width="300" 
-                Margin="0,40,20,0">
+                Margin="0,50,20,0">
+                
                 <StackPanel
                     Orientation="Vertical">
 
@@ -318,6 +336,27 @@
                         ToolTip="Дом"
                         Text="Дом"/>
 
+                    <Separator Opacity="0" Height="8"/>
+
+                    <StackPanel
+                        Orientation="Horizontal">
+                        
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxAddressApartment"
+                            Width="140"
+                            ToolTip="Квартира"
+                            HorizontalAlignment="Left"
+                            Text="Квартира"/>
+
+                        <Separator Opacity="0" Width="20"/>
+
+                        <customControls:TextboxWithBorder 
+                            x:Name="tboxAddressOffice"
+                            Width="140"
+                            ToolTip="Офис"
+                            HorizontalAlignment="Right"
+                            Text="Офис"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
 
@@ -328,7 +367,8 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Width="300" 
-                Margin="0,0,20,120">
+                Margin="0,0,20,115">
+                
                 <StackPanel
                     Orientation="Vertical">
 

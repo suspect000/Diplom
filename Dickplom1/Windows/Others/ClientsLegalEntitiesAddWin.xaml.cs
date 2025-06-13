@@ -1,5 +1,6 @@
 ﻿using Dickplom1.Class;
 using Dickplom1.DataFolder;
+using Dickplom1.Resources.Images.OtherWins;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,8 @@ namespace Dickplom1.Windows.Others
             tboxBankCorrAccount.IsEnabled = false;
             tboxEmployeeCount.IsEnabled = false;
             tboxRegistrationDate.IsEnabled = false;
+            tboxAddressApartment.IsEnabled = false;
+            tboxAddressOffice.IsEnabled = false;
         }
 
         public void ForCreateWin()
@@ -108,6 +111,8 @@ namespace Dickplom1.Windows.Others
             tboxBankCorrAccount.IsEnabled = true;
             tboxEmployeeCount.IsEnabled = true;
             tboxRegistrationDate.IsEnabled = true;
+            tboxAddressApartment.IsEnabled = true;
+            tboxAddressOffice.IsEnabled = true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -134,7 +139,6 @@ namespace Dickplom1.Windows.Others
                 {
                     tboxSurname.tb.Text = clientContactPerson.Surname;
                     tboxName.tb.Text = clientContactPerson.Name;
-                    tboxMiddlename.tb.Text = clientContactPerson.Middlename;
                     tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
                     tboxEmail.tb.Text = clientContactPerson.Email;
 
@@ -153,6 +157,16 @@ namespace Dickplom1.Windows.Others
                     tboxEmployeeCount.tb.Text = context.ClientsLegalEntitiesCompanyData.EmployeeCount.ToString();
                     tboxRegistrationDate.tb.Text = context.ClientsLegalEntitiesCompanyData.RegistrationDate?.ToString("d");
 
+                    if (clientContactPerson.Middlename != null)
+                        tboxMiddlename.tb.Text = clientContactPerson.Middlename;
+
+                    if (context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment != null)
+                        tboxAddressApartment.tb.Text = context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment;
+
+                    if (context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office != null)
+                        tboxAddressOffice.tb.Text = context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office;
+
+                    OnSelecttorActiveContactPersons();
                     ForEditWin();
                 }
 
@@ -180,6 +194,7 @@ namespace Dickplom1.Windows.Others
             }
             else
             {
+                OffSelecttorActiveContactPersons();
                 ForCreateWin();
 
                 //Изображение
@@ -382,6 +397,9 @@ namespace Dickplom1.Windows.Others
             tboxBankCorrAccount.IsEnabled = true;
             tboxEmployeeCount.IsEnabled = true;
             tboxRegistrationDate.IsEnabled = true;
+            tboxAddressApartment.IsEnabled = true;
+            tboxAddressOffice.IsEnabled = true;
+
         }
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
@@ -428,7 +446,26 @@ namespace Dickplom1.Windows.Others
                 || tboxBankAccount.tb.Text == "Рос. счет банка"
                 || tboxBankCorrAccount.tb.Text == "Кор. счет банка"
                 || tboxEmployeeCount.tb.Text == "Количество сотрудников"
-                || tboxRegistrationDate.tb.Text == "Дата регистрации компании")
+                || tboxRegistrationDate.tb.Text == "Дата регистрации компании"
+
+                || string.IsNullOrWhiteSpace(tboxSurname.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxName.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxPhoneNumber.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxEmail.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxCompanyName.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxINN.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxKPP.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxOGRN.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxAddressCountry.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxAddressCity.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxAddressStreet.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxAddressHouse.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxBankName.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxBankBIK.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxBankAccount.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxBankCorrAccount.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxEmployeeCount.tb.Text)
+                || string.IsNullOrWhiteSpace(tboxRegistrationDate.tb.Text))
             {
                 MessageBox.Show("Необходимо заполнить все поля");
                 return;
@@ -440,18 +477,42 @@ namespace Dickplom1.Windows.Others
                     .Where(c => c.ClientsLegalEntitiesId == ClientId)
                     .FirstOrDefault();
 
+                ClientsLegalEntitiesContactPerson firstClientContactPerson = selectedClient
+                    .ClientsLegalEntitiesCompanyData
+                    .ClientsLegalEntitiesContactPerson
+                    .FirstOrDefault(f=>f.IsActive == true);
+
                 ClientsLegalEntitiesContactPerson selectedClientContactPerson = context
                     .ClientsLegalEntitiesContactPerson
-                    .Where(w=>w.IsActive == true && w.CompanyId == selectedClient.CompanyId)
+                    .Where(w=>w.ContactPersonId == (int)cboxActiveContactPerson.cbox.SelectedValue)
                     .FirstOrDefault();
 
-                selectedClient.ClientsLegalEntitiesId = ClientId;
+
+                //selectedClient.ClientsLegalEntitiesId = ClientId;
+
+                if (firstClientContactPerson.ContactPersonId != selectedClientContactPerson.ContactPersonId)
+                {
+                    var clients = context.ClientsLegalEntitiesContactPerson
+                        .Where(c => c.CompanyId == selectedClient.CompanyId)
+                        .ToList();
+
+                    foreach (var client in clients)
+                    {
+                        client.IsActive = false;
+                    }
+                }
 
                 selectedClientContactPerson.Surname = tboxSurname.tb.Text;
                 selectedClientContactPerson.Name = tboxName.tb.Text;
-                selectedClientContactPerson.Middlename = tboxMiddlename.tb.Text;
+
+                if (tboxMiddlename.tb.Text != "Отчество" && !string.IsNullOrWhiteSpace(tboxMiddlename.tb.Text))
+                    selectedClientContactPerson.Middlename = tboxMiddlename.tb.Text;
+                else
+                    selectedClientContactPerson.Middlename = "-";
+
                 selectedClientContactPerson.Phone = tboxPhoneNumber.tb.Text;
                 selectedClientContactPerson.Email= tboxEmail.tb.Text;
+                selectedClientContactPerson.IsActive = true;
 
                 selectedClient.ClientsLegalEntitiesCompanyData.CompanyName = tboxCompanyName.tb.Text;
                 selectedClient.ClientsLegalEntitiesCompanyData.INN = tboxINN.tb.Text;
@@ -461,6 +522,17 @@ namespace Dickplom1.Windows.Others
                 selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.City.CityName = tboxAddressCity.tb.Text;
                 selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.StreetName = tboxAddressStreet.tb.Text;
                 selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.HouseNumber = tboxAddressHouse.tb.Text;
+
+                if (tboxAddressApartment.tb.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.tb.Text))
+                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = tboxAddressApartment.tb.Text;
+                else
+                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = "-";
+
+                if (tboxAddressOffice.tb.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.tb.Text))
+                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = tboxAddressOffice.tb.Text;
+                else
+                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = "-";
+
                 try
                 {
                     selectedClient.ClientsLegalEntitiesCompanyData.EmployeeCount = Convert.ToInt32(tboxEmployeeCount.tb.Text);
@@ -483,7 +555,7 @@ namespace Dickplom1.Windows.Others
 
                 context.SaveChanges();
                 Thread.Sleep(100);
-                MessageBox.Show("Запись успешно добавлена");
+                MessageBox.Show("Запись успешно обновлена");
                 this.Close();
             }
             else // При создании клиента
@@ -524,6 +596,13 @@ namespace Dickplom1.Windows.Others
                     StreetId = street.StreetId,
                     HouseNumber = tboxAddressHouse.Text
                 };
+
+                if (tboxAddressApartment.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.Text))
+                    address.Apartment = tboxAddressApartment.Text;
+
+                if (tboxAddressOffice.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.Text))
+                    address.Office = tboxAddressOffice.Text;
+
                 context.AddressLegalEntities.Add(address);
                 context.SaveChanges();
 
@@ -570,12 +649,14 @@ namespace Dickplom1.Windows.Others
                 {
                     Surname = tboxSurname.tb.Text,
                     Name = tboxName.tb.Text,
-                    Middlename = tboxMiddlename.tb.Text,
                     Phone = tboxPhoneNumber.tb.Text,
                     Email = tboxEmail.tb.Text,
                     IsActive = true,
                     CompanyId = context.ClientsLegalEntitiesCompanyData.FirstOrDefault(f=>f.CompanyName == newCompanyData.CompanyName).CompanyId
                 };
+                if (tboxMiddlename.Text != "Отчество" && !string.IsNullOrWhiteSpace(tboxMiddlename.Text))
+                    newContactPeson.Middlename = tboxMiddlename.tb.Text;
+
                 if (ClientPhoto.Source != null)
                     newContactPeson.Photo = BitmapImageToByteArray(PhotoPath);
                 else
@@ -594,6 +675,7 @@ namespace Dickplom1.Windows.Others
             cboxContactPersonRefresh();
         }
 
+        //Загрузка данных в комбобокс выбора представителей (должен быть выбран активный представитель)
         public void cboxContactPersonRefresh()
         {
             var context = DBEntities.GetContext();
@@ -603,7 +685,6 @@ namespace Dickplom1.Windows.Others
 
             if (ClientId != null && ClientId != 0 && selectedClientLegal != null)
             {
-
                 var items = new List<object>();
 
                 try
@@ -611,8 +692,7 @@ namespace Dickplom1.Windows.Others
                     // Заглушка
                     items.Add(new { ContactPersonId = 0, ContactPersonName = "Активный представитель" });
 
-                    items.AddRange(selectedClientLegal
-                        .ClientsLegalEntitiesCompanyData
+                    items.AddRange(context
                         .ClientsLegalEntitiesContactPerson
                         .Where(w => w.ClientsLegalEntitiesCompanyData.CompanyId == selectedClientLegal.CompanyId)
                         .Select(u => new
@@ -626,10 +706,8 @@ namespace Dickplom1.Windows.Others
                     cboxActiveContactPerson.cbox.ItemsSource = items;
                     cboxActiveContactPerson.cbox.DisplayMemberPath = "ContactPersonName";
                     cboxActiveContactPerson.cbox.SelectedValuePath = "ContactPersonId";
-                    cboxActiveContactPerson.cbox.SelectedIndex = selectedClientLegal
-                        .ClientsLegalEntitiesCompanyData
-                        .ClientsLegalEntitiesContactPerson
-                        .FirstOrDefault(w => w.ClientsLegalEntitiesCompanyData.CompanyId == selectedClientLegal.CompanyId
+                    cboxActiveContactPerson.cbox.SelectedValue = context
+                        .ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.CompanyId == selectedClientLegal.CompanyId
                         && w.IsActive == true)
                         .ContactPersonId;
                     cboxActiveContactPerson.cbox.SelectionChanged += Cbox_SelectionChanged;
@@ -656,9 +734,13 @@ namespace Dickplom1.Windows.Others
                     if (clientContactPerson != null)
                     {
                         if (clientContactPerson.Photo != null)
-                        {
                             PhotoPath = LoadImage(clientContactPerson.Photo);
+                        else
+                        {
+                            PhotoPath = null;
+                            ClientPhoto.Source = null;
                         }
+                        
 
                         //Загрузка данных клиента в текстовые поля и изображение
                         if (ClientId != 0)
@@ -668,7 +750,28 @@ namespace Dickplom1.Windows.Others
                             tboxMiddlename.tb.Text = clientContactPerson.Middlename;
                             tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
                             tboxEmail.tb.Text = clientContactPerson.Email;
+                            OnTbocks();
                             EditableSettingOn();
+                        }
+                        if (PhotoPath != null)
+                        {
+                            try
+                            {
+                                ClientPhoto.Source = PhotoPath;
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                        if (ClientPhoto.Source != null)
+                        {
+                            Dickplom1.Class.Musor.HideElement(ClientPhotoFI);
+                            Dickplom1.Class.Musor.ShowElement(imgDelete); // Включаем кнопку отмены выбора фотографии пользователя
+                        }
+                        else
+                        {
+                            Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
+                            Dickplom1.Class.Musor.HideElement(imgDelete);
                         }
                     }
                 }
@@ -677,6 +780,76 @@ namespace Dickplom1.Windows.Others
 
                 }
             }
+            else if (cboxActiveContactPerson.cbox.SelectedValue != null 
+                && (int)cboxActiveContactPerson.cbox.SelectedValue == 0)
+            {
+                PhotoPath = null;
+                tboxSurname.tb.Text = null;
+                tboxName.tb.Text = null;
+                tboxMiddlename.tb.Text = null;
+                tboxPhoneNumber.tb.Text = null;
+                tboxEmail.tb.Text = null;
+                OffTbocks();
+
+                EditableSettingOn();
+            }
+        }
+        public void OffTbocks()
+        {
+            tboxSurname.tb.IsEnabled = false;
+            tboxName.tb.IsEnabled = false;
+            tboxMiddlename.tb.IsEnabled = false;
+            tboxPhoneNumber.tb.IsEnabled = false;
+            tboxEmail.tb.IsEnabled = false;
+
+            tboxSurname.tb.Opacity = 0.5;
+            tboxName.tb.Opacity = 0.5;
+            tboxMiddlename.tb.Opacity = 0.5;
+            tboxPhoneNumber.tb.Opacity = 0.5;
+            tboxEmail.tb.Opacity = 0.5;
+        }
+        public void OnTbocks()
+        {
+            tboxSurname.tb.IsEnabled = true;
+            tboxName.tb.IsEnabled = true;
+            tboxMiddlename.tb.IsEnabled = true;
+            tboxPhoneNumber.tb.IsEnabled = true;
+            tboxEmail.tb.IsEnabled = true;
+
+            tboxSurname.tb.Opacity = 1;
+            tboxName.tb.Opacity = 1;
+            tboxMiddlename.tb.Opacity = 1;
+            tboxPhoneNumber.tb.Opacity = 1;
+            tboxEmail.tb.Opacity = 1;
+        }
+        public void OffSelecttorActiveContactPersons()
+        {
+            selectorActiveContactPersons.IsEnabled = false;
+            selectorActiveContactPersons.Opacity = 0.5;
+
+            
+        }
+        public void OnSelecttorActiveContactPersons()
+        {
+            selectorActiveContactPersons.IsEnabled = true;
+            selectorActiveContactPersons.Opacity = 1;
+        }
+        private void btnAddPlus_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (ClientId != 0)
+            {
+                ContactPersonAdd win = new ContactPersonAdd();
+                win.CompanyId = (int)DBEntities.GetContext().ClientsLegalEntities
+                    .FirstOrDefault(f=>f.ClientsLegalEntitiesId == ClientId)
+                    .CompanyId;
+                win.Closed += Win_Closed;
+                win.ShowDialog();
+            }
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            cboxContactPersonRefresh();
         }
     }
 }
