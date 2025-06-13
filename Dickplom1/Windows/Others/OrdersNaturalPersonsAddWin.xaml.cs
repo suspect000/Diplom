@@ -3,7 +3,9 @@ using Dickplom1.DataFolder;
 using Dickplom1.Pages.Manager;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +27,27 @@ namespace Dickplom1.Windows.Others
         public OrdersNaturalPersonsAddWin()
         {
             InitializeComponent();
+        }
+        public int OrderId {  get; set; } = 0;
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var context = DBEntities.GetContext();
+                    var selectedOrder = context.Orders.FirstOrDefault(f=>f.OrderId == OrderId);
+
+                    if (selectedOrder != null)
+                        datePicker.dp.SelectedDate = selectedOrder.StartDate;
+                    
+                }
+                catch (Exception)
+                {
+                }
+
+            }
         }
 
         private void gridMovingWin_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -69,6 +92,23 @@ namespace Dickplom1.Windows.Others
             cboxSubscription.cbox.SelectedValuePath = "SubscriptionId";
             cboxSubscription.cbox.SelectedIndex = 0;
             cboxSubscription.cbox.SelectionChanged += Cbox_SelectionChanged;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedOrder != null)
+                        cboxSubscription.cbox.SelectedValue = selectedOrder.SubscriptionId;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
         }
 
         private void cboxClient_Loaded(object sender, RoutedEventArgs e)
@@ -97,6 +137,22 @@ namespace Dickplom1.Windows.Others
             cboxClient.cbox.SelectedValuePath = "ClientNaturalPersonsId";
             cboxClient.cbox.SelectedIndex = 0;
             cboxClient.cbox.SelectionChanged += Cbox_SelectionChanged1;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedOrder != null)
+                        cboxClient.cbox.SelectedValue = selectedOrder.ClientId;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
         }
 
         private void cboxOrderStatus_Loaded(object sender, RoutedEventArgs e)
@@ -120,6 +176,22 @@ namespace Dickplom1.Windows.Others
             cboxOrderStatus.cbox.SelectedValuePath = "StatusId";
             cboxOrderStatus.cbox.SelectedIndex = 0;
             cboxOrderStatus.cbox.SelectionChanged += Cbox_SelectionChanged2;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedOrder != null)
+                        cboxOrderStatus.cbox.SelectedValue = selectedOrder.OrderStatus.StatusId;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
         }
         private void datePicker_Loaded(object sender, RoutedEventArgs e)
         {
@@ -312,21 +384,40 @@ namespace Dickplom1.Windows.Others
                     {
                         if (dateParsed.Date < DateTime.Now.Date || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
                         {
-                            datePicker.dp.Text = string.Empty;
-                            MessageBox.Show("Дата недействительна");
+                            MessageBox.Show("Невозможно сделать запись прошлым числом");
                             return;
                         }
                     }
+                    //Рекдактирование заказа
+                    if (OrderId != 0)
+                    {
+                        var selectedOrder = context.Orders.FirstOrDefault(f=>f.OrderId == OrderId);
 
+                        if (selectedOrder != null)
+                        {
+                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
+                            selectedOrder.ClientId = (int)cboxClient.cbox.SelectedValue;
+                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
+                            selectedOrder.EndDate = DateTime.Parse(endDatE);
+                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
+                            selectedOrder.Price = Convert.ToInt32(priceAll);
+                        }
+                        context.SaveChanges();
+                        MessageBox.Show("Заказ успешно обновлен");
+                        this.Close();
+                        return;
+                    }
+
+                    //Создание заказа
                     Orders newOrder = new Orders
                     {
-                        SubscriptionId = cboxSubscription.cbox.SelectedIndex,
-                        ClientId = cboxClient.cbox.SelectedIndex,
+                        SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
+                        ClientId = (int)cboxClient.cbox.SelectedValue,
                         StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
                         EndDate = DateTime.Parse(endDatE),
                         StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
                         Price = Convert.ToInt32(priceAll),
-                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("d"))
+                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
                         //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
                     };
                     context.Orders.Add(newOrder);

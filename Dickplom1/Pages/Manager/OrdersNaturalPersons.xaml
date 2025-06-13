@@ -53,7 +53,18 @@
                     Height="625"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
-                    Loaded="DataGridCustomForOrdersNaturalPersons_Loaded"/>
+                    Loaded="DataGridCustomForOrdersNaturalPersons_Loaded">
+                    <customControls:DataGridMaterialDesignCustomForOrdersNaturalPersons.ContextMenu>
+                        <ContextMenu 
+                            Background="White"
+                            HasDropShadow="True"
+                            Foreground="#687183">
+                            <MenuItem Header="О клиенте" Click="miClient_Click"/>
+                            <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
+                            <MenuItem Header="Удалить" Click="miDelete_Click"/>
+                        </ContextMenu>
+                    </customControls:DataGridMaterialDesignCustomForOrdersNaturalPersons.ContextMenu>
+                </customControls:DataGridMaterialDesignCustomForOrdersNaturalPersons>
             </Grid>
             <Grid
                 VerticalAlignment="Bottom"

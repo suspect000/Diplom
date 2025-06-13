@@ -55,6 +55,7 @@ namespace Dickplom1.Pages.Manager
                .ToList()
                .Select(o => new OrdersViewModel
                {
+                   OrderId = o.OrderId,
                    SubscriptionName = o.Subscription.SubscriptionName,
                    FullNameClient = o.ClientsNaturalPersons.Surname
                    + " " + o.ClientsNaturalPersons.Name
@@ -62,7 +63,8 @@ namespace Dickplom1.Pages.Manager
                    StartDate = o.StartDate.Value.ToString("d"),
                    EndDate = o.EndDate.Value.ToString("d"),
                    OrderStatus = o.OrderStatus.StatusValue,
-                   FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                   FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                   CreatorId = o.CreatorId?? 0
                })
                .ToList();
 
@@ -86,12 +88,14 @@ namespace Dickplom1.Pages.Manager
                 .ToList()
                 .Select(o => new OrdersViewModel  
                 { 
+                    OrderId = o.OrderId,
                     SubscriptionName = o.Subscription.SubscriptionName,
                     FullNameClient = o.ClientsNaturalPersons.Surname + " " + o.ClientsNaturalPersons.Name + " " + o.ClientsNaturalPersons.MiddleName,
                     StartDate = o.StartDate.Value.ToString("d"),
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
-                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                    FIOManager = o.Users ?.UserData.Surname + " " + o.Users ?.UserData.Name + " " + o.Users ?.UserData.MiddleName,
+                    CreatorId = o.CreatorId?? 0
                 })
                 .ToList();
 
@@ -297,6 +301,71 @@ namespace Dickplom1.Pages.Manager
             CheckTotalPages();
             GeneratePaginationButtons();
             LoadCurrentPage();
+        }
+
+        private void miClient_Click(object sender, RoutedEventArgs e)
+        {
+            OrdersNaturalPersonsAddWin win = new OrdersNaturalPersonsAddWin();
+
+            if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
+            {
+                if (item != null)
+                {
+                    var order = DBEntities.GetContext().Orders
+                    .Where(c => c.OrderId == item.OrderId).FirstOrDefault();
+
+                    if (item.OrderId != 0)
+                        win.OrderId = order.OrderId;
+
+                    win.Closed += Win_Closed;
+                    win.ShowDialog();
+                }
+            }
+        }
+        private void miCreator_Click(object sender, RoutedEventArgs e)
+        {
+            StaffManagerMiniProfile win = new StaffManagerMiniProfile();
+
+            if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
+            {
+                if (item != null && item.CreatorId != null)
+                {
+                    var staff = DBEntities.GetContext().Users
+                        .FirstOrDefault(u => u.UserDataId == item.CreatorId);
+                    if (staff != null)
+                    {
+                        win.StaffId = staff.UserData.UserDataId;
+                        win.ShowDialog();
+                    }
+                }
+            }
+        }
+
+        private void miDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
+            {
+                try
+                {
+                    if (item.OrderId != 0)
+                    {
+                        MessageBoxButton btns = MessageBoxButton.YesNo;
+                        MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+
+                        if (box == MessageBoxResult.Yes)
+                        {
+                            var context = DBEntities.GetContext();
+                            context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
+                            context.SaveChanges();
+                            RefreshItems();
+                            GeneratePaginationButtons();
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     } 
 }

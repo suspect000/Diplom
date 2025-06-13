@@ -12,7 +12,8 @@
         AllowsTransparency="True"
         VerticalAlignment="Center"
         mc:Ignorable="d"
-        Title="OrdersNaturalPersonsAddWin" Height="700" Width="600">
+        Height="700" Width="600"
+        Loaded="Window_Loaded">
     <Border
         Width="500" Height="600"
         CornerRadius="20">
