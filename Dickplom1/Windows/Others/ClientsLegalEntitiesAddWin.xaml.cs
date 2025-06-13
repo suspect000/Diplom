@@ -1,6 +1,5 @@
 ﻿using Dickplom1.Class;
 using Dickplom1.DataFolder;
-using Dickplom1.Resources.Images.OtherWins;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

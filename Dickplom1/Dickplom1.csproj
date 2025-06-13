@@ -245,7 +245,7 @@
     <Compile Include="Pages\Manager\Subscriptions.xaml.cs">
       <DependentUpon>Subscriptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Images\OtherWins\ContactPersonAdd.xaml.cs">
+    <Compile Include="Windows\Others\ContactPersonAdd.xaml.cs">
       <DependentUpon>ContactPersonAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
@@ -302,7 +302,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Images\OtherWins\ContactPersonAdd.xaml">
+    <Page Include="Windows\Others\ContactPersonAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

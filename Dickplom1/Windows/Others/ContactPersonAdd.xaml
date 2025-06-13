@@ -1,9 +1,9 @@
-﻿<Window x:Class="Dickplom1.Resources.Images.OtherWins.ContactPersonAdd"
+﻿<Window x:Class="Dickplom1.Windows.Others.ContactPersonAdd"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Dickplom1.Resources.Images.OtherWins"
+        xmlns:local="clr-namespace:Dickplom1.Windows.Others"
         xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -148,12 +148,6 @@
                                 x:Name="tboxMiddlename"
                                 ToolTip="Отчество представителя"
                                 Text="Отчество представителя"/>
-                            <Separator Opacity="0" Height="8"/>
-
-                            <customControls:TextboxWithBorder 
-                                x:Name="tboxEmail"
-                                ToolTip="Электронная почта представителя"
-                                Text="Электронная почта представителя"/>
 
                             <Separator Opacity="0" Height="8"/>
 
@@ -161,7 +155,13 @@
                                 x:Name="tboxPhoneNumber"
                                 ToolTip="Номер телефона представителя"
                                 Text="Номер телефона представителя"/>
+                            
+                            <Separator Opacity="0" Height="8"/>
 
+                            <customControls:TextboxWithBorder 
+                                x:Name="tboxEmail"
+                                ToolTip="Электронная почта представителя"
+                                Text="Электронная почта представителя"/>
                         </StackPanel>
                     </Grid>
 

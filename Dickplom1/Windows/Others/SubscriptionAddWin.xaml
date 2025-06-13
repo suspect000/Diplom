@@ -83,32 +83,37 @@
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxSubscriptionName"
-                        Text="Название"/>
+                        Text="Название"
+                        ToolTip="Название"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="tboxSubsriptionsPeriod"
-                        Text="Период подписки"/>
+                        Text="Период подписки"
+                        ToolTip="Период подписки"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomComboboxWithBorder
                         x:Name="tboxSubscriptionsType"
-                        Text="Тип подписки"/>
+                        Text="Тип подписки"
+                        ToolTip="Тип подписки"/>
                     
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxPriceForMonth"
-                        Text="Цена за месяц"/>
+                        Text="Цена за месяц"
+                        ToolTip="Цена за месяц"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxComment"
                         Text="Комментарий"
-                        Loaded="TextboxWithBorder_Loaded"/>
+                        Loaded="TextboxWithBorder_Loaded"
+                        ToolTip="Комментарий"/>
 
                 </StackPanel>
             </Grid>

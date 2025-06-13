@@ -16,7 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Dickplom1.Resources.Images.OtherWins
+namespace Dickplom1.Windows.Others
 {
     /// <summary>
     /// Логика взаимодействия для ContactPersonAdd.xaml

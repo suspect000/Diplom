@@ -129,15 +129,15 @@ namespace Dickplom1.Windows.Others
             items.AddRange(context.OrderStatus
                 .Select(u => new
                 {
-                    u.StatusId,
-                    u.StatusValue
+                    OrderStatusId = u.StatusId,
+                    OrderStatusName = u.StatusValue
                 }));
 
             cboxOrderStatus.cbox.ItemsSource = items;
             cboxOrderStatus.cbox.DisplayMemberPath = "OrderStatusName";
             cboxOrderStatus.cbox.SelectedValuePath = "OrderStatusId";
             cboxOrderStatus.cbox.SelectedIndex = 0;
-            cboxOrderStatus.cbox.SelectionChanged += Cbox_SelectionChanged3; ; ; ;
+            cboxOrderStatus.cbox.SelectionChanged += Cbox_SelectionChanged3;
         }
 
         public string endDatE { get; set; }
@@ -308,14 +308,14 @@ namespace Dickplom1.Windows.Others
         {
             if ((int)cboxCompany.cbox.SelectedValue != 0 && cboxCompany.cbox.SelectedValue != null)
             {
-                cboxContactPerson.Opacity = 1;
-                cboxContactPerson.IsEnabled = true;
+                spContactPerson.Opacity = 1;
+                spContactPerson.IsEnabled = true;
                 ContactPersonRefresh();
             }
             else
             {
-                cboxContactPerson.Opacity = 0.5;
-                cboxContactPerson.IsEnabled = false;
+                spContactPerson.Opacity = 0.5;
+                spContactPerson.IsEnabled = false;
             }
         }
             
@@ -353,6 +353,42 @@ namespace Dickplom1.Windows.Others
                 MessageBox.Show(e.ToString());
             }
             
+        }
+
+        private void datePicker_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            SetDataToTextBlocks();
+        }
+
+        private void datePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            datePicker.dp.SelectedDateChanged += Dp_SelectedDateChanged;
+        }
+
+        private void Dp_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetDataToTextBlocks();
+        }
+
+        private void btnAddPlusWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ContactPersonAdd win = new ContactPersonAdd();
+
+            if (cboxCompany.cbox.SelectedValue != null && (int)cboxCompany.cbox.SelectedValue != 0)
+                win.CompanyId = (int)cboxCompany.cbox.SelectedValue;
+            win.Closed += Win_Closed;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            ContactPersonRefresh();
+        }
+
+        private void btnAddPlusWhiteTheme_MouseLeftButtonUp_1(object sender, MouseButtonEventArgs e)
+        {
+            SubscriptionAddWin win = new SubscriptionAddWin();
+            win
         }
     }
 }

@@ -77,36 +77,73 @@
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Width="360"
+                    Width="400"
                     Orientation="Vertical"
-                    Margin="0,120,0,0">
+                    Margin="40,120,0,0">
 
-                    <customControls:ComboboxMaterialDesignWithBorder
-                        Name="cboxCompany"
-                        Loaded="cboxCompany_Loaded"/>
+                    <customControls:ComboboxMaterialDesignWithBorder  
+                        Name="cboxCompany" 
+                        Loaded="cboxCompany_Loaded"
+                        Width="360"
+                        HorizontalAlignment="Left"/>
 
-                    <Separator Opacity="0" Height="10"/>
-
-                    <customControls:ComboboxMaterialDesignWithBorder
-                        x:Name="cboxContactPerson"
+                        <Separator Opacity="0" Height="10"/>
+                    
+                    <StackPanel 
+                        x:Name="spContactPerson"
+                        Orientation="Horizontal"
+                        Opacity="0.5"
                         IsEnabled="False"
-                        Opacity="0.5"/>
+                        Panel.ZIndex="1">
+
+                        <customControls:ComboboxMaterialDesignWithBorder
+                            x:Name="cboxContactPerson"
+                            Width="360"/>
+
+                        <Separator Opacity="0" Width="15"/>
+
+                        <customControls:btnAddPlusWhiteTheme
+                            Width="25" Height="30"
+                            Source="../../Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"
+                            MouseLeftButtonUp="btnAddPlusWhiteTheme_MouseLeftButtonUp"/>
+
+                    </StackPanel>
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:ComboboxMaterialDesignWithBorder
-                        x:Name="cboxSubscription"
-                        Loaded="cboxSubscription_Loaded"/>
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <customControls:ComboboxMaterialDesignWithBorder
+                            x:Name="cboxSubscription"
+                            HorizontalAlignment="Left"
+                            Width="360"
+                            Loaded="cboxSubscription_Loaded"/>
+
+                        <Separator Opacity="0" Width="15"/>
+
+                        <customControls:btnAddPlusWhiteTheme
+                            Width="25" Height="30"
+                            Source="../../Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"
+                            MouseLeftButtonUp="btnAddPlusWhiteTheme_MouseLeftButtonUp_1"/>
+                        
+                    </StackPanel>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:CustomDatePickerWithBorder
-                        x:Name="datePicker"/>
+                        x:Name="datePicker"
+                        HorizontalAlignment="Left"
+                        Width="360"
+                        TextInput="datePicker_TextInput"
+                        Loaded="datePicker_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxOrderStatus"
+                        HorizontalAlignment="Left"
+                        Width="360"
                         Loaded="cboxOrderStatus_Loaded"/>
 
                     <Separator Opacity="0" Height="40"/>
@@ -115,6 +152,8 @@
                         BorderBrush="{StaticResource ScrollViewerBackgroundOther}"
                         BorderThickness="1"
                         Height="185"
+                        Width="360"
+                        HorizontalAlignment="Left"
                         CornerRadius="20">
 
                         <Grid

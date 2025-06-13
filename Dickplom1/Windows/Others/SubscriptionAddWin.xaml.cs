@@ -23,6 +23,7 @@ namespace Dickplom1.Windows.Others
         {
             InitializeComponent();
         }
+        public int SubscriptionId { get; set; } = 0;
 
         private void mainGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
