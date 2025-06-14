@@ -36,7 +36,18 @@ namespace Dickplom1.Pages.Manager
         private void btnAddOrder_Click(object sender, RoutedEventArgs e)
         {
             OrdersLegalEntitiesAddWin win = new OrdersLegalEntitiesAddWin();
+            win.Closed += Win_Closed;
             win.ShowDialog();
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            ItemsRefresh();
+        }
+
+        private void dataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            ItemsRefresh();
         }
 
         //Загрузка данных в датагрид и паггинация
@@ -44,21 +55,24 @@ namespace Dickplom1.Pages.Manager
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
-        private void dataGrid_Loaded(object sender, RoutedEventArgs e)
+
+        public void ItemsRefresh()
         {
             var context = DBEntities.GetContext();
 
             allOrders = context.OrdersLegalEntities
                 .Where(c => c.IsDeleted == false)
                 .ToList()
-                .Select(o => new OrdersViewModel    
-                {    
+                .Select(o => new OrdersViewModel
+                {
+                    OrderId = o.OrderId,
                     SubscriptionName = o.Subscription.SubscriptionName,
                     CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
                     StartDate = o.StartDate?.ToString("d"),
                     EndDate = o.EndDate?.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
-                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                    CreatorId = o.CreatorId ?? 0,
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
                 })
                 .ToList();
 
@@ -254,8 +268,8 @@ namespace Dickplom1.Pages.Manager
                     EndDate = c.EndDate?.ToString("g"),
                     OrderStatusId = c.OrderStatus.StatusId,
                     OrderStatus = c.OrderStatus.StatusValue,
-                    CreatorId = c.CreatorId.Value,
-                    FIOManager = c.Users.UserData.Surname + " " + c.Users.UserData.Name + " " + c.Users.UserData.MiddleName
+                    CreatorId = c.CreatorId ?? 0,
+                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
                 })
                 .ToList();
 
@@ -265,6 +279,74 @@ namespace Dickplom1.Pages.Manager
             CheckTotalPages();
             GeneratePaginationButtons();
             LoadCurrentPage();
+        }
+
+        private void miClient_Click(object sender, RoutedEventArgs e)
+        {
+            OrdersLegalEntitiesAddWin win = new OrdersLegalEntitiesAddWin();
+
+            if (dataGrid.dg.SelectedItem is OrdersViewModel item)
+            {
+                if (item != null)
+                {
+                    var order = DBEntities.GetContext().OrdersLegalEntities
+                    .Where(c => c.OrderId == item.OrderId).FirstOrDefault();
+
+                    if (item.OrderId != 0)
+                        win.OrderId = order.OrderId;
+
+                    win.Closed += Win_Closed;
+                    win.ShowDialog();
+                }
+            }
+        }
+
+        private void miCreator_Click(object sender, RoutedEventArgs e)
+        {
+            StaffManagerMiniProfile win = new StaffManagerMiniProfile();
+
+            if (dataGrid.dg.SelectedItem is OrdersViewModel item)
+            {
+                if (item != null && item.CreatorId != null)
+                {
+                    var staff = DBEntities.GetContext().Users
+                        .FirstOrDefault(u => u.UserDataId == item.CreatorId);
+                    if (staff != null)
+                    {
+                        win.StaffId = staff.UserData.UserDataId;
+                        win.ShowDialog();
+                    }
+                    else
+                        MessageBox.Show("Создатель не найден");
+                }
+            }
+        }
+
+        private void miDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.dg.SelectedItem is OrdersViewModel item)
+            {
+                try
+                {
+                    if (item.OrderId != 0)
+                    {
+                        MessageBoxButton btns = MessageBoxButton.YesNo;
+                        MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+
+                        if (box == MessageBoxResult.Yes)
+                        {
+                            var context = DBEntities.GetContext();
+                            context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
+                            context.SaveChanges();
+                            ItemsRefresh();
+                            GeneratePaginationButtons();
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     }
 }

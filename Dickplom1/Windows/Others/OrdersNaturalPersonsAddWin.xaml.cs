@@ -84,7 +84,7 @@ namespace Dickplom1.Windows.Others
                 .Select(u => new
                 {
                     u.SubscriptionId,
-                    SubscriptionName = u.SubscriptionName + " " + u.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue
+                    SubscriptionName = u.SubscriptionName + " (" + u.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue + " мес)"
                 }));
 
             cboxSubscription.cbox.ItemsSource = items;
@@ -264,7 +264,8 @@ namespace Dickplom1.Windows.Others
                     DateTime.TryParse(datePicker.dp.SelectedDate.ToString(), out DateTime startDate);
                     if (cboxSubscription.cbox.Text != "Выберите подписку")
                     {
-                        int month = Convert.ToInt32(cboxSubscription.cbox.Text.Substring(cboxSubscription.cbox.Text.Length - 1));
+                        var subscription = context.Subscription.FirstOrDefault(f => f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
+                        int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);
                         DateTime endDate = startDate.AddMonths(month);
 
                         tblockPeriod.Text = string.Empty;
@@ -339,10 +340,8 @@ namespace Dickplom1.Windows.Others
                     ?.ToString();
 
                     int subId = Convert.ToInt32(cboxSubscription.cbox.SelectedValue);
-                    int month = Convert.ToInt32(subscriptionName.Substring(subscriptionName.Length - 1));
-                    var subscription = context.Subscription
-                        .Where(s => s.SubscriptionId == subId)
-                        .FirstOrDefault();
+                    var subscription = context.Subscription.FirstOrDefault(f => f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
+                    int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);
                     int price = Convert.ToInt32(subscription.PriceForMonth) * month;
 
                     tblockItogo.Text = price.ToString() + " руб";

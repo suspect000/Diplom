@@ -70,7 +70,7 @@
                     Foreground="#636C7F"                    
                     FontSize="25"
                     Padding="0"
-                    Content="Информация о заказе"
+                    Content="Информация о заказе (физ. лица)"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Margin="0,40,0,0"/>

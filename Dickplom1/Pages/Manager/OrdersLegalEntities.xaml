@@ -54,7 +54,18 @@
                     Height="625"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
-                    Loaded="dataGrid_Loaded"/>
+                    Loaded="dataGrid_Loaded">
+                    <customControls:DataGridMaterialDesignCustomForOrdersLegalEntities.ContextMenu>
+                        <ContextMenu 
+                            Background="White"
+                            HasDropShadow="True"
+                            Foreground="#687183">
+                            <MenuItem Header="О клиенте" Click="miClient_Click"/>
+                            <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
+                            <MenuItem Header="Удалить" Click="miDelete_Click"/>
+                        </ContextMenu>
+                    </customControls:DataGridMaterialDesignCustomForOrdersLegalEntities.ContextMenu>
+                </customControls:DataGridMaterialDesignCustomForOrdersLegalEntities>
             </Grid>
             <Grid
                 VerticalAlignment="Bottom"

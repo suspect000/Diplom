@@ -290,8 +290,8 @@ namespace Dickplom1.Pages.Manager
                     EndDate = c.EndDate?.ToString("g"),
                     OrderStatusId = c.OrderStatus.StatusId,
                     OrderStatus = c.OrderStatus.StatusValue,
-                    CreatorId = c.CreatorId.Value,
-                    FIOManager = c.Users.UserData.Surname + " " + c.Users.UserData.Name + " " + c.Users.UserData.MiddleName
+                    CreatorId = c.CreatorId ?? 0,
+                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
                 })
                 .ToList();
 

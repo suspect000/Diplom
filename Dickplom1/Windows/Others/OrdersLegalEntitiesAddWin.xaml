@@ -12,7 +12,8 @@
         AllowsTransparency="True"
         VerticalAlignment="Center"
         mc:Ignorable="d"
-        Title="OrdersNaturalPersonsAddWin" Height="750" Width="600">
+        Height="750" Width="600"
+        Loaded="Window_Loaded">
     <Border
         Width="500" Height="650"
         CornerRadius="20">
@@ -69,7 +70,7 @@
                     Foreground="#636C7F"                    
                     FontSize="25"
                     Padding="0"
-                    Content="Информация о заказе"
+                    Content="Информация о заказе (юр. лица)"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Margin="0,40,0,0"/>
@@ -290,9 +291,11 @@
             </Grid>
 
             <customControls:ButtomWithBorder 
+                x:Name="btnSave"
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
+                Loaded="ButtomWithBorder_Loaded"
                 Margin="0,0,0,20"/>
         </Grid>
     </Border>

@@ -88,18 +88,11 @@
 
                     <Separator Opacity="0" Height="10"/>
 
-                    <customControls:CustomComboboxWithBorder
-                        x:Name="tboxSubsriptionsPeriod"
-                        Text="Период подписки"
-                        ToolTip="Период подписки"/>
+                    <customControls:ComboboxMaterialDesignWithBorder
+                        x:Name="cboxSubsriptionsPeriod"
+                        ToolTip="Период подписки"
+                        Loaded="tboxSubsriptionsPeriod_Loaded"/>
 
-                    <Separator Opacity="0" Height="10"/>
-
-                    <customControls:CustomComboboxWithBorder
-                        x:Name="tboxSubscriptionsType"
-                        Text="Тип подписки"
-                        ToolTip="Тип подписки"/>
-                    
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:TextboxWithBorder
@@ -119,10 +112,12 @@
             </Grid>
 
             <customControls:ButtomWithBorder 
+                x:Name="btnSave"
                 Content="Сохранить"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20"
+                Loaded="ButtomWithBorder_Loaded"/>
         </Grid>
     </Border>
 </Window>

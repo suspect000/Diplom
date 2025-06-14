@@ -24,6 +24,26 @@ namespace Dickplom1.Windows.Others
         {
             InitializeComponent();
         }
+        public int OrderId { get; set; } = 0;
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var context = DBEntities.GetContext();
+                    var selectedOrderLegalEntities = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedOrderLegalEntities != null)
+                        datePicker.dp.SelectedDate = selectedOrderLegalEntities.StartDate;
+
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
 
         private void mainGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -63,6 +83,34 @@ namespace Dickplom1.Windows.Others
             cboxCompany.cbox.SelectedValuePath = "CompanyId";
             cboxCompany.cbox.SelectedIndex = 0;
             cboxCompany.cbox.SelectionChanged += Cbox_SelectionChanged;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedCompany = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedCompany != null)
+                        cboxCompany.cbox.SelectedValue = selectedCompany.ClientsLegalEntities.CompanyId;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            if ((int)cboxCompany.cbox.SelectedValue != 0 && cboxCompany.cbox.SelectedValue != null)
+            {
+                spContactPerson.Opacity = 1;
+                spContactPerson.IsEnabled = true;
+                ContactPersonRefresh();
+            }
+            else
+            {
+                spContactPerson.Opacity = 0.5;
+                spContactPerson.IsEnabled = false;
+            }
         }
 
         private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -84,8 +132,13 @@ namespace Dickplom1.Windows.Others
 
         private void cboxSubscription_Loaded(object sender, RoutedEventArgs e)
         {
-            //Выберите подписку
             SubscriptionsRefresh();
+            cboxSubscription.cbox.SelectionChanged += Cbox_SelectionChanged5;
+        }
+
+        private void Cbox_SelectionChanged5(object sender, SelectionChangedEventArgs e)
+        {
+            SetDataToTextBlocks();
         }
 
         public void SubscriptionsRefresh()
@@ -102,14 +155,31 @@ namespace Dickplom1.Windows.Others
                 .Select(u => new
                 {
                     u.SubscriptionId,
-                    SubscriptionName = u.SubscriptionName + " " + u.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue
+                    SubscriptionName = u.SubscriptionName + " (" + u.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue + " мес)"
                 }));
 
             cboxSubscription.cbox.ItemsSource = items;
             cboxSubscription.cbox.DisplayMemberPath = "SubscriptionName";
             cboxSubscription.cbox.SelectedValuePath = "SubscriptionId";
             cboxSubscription.cbox.SelectedIndex = 0;
-            cboxSubscription.cbox.SelectionChanged += Cbox_SelectionChanged2; ; ;
+            cboxSubscription.cbox.SelectionChanged += Cbox_SelectionChanged2;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedCompany = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedCompany != null)
+                        cboxSubscription.cbox.SelectedValue = selectedCompany.SubscriptionId;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
         }
 
         private void cboxOrderStatus_Loaded(object sender, RoutedEventArgs e)
@@ -138,6 +208,22 @@ namespace Dickplom1.Windows.Others
             cboxOrderStatus.cbox.SelectedValuePath = "OrderStatusId";
             cboxOrderStatus.cbox.SelectedIndex = 0;
             cboxOrderStatus.cbox.SelectionChanged += Cbox_SelectionChanged3;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (OrderId != 0)
+            {
+                try
+                {
+                    var selectedCompany = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                    if (selectedCompany != null)
+                        cboxOrderStatus.cbox.SelectedValue = selectedCompany.OrderStatus.StatusId;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         public string endDatE { get; set; }
@@ -210,13 +296,17 @@ namespace Dickplom1.Windows.Others
                     DateTime.TryParse(datePicker.dp.SelectedDate.ToString(), out DateTime startDate);
                     if (cboxSubscription.cbox.Text != "Выберите подписку")
                     {
-                        int month = Convert.ToInt32(cboxSubscription.cbox.Text.Substring(cboxSubscription.cbox.Text.Length - 1));
-                        DateTime endDate = startDate.AddMonths(month);
+                        if (cboxSubscription.cbox.SelectedValue != null && (int)cboxSubscription.cbox.SelectedValue != 0)
+                        {
+                            var subscription = context.Subscription.FirstOrDefault(f => f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
+                            int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);
+                            DateTime endDate = startDate.AddMonths(month);
 
-                        tblockPeriod.Text = string.Empty;
-                        tblockPeriod.Text = $"{startDate.ToString("d")} - {endDate.ToString("d")}";
+                            tblockPeriod.Text = string.Empty;
+                            tblockPeriod.Text = $"{startDate.ToString("d")} - {endDate.ToString("d")}";
 
-                        endDatE = endDate.ToString();
+                            endDatE = endDate.ToString();
+                        }
                     }
                 }
 
@@ -287,10 +377,8 @@ namespace Dickplom1.Windows.Others
                     ?.ToString();
 
                     int subId = Convert.ToInt32(cboxSubscription.cbox.SelectedValue);
-                    int month = Convert.ToInt32(subscriptionName.Substring(subscriptionName.Length - 1));
-                    var subscription = context.Subscription
-                        .Where(s => s.SubscriptionId == subId)
-                        .FirstOrDefault();
+                    var subscription = context.Subscription.FirstOrDefault(f=>f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
+                    int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);
                     int price = Convert.ToInt32(subscription.PriceForMonth) * month;
 
                     tblockItogo.Text = price.ToString() + " руб";
@@ -302,7 +390,6 @@ namespace Dickplom1.Windows.Others
             {
             }
         }
-
 
         private void Cbox_SelectionChanged4(object sender, SelectionChangedEventArgs e)
         {
@@ -347,6 +434,24 @@ namespace Dickplom1.Windows.Others
                 cboxContactPerson.cbox.SelectedValuePath = "ContactPersonId";
                 cboxContactPerson.cbox.SelectedIndex = 0;
                 cboxContactPerson.cbox.SelectionChanged += Cbox_SelectionChanged1;
+
+                //Если это не добавление а обновление данных то загружаем данные
+                if (OrderId != 0)
+                {
+                    try
+                    {
+                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+                        var selectedCompanyData = context.ClientsLegalEntitiesCompanyData.FirstOrDefault(f=>f.CompanyId == selectedOrder.ClientsLegalEntities.CompanyId);
+                        var selectedContactPerson = context.ClientsLegalEntitiesContactPerson.FirstOrDefault(f=>f.CompanyId == selectedCompanyData.CompanyId && f.IsActive == true);
+
+                        if (cboxContactPerson != null)
+                            cboxContactPerson.cbox.SelectedValue = selectedContactPerson.ContactPersonId;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -388,7 +493,89 @@ namespace Dickplom1.Windows.Others
         private void btnAddPlusWhiteTheme_MouseLeftButtonUp_1(object sender, MouseButtonEventArgs e)
         {
             SubscriptionAddWin win = new SubscriptionAddWin();
-            win
+            win.Closed += Win_Closed1;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed1(object sender, EventArgs e)
+        {
+            SubscriptionsRefresh();
+        }
+
+        private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSave.btnWithBorder.Click += BtnWithBorder_Click;
+        }
+
+        private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            if (cboxCompany.cbox.SelectedIndex == 0
+                || cboxContactPerson.cbox.SelectedIndex == 0
+                || cboxSubscription.cbox.SelectedIndex == 0
+                || datePicker.dp.SelectedDate == null
+                || cboxOrderStatus.cbox.SelectedIndex == 0)
+            {
+                MessageBox.Show("Необходимо заполнить все поля");
+                return;
+            }
+            else
+            {
+                try
+                {
+                    if (endDatE == null) return;
+                    if (priceAll == null) return;
+
+                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
+                    {
+                        if (dateParsed.Date < DateTime.Now.Date || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
+                        {
+                            MessageBox.Show("Невозможно сделать запись прошлым числом");
+                            return;
+                        }
+                    }
+                    //Рекдактирование заказа
+                    if (OrderId != 0)
+                    {
+                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                        if (selectedOrder != null)
+                        {
+                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
+                            selectedOrder.ClientId = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId).ClientId;
+                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
+                            selectedOrder.EndDate = DateTime.Parse(endDatE);
+                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
+                            selectedOrder.Price = Convert.ToInt32(priceAll);
+                        }
+                        context.SaveChanges();
+                        MessageBox.Show("Заказ успешно обновлен");
+                        this.Close();
+                        return;
+                    }
+
+                    //Создание заказа
+                    OrdersLegalEntities newOrder = new OrdersLegalEntities
+                    {
+                        SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
+                        ClientId = context.ClientsLegalEntities.FirstOrDefault(f => f.CompanyId == (int)cboxCompany.cbox.SelectedValue).ClientsLegalEntitiesId,
+                        StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
+                        EndDate = DateTime.Parse(endDatE),
+                        StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
+                        Price = Convert.ToInt32(priceAll),
+                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
+                        //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
+                    };
+                    context.OrdersLegalEntities.Add(newOrder);
+                    context.SaveChanges();
+                    MessageBox.Show("Заказ успешно добавлен");
+                    this.Close();
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
     }
 }
