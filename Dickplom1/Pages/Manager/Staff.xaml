@@ -93,6 +93,7 @@
             x:Name="ComboboxesFilter"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,50,45,0"/>
+            Margin="0,50,45,0"
+            Loaded="ComboboxesFilter_Loaded"/>
     </Grid>
 </Page>

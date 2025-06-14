@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations.Model;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,6 +45,24 @@ namespace Dickplom1.Windows.Others
             Padding = new Thickness(5,5,5,5);
             tboxComment.tb.TextWrapping = TextWrapping.Wrap;
             tboxComment.tb.VerticalAlignment = VerticalAlignment.Top;
+
+            var context = DBEntities.GetContext();
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (SubscriptionId != 0)
+            {
+                try
+                {
+                    var selectedComment = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
+
+                    if (selectedComment != null)
+                        tboxComment.Text = selectedComment.Comment;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         private void tboxSubsriptionsPeriod_Loaded(object sender, RoutedEventArgs e)
@@ -71,6 +90,23 @@ namespace Dickplom1.Windows.Others
             cboxSubsriptionsPeriod.cbox.DisplayMemberPath = "SubscriptionPeriodName";
             cboxSubsriptionsPeriod.cbox.SelectedValuePath = "SubscriptionPeriodId";
             cboxSubsriptionsPeriod.cbox.SelectedIndex = 0;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (SubscriptionId != 0)
+            {
+                try
+                {
+                    var selectedPeriod = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
+
+                    if (selectedPeriod != null)
+                        cboxSubsriptionsPeriod.cbox.SelectedValue = selectedPeriod.SubscriptionId;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
         }
         private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
         {
@@ -91,19 +127,42 @@ namespace Dickplom1.Windows.Others
                 MessageBox.Show("Необходимо заполнить все поля");
                 return;
             }
-            else
+            //Редактирование
+            else if (SubscriptionId != 0)
+            {
+                var selectedSubscription = context.Subscription.FirstOrDefault(f=>f.SubscriptionId == SubscriptionId);
+
+                    selectedSubscription.SubscriptionName = tboxSubscriptionName.Text;
+                    selectedSubscription.SubscriptionPeriodId = (int)cboxSubsriptionsPeriod.cbox.SelectedValue;
+                    selectedSubscription.SubscriptionTypeId = (int)cboxSubsriptionsType.cbox.SelectedValue;
+                    selectedSubscription.PriceForMonth = Convert.ToDecimal(tboxPriceForMonth.tb.Text);
+                    selectedSubscription.PriceFull = Convert.ToDecimal(Convert.ToDouble(tboxPriceForMonth.tb.Text) * (int)cboxSubsriptionsPeriod.cbox.SelectedValue);
+                    /*selectedSubscription.CreatorId = Сюда добавить id создателя когда реализуешь авторизацию в системе!!!!!!!!!!!!!!!*/
+                    selectedSubscription.CreatedAt = DateTime.Now;
+
+                if (tboxComment.tb.Text == "Комментарий")
+                    selectedSubscription.Comment = "-";
+                else
+                    selectedSubscription.Comment = tboxComment.tb.Text;
+
+                context.SaveChanges();
+                MessageBox.Show("Запись успешно обновлена");
+                this.Close();
+            }
+            //Добавление
+            else if (SubscriptionId == 0)
             {
                 if (context.Subscription.FirstOrDefault(f=>f.SubscriptionName == tboxSubscriptionName.Text) != null)
                 {
-                    MessageBox.Show("Подписка с таким названием уже существует в системе");
-                    return;
+                        MessageBox.Show("Подписка с таким названием уже существует в системе");
+                        return;
                 }
                 //Создание подписки
                 Subscription sub = new Subscription()
                 {
                     SubscriptionName = tboxSubscriptionName.Text,
                     SubscriptionPeriodId = (int)cboxSubsriptionsPeriod.cbox.SelectedValue,
-                    SubscriptionTypeId = 2,
+                    SubscriptionTypeId = (int)cboxSubsriptionsType.cbox.SelectedValue,
                     PriceForMonth = Convert.ToDecimal(tboxPriceForMonth.tb.Text),
                     PriceFull = Convert.ToDecimal(Convert.ToDouble(tboxPriceForMonth.tb.Text) * (int)cboxSubsriptionsPeriod.cbox.SelectedValue),
                     /*CreatorId = Сюда добавить id создателя когда реализуешь авторизацию в системе!!!!!!!!!!!!!!!*/
@@ -119,6 +178,94 @@ namespace Dickplom1.Windows.Others
                 context.SaveChanges();
                 MessageBox.Show("Запись успешно добавлена");
                 this.Close();
+            }
+        }
+
+        private void tboxSubscriptionName_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (SubscriptionId != 0)
+            {
+                try
+                {
+                    var selectedName = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
+
+                    if (selectedName != null)
+                        tboxSubscriptionName.Text = selectedName.SubscriptionName;
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+        }
+
+        private void tboxPriceForMonth_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (SubscriptionId != 0)
+            {
+                try
+                {
+                    var selectedPrice = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
+
+                    if (selectedPrice != null)
+                        tboxPriceForMonth.Text = selectedPrice.PriceForMonth.ToString();
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        private void cboxSubsriptionsType_Loaded(object sender, RoutedEventArgs e)
+        {
+            SubscriptionsTypeRefresh();
+        }
+
+        public void SubscriptionsTypeRefresh()
+        {
+            var context = DBEntities.GetContext();
+
+            var items = new List<object>();
+
+            // Заглушка
+            items.Add(new { SubscriptionTypeId = 0, SubscriptionTypeName = "Тип подписки" });
+
+            items.AddRange(context.SubscriptionType
+                .Select(u => new
+                {
+                    SubscriptionTypeId = u.SubscriptionTypeId,
+                    SubscriptionTypeName = u.SubscriptionTypeValue
+
+                }));
+
+            cboxSubsriptionsType.cbox.ItemsSource = items;
+            cboxSubsriptionsType.cbox.DisplayMemberPath = "SubscriptionTypeName";
+            cboxSubsriptionsType.cbox.SelectedValuePath = "SubscriptionTypeId";
+            cboxSubsriptionsType.cbox.SelectedIndex = 0;
+
+            //Если это не добавление а обновление данных то загружаем данные
+            if (SubscriptionId != 0)
+            {
+                try
+                {
+                    var selectedType = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
+
+                    if (selectedType != null)
+                        cboxSubsriptionsType.cbox.SelectedValue = selectedType.SubscriptionTypeId;
+                }
+                catch (Exception)
+                {
+
+                }
+
             }
         }
     }

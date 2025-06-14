@@ -84,9 +84,11 @@
                     <customControls:TextboxWithBorder
                         x:Name="tboxSubscriptionName"
                         Text="Название"
-                        ToolTip="Название"/>
+                        ToolTip="Название"
+                        Loaded="tboxSubscriptionName_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
+
 
                     <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxSubsriptionsPeriod"
@@ -95,10 +97,18 @@
 
                     <Separator Opacity="0" Height="10"/>
 
+                    <customControls:ComboboxMaterialDesignWithBorder
+                        x:Name="cboxSubsriptionsType"
+                        ToolTip="Тип подписки"
+                        Loaded="cboxSubsriptionsType_Loaded"/>
+
+                    <Separator Opacity="0" Height="10"/>
+
                     <customControls:TextboxWithBorder
                         x:Name="tboxPriceForMonth"
                         Text="Цена за месяц"
-                        ToolTip="Цена за месяц"/>
+                        ToolTip="Цена за месяц"
+                        Loaded="tboxPriceForMonth_Loaded"/>
 
                     <Separator Opacity="0" Height="10"/>
 

@@ -61,6 +61,10 @@ namespace Dickplom1.Pages.Manager
             LoadCurrentPage();
             GeneratePaginationButtons();
         }
+        private void CheckTotalPages()
+        {
+            totalPages = (int)Math.Ceiling((double)allStaff.Count / 10);
+        }
         private void GeneratePaginationButtons()
         {
             spPaggination.Children.Clear();
@@ -146,6 +150,120 @@ namespace Dickplom1.Pages.Manager
                 tbInfo.Visibility = Visibility.Collapsed;
 
             dataGrid.dg.ItemsSource = itemsToShow;
+        }
+
+        private void ComboboxesFilter_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            var items = new List<object>();
+
+            // Заглушка — объект с FullName и UserDataId = 0 или null
+            items.Add(new { AccountStatusId = 0, AccountStatusValue = "Статус учетной записи" });
+
+            items.AddRange(context.AccountStatus
+                .Select(u => new
+                {
+                    AccountStatusId = u.AccountStatusId,
+                    AccountStatusValue = u.AccountStatusValue
+                }));
+
+            ComboboxesFilter.firstCombobox.ItemsSource = items;
+            ComboboxesFilter.firstCombobox.DisplayMemberPath = "AccountStatusValue";
+            ComboboxesFilter.firstCombobox.SelectedValuePath = "AccountStatusId";
+            ComboboxesFilter.firstCombobox.SelectedIndex = 0;
+            ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
+
+
+            //Добавить 2-ой комбобокс
+            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
+
+            var items2 = new List<object>();
+            items2.Add(new { RoleId = 0, NameRole = "Должность" });
+
+            items2.AddRange(context.Roles
+                .Select(u => new
+                {
+                    RoleId = u.RoleId,
+                    NameRole = u.NameRole,
+                }));
+
+            cbox.cbox.ItemsSource = items2;
+            cbox.cbox.DisplayMemberPath = "NameRole";
+            cbox.cbox.SelectedValuePath = "RoleId";
+            cbox.cbox.SelectedIndex = 0;
+            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
+            cbox.Margin = new Thickness(15, 0, 15, 0);
+
+            ComboboxesFilter.spCboxes.Children.Add(cbox);
+        }
+        public int cboxAccountStatusId { get; set; } = 0;
+        public int cboxRoleId { get; set; } = 0;
+
+        private void FirstCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cboxAccountStatusId = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
+            ApplyFilters();
+        }
+        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.ComboBox cbox)
+            {
+                cboxRoleId = Convert.ToInt32(cbox.SelectedValue);
+                ApplyFilters();
+            }
+        }
+
+        private void ApplyFilters()
+        {
+            var context = DBEntities.GetContext();
+
+            var clientsQuery = context.Users
+            .Where(c => !c.IsDeleted);
+
+            // фильтр по статусу учетной записи
+            if (cboxAccountStatusId != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => c.AccountStatusId == cboxAccountStatusId);
+            }
+
+            // фильтр по должности
+            if (cboxRoleId != 0)
+            {
+                clientsQuery = clientsQuery.Where(c => c.RoleId == cboxRoleId);
+            }
+
+            var filteredUsers = clientsQuery
+                .Where(x => !x.IsDeleted)
+                .ToList() // Загружаем данные в память
+                .Select(c => new StaffViewModel
+                {
+                    UserId = c.UserId,
+                    AccountStatusId = (int)c.AccountStatusId,
+                    UserDataId = (int)c.UserDataId,
+                    UserPasswordDataId = (int)c.UserPassportDataId,
+                    RoleId = (int)c.RoleId,
+                    Login = c.Login,
+                    Password = c.Password,
+                    CreatorId = c.CreatorId ?? 1,
+                    CreatedAt = (DateTime)c.CreatedAt,
+                    IsDeleted = c.IsDeleted,
+
+                    FIOStaff = c.UserData?.Surname + " " + c.UserData?.Name + " " + c.UserData?.MiddleName + " ",
+                    Email = c.UserData?.Email,
+                    Role = c.Roles.NameRole,
+                    AccountStatus = c.AccountStatus.AccountStatusValue
+                })
+                .ToList();
+
+            if (allStaff != null)
+                allStaff.Clear();
+
+            allStaff = filteredUsers;
+
+            CheckTotalPages();
+            GeneratePaginationButtons();
+            LoadCurrentPage();
         }
     }
 }
