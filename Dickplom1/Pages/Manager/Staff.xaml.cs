@@ -173,6 +173,7 @@ namespace Dickplom1.Pages.Manager
             ComboboxesFilter.firstCombobox.SelectedValuePath = "AccountStatusId";
             ComboboxesFilter.firstCombobox.SelectedIndex = 0;
             ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
+            ComboboxesFilter.gridFilter.Height = 150;
 
 
             //Добавить 2-ой комбобокс

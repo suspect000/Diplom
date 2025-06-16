@@ -109,6 +109,48 @@
             Margin="0,50,235,0"
             Loaded="ComboboxesFilter_Loaded"/>
 
+        <customControls:DeletedRecords
+            x:Name="spDeletedRecords"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,45,355,0"
+            Loaded="DeletedRecords_Loaded"
+            Visibility="Visible"/>
+
+        <StackPanel
+            x:Name="spBack"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,45,355,0"
+            Cursor="Hand"
+            Visibility="Collapsed"
+            MouseEnter="spBack_MouseEnter"
+            MouseLeave="spBack_MouseLeave"
+            MouseLeftButtonUp="spBack_MouseLeftButtonUp">
+
+            <Image Source="/Resources/Images/MainWin/Navigation/imgArrowRight.png"
+                   Width="15" Height="15" RenderTransformOrigin="0.5,0.5"
+                   RenderOptions.BitmapScalingMode="HighQuality">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+
+            <Separator Opacity="0" Width="10"/>
+
+            <Label
+                Style="{StaticResource TextZagolovokDashboard}"
+                FontSize="13"
+                Content="Вернуть"/>
+
+        </StackPanel>
+
         <customControls:ButtomWithBorder
             Content="Добавить клиента"
             HorizontalAlignment="Right"

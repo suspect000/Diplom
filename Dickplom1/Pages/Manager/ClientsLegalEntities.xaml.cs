@@ -63,10 +63,6 @@ namespace Dickplom1.Pages.Manager
                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                     CreatorId = c.CreatorId,
                     Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлен",
                 })
                 .ToList();
             }
@@ -84,10 +80,6 @@ namespace Dickplom1.Pages.Manager
                                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                                     CreatorId = c.CreatorId,
                                     Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
-                                    SubscriptionStatus = context.Orders
-                                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                                    .Select(o => o.OrderStatus.StatusValue)
-                                    .FirstOrDefault() ?? "Не оформлен",
                                 })
                                 .ToList();
             }
@@ -126,10 +118,6 @@ namespace Dickplom1.Pages.Manager
                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                     CreatorId = c.CreatorId,
                     Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлен"
                 })
                 .ToList();
 
@@ -246,31 +234,7 @@ namespace Dickplom1.Pages.Manager
             ComboboxesFilter.firstCombobox.DisplayMemberPath = "FullName";
             ComboboxesFilter.firstCombobox.SelectedValuePath = "UserDataId";
             ComboboxesFilter.firstCombobox.SelectedIndex = 0;
-            ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged; ;
-
-
-            //Добавить 2-ой комбобокс
-            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
-
-            var items2 = new List<object>();
-            items2.Add(new { StatusId = 0, StatusValue = "Статус подписки" });
-
-            items2.AddRange(context.OrderStatus
-                .Select(u => new
-                {
-                    u.StatusId,
-                    u.StatusValue,
-                }));
-
-
-            cbox.cbox.ItemsSource = items2;
-            cbox.cbox.DisplayMemberPath = "StatusValue";
-            cbox.cbox.SelectedValuePath = "StatusId";
-            cbox.cbox.SelectedIndex = 0;
-            cbox.cbox.Margin = new Thickness(15, 0, 15, 0);
-            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
-
-            ComboboxesFilter.spCboxes.Children.Add(cbox);
+            ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
         }
         private void CheckTotalPages()
         {
@@ -286,19 +250,6 @@ namespace Dickplom1.Pages.Manager
         {
             comboboxCreatorValue = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
             ApplyFilters();
-        }
-        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is System.Windows.Controls.ComboBox cbox)
-            {
-                comboboxStatusValueId = Convert.ToInt32(cbox.SelectedValue);
-                /*var selectedItem = cbox.SelectedItem;
-
-                if (selectedItem != null)
-                    comboboxStatusValue = (selectedItem as dynamic).StatusValue;*/
-
-                ApplyFilters();
-            }
         }
         private void ApplyFilters()
         {
@@ -316,15 +267,6 @@ namespace Dickplom1.Pages.Manager
                     clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
                 }
 
-                // фильтр по статусу заказа
-                if (comboboxStatusValueId != 0)
-                {
-                    clientsQuery = clientsQuery.Where(c => context.OrdersLegalEntities
-                    .Any(o => o.ClientId == c.ClientsLegalEntitiesId
-                    && !o.IsDeleted
-                    && o.StatusId == comboboxStatusValueId
-                    ));
-                }
                 var filteredClients = clientsQuery
                     .Where(c => c.IsDeleted == false)
                     .Select(c => new ClientViewModel
@@ -337,10 +279,6 @@ namespace Dickplom1.Pages.Manager
                         CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                         CreatorId = c.CreatorId,
                         Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
-                        SubscriptionStatus = context.Orders
-                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                        .Select(o => o.OrderStatus.StatusValue)
-                        .FirstOrDefault() ?? "Не оформлен"
                     })
                     .ToList();
 
@@ -358,15 +296,6 @@ namespace Dickplom1.Pages.Manager
                     clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
                 }
 
-                // фильтр по статусу заказа
-                if (comboboxStatusValueId != 0)
-                {
-                    clientsQuery = clientsQuery.Where(c => context.OrdersLegalEntities
-                    .Any(o => o.ClientId == c.ClientsLegalEntitiesId
-                    && o.IsDeleted
-                    && o.StatusId == comboboxStatusValueId
-                    ));
-                }
                 var filteredClients = clientsQuery
                     .Where(c => c.IsDeleted == true)
                     .Select(c => new ClientViewModel
@@ -379,10 +308,6 @@ namespace Dickplom1.Pages.Manager
                         CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                         CreatorId = c.CreatorId,
                         Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
-                        SubscriptionStatus = context.Orders
-                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                        .Select(o => o.OrderStatus.StatusValue)
-                        .FirstOrDefault() ?? "Не оформлен"
                     })
                     .ToList();
 
@@ -488,11 +413,7 @@ namespace Dickplom1.Pages.Manager
                         + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
                         CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                         CreatorId = c.CreatorId,
-                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
-                        SubscriptionStatus = context.Orders
-                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                        .Select(o => o.OrderStatus.StatusValue)
-                        .FirstOrDefault() ?? "Не оформлен"
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email
                     })
                     .ToList();
 
@@ -565,10 +486,6 @@ namespace Dickplom1.Pages.Manager
                         CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                         CreatorId = c.CreatorId,
                         Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
-                        SubscriptionStatus = context.Orders
-                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                        .Select(o => o.OrderStatus.StatusValue)
-                        .FirstOrDefault() ?? "Не оформлен"
                     })
                     .ToList();
 

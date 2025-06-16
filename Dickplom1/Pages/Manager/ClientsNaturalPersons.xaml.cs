@@ -32,7 +32,7 @@ namespace Dickplom1.Pages.Manager
         {
             InitializeComponent();
         }
-
+        public bool IsDeletedFilter { get; set; } = false;
         private void ButtomWithBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Windows.Others.ClientsNaturalPersonAddWin win = new Windows.Others.ClientsNaturalPersonAddWin();
@@ -112,11 +112,6 @@ namespace Dickplom1.Pages.Manager
                     FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
                     PhoneNumber = c.PhoneNumber,
                     Email = c.Email,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientNaturalPersonsId)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена",
-                    CreatorId = c.CreatorId,
                 })
                 .ToList();
         }
@@ -238,6 +233,11 @@ namespace Dickplom1.Pages.Manager
                 var staff = DBEntities.GetContext().Users
                     .Where(u=>u.UserDataId == item.CreatorId)
                     .FirstOrDefault();
+                if (staff == null)
+                {
+                    MessageBox.Show("Создатель не найден");
+                    return;
+                }
                 win.StaffId = staff.UserData.UserDataId;
                 win.ShowDialog();
             }
@@ -245,14 +245,28 @@ namespace Dickplom1.Pages.Manager
 
         private void miDelete_Click(object sender, RoutedEventArgs e)
         {
+            var context = DBEntities.GetContext();
             MessageBoxButton btns = MessageBoxButton.YesNo;
             MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
 
             if (box == MessageBoxResult.Yes)
                 if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
                 {
-                    DBEntities.GetContext().ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId).IsDeleted = true;
-                    DBEntities.GetContext().SaveChanges();
+                    if (IsDeletedFilter)
+                    {
+                        var selectedClient = context.ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId);
+                        var selectedOrder = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId);
+                        if (selectedOrder != null)
+                            context.Orders.Remove(selectedOrder);
+                        context.ClientsNaturalPersons.Remove(selectedClient);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        var selectedRecord = context.ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId).IsDeleted = true;
+                        context.SaveChanges();
+                    }
+
                     RefreshItemsList();
                     LoadCurrentPage();
                 }
@@ -279,30 +293,6 @@ namespace Dickplom1.Pages.Manager
             ComboboxesFilter.firstCombobox.SelectedValuePath = "UserDataId";
             ComboboxesFilter.firstCombobox.SelectedIndex = 0;
             ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
-
-
-            //Добавить 2-ой комбобокс
-            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
-
-            var items2 = new List<object>();
-            items2.Add(new { StatusId = 0, StatusValue = "Статус подписки" });
-
-            items2.AddRange(context.OrderStatus
-                .Select(u => new
-                {
-                    u.StatusId,
-                    u.StatusValue,
-                }));
-
-
-            cbox.cbox.ItemsSource = items2;
-            cbox.cbox.DisplayMemberPath = "StatusValue";
-            cbox.cbox.SelectedValuePath = "StatusId";
-            cbox.cbox.SelectedIndex= 0;
-            cbox.cbox.Margin = new Thickness(15,0,15,0);
-            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
-
-            ComboboxesFilter.spCboxes.Children.Add(cbox);
         }
         public int comboboxCreatorValue {  get; set; } = 0;
         public int comboboxStatusValue { get; set; } = 0;
@@ -313,61 +303,150 @@ namespace Dickplom1.Pages.Manager
             ApplyFilters();
         }
 
-        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is System.Windows.Controls.ComboBox cbox)
-            {
-                comboboxStatusValue = Convert.ToInt32(cbox.SelectedValue);
-                ApplyFilters();
-
-            }
-
-        }
-
         private void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
-            var clientsQuery = context.ClientsNaturalPersons
-            .Where(c => !c.IsDeleted);
-
-            // фильтр по создателю записи
-            if (comboboxCreatorValue != 0)
+            if (IsDeletedFilter == false)
             {
-                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
-            }
+                var clientsQuery = context.ClientsNaturalPersons
+                           .Where(c => !c.IsDeleted);
 
-            // фильтр по статусу заказа
-            if (comboboxStatusValue != 0)
-            {
-                clientsQuery = clientsQuery.Where(c => context.Orders
-                .Any(o => o.ClientId == c.ClientNaturalPersonsId 
-                && !o.IsDeleted 
-                && o.StatusId == comboboxStatusValue
-                ));
-            }
-            var filteredClients = clientsQuery
-                .Select(c => new ClientViewModel
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
                 {
-                    ClientId = c.ClientNaturalPersonsId,
-                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
-                    Email = c.Email,
-                    PhoneNumber = c.PhoneNumber,
-                    ClientPhoto = c.ClientPhoto,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientNaturalPersonsId && !o.IsDeleted)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена"
-                    })
-                .ToList();
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
 
-            allClients.Clear();
-            allClients = filteredClients;
+                var filteredClients = clientsQuery
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientNaturalPersonsId,
+                        FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                        Email = c.Email,
+                        PhoneNumber = c.PhoneNumber,
+                        ClientPhoto = c.ClientPhoto,
+                    })
+                    .ToList();
+
+                allClients.Clear();
+                allClients = filteredClients;
+            }
+            else // Фильтрация по удаленным записям
+            {
+                var clientsQuery = context.ClientsNaturalPersons
+                           .Where(c => c.IsDeleted);
+
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
+                var filteredClients = clientsQuery
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientNaturalPersonsId,
+                        FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                        Email = c.Email,
+                        PhoneNumber = c.PhoneNumber,
+                        ClientPhoto = c.ClientPhoto,
+                    })
+                    .ToList();
+
+                allClients.Clear();
+                allClients = filteredClients;
+            }
+
 
             CheckTotalPages();
             GeneratePaginationButtons();
             LoadCurrentPage();
 
+        }
+
+        private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
+        {
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp; ;
+        }
+
+        private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDeletedFilter = true; //активируем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spBack); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spDeletedRecords); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForClients.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Visible;
+
+                var context = DBEntities.GetContext();
+
+                allClients = context.ClientsNaturalPersons
+                .Where(c => c.IsDeleted == true)
+                .Select(c => new ClientViewModel
+                {
+                    ClientId = c.ClientNaturalPersonsId,
+                    ClientPhoto = c.ClientPhoto,
+                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.Email,
+                })
+                .ToList();
+
+                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void spBack_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 0.7, 0.3);
+        }
+
+        private void spBack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 1, 0.3);
+        }
+
+        private void spBack_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDeletedFilter = false; //активируем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spDeletedRecords); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spBack); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForClients.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Collapsed;
+
+                var context = DBEntities.GetContext();
+
+                RefreshItemsList();
+
+                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
