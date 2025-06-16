@@ -128,19 +128,9 @@ namespace Dickplom1.Windows.Others
                     .Where(w => w.IsActive == true && w.CompanyId == context.CompanyId)
                     .FirstOrDefault();
 
-                if (clientContactPerson.Photo != null)
-                {
-                    PhotoPath = LoadImage(clientContactPerson.Photo);
-                }
-
                 //Загрузка данных клиента в текстовые поля и изображение
                 if (ClientId != 0)
                 {
-                    tboxSurname.tb.Text = clientContactPerson.Surname;
-                    tboxName.tb.Text = clientContactPerson.Name;
-                    tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
-                    tboxEmail.tb.Text = clientContactPerson.Email;
-
                     tboxCompanyName.tb.Text = context.ClientsLegalEntitiesCompanyData.CompanyName;
                     tboxINN.tb.Text = context.ClientsLegalEntitiesCompanyData.INN;
                     tboxKPP.tb.Text = context.ClientsLegalEntitiesCompanyData.KPP;
@@ -156,8 +146,21 @@ namespace Dickplom1.Windows.Others
                     tboxEmployeeCount.tb.Text = context.ClientsLegalEntitiesCompanyData.EmployeeCount.ToString();
                     tboxRegistrationDate.tb.Text = context.ClientsLegalEntitiesCompanyData.RegistrationDate?.ToString("d");
 
-                    if (clientContactPerson.Middlename != null)
-                        tboxMiddlename.tb.Text = clientContactPerson.Middlename;
+                    if (clientContactPerson != null)
+                    {
+                        tboxSurname.tb.Text = clientContactPerson.Surname;
+                        tboxName.tb.Text = clientContactPerson.Name;
+                        tboxPhoneNumber.tb.Text = clientContactPerson.Phone;
+                        tboxEmail.tb.Text = clientContactPerson.Email;
+
+                        if (clientContactPerson.Photo != null)
+                        {
+                            PhotoPath = LoadImage(clientContactPerson.Photo);
+                        }
+
+                        if (clientContactPerson.Middlename != null)
+                            tboxMiddlename.tb.Text = clientContactPerson.Middlename;
+                    }
 
                     if (context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment != null)
                         tboxAddressApartment.tb.Text = context.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment;
@@ -488,16 +491,18 @@ namespace Dickplom1.Windows.Others
 
 
                 //selectedClient.ClientsLegalEntitiesId = ClientId;
-
-                if (firstClientContactPerson.ContactPersonId != selectedClientContactPerson.ContactPersonId)
+                if (firstClientContactPerson != null)
                 {
-                    var clients = context.ClientsLegalEntitiesContactPerson
-                        .Where(c => c.CompanyId == selectedClient.CompanyId)
-                        .ToList();
-
-                    foreach (var client in clients)
+                    if (firstClientContactPerson.ContactPersonId != selectedClientContactPerson.ContactPersonId)
                     {
-                        client.IsActive = false;
+                        var clients = context.ClientsLegalEntitiesContactPerson
+                            .Where(c => c.CompanyId == selectedClient.CompanyId)
+                            .ToList();
+
+                        foreach (var client in clients)
+                        {
+                            client.IsActive = false;
+                        }
                     }
                 }
 
@@ -705,10 +710,14 @@ namespace Dickplom1.Windows.Others
                     cboxActiveContactPerson.cbox.ItemsSource = items;
                     cboxActiveContactPerson.cbox.DisplayMemberPath = "ContactPersonName";
                     cboxActiveContactPerson.cbox.SelectedValuePath = "ContactPersonId";
-                    cboxActiveContactPerson.cbox.SelectedValue = context
+
+                    var contactPersonId = context
                         .ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.CompanyId == selectedClientLegal.CompanyId
-                        && w.IsActive == true)
-                        .ContactPersonId;
+                        && w.IsActive == true);
+
+                    if (contactPersonId != null)
+                        cboxActiveContactPerson.cbox.SelectedValue = contactPersonId.ContactPersonId;
+
                     cboxActiveContactPerson.cbox.SelectionChanged += Cbox_SelectionChanged;
 
 

@@ -1,4 +1,5 @@
 ﻿using CustomControlsForDiplomFramework;
+using Dickplom1.Class;
 using Dickplom1.DataFolder;
 using Dickplom1.Windows.Others;
 using System;
@@ -29,6 +30,8 @@ namespace Dickplom1.Pages.Manager
             InitializeComponent();
         }
 
+        public bool IsDeletedFilter { get; set; } = false;
+
         private void ButtomWithBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ClientsLegalEntitiesAddWin win = new ClientsLegalEntitiesAddWin();
@@ -46,14 +49,16 @@ namespace Dickplom1.Pages.Manager
         {
             var context = DBEntities.GetContext();
 
-            allClients = context.ClientsLegalEntities
-                .Where(c=>c.IsDeleted == false)
+            if (IsDeletedFilter)
+            {
+                allClients = context.ClientsLegalEntities
+                .Where(c => c.IsDeleted == true)
                 .Select(c => new ClientViewModel
                 {
                     ClientId = c.ClientsLegalEntitiesId,
-                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w=>w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
-                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname 
-                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name 
+                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
+                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
                     + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
                     CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
                     CreatorId = c.CreatorId,
@@ -61,9 +66,32 @@ namespace Dickplom1.Pages.Manager
                     SubscriptionStatus = context.Orders
                     .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
                     .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена"
+                    .FirstOrDefault() ?? "Не оформлен",
                 })
                 .ToList();
+            }
+            else
+            {
+                allClients = context.ClientsLegalEntities
+                                .Where(c => c.IsDeleted == false)
+                                .Select(c => new ClientViewModel
+                                {
+                                    ClientId = c.ClientsLegalEntitiesId,
+                                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
+                                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
+                                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
+                                    CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                                    CreatorId = c.CreatorId,
+                                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
+                                    SubscriptionStatus = context.Orders
+                                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
+                                    .Select(o => o.OrderStatus.StatusValue)
+                                    .FirstOrDefault() ?? "Не оформлен",
+                                })
+                                .ToList();
+            }
+            CheckTotalPages();
         }
         private void Page_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -101,7 +129,7 @@ namespace Dickplom1.Pages.Manager
                     SubscriptionStatus = context.Orders
                     .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
                     .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена"
+                    .FirstOrDefault() ?? "Не оформлен"
                 })
                 .ToList();
 
@@ -240,7 +268,7 @@ namespace Dickplom1.Pages.Manager
             cbox.cbox.SelectedValuePath = "StatusId";
             cbox.cbox.SelectedIndex = 0;
             cbox.cbox.Margin = new Thickness(15, 0, 15, 0);
-            cbox.cbox.SelectionChanged += Cbox_SelectionChanged; ;
+            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
 
             ComboboxesFilter.spCboxes.Children.Add(cbox);
         }
@@ -250,7 +278,9 @@ namespace Dickplom1.Pages.Manager
         }
 
         public int comboboxCreatorValue { get; set; } = 0;
-        public int comboboxStatusValue { get; set; } = 0;
+        public int comboboxStatusValueId { get; set; } = 0;
+        public string comboboxStatusValue { get; set; } = "";
+
 
         private void FirstCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -261,7 +291,12 @@ namespace Dickplom1.Pages.Manager
         {
             if (sender is System.Windows.Controls.ComboBox cbox)
             {
-                comboboxStatusValue = Convert.ToInt32(cbox.SelectedValue);
+                comboboxStatusValueId = Convert.ToInt32(cbox.SelectedValue);
+                /*var selectedItem = cbox.SelectedItem;
+
+                if (selectedItem != null)
+                    comboboxStatusValue = (selectedItem as dynamic).StatusValue;*/
+
                 ApplyFilters();
             }
         }
@@ -269,45 +304,91 @@ namespace Dickplom1.Pages.Manager
         {
             var context = DBEntities.GetContext();
 
-            var clientsQuery = context.ClientsLegalEntities
-            .Where(c => (bool)!c.IsDeleted);
-
-            // фильтр по создателю записи
-            if (comboboxCreatorValue != 0)
+            // Фильтраиция по не удаленным записям
+            if (IsDeletedFilter == false)
             {
-                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
-            }
+                var clientsQuery = context.ClientsLegalEntities
+                    .Where(c => (bool)!c.IsDeleted);
 
-            // фильтр по статусу заказа
-            if (comboboxStatusValue != 0)
-            {
-                clientsQuery = clientsQuery.Where(c => context.OrdersLegalEntities
-                .Any(o => o.ClientId == c.ClientsLegalEntitiesId
-                && !o.IsDeleted
-                && o.StatusId == comboboxStatusValue
-                ));
-            }
-            var filteredClients = clientsQuery
-                .Where(c => c.IsDeleted == false)
-                .Select(c => new ClientViewModel
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
                 {
-                    ClientId = c.ClientsLegalEntitiesId,
-                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Photo,
-                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Surname
-                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Name
-                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Middlename,
-                    CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
-                    CreatorId = c.CreatorId,
-                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
-                    SubscriptionStatus = context.Orders
-                    .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
-                    .Select(o => o.OrderStatus.StatusValue)
-                    .FirstOrDefault() ?? "Не оформлена"
-                })
-                .ToList();
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
 
-            allClients.Clear();
-            allClients = filteredClients;
+                // фильтр по статусу заказа
+                if (comboboxStatusValueId != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => context.OrdersLegalEntities
+                    .Any(o => o.ClientId == c.ClientsLegalEntitiesId
+                    && !o.IsDeleted
+                    && o.StatusId == comboboxStatusValueId
+                    ));
+                }
+                var filteredClients = clientsQuery
+                    .Where(c => c.IsDeleted == false)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientsLegalEntitiesId,
+                        ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Photo,
+                        FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Surname
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Name
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Middlename,
+                        CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                        CreatorId = c.CreatorId,
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
+                        SubscriptionStatus = context.Orders
+                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
+                        .Select(o => o.OrderStatus.StatusValue)
+                        .FirstOrDefault() ?? "Не оформлен"
+                    })
+                    .ToList();
+
+                allClients.Clear();
+                allClients = filteredClients;
+            }
+            else // Фильтраиция по удаленным записям
+            {
+                var clientsQuery = context.ClientsLegalEntities
+                    .Where(c => (bool)c.IsDeleted);
+
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
+
+                // фильтр по статусу заказа
+                if (comboboxStatusValueId != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => context.OrdersLegalEntities
+                    .Any(o => o.ClientId == c.ClientsLegalEntitiesId
+                    && o.IsDeleted
+                    && o.StatusId == comboboxStatusValueId
+                    ));
+                }
+                var filteredClients = clientsQuery
+                    .Where(c => c.IsDeleted == true)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientsLegalEntitiesId,
+                        ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Photo,
+                        FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Surname
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Name
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Middlename,
+                        CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                        CreatorId = c.CreatorId,
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
+                        SubscriptionStatus = context.Orders
+                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
+                        .Select(o => o.OrderStatus.StatusValue)
+                        .FirstOrDefault() ?? "Не оформлен"
+                    })
+                    .ToList();
+
+                allClients.Clear();
+                allClients = filteredClients;
+            }
 
             CheckTotalPages();
             GeneratePaginationButtons();
@@ -338,24 +419,168 @@ namespace Dickplom1.Pages.Manager
                 var staff = DBEntities.GetContext().Users
                     .Where(u => u.UserDataId == item.CreatorId)
                     .FirstOrDefault();
-                win.StaffId = staff.UserData.UserDataId;
+                if (staff != null)
+                    win.StaffId = staff.UserData.UserDataId;
+
                 win.ShowDialog();
             }
         }
 
         private void miDelete_Click(object sender, RoutedEventArgs e)
         {
+            var context = DBEntities.GetContext();
             MessageBoxButton btns = MessageBoxButton.YesNo;
             MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
 
             if (box == MessageBoxResult.Yes)
                 if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
                 {
-                    DBEntities.GetContext().ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId).IsDeleted = true;
-                    DBEntities.GetContext().SaveChanges();
+                    if (IsDeletedFilter)
+                    {
+                        var selectedClient = context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId);
+                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f=>f.ClientId == item.ClientId);
+                        if (selectedOrder != null)
+                            context.OrdersLegalEntities.Remove(selectedOrder);
+                        context.ClientsLegalEntities.Remove(selectedClient);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        var selectedRecord = context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId).IsDeleted = true;
+                        context.SaveChanges();
+                    }
+                   
                     RefreshItemsList();
                     LoadCurrentPage();
                 }
+        }
+
+        private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
+        {
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp;
+        }
+
+        private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDeletedFilter = true; //активируем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spBack); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spDeletedRecords); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForClients.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Visible;
+
+                var context = DBEntities.GetContext();
+
+                allClients = context.ClientsLegalEntities
+                    .Where(w => w.IsDeleted == true)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientsLegalEntitiesId,
+                        ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                        FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
+                        CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                        CreatorId = c.CreatorId,
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
+                        SubscriptionStatus = context.Orders
+                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
+                        .Select(o => o.OrderStatus.StatusValue)
+                        .FirstOrDefault() ?? "Не оформлен"
+                    })
+                    .ToList();
+
+                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void dgBtnRecovery_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            try
+            {
+                if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item) 
+                {
+                    context.ClientsLegalEntities.FirstOrDefault(f=>f.ClientsLegalEntitiesId == item.ClientId).IsDeleted = false;
+                    context.SaveChanges();
+                    RefreshItemsList();
+                    LoadCurrentPage();
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void spBack_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 0.7, 0.3);
+        }
+
+        private void spBack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 1, 0.3);
+        }
+
+        private void spBack_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDeletedFilter = false; //активируем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spDeletedRecords); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spBack); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForClients.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Collapsed;
+
+                var context = DBEntities.GetContext();
+
+                allClients = context.ClientsLegalEntities
+                    .Where(w => w.IsDeleted == false)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientsLegalEntitiesId,
+                        ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                        FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
+                        CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                        CreatorId = c.CreatorId,
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
+                        SubscriptionStatus = context.Orders
+                        .Where(o => o.ClientId == c.ClientsLegalEntitiesId)
+                        .Select(o => o.OrderStatus.StatusValue)
+                        .FirstOrDefault() ?? "Не оформлен"
+                    })
+                    .ToList();
+
+                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
