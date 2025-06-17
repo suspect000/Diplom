@@ -1,12 +1,15 @@
 ﻿using Dickplom1.Class;
 using Dickplom1.DataFolder;
 using Microsoft.Win32;
+using SkiaSharp;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading;
@@ -677,6 +680,15 @@ namespace Dickplom1.Windows.Others
         private void cboxActiveContactPerson_Loaded(object sender, RoutedEventArgs e)
         {
             cboxContactPersonRefresh();
+            cboxActiveContactPerson.cbox.AddHandler(
+                UIElement.PreviewMouseRightButtonDownEvent,
+                new MouseButtonEventHandler(Cbox_PreviewMouseRightButtonDown),
+                true);
+        }
+
+        private void Cbox_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;//___________________________
         }
 
         //Загрузка данных в комбобокс выбора представителей (должен быть выбран активный представитель)
@@ -791,7 +803,10 @@ namespace Dickplom1.Windows.Others
             else if (cboxActiveContactPerson.cbox.SelectedValue != null 
                 && (int)cboxActiveContactPerson.cbox.SelectedValue == 0)
             {
-                PhotoPath = null;
+                ClientPhoto.Source = null;
+                Dickplom1.Class.Musor.HideElement(imgDelete);
+                Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
+                ClientPhotoFI.Text = "НН";
                 tboxSurname.tb.Text = null;
                 tboxName.tb.Text = null;
                 tboxMiddlename.tb.Text = null;
@@ -858,6 +873,26 @@ namespace Dickplom1.Windows.Others
         private void Win_Closed(object sender, EventArgs e)
         {
             cboxContactPersonRefresh();
+        }
+
+        private void MenuItem_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+            if (cboxActiveContactPerson.cbox.ItemsSource is ClientsLegalEntitiesContactPerson item)
+            {
+                MessageBoxButton btns = MessageBoxButton.YesNo;
+                MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+
+                if (box == MessageBoxResult.Yes)
+                {
+                    if (item != null)
+                    {
+                        context.ClientsLegalEntitiesContactPerson.Remove(item);
+                        context.SaveChanges();
+                        cboxContactPersonRefresh();
+                    }
+                }
+            }
         }
     }
 }

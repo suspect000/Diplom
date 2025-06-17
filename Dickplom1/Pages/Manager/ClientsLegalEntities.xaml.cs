@@ -342,12 +342,15 @@ namespace Dickplom1.Pages.Manager
             if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
             {
                 var staff = DBEntities.GetContext().Users
-                    .Where(u => u.UserDataId == item.CreatorId)
-                    .FirstOrDefault();
+                    .FirstOrDefault(u => u.UserDataId == item.CreatorId);
                 if (staff != null)
+                {
                     win.StaffId = staff.UserData.UserDataId;
+                    win.ShowDialog();
+                }
+                else
+                    MessageBox.Show("Создатель не найден");
 
-                win.ShowDialog();
             }
         }
 
@@ -362,19 +365,44 @@ namespace Dickplom1.Pages.Manager
                 {
                     if (IsDeletedFilter)
                     {
-                        var selectedClient = context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId);
-                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f=>f.ClientId == item.ClientId);
+                        var selectedClientLegal = context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId);
+                        var selectedBankData = context.ClientsLegalEntitiesBankData.FirstOrDefault(c => c.BankDataId == selectedClientLegal.BankDataId);
+                        var selectedCompanydata = context.ClientsLegalEntitiesCompanyData.FirstOrDefault(c=>c.CompanyId == selectedClientLegal.CompanyId);
+                        var selectedContactPerson = context.ClientsLegalEntitiesContactPerson.Where(c=>c.CompanyId == selectedCompanydata.CompanyId).ToList();
+                        var selectedOrder = context.OrdersLegalEntities.Where(f=>f.ClientId == item.ClientId).ToList();
+
+                        if (selectedContactPerson != null)
+                            context.ClientsLegalEntitiesContactPerson.RemoveRange(selectedContactPerson);
+
+                        if (selectedCompanydata != null)
+                            context.ClientsLegalEntitiesCompanyData.Remove(selectedCompanydata);
+
+                        if (selectedBankData != null)
+                            context.ClientsLegalEntitiesBankData.Remove(selectedBankData);
+
                         if (selectedOrder != null)
-                            context.OrdersLegalEntities.Remove(selectedOrder);
-                        context.ClientsLegalEntities.Remove(selectedClient);
-                        context.SaveChanges();
+                            context.OrdersLegalEntities.RemoveRange(selectedOrder);
+
+                        context.ClientsLegalEntities.Remove(selectedClientLegal);
                     }
                     else
                     {
-                        var selectedRecord = context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId).IsDeleted = true;
-                        context.SaveChanges();
+                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == item.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                        if (selectedOrder != null)
+                        {
+                            MessageBoxResult boxNew = MessageBox.Show($"У данного клиента есть активный заказ, который тоже сместится в корзину \nвы точно уверенны?", "Внимание", btns);
+                            if (boxNew == MessageBoxResult.Yes)
+                            {
+                                context.ClientsLegalEntities.FirstOrDefault(c => c.ClientsLegalEntitiesId == item.ClientId).IsDeleted = true;
+                                context.OrdersLegalEntities.FirstOrDefault(c => c.ClientId == item.ClientId && c.StatusId > 1 & c.StatusId < 6).IsDeleted = true;
+                            }
+                            else
+                                return;
+                        }
+                        else
+                            context.ClientsLegalEntities.FirstOrDefault(f => f.ClientsLegalEntitiesId == item.ClientId).IsDeleted = true;
                     }
-                   
+                    context.SaveChanges();
                     RefreshItemsList();
                     LoadCurrentPage();
                 }
@@ -436,7 +464,18 @@ namespace Dickplom1.Pages.Manager
             {
                 if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item) 
                 {
-                    context.ClientsLegalEntities.FirstOrDefault(f=>f.ClientsLegalEntitiesId == item.ClientId).IsDeleted = false;
+                    if (item != null)
+                    {
+                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f=>f.ClientId == item.ClientId && f.IsDeleted == true && f.StatusId > 1 & f.StatusId < 6);
+                        if (selectedOrder != null)
+                        {
+                            selectedOrder.IsDeleted = false;
+                            context.ClientsLegalEntities.FirstOrDefault(f => f.ClientsLegalEntitiesId == item.ClientId).IsDeleted = false;
+                        }
+                        else
+                            context.ClientsLegalEntities.FirstOrDefault(f => f.ClientsLegalEntitiesId == item.ClientId).IsDeleted = false;
+                    }
+                    
                     context.SaveChanges();
                     RefreshItemsList();
                     LoadCurrentPage();

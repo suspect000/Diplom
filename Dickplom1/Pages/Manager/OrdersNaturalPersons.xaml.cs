@@ -65,6 +65,7 @@ namespace Dickplom1.Pages.Manager
                    + " " + o.ClientsNaturalPersons.MiddleName,
                    StartDate = o.StartDate.Value.ToString("d"),
                    EndDate = o.EndDate.Value.ToString("d"),
+                   ClientId = o.ClientId ?? 0,
                    OrderStatus = o.OrderStatus.StatusValue,
                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                    CreatorId = o.CreatorId ?? 0,
@@ -87,6 +88,7 @@ namespace Dickplom1.Pages.Manager
                    StartDate = o.StartDate.Value.ToString("d"),
                    EndDate = o.EndDate.Value.ToString("d"),
                    OrderStatus = o.OrderStatus.StatusValue,
+                   ClientId = o.ClientId ?? 0,
                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                    CreatorId = o.CreatorId ?? 0,
                    IsDeleted = o.IsDeleted
@@ -119,6 +121,7 @@ namespace Dickplom1.Pages.Manager
                     StartDate = o.StartDate.Value.ToString("d"),
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    ClientId = o.ClientId ?? 0,
                     FIOManager = o.Users ?.UserData.Surname + " " + o.Users ?.UserData.Name + " " + o.Users ?.UserData.MiddleName,
                     CreatorId = o.CreatorId?? 0,
                     IsDeleted = o.IsDeleted
@@ -318,6 +321,7 @@ namespace Dickplom1.Pages.Manager
                         EndDate = c.EndDate?.ToString("g"),
                         OrderStatusId = c.OrderStatus.StatusId,
                         OrderStatus = c.OrderStatus.StatusValue,
+                        ClientId = c.ClientId ?? 0,
                         CreatorId = c.CreatorId ?? 0,
                         FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
                     })
@@ -355,6 +359,7 @@ namespace Dickplom1.Pages.Manager
                         EndDate = c.EndDate?.ToString("g"),
                         OrderStatusId = c.OrderStatus.StatusId,
                         OrderStatus = c.OrderStatus.StatusValue,
+                        ClientId = c.ClientId ?? 0,
                         CreatorId = c.CreatorId ?? 0,
                         FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
                     })
@@ -522,6 +527,7 @@ namespace Dickplom1.Pages.Manager
                     + " " + o.ClientsNaturalPersons.Name
                     + " " + o.ClientsNaturalPersons.MiddleName,
                     StartDate = o.StartDate.Value.ToString("d"),
+                    ClientId = o.ClientId ?? 0,
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
                     FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
@@ -549,6 +555,12 @@ namespace Dickplom1.Pages.Manager
             {
                 if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
                 {
+                    var selectedClient = context.ClientsNaturalPersons.FirstOrDefault(f=>f.ClientNaturalPersonsId == item.ClientId && f.IsDeleted == true);
+                    if (selectedClient != null)
+                    {
+                        MessageBox.Show("Сначала необходимо восстановить клиента данного заказа из корзины");
+                        return;
+                    }
                     context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = false;
                     context.SaveChanges();
                     RefreshItems();

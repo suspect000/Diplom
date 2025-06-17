@@ -80,7 +80,7 @@ namespace Dickplom1.Windows.Others
             items.Add(new { SubscriptionId = 0, SubscriptionName = "Выберите подписку" });
 
             items.AddRange(context.Subscription
-                .Where(s => s.SubscriptionTypeId == 1)
+                .Where(s => s.SubscriptionTypeId == 1 && s.IsDeleted == false)
                 .Select(u => new
                 {
                     u.SubscriptionId,
@@ -126,6 +126,7 @@ namespace Dickplom1.Windows.Others
             items.Add(new { ClientId = 0, ClientName = "Выберите клиента" });
 
             items.AddRange(context.ClientsNaturalPersons
+                .Where(w=>w.IsDeleted == false)
                 .Select(u => new
                 {
                     u.ClientNaturalPersonsId,
@@ -379,14 +380,6 @@ namespace Dickplom1.Windows.Others
                     if (endDatE == null) return;
                     if (priceAll == null) return;
 
-                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
-                    {
-                        if (dateParsed.Date < DateTime.Now.Date || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
-                        {
-                            MessageBox.Show("Невозможно сделать запись прошлым числом");
-                            return;
-                        }
-                    }
                     //Рекдактирование заказа
                     if (OrderId != 0)
                     {
@@ -401,12 +394,28 @@ namespace Dickplom1.Windows.Others
                             selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
                             selectedOrder.Price = Convert.ToInt32(priceAll);
                         }
+                        if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
+                        {
+                            if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
+                            {
+                                MessageBox.Show("Некорректная указана дата");
+                                return;
+                            }
+                        }
                         context.SaveChanges();
                         MessageBox.Show("Заказ успешно обновлен");
                         this.Close();
                         return;
                     }
 
+                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
+                    {
+                        if (dateParsed.Date < DateTime.Now.AddMonths(-18) || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
+                        {
+                            MessageBox.Show("Некорректно указана дата");
+                            return;
+                        }
+                    }
                     //Создание заказа
                     Orders newOrder = new Orders
                     {

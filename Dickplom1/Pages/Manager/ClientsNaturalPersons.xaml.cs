@@ -42,6 +42,7 @@ namespace Dickplom1.Pages.Manager
 
         private void Win_Closed1(object sender, EventArgs e)
         {
+            RefreshItemsList();
             LoadCurrentPage();
             GeneratePaginationButtons();
         }
@@ -225,9 +226,14 @@ namespace Dickplom1.Pages.Manager
             {
                 var client = DBEntities.GetContext().ClientsNaturalPersons.Where(c => c.ClientNaturalPersonsId == item.ClientId).FirstOrDefault();
 
-                win.ClientId = client.ClientNaturalPersonsId;
-                win.Closed += Win_Closed;
-                win.ShowDialog();
+                if (client != null)
+                {
+                    win.ClientId = client.ClientNaturalPersonsId;
+                    win.Closed += Win_Closed;
+                    win.ShowDialog();
+                }
+                else
+                    MessageBox.Show("Данные не найдены");
             }
         }
 
@@ -269,18 +275,34 @@ namespace Dickplom1.Pages.Manager
                     if (IsDeletedFilter)
                     {
                         var selectedClient = context.ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId);
-                        var selectedOrder = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId);
+                        var selectedOrder = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.StatusId > 1 & f.StatusId < 6);
+
                         if (selectedOrder != null)
+                        {
                             context.Orders.Remove(selectedOrder);
+                        }
+
                         context.ClientsNaturalPersons.Remove(selectedClient);
-                        context.SaveChanges();
                     }
                     else
                     {
-                        var selectedRecord = context.ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId).IsDeleted = true;
-                        context.SaveChanges();
+                        var selectedOrder = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                        if (selectedOrder != null)
+                        {
+                            MessageBoxResult boxNew = MessageBox.Show($"У данного клиента есть активный заказ, который тоже сместится в корзину \nвы точно уверенны?", "Внимание", btns);
+                            if (boxNew == MessageBoxResult.Yes)
+                            {
+                                context.ClientsNaturalPersons.FirstOrDefault(c => c.ClientNaturalPersonsId == item.ClientId).IsDeleted = true;
+                                context.Orders.FirstOrDefault(c=>c.ClientId == item.ClientId && c.StatusId > 1 & c.StatusId < 6).IsDeleted = true;
+                            }
+                            else
+                                return;
+                        }
+                        else
+                            context.ClientsNaturalPersons.FirstOrDefault(f=>f.ClientNaturalPersonsId == item.ClientId).IsDeleted = true;
                     }
 
+                    context.SaveChanges();
                     RefreshItemsList();
                     LoadCurrentPage();
                 }
@@ -472,6 +494,7 @@ namespace Dickplom1.Pages.Manager
                 if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
                 {
                     context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId == item.ClientId).IsDeleted = false;
+                    context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.StatusId > 1 & f.StatusId < 6).IsDeleted = false;
                     context.SaveChanges();
                     RefreshItemsList();
                     LoadCurrentPage();

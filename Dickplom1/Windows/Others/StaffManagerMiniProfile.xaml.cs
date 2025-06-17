@@ -62,6 +62,9 @@ namespace Dickplom1.Windows.Others
                 .Where(c=>c.UserDataId == StaffId)
                 .FirstOrDefault();
 
+            if (context == null)
+            return;
+
             if (context.UserPhoto != null)
             {
                 PhotoPath = LoadImage(context.UserPhoto);

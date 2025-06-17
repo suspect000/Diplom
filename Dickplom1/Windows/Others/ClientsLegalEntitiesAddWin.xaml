@@ -96,7 +96,16 @@
                     <customControls:ComboboxMaterialDesignWithBorder
                         Name="cboxActiveContactPerson"
                         Width="284"
-                        Loaded="cboxActiveContactPerson_Loaded"/>
+                        Loaded="cboxActiveContactPerson_Loaded">
+                        <customControls:ComboboxMaterialDesignWithBorder.ContextMenu>
+                            <ContextMenu
+                                Background="White"
+                                HasDropShadow="True"
+                                Foreground="#687183">
+                                <MenuItem Header="Удалить запись" Click="MenuItem_Delete_Click"/>
+                            </ContextMenu>
+                        </customControls:ComboboxMaterialDesignWithBorder.ContextMenu>
+                    </customControls:ComboboxMaterialDesignWithBorder>
 
                     <Separator Opacity="0" Width="15"/>
 
