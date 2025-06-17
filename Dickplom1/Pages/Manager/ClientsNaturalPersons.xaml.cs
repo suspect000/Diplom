@@ -103,17 +103,31 @@ namespace Dickplom1.Pages.Manager
         {
             var context = DBEntities.GetContext();
 
-            allClients = context.ClientsNaturalPersons
+            if (!IsDeletedFilter)
+                allClients = context.ClientsNaturalPersons
                 .Where(c => c.IsDeleted == false)
-                .Select(c => new ClientViewModel
-                {
-                    ClientId = c.ClientNaturalPersonsId,
-                    ClientPhoto = c.ClientPhoto,
-                    FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
-                    PhoneNumber = c.PhoneNumber,
-                    Email = c.Email,
-                })
-                .ToList();
+                    .Select(c => new ClientViewModel     
+                    {
+                        ClientId = c.ClientNaturalPersonsId,
+                        ClientPhoto = c.ClientPhoto,
+                        FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                        PhoneNumber = c.PhoneNumber,
+                        Email = c.Email,
+                    })
+                    .ToList();
+            else
+                allClients = context.ClientsNaturalPersons
+                    .Where(c => c.IsDeleted == true)
+                    .Select(c => new ClientViewModel
+                    {
+                        ClientId = c.ClientNaturalPersonsId,
+                        ClientPhoto = c.ClientPhoto,
+                        FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
+                        PhoneNumber = c.PhoneNumber,
+                        Email = c.Email,
+                    })
+                    .ToList();
+
         }
         private void GeneratePaginationButtons()
         {
@@ -366,7 +380,7 @@ namespace Dickplom1.Pages.Manager
 
         private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
         {
-            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp; ;
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp;
         }
 
         private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -443,6 +457,25 @@ namespace Dickplom1.Pages.Manager
 
                 LoadCurrentPage();
                 GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void dgBtnRecovery_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            try
+            {
+                if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
+                {
+                    context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId == item.ClientId).IsDeleted = false;
+                    context.SaveChanges();
+                    RefreshItemsList();
+                    LoadCurrentPage();
+                }
             }
             catch (Exception)
             {

@@ -27,6 +27,7 @@ namespace Dickplom1.Pages.Manager
         {
             InitializeComponent();
         }
+        public bool IsDeletedFilter { get; set; } = false;
 
         private void btnAddOrder_Loaded(object sender, RoutedEventArgs e)
         {
@@ -57,11 +58,12 @@ namespace Dickplom1.Pages.Manager
         public void ItemsRefresh()
         {
             var context = DBEntities.GetContext();
-
-            allSubscriptions = context.Subscription
+            if (!IsDeletedFilter)
+            {
+                allSubscriptions = context.Subscription
                 .Where(x => !x.IsDeleted)
-                .Select(o => new SubscriptionsViewModel  
-                {  
+                .Select(o => new SubscriptionsViewModel
+                {
                     SubscriptionId = o.SubscriptionId,
                     SubscriptionName = o.SubscriptionName,
                     SubscriptionPeriodId = (int)o.SubscriptionPeriodId,
@@ -72,10 +74,30 @@ namespace Dickplom1.Pages.Manager
                     CreatorId = o.CreatorId ?? 0,
                     CreatedAt = o.CreatedAt.ToString(),
                     IsDeleted = o.IsDeleted,
-                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName 
+                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
                 })
                 .ToList();
-
+            }
+            else
+            {
+                allSubscriptions = context.Subscription
+                .Where(x => x.IsDeleted)
+                .Select(o => new SubscriptionsViewModel
+                {
+                    SubscriptionId = o.SubscriptionId,
+                    SubscriptionName = o.SubscriptionName,
+                    SubscriptionPeriodId = (int)o.SubscriptionPeriodId,
+                    SubscriptionTypeId = (int)o.SubscriptionTypeId,
+                    Comment = o.Comment,
+                    PriceForMonth = o.PriceForMonth.ToString(),
+                    PriceFull = o.PriceFull.ToString(),
+                    CreatorId = o.CreatorId ?? 0,
+                    CreatedAt = o.CreatedAt.ToString(),
+                    IsDeleted = o.IsDeleted,
+                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                })
+                .ToList();
+            }
 
             totalPages = (int)Math.Ceiling((double)allSubscriptions.Count / 10);
             currentPage = 1;
@@ -243,45 +265,88 @@ namespace Dickplom1.Pages.Manager
         private void ApplyFilters()
         {
             var context = DBEntities.GetContext();
-
-            var clientsQuery = context.Subscription
-            .Where(c => !c.IsDeleted);
-
-            // фильтр по создателю записи
-            if (comboboxCreatorValue != 0)
+            if (!IsDeletedFilter)
             {
-                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
-            }
+                var clientsQuery = context.Subscription
+                            .Where(c => !c.IsDeleted);
 
-            // фильтр по типу подписки
-            if (comboboxTypeValue != 0)
-            {
-                clientsQuery = clientsQuery.Where(c => c.SubscriptionTypeId == comboboxTypeValue);
-            }
-
-            var filteredClients = clientsQuery
-                .Where(x => !x.IsDeleted)
-                .ToList() // Загружаем данные в память
-                .Select(c => new SubscriptionsViewModel
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
                 {
-                    SubscriptionId = c.SubscriptionId,
-                    SubscriptionName = c.SubscriptionName,
-                    SubscriptionPeriodId = (int)c.SubscriptionPeriodId,
-                    SubscriptionTypeId = (int)c.SubscriptionTypeId,
-                    Comment = c.Comment,
-                    PriceForMonth = c.PriceForMonth.ToString(),
-                    PriceFull = c.PriceFull.ToString(),
-                    CreatorId = c.CreatorId ?? 0,
-                    CreatedAt = c.CreatedAt.ToString(),
-                    IsDeleted = c.IsDeleted,
-                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
-                })
-                .ToList();
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
 
-            if (allSubscriptions != null)
-                allSubscriptions.Clear();
+                // фильтр по типу подписки
+                if (comboboxTypeValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.SubscriptionTypeId == comboboxTypeValue);
+                }
 
-            allSubscriptions = filteredClients;
+                var filteredClients = clientsQuery
+                    .Where(x => !x.IsDeleted)
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new SubscriptionsViewModel
+                    {
+                        SubscriptionId = c.SubscriptionId,
+                        SubscriptionName = c.SubscriptionName,
+                        SubscriptionPeriodId = (int)c.SubscriptionPeriodId,
+                        SubscriptionTypeId = (int)c.SubscriptionTypeId,
+                        Comment = c.Comment,
+                        PriceForMonth = c.PriceForMonth.ToString(),
+                        PriceFull = c.PriceFull.ToString(),
+                        CreatorId = c.CreatorId ?? 0,
+                        CreatedAt = c.CreatedAt.ToString(),
+                        IsDeleted = c.IsDeleted,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                    })
+                    .ToList();
+
+                if (allSubscriptions != null)
+                    allSubscriptions.Clear();
+
+                allSubscriptions = filteredClients;
+            }
+            else
+            {
+                var clientsQuery = context.Subscription
+                    .Where(c => c.IsDeleted);
+
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
+
+                // фильтр по типу подписки
+                if (comboboxTypeValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.SubscriptionTypeId == comboboxTypeValue);
+                }
+
+                var filteredClients = clientsQuery
+                    .Where(x => x.IsDeleted)
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new SubscriptionsViewModel
+                    {
+                        SubscriptionId = c.SubscriptionId,
+                        SubscriptionName = c.SubscriptionName,
+                        SubscriptionPeriodId = (int)c.SubscriptionPeriodId,
+                        SubscriptionTypeId = (int)c.SubscriptionTypeId,
+                        Comment = c.Comment,
+                        PriceForMonth = c.PriceForMonth.ToString(),
+                        PriceFull = c.PriceFull.ToString(),
+                        CreatorId = c.CreatorId ?? 0,
+                        CreatedAt = c.CreatedAt.ToString(),
+                        IsDeleted = c.IsDeleted,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                    })
+                    .ToList();
+
+                if (allSubscriptions != null)
+                    allSubscriptions.Clear();
+
+                allSubscriptions = filteredClients;
+            }
 
             CheckTotalPages();
             GeneratePaginationButtons();
@@ -357,6 +422,102 @@ namespace Dickplom1.Pages.Manager
                 catch (Exception)
                 {
                 }
+            }
+        }
+
+        private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
+        {
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp;
+        }
+
+        private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Удаленные записи
+            IsDeletedFilter = true; //убираем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spBack); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spDeletedRecords); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = dataGrid.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Visible;
+
+                var context = DBEntities.GetContext();
+
+                ItemsRefresh();
+
+                totalPages = (int)Math.Ceiling((double)allSubscriptions.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void spBack_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 0.7, 0.3);
+        }
+
+        private void spBack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 1, 0.3);
+        }
+
+        private void spBack_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Не удаленные записи
+            IsDeletedFilter = false; //убираем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spDeletedRecords); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spBack); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = dataGrid.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Collapsed;
+
+                var context = DBEntities.GetContext();
+
+                ItemsRefresh();
+
+                totalPages = (int)Math.Ceiling((double)allSubscriptions.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void dgBtnRecovery_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            try
+            {
+                if (dataGrid.dg.SelectedItem is SubscriptionsViewModel item)
+                {
+                    context.Subscription.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId).IsDeleted = false;
+                    context.SaveChanges();
+                    ItemsRefresh();
+                    LoadCurrentPage();
+                }
+            }
+            catch (Exception)
+            {
             }
         }
     }

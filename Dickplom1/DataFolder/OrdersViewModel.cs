@@ -23,6 +23,7 @@ namespace Dickplom1.DataFolder
         public string EndDate { get; set; }
         public string Price { get; set; }
         public int CreatorId { get; set; }
+        public bool IsDeleted { get; set; }
         public string CreatedAt { get; set; }
     }
 }

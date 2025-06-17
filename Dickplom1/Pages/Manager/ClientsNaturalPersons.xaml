@@ -63,6 +63,7 @@
                             Foreground="#687183">
                             <MenuItem Header="О клиенте" Click="miClient_Click"/>
                             <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
+                            <MenuItem Header="Восстановить" Click="dgBtnRecovery_Click" Visibility="Collapsed"/>
                             <MenuItem Header="Удалить" Click="miDelete_Click"/>
                         </ContextMenu>
                     </customControls:DataGridMaterialDesignCustomForClients.ContextMenu>

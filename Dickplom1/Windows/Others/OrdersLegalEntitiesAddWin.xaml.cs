@@ -249,7 +249,7 @@ namespace Dickplom1.Windows.Others
                         .Where(c => c.CompanyId == company)
                         .FirstOrDefault();
 
-                    string companyName = client.ClientsLegalEntitiesCompanyData.CompanyName;
+                    string companyName = client.ClientsLegalEntitiesCompanyData.CompanyName ?? string.Empty;
 
                     tblockCompanyName.Text = companyName;
                 }

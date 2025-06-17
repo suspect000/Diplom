@@ -262,7 +262,7 @@ namespace Dickplom1.Windows.Others
                 else
                 {
                     DateTime.TryParse(datePicker.dp.SelectedDate.ToString(), out DateTime startDate);
-                    if (cboxSubscription.cbox.Text != "Выберите подписку")
+                    if (cboxSubscription.cbox.SelectedIndex != 0 && cboxSubscription.cbox.SelectedValue != null)
                     {
                         var subscription = context.Subscription.FirstOrDefault(f => f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
                         int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);

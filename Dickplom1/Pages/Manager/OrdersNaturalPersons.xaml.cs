@@ -28,6 +28,7 @@ namespace Dickplom1.Pages.Manager
         {
             InitializeComponent();
         }
+        public bool IsDeletedFilter { get; set; } = false;
 
         private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
         {
@@ -50,8 +51,10 @@ namespace Dickplom1.Pages.Manager
 
         private void RefreshItems()
         {
-            allOrders = DBEntities.GetContext().Orders
-               .Where(c => c.IsDeleted == false)
+            if (!IsDeletedFilter)
+            {
+                allOrders = DBEntities.GetContext().Orders
+               .Where(c => c.IsDeleted == false && c.Subscription.SubscriptionTypeId == 1)
                .ToList()
                .Select(o => new OrdersViewModel
                {
@@ -64,10 +67,32 @@ namespace Dickplom1.Pages.Manager
                    EndDate = o.EndDate.Value.ToString("d"),
                    OrderStatus = o.OrderStatus.StatusValue,
                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
-                   CreatorId = o.CreatorId?? 0
+                   CreatorId = o.CreatorId ?? 0,
+                   IsDeleted = o.IsDeleted
                })
                .ToList();
-
+            }
+            else
+            {
+                allOrders = DBEntities.GetContext().Orders
+               .Where(c => c.IsDeleted == true)
+               .ToList()
+               .Select(o => new OrdersViewModel
+               {
+                   OrderId = o.OrderId,
+                   SubscriptionName = o.Subscription.SubscriptionName,
+                   FullNameClient = o.ClientsNaturalPersons.Surname
+                   + " " + o.ClientsNaturalPersons.Name
+                   + " " + o.ClientsNaturalPersons.MiddleName,
+                   StartDate = o.StartDate.Value.ToString("d"),
+                   EndDate = o.EndDate.Value.ToString("d"),
+                   OrderStatus = o.OrderStatus.StatusValue,
+                   FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                   CreatorId = o.CreatorId ?? 0,
+                   IsDeleted = o.IsDeleted
+               })
+               .ToList();
+            }
             LoadCurrentPage();
         }
 
@@ -95,7 +120,8 @@ namespace Dickplom1.Pages.Manager
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
                     FIOManager = o.Users ?.UserData.Surname + " " + o.Users ?.UserData.Name + " " + o.Users ?.UserData.MiddleName,
-                    CreatorId = o.CreatorId?? 0
+                    CreatorId = o.CreatorId?? 0,
+                    IsDeleted = o.IsDeleted
                 })
                 .ToList();
 
@@ -263,41 +289,82 @@ namespace Dickplom1.Pages.Manager
         private void ApplyFilters()
         {
             var context = DBEntities.GetContext();
-
-            var clientsQuery = context.Orders
-            .Where(c => !c.IsDeleted);
-
-            // фильтр по создателю записи
-            if (comboboxCreatorValue != 0)
+            if (!IsDeletedFilter)
             {
-                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
-            }
+                var clientsQuery = context.Orders  
+                    .Where(c => !c.IsDeleted);
 
-            // фильтр по статусу заказа
-            if (comboboxStatusValue != 0)
-            {
-                clientsQuery = clientsQuery.Where(c=>c.StatusId == comboboxStatusValue);
-            }
-
-            var filteredClients = clientsQuery
-                .ToList() // Загружаем данные в память
-                .Select(c => new OrdersViewModel
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
                 {
-                    OrderId = c.OrderId,
-                    SubcriptionId = (int)c.SubscriptionId,
-                    SubscriptionName = c.Subscription.SubscriptionName,
-                    FullNameClient = c.ClientsNaturalPersons.Surname + " " + c.ClientsNaturalPersons.Name + " " + c.ClientsNaturalPersons.MiddleName,
-                    StartDate = c.StartDate?.ToString("g"),
-                    EndDate = c.EndDate?.ToString("g"),
-                    OrderStatusId = c.OrderStatus.StatusId,
-                    OrderStatus = c.OrderStatus.StatusValue,
-                    CreatorId = c.CreatorId ?? 0,
-                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
-                })
-                .ToList();
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
 
-            allOrders.Clear();
-            allOrders = filteredClients;
+                // фильтр по статусу заказа
+                if (comboboxStatusValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
+                }
+
+                var filteredClients = clientsQuery
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new OrdersViewModel
+                    {
+                        OrderId = c.OrderId,
+                        SubcriptionId = (int)c.SubscriptionId,
+                        SubscriptionName = c.Subscription.SubscriptionName,
+                        FullNameClient = c.ClientsNaturalPersons.Surname + " " + c.ClientsNaturalPersons.Name + " " + c.ClientsNaturalPersons.MiddleName,
+                        StartDate = c.StartDate?.ToString("g"),
+                        EndDate = c.EndDate?.ToString("g"),
+                        OrderStatusId = c.OrderStatus.StatusId,
+                        OrderStatus = c.OrderStatus.StatusValue,
+                        CreatorId = c.CreatorId ?? 0,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                    })
+                    .ToList();
+
+                allOrders.Clear();
+                allOrders = filteredClients;
+            }
+            else
+            {
+                var clientsQuery = context.Orders
+                    .Where(c => c.IsDeleted);
+
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
+
+                // фильтр по статусу заказа
+                if (comboboxStatusValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
+                }
+
+                var filteredClients = clientsQuery
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new OrdersViewModel
+                    {
+                        OrderId = c.OrderId,
+                        SubcriptionId = (int)c.SubscriptionId,
+                        SubscriptionName = c.Subscription.SubscriptionName,
+                        FullNameClient = c.ClientsNaturalPersons.Surname + " " + c.ClientsNaturalPersons.Name + " " + c.ClientsNaturalPersons.MiddleName,
+                        StartDate = c.StartDate?.ToString("g"),
+                        EndDate = c.EndDate?.ToString("g"),
+                        OrderStatusId = c.OrderStatus.StatusId,
+                        OrderStatus = c.OrderStatus.StatusValue,
+                        CreatorId = c.CreatorId ?? 0,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                    })
+                    .ToList();
+
+                allOrders.Clear();
+                allOrders = filteredClients;
+            }
+
+            
 
             CheckTotalPages();
             GeneratePaginationButtons();
@@ -346,6 +413,8 @@ namespace Dickplom1.Pages.Manager
         {
             if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
             {
+                var context = DBEntities.GetContext();
+
                 try
                 {
                     if (item.OrderId != 0)
@@ -355,17 +424,139 @@ namespace Dickplom1.Pages.Manager
 
                         if (box == MessageBoxResult.Yes)
                         {
-                            var context = DBEntities.GetContext();
-                            context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
-                            context.SaveChanges();
-                            RefreshItems();
-                            GeneratePaginationButtons();
+                            if (!IsDeletedFilter)
+                            {
+                                context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
+                                context.SaveChanges();
+                                RefreshItems();
+                                GeneratePaginationButtons();
+                            }
+                            else
+                            {
+                                var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId);
+                                context.Orders.Remove(selectedOrder);
+                                context.SaveChanges();
+                                RefreshItems();
+                                GeneratePaginationButtons();
+                            }
                         }
                     }
                 }
                 catch (Exception)
                 {
                 }
+            }
+        }
+
+        private void spBack_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 0.7, 0.3);
+        }
+
+        private void spBack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Dickplom1.Class.Animations.OpacityAnimation(spBack, spBack.Opacity, 1, 0.3);
+        }
+
+        private void spBack_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDeletedFilter = false; //активируем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spDeletedRecords); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spBack); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForOrdersNaturalPersons.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Collapsed;
+
+                var context = DBEntities.GetContext();
+
+                RefreshItems();
+
+                totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
+        {
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp;
+        }
+
+        private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Удаленные записи
+            IsDeletedFilter = true; //убираем флажок
+
+            Dickplom1.Class.Musor.ShowElement(spBack); // Включаем кнопку вернуть
+            Dickplom1.Class.Musor.HideElement(spDeletedRecords); // Выключаем кнопку удаленных записей
+
+            try
+            {
+                MenuItem miBtn = DataGridCustomForOrdersNaturalPersons.ContextMenu?.Items
+                    .OfType<MenuItem>()
+                    .FirstOrDefault(mi => (string)mi.Header == "Восстановить");
+                if (miBtn != null)
+                    miBtn.Visibility = Visibility.Visible;
+
+                var context = DBEntities.GetContext();
+
+                allOrders = context.Orders
+                .Where(c => c.IsDeleted == true)
+                .ToList()
+                .Select(o => new OrdersViewModel
+                {
+                    OrderId = o.OrderId,
+                    SubscriptionName = o.Subscription.SubscriptionName,
+                    FullNameClient = o.ClientsNaturalPersons.Surname
+                    + " " + o.ClientsNaturalPersons.Name
+                    + " " + o.ClientsNaturalPersons.MiddleName,
+                    StartDate = o.StartDate.Value.ToString("d"),
+                    EndDate = o.EndDate.Value.ToString("d"),
+                    OrderStatus = o.OrderStatus.StatusValue,
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                    CreatorId = o.CreatorId ?? 0,
+                    IsDeleted = o.IsDeleted
+                })
+                .ToList();
+
+                totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
+                currentPage = 1;
+
+                LoadCurrentPage();
+                GeneratePaginationButtons();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void dgBtnRecovery_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            try
+            {
+                if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
+                {
+                    context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = false;
+                    context.SaveChanges();
+                    RefreshItems();
+                    LoadCurrentPage();
+                }
+            }
+            catch (Exception)
+            {
             }
         }
     } 
