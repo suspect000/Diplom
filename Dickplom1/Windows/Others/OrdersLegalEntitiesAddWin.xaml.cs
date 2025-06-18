@@ -255,7 +255,7 @@ namespace Dickplom1.Windows.Others
             //Компания
             try
             {
-                if ((int)cboxCompany.cbox.SelectedValue == 0)
+                if (cboxCompany.cbox.SelectedValue == null || (int)cboxCompany.cbox.SelectedValue == 0)
                 {
                     tblockCompanyName.Text = string.Empty;
                 }
@@ -602,6 +602,18 @@ namespace Dickplom1.Windows.Others
                 {
                 }
             }
+        }
+
+        private void btnAddPlusWhiteTheme_MouseLeftButtonUp_2(object sender, MouseButtonEventArgs e)
+        {
+            ClientsLegalEntitiesAddWin win = new ClientsLegalEntitiesAddWin();
+            win.Closed += Win_Closed2;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed2(object sender, EventArgs e)
+        {
+            CompanyRefresh();
         }
     }
 }

@@ -14,7 +14,8 @@
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
       PreviewMouseLeftButtonDown="Page_PreviewMouseLeftButtonDown"
-      Background="Transparent">
+      Background="Transparent"
+      Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

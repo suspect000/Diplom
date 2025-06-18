@@ -1,5 +1,7 @@
 ﻿using CustomControlsForDiplomFramework;
 using Dickplom1.DataFolder;
+using Dickplom1.Pages.Manager;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView;
 using System;
 using System.Collections.Generic;
@@ -175,6 +177,34 @@ namespace Dickplom1.Class
             win.borderStaff.Background = new SolidColorBrush(Colors.Transparent);
             win.navIcnStaff.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/IcnStaff.png", UriKind.Relative));
             win.navTboxStaff.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#636C7F"));
+        }
+
+        public static void SearchSelect()
+        {
+            var mainWin = Application.Current.MainWindow as MainWindow;
+            if (mainWin != null && mainWin.SearchingPage != null)
+            {
+                if (mainWin.MainFrameScrollOff != null)
+                {
+                    if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsNaturalPersons)
+                        mainWin.SearchingPage = "ClientsNaturalPersons";
+
+                    else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsLegalEntities)
+                        mainWin.SearchingPage = "ClientsLegalEntities";
+
+                    else if (mainWin.MainFrameScrollOff.Content is OrdersNaturalPersons)
+                        mainWin.SearchingPage = "OrdersNaturalPersons";
+
+                    else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.OrdersLegalEntities)
+                        mainWin.SearchingPage = "OrdersLegalEntities";
+
+                    else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Staff)
+                        mainWin.SearchingPage = "Staff";
+
+                    else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Subscriptions)
+                        mainWin.SearchingPage = "Subscriptions";
+                }
+            }
         }
     }
 }

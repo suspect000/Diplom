@@ -42,16 +42,22 @@ namespace Dickplom1.Pages.Manager
         private void Win_Closed(object sender, EventArgs e)
         {
             RefreshItemsList();
+            SetPaggination();
+        }
+        public void SetPaggination()
+        {
+            CheckTotalPages();
             LoadCurrentPage();
+            GeneratePaginationButtons();
         }
 
-        private void RefreshItemsList()
+        public void RefreshItemsList()
         {
             var context = DBEntities.GetContext();
 
             if (IsDeletedFilter)
             {
-                allClients = context.ClientsLegalEntities
+                allClientsLegal = context.ClientsLegalEntities
                 .Where(c => c.IsDeleted == true)
                 .Select(c => new ClientViewModel
                 {
@@ -68,22 +74,22 @@ namespace Dickplom1.Pages.Manager
             }
             else
             {
-                allClients = context.ClientsLegalEntities
-                                .Where(c => c.IsDeleted == false)
-                                .Select(c => new ClientViewModel
-                                {
-                                    ClientId = c.ClientsLegalEntitiesId,
-                                    ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
-                                    FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
-                                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
-                                    + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
-                                    CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
-                                    CreatorId = c.CreatorId,
-                                    Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
-                                })
-                                .ToList();
+                allClientsLegal = context.ClientsLegalEntities     
+                    .Where(c => c.IsDeleted == false)      
+                    .Select(c => new ClientViewModel      
+                    {           
+                        ClientId = c.ClientsLegalEntitiesId,
+                        ClientPhoto = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Photo,
+                        FullName = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Surname
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Name
+                        + " " + c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Middlename,
+                        CompanyName = c.ClientsLegalEntitiesCompanyData.CompanyName,
+                        CreatorId = c.CreatorId,
+                        Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true && w.CompanyId == c.CompanyId).Email,
+                    })
+                    .ToList();
             }
-            CheckTotalPages();
+            SetPaggination();
         }
         private void Page_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -97,7 +103,7 @@ namespace Dickplom1.Pages.Manager
 
 
 
-        private List<ClientViewModel> allClients;
+        public List<ClientViewModel> allClientsLegal;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -106,7 +112,7 @@ namespace Dickplom1.Pages.Manager
         {
             var context = DBEntities.GetContext();
 
-            allClients = context.ClientsLegalEntities
+            allClientsLegal = context.ClientsLegalEntities
                 .Where(c => c.IsDeleted == false)
                 .Select(c => new ClientViewModel
                 {
@@ -120,9 +126,10 @@ namespace Dickplom1.Pages.Manager
                     Email = c.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(w => w.IsActive == true).Email,
                 })
                 .ToList();
+            /*totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);*/
 
-            totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
             currentPage = 1;
+            CheckTotalPages();
 
             LoadCurrentPage();
             GeneratePaginationButtons();
@@ -197,7 +204,7 @@ namespace Dickplom1.Pages.Manager
         }
         private void LoadCurrentPage()
         {
-            var itemsToShow = allClients
+            var itemsToShow = allClientsLegal
                 .Skip((currentPage - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .Select((c, index) => {
@@ -238,7 +245,7 @@ namespace Dickplom1.Pages.Manager
         }
         private void CheckTotalPages()
         {
-            totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+            totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);
         }
 
         public int comboboxCreatorValue { get; set; } = 0;
@@ -251,7 +258,7 @@ namespace Dickplom1.Pages.Manager
             comboboxCreatorValue = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
             ApplyFilters();
         }
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
@@ -282,8 +289,8 @@ namespace Dickplom1.Pages.Manager
                     })
                     .ToList();
 
-                allClients.Clear();
-                allClients = filteredClients;
+                allClientsLegal.Clear();
+                allClientsLegal = filteredClients;
             }
             else // Фильтраиция по удаленным записям
             {
@@ -311,8 +318,8 @@ namespace Dickplom1.Pages.Manager
                     })
                     .ToList();
 
-                allClients.Clear();
-                allClients = filteredClients;
+                allClientsLegal.Clear();
+                allClientsLegal = filteredClients;
             }
 
             CheckTotalPages();
@@ -430,7 +437,7 @@ namespace Dickplom1.Pages.Manager
 
                 var context = DBEntities.GetContext();
 
-                allClients = context.ClientsLegalEntities
+                allClientsLegal = context.ClientsLegalEntities
                     .Where(w => w.IsDeleted == true)
                     .Select(c => new ClientViewModel
                     {
@@ -445,7 +452,7 @@ namespace Dickplom1.Pages.Manager
                     })
                     .ToList();
 
-                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);
                 currentPage = 1;
 
                 LoadCurrentPage();
@@ -513,7 +520,7 @@ namespace Dickplom1.Pages.Manager
 
                 var context = DBEntities.GetContext();
 
-                allClients = context.ClientsLegalEntities
+                allClientsLegal = context.ClientsLegalEntities
                     .Where(w => w.IsDeleted == false)
                     .Select(c => new ClientViewModel
                     {
@@ -528,7 +535,7 @@ namespace Dickplom1.Pages.Manager
                     })
                     .ToList();
 
-                totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
+                totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);
                 currentPage = 1;
 
                 LoadCurrentPage();
@@ -537,6 +544,17 @@ namespace Dickplom1.Pages.Manager
             catch (Exception)
             {
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     }
 }

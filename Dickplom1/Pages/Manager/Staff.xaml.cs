@@ -4,6 +4,7 @@ using Dickplom1.Windows.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,35 +32,42 @@ namespace Dickplom1.Pages.Manager
 
 
         //Загрузка данных в датагрид и паггинация
-        private List<StaffViewModel> allStaff;
+        public List<StaffViewModel> allStaff;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
 
         private void dataGrid_Loaded(object sender, RoutedEventArgs e)
         {
+            RefreshItems();
+        }
 
-
-            var context = DBEntities.GetContext();
-
-
-            allStaff = context.UserData
-                    .Select(o => new StaffViewModel
-                    {
-                        UserPhoto = o.UserPhoto,
-                        FIOStaff = o.Surname + " " + o.Name + " " + o.MiddleName + " ",
-                        Email = o.Email,
-                        Role = o.Users.FirstOrDefault(u=>u.UserDataId == o.UserDataId).Roles.NameRole,
-                        AccountStatus = o.Users.FirstOrDefault(u => u.UserDataId == o.UserDataId).AccountStatus.AccountStatusValue,
-                    })
-                    .ToList();
-
-
-            totalPages = (int)Math.Ceiling((double)allStaff.Count / 10);
-            currentPage = 1;
-
+        public void SetPaggination()
+        {
+            CheckTotalPages();
             LoadCurrentPage();
             GeneratePaginationButtons();
+        }
+
+        public void RefreshItems()
+        {
+            var context = DBEntities.GetContext();
+            allStaff = context.UserData
+                .Select
+                (o => new StaffViewModel 
+                {
+                    UserPhoto = o.UserPhoto,
+                    FIOStaff = o.Surname + " " + o.Name + " " + o.MiddleName + " ",
+                    Email = o.Email,
+                    PhoneNumber = o.PhoneNumber ?? " ",
+                    Role = o.Users.FirstOrDefault(u => u.UserDataId == o.UserDataId).Roles.NameRole ?? " ",
+                    AccountStatus = o.Users.FirstOrDefault(u => u.UserDataId == o.UserDataId).AccountStatus.AccountStatusValue ?? " ",
+                    IsDeleted = context.Users.FirstOrDefault(f=>f.UserDataId == o.UserDataId && f.IsDeleted == false).IsDeleted 
+                })
+                .ToList();
+
+            currentPage = 1;
+            SetPaggination();
         }
         private void CheckTotalPages()
         {
@@ -215,7 +223,7 @@ namespace Dickplom1.Pages.Manager
             }
         }
 
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
@@ -252,6 +260,7 @@ namespace Dickplom1.Pages.Manager
 
                     FIOStaff = c.UserData?.Surname + " " + c.UserData?.Name + " " + c.UserData?.MiddleName + " ",
                     Email = c.UserData?.Email,
+                    PhoneNumber = c.UserData?.PhoneNumber,
                     Role = c.Roles.NameRole,
                     AccountStatus = c.AccountStatus.AccountStatusValue
                 })
@@ -265,6 +274,17 @@ namespace Dickplom1.Pages.Manager
             CheckTotalPages();
             GeneratePaginationButtons();
             LoadCurrentPage();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     }
 }

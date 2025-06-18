@@ -99,7 +99,7 @@ namespace Dickplom1.Windows.Others
                     var selectedPeriod = context.Subscription.FirstOrDefault(f => f.SubscriptionId == SubscriptionId);
 
                     if (selectedPeriod != null)
-                        cboxSubsriptionsPeriod.cbox.SelectedValue = selectedPeriod.SubscriptionId;
+                        cboxSubsriptionsPeriod.cbox.SelectedValue = selectedPeriod.SubscriptionTypeId;
                 }
                 catch (Exception)
                 {
@@ -267,6 +267,18 @@ namespace Dickplom1.Windows.Others
                 }
 
             }
+        }
+
+        private void btnAddPlusWhiteTheme_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SubscriptionPeriodAdd win = new SubscriptionPeriodAdd();
+            win.Closed += Win_Closed;
+            win.ShowDialog();
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            SubscriptionsPeriodRefresh();
         }
     }
 }

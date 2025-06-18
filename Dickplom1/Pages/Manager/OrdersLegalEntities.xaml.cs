@@ -1,4 +1,5 @@
 ﻿using CustomControlsForDiplomFramework;
+using Dickplom1.Class;
 using Dickplom1.DataFolder;
 using Dickplom1.Windows.Others;
 using MaterialDesignThemes.Wpf;
@@ -30,6 +31,13 @@ namespace Dickplom1.Pages.Manager
         }
         public bool IsDeletedFilter { get; set; } = false;
 
+        public void SetPaggination()
+        {
+            CheckTotalPages();
+            LoadCurrentPage();
+            GeneratePaginationButtons();
+        }
+
         private void btnAddOrder_Loaded(object sender, RoutedEventArgs e)
         {
             btnAddOrder.btnWithBorder.Click += btnAddOrder_Click;
@@ -52,7 +60,7 @@ namespace Dickplom1.Pages.Manager
         }
 
         //Загрузка данных в датагрид и паггинация
-        private List<OrdersViewModel> allOrders;
+        public List<OrdersViewModel> allOrders;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -73,10 +81,16 @@ namespace Dickplom1.Pages.Manager
                     CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
                     StartDate = o.StartDate?.ToString("d"),
                     EndDate = o.EndDate?.ToString("d"),
-                    ClientId = o.ClientId ?? 0,
                     OrderStatus = o.OrderStatus.StatusValue,
                     CreatorId = o.CreatorId ?? 0,
-                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                    ClientId = o.ClientId ?? 0,
+                    FullNameClient = (
+                    context.ClientsLegalEntitiesContactPerson
+                    .Where(f => f.IsActive == true && f.CompanyId == o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                    .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                    .FirstOrDefault() ?? "—"
+                    ).Trim()
                 })
                 .ToList();
             }
@@ -95,16 +109,19 @@ namespace Dickplom1.Pages.Manager
                     OrderStatus = o.OrderStatus.StatusValue,
                     ClientId = o.ClientId ?? 0,
                     CreatorId = o.CreatorId ?? 0,
-                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                    FullNameClient = (
+                    context.ClientsLegalEntitiesContactPerson
+                    .Where(f => f.IsActive == true && f.CompanyId == o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                    .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                    .FirstOrDefault() ?? "—"
+                    ).Trim()
                 })
                 .ToList();
             }
 
-            CheckTotalPages();
             currentPage = 1;
-
-            LoadCurrentPage();
-            GeneratePaginationButtons();
+            SetPaggination();
         }
         private void GeneratePaginationButtons()
         {
@@ -261,7 +278,7 @@ namespace Dickplom1.Pages.Manager
         {
             totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
         }
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
@@ -294,7 +311,13 @@ namespace Dickplom1.Pages.Manager
                     OrderStatus = c.OrderStatus.StatusValue,
                     ClientId = c.ClientId ?? 0,
                     CreatorId = c.CreatorId ?? 0,
-                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName,
+                    FullNameClient = (
+                    context.ClientsLegalEntitiesContactPerson
+                    .Where(f => f.IsActive == true && f.CompanyId == c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                    .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                    .FirstOrDefault() ?? "—"
+                    ).Trim()
                 })
                 .ToList();
 
@@ -410,7 +433,13 @@ namespace Dickplom1.Pages.Manager
                     OrderStatus = o.OrderStatus.StatusValue,
                     ClientId = o.ClientId ?? 0,
                     CreatorId = o.CreatorId ?? 0,
-                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                    FullNameClient = (
+                    context.ClientsLegalEntitiesContactPerson
+                    .Where(f => f.IsActive == true && f.CompanyId == o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                    .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                    .FirstOrDefault() ?? "—"
+                    ).Trim()
                 })
                 .ToList();
 
@@ -488,6 +517,17 @@ namespace Dickplom1.Pages.Manager
             catch (Exception)
             {
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     }
 }

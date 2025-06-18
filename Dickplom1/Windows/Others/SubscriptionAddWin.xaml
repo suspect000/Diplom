@@ -77,30 +77,47 @@
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Width="360"
+                    Width="auto"
                     Orientation="Vertical"
-                    Margin="0,120,0,0">
+                    Margin="40,120,0,0">
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxSubscriptionName"
                         Text="Название"
                         ToolTip="Название"
-                        Loaded="tboxSubscriptionName_Loaded"/>
+                        Loaded="tboxSubscriptionName_Loaded"
+                        Width="360"
+                        HorizontalAlignment="Left"/>
 
                     <Separator Opacity="0" Height="10"/>
 
+                    <StackPanel 
+                        Orientation="Horizontal">
 
-                    <customControls:ComboboxMaterialDesignWithBorder
-                        x:Name="cboxSubsriptionsPeriod"
-                        ToolTip="Период подписки"
-                        Loaded="tboxSubsriptionsPeriod_Loaded"/>
+                        <customControls:ComboboxMaterialDesignWithBorder
+                            x:Name="cboxSubsriptionsPeriod"
+                            ToolTip="Период подписки"
+                            Loaded="tboxSubsriptionsPeriod_Loaded"
+                            Width="360"
+                            HorizontalAlignment="Left"/>
+                        
+                        <Separator Opacity="0" Width="15"/>
+
+                        <customControls:btnAddPlusWhiteTheme
+                            Width="25" Height="30"
+                            Source="../../Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"
+                            MouseLeftButtonUp="btnAddPlusWhiteTheme_MouseLeftButtonUp"/>
+
+                    </StackPanel>
 
                     <Separator Opacity="0" Height="10"/>
 
                     <customControls:ComboboxMaterialDesignWithBorder
                         x:Name="cboxSubsriptionsType"
                         ToolTip="Тип подписки"
-                        Loaded="cboxSubsriptionsType_Loaded"/>
+                        Loaded="cboxSubsriptionsType_Loaded"
+                        Width="360"
+                        HorizontalAlignment="Left"/>
 
                     <Separator Opacity="0" Height="10"/>
 
@@ -108,7 +125,9 @@
                         x:Name="tboxPriceForMonth"
                         Text="Цена за месяц"
                         ToolTip="Цена за месяц"
-                        Loaded="tboxPriceForMonth_Loaded"/>
+                        Loaded="tboxPriceForMonth_Loaded"
+                        Width="360"
+                        HorizontalAlignment="Left"/>
 
                     <Separator Opacity="0" Height="10"/>
 
@@ -116,7 +135,9 @@
                         x:Name="tboxComment"
                         Text="Комментарий"
                         Loaded="TextboxWithBorder_Loaded"
-                        ToolTip="Комментарий"/>
+                        ToolTip="Комментарий"
+                        Width="360"
+                        HorizontalAlignment="Left"/>
 
                 </StackPanel>
             </Grid>

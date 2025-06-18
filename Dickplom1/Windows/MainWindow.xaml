@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
         xmlns:local="clr-namespace:Dickplom1"
         mc:Ignorable="d"
         Title="ClientPro" 
@@ -47,7 +48,8 @@
             Height="30"
             MouseEnter="StackPanel_MouseEnter"
             MouseLeave="StackPanel_MouseLeave"
-            MouseLeftButtonUp="spReports_MouseLeftButtonUp">
+            MouseLeftButtonUp="spReports_MouseLeftButtonUp"
+            Visibility="Collapsed">
 
             <TextBlock
                 Text="Отчеты"
@@ -123,12 +125,14 @@
                     Text="Найти"
                     Width="228" Height="57"
                     BorderThickness="1"
+                    Padding="45,0,0,0"
                     BorderBrush="Transparent"
                     HorizontalAlignment="Right"
                     Style="{StaticResource SearchStyle}" 
                     GotFocus="TextBox_GotFocus" 
                     LostFocus="tbSearch_LostFocus"
                     TextWrapping="NoWrap"
+                    TextChanged="tbSearch_TextChanged"
                     MouseEnter="tbSearch_MouseEnter"
                     MouseLeave="tbSearch_MouseLeave"/>
 
@@ -140,6 +144,13 @@
                     HorizontalAlignment="Left"
                     Margin="25,0,0,0"
                     IsHitTestVisible="False"/>
+
+                <customControls:ButtomWithBorderSearch
+                    x:Name="btnSearch"
+                    HorizontalAlignment="Right"
+                    Visibility="Collapsed"
+                    Panel.ZIndex="1"
+                    Loaded="btnSearch_Loaded"/>
             </Grid>
 
             <Grid

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Xml;
 using Dickplom1.Class;
+using Dickplom1.DataFolder;
 using Dickplom1.Pages.Manager;
 
 
@@ -26,6 +28,7 @@ namespace Dickplom1
 
             Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
+        public string SearchingPage { get; set; } = string.Empty; 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -84,6 +87,7 @@ namespace Dickplom1
             if (string.IsNullOrWhiteSpace(tbSearch.Text))
             {
                 tbSearch.Text = "Найти";
+                tbSearch.Padding = new Thickness(45, 0, 0, 0);
                 imgLupa.Visibility = Visibility.Visible;
                 Animations.WidthAnimation(tbSearch, tbSearch.Width, 228, 0.2);
             }
@@ -490,6 +494,290 @@ namespace Dickplom1
         private void gridStaff_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Musor.Navigation("staff", borderStaff, navIcnStaff, navTboxStaff);
+        }
+
+        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var mainWin = Application.Current.MainWindow as MainWindow;
+
+            if (mainWin.MainFrameScrollOff != null)
+            {
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsNaturalPersons clientsNatural) // Для клиентов (физ. лиц)
+                {
+                    
+
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (clientsNatural != null)
+                        {
+                            if (clientsNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                                clientsNatural.RefreshItemsList();
+                            else
+                                clientsNatural.ApplyFilters();
+                        }
+                    }
+                }
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsLegalEntities clientsLegal) // Для клиентов (юр. лиц)
+                {
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (clientsLegal != null)
+                        {
+                            if (clientsLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                                clientsLegal.RefreshItemsList();
+                            else
+                                clientsLegal.ApplyFilters();
+                        }
+                    }
+                }
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.OrdersNaturalPersons ordersNatural) // Для заказов (физ. лиц)
+                {
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (ordersNatural != null)
+                        {
+                            if (ordersNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && ordersNatural.comboboxStatusValue == 0)
+                                ordersNatural.RefreshItems();
+                            else
+                                ordersNatural.ApplyFilters();
+                        }
+                    }
+                }
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.OrdersLegalEntities ordersLegal) // Для заказов (юр. лиц)
+                {
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (ordersLegal != null)
+                        {
+                            if (ordersLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && ordersLegal.comboboxStatusValue == 0)
+                                ordersLegal.ItemsRefresh();
+                            else
+                                ordersLegal.ApplyFilters();
+                        }
+                    }
+                }
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Subscriptions subs) // Для заказов (юр. лиц)
+                {
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (subs != null)
+                        {
+                            if (subs.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && subs.comboboxTypeValue == 0)
+                                subs.ItemsRefresh();
+                            else
+                                subs.ApplyFilters();
+                        }
+                    }
+                }
+                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Staff staff) // Для заказов (юр. лиц)
+                {
+                    if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        if (btnSearch != null)
+                        {
+                            btnSearch.Visibility = Visibility.Visible;
+
+                        }
+                    }
+                    else if (string.IsNullOrWhiteSpace(tbSearch.Text))
+                    {
+                        btnSearch.Visibility = Visibility.Collapsed;
+                        if (staff != null)
+                        {
+                            if (staff.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                                staff.RefreshItems();
+                            else
+                                staff.ApplyFilters();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnSearch_Loaded(object sender, RoutedEventArgs e)
+        {
+            btnSearch.btnWithBorder.Click += BtnWithBorder_Click;
+        }
+
+        private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
+        {                    
+            //Поиск на странице
+            if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
+            {
+                string searchQuery = tbSearch.Text?.ToLower() ?? "";
+                if (SearchingPage != string.Empty)
+                { 
+                    try
+                    {
+                        var context = DBEntities.GetContext();
+                        var mainWin = Application.Current.MainWindow as MainWindow;
+
+                        if (mainWin != null && mainWin.SearchingPage != string.Empty)
+                        {
+                            if (mainWin.SearchingPage == "ClientsNaturalPersons")
+                            {
+                                var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.ClientsNaturalPersons;
+
+                                if (selectedPage != null)
+                                {
+                                    selectedPage.allClients = selectedPage.allClients
+                                        .Where(w =>
+                                        (w.FullName != null && w.FullName.ToLower().Contains(searchQuery)) ||
+                                        (w.Email != null && w.Email.ToLower().Contains(searchQuery)) ||
+                                        (w.PhoneNumber != null && w.PhoneNumber.ToLower().Contains(searchQuery)))
+                                        .ToList();
+
+                                    selectedPage.SetPaggination(); 
+                                }
+                            }
+                        }
+                        if (mainWin.SearchingPage == "ClientsLegalEntities")
+                        {
+                            var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.ClientsLegalEntities;
+
+                            if (selectedPage != null)
+                            {
+                                selectedPage.allClientsLegal = selectedPage.allClientsLegal
+                                    .Where(w => 
+                                    w.FullName.ToLower().Contains(searchQuery)
+                                    || w.Email.ToLower().Contains(searchQuery)
+                                    || context.ClientsLegalEntitiesContactPerson.FirstOrDefault(f=>
+                                    f.IsActive == true && f.ClientsLegalEntitiesCompanyData.CompanyName == w.CompanyName).Phone
+                                    .ToLower().Contains(searchQuery)
+                                    || w.CompanyName.ToLower().Contains(searchQuery))
+                                    .ToList();
+
+                                selectedPage.SetPaggination();
+                            }
+                        }
+                        if (mainWin.SearchingPage == "OrdersNaturalPersons")
+                        {
+                            var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.OrdersNaturalPersons;
+
+                            if (selectedPage != null)
+                            {
+                                selectedPage.allOrders = selectedPage.allOrders
+                                    .Where(w =>
+                                    w.SubscriptionName.ToLower().Contains(searchQuery)
+                                    || w.FullNameClient.ToLower().Contains(searchQuery)
+                                    || w.StartDate.ToLower().Contains(searchQuery)
+                                    || w.EndDate.ToLower().Contains(searchQuery)
+                                    || context.ClientsNaturalPersons.FirstOrDefault(f=>f.ClientNaturalPersonsId == w.ClientId).Email.ToLower().Contains(searchQuery)
+                                    || context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId == w.ClientId).PhoneNumber.ToLower().Contains(searchQuery))
+                                    .ToList();
+
+                                selectedPage.SetPaggination();
+                            }
+                        }
+                        if (mainWin.SearchingPage == "OrdersLegalEntities")
+                        {
+                            var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.OrdersLegalEntities;
+
+                            if (selectedPage != null)
+                            {
+                                selectedPage.allOrders = selectedPage.allOrders
+                                    .Where(w =>
+                                    w.SubscriptionName.ToLower().Contains(searchQuery)
+                                    || w.FullNameClient.ToLower().Contains(searchQuery)
+                                    || w.StartDate.ToLower().Contains(searchQuery)
+                                    || w.EndDate.ToLower().Contains(searchQuery)
+                                    || w.CompanyName.ToLower().Contains(searchQuery)
+                                    || context.ClientsLegalEntitiesContactPerson.FirstOrDefault(f=>f.IsActive == true && f.ClientsLegalEntitiesCompanyData.CompanyName == w.CompanyName).Email.ToLower().Contains(searchQuery)
+                                    || context.ClientsLegalEntitiesContactPerson.FirstOrDefault(f => f.IsActive == true && f.ClientsLegalEntitiesCompanyData.CompanyName == w.CompanyName).Phone.ToLower().Contains(searchQuery))
+                                    .ToList();
+
+                                selectedPage.SetPaggination();
+                            }
+                        }
+                        if (mainWin.SearchingPage == "Subscriptions")
+                        {
+                            var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.Subscriptions;
+
+                            if (selectedPage != null)
+                            {
+                                selectedPage.allSubscriptions = selectedPage.allSubscriptions
+                                    .Where(w =>
+                                    w.SubscriptionName.ToLower().Contains(searchQuery)
+                                    || w.SubscriptionPeriod.ToLower().Contains(searchQuery)
+                                    || w.PriceForMonth.ToLower().Contains(searchQuery)
+                                    || w.PriceFull.ToLower().Contains(searchQuery)
+                                    || w.Comment.ToLower().Contains(searchQuery))
+                                    .ToList();
+
+                                selectedPage.SetPaggination();
+                            }
+                        }
+                        if (mainWin.SearchingPage == "Staff")
+                        {
+                            var selectedPage = mainWin.MainFrameScrollOff.Content as Pages.Manager.Staff;
+
+                            if (selectedPage != null)
+                            {
+                                selectedPage.allStaff = selectedPage.allStaff
+                                    .Where(w =>
+                                    w.FIOStaff.ToLower().Contains(searchQuery)
+                                    || w.Email.ToLower().Contains(searchQuery)
+                                    || w.PhoneNumber.ToLower().Contains(searchQuery))
+                                    .ToList();
+
+                                selectedPage.SetPaggination();
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
         }
         //-----------------------------------------------------------------------------------
     }

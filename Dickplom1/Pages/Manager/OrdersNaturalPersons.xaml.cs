@@ -41,15 +41,21 @@ namespace Dickplom1.Pages.Manager
             win.Closed += Win_Closed;
             win.ShowDialog();
         }
+        public void SetPaggination()
+        {
+            CheckTotalPages();
+            GeneratePaginationButtons();
+            LoadCurrentPage();
+        }
 
-        private void Win_Closed(object sender, EventArgs e)
+        public void Win_Closed(object sender, EventArgs e)
         {
             RefreshItems();
-            GeneratePaginationButtons();
+            SetPaggination();
 
         }
 
-        private void RefreshItems()
+        public void RefreshItems()
         {
             if (!IsDeletedFilter)
             {
@@ -95,13 +101,13 @@ namespace Dickplom1.Pages.Manager
                })
                .ToList();
             }
-            LoadCurrentPage();
+            SetPaggination();
         }
 
 
 
         //Загрузка данных в датагрид и паггинация
-        private List<OrdersViewModel> allOrders;
+        public List<OrdersViewModel> allOrders;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -289,7 +295,7 @@ namespace Dickplom1.Pages.Manager
         {
             totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
         }
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
             if (!IsDeletedFilter)
@@ -570,6 +576,17 @@ namespace Dickplom1.Pages.Manager
             catch (Exception)
             {
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     } 
 }

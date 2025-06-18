@@ -20,6 +20,7 @@ using CustomControlsForDiplomFramework;
 using static MaterialDesignThemes.Wpf.Theme;
 using Dickplom1.Windows.Others;
 using System.IO;
+using Dickplom1.Class;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -31,6 +32,11 @@ namespace Dickplom1.Pages.Manager
         public ClientsNaturalPersons()
         {
             InitializeComponent();
+        }
+        public void SetPaggination()
+        {
+            GeneratePaginationButtons();
+            LoadCurrentPage();
         }
         public bool IsDeletedFilter { get; set; } = false;
         private void ButtomWithBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -77,7 +83,7 @@ namespace Dickplom1.Pages.Manager
         }
 
         //Загрузка данных в датагрид и паггинация
-        private List<ClientViewModel> allClients;
+        public List<ClientViewModel> allClients;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -100,7 +106,7 @@ namespace Dickplom1.Pages.Manager
             GeneratePaginationButtons();
         }
 
-        private void RefreshItemsList()
+        public void RefreshItemsList()
         {
             var context = DBEntities.GetContext();
 
@@ -114,6 +120,7 @@ namespace Dickplom1.Pages.Manager
                         FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
                         PhoneNumber = c.PhoneNumber,
                         Email = c.Email,
+                        CreatorId = c.CreatorId
                     })
                     .ToList();
             else
@@ -126,9 +133,11 @@ namespace Dickplom1.Pages.Manager
                         FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
                         PhoneNumber = c.PhoneNumber,
                         Email = c.Email,
+                        CreatorId = c.CreatorId
                     })
                     .ToList();
 
+            SetPaggination();
         }
         private void GeneratePaginationButtons()
         {
@@ -339,7 +348,7 @@ namespace Dickplom1.Pages.Manager
             ApplyFilters();
         }
 
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
@@ -362,6 +371,7 @@ namespace Dickplom1.Pages.Manager
                         Email = c.Email,
                         PhoneNumber = c.PhoneNumber,
                         ClientPhoto = c.ClientPhoto,
+                        CreatorId = c.CreatorId
                     })
                     .ToList();
 
@@ -386,6 +396,7 @@ namespace Dickplom1.Pages.Manager
                         Email = c.Email,
                         PhoneNumber = c.PhoneNumber,
                         ClientPhoto = c.ClientPhoto,
+                        CreatorId = c.CreatorId
                     })
                     .ToList();
 
@@ -431,6 +442,7 @@ namespace Dickplom1.Pages.Manager
                     FullName = c.Surname + " " + c.Name + " " + c.MiddleName,
                     PhoneNumber = c.PhoneNumber,
                     Email = c.Email,
+                    CreatorId = c.CreatorId
                 })
                 .ToList();
 
@@ -503,6 +515,17 @@ namespace Dickplom1.Pages.Manager
             catch (Exception)
             {
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     }
 }

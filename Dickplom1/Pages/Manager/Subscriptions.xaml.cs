@@ -34,6 +34,13 @@ namespace Dickplom1.Pages.Manager
             btnAddOrder.btnWithBorder.Click += BtnWithBorder_Click;
         }
 
+        public void SetPaggination()
+        {
+            CheckTotalPages();
+            LoadCurrentPage();
+            GeneratePaginationButtons();
+        }
+
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
             SubscriptionAddWin win = new SubscriptionAddWin();
@@ -62,19 +69,22 @@ namespace Dickplom1.Pages.Manager
             {
                 allSubscriptions = context.Subscription
                 .Where(x => !x.IsDeleted)
+                .ToList()
                 .Select(o => new SubscriptionsViewModel
                 {
                     SubscriptionId = o.SubscriptionId,
                     SubscriptionName = o.SubscriptionName,
-                    SubscriptionPeriodId = (int)o.SubscriptionPeriodId,
-                    SubscriptionTypeId = (int)o.SubscriptionTypeId,
+                    SubscriptionPeriodId = o.SubscriptionPeriodId ?? 0,
+                    SubscriptionPeriod = o.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue.ToString()?? " ",
+                    SubscriptionTypeId = o.SubscriptionTypeId ?? 0,
+                    SubscriptionType = o.SubscriptionType.SubscriptionTypeValue,
                     Comment = o.Comment,
-                    PriceForMonth = o.PriceForMonth.ToString(),
+                    PriceForMonth = o.PriceForMonth.ToString() + " руб",
                     PriceFull = o.PriceFull.ToString(),
                     CreatorId = o.CreatorId ?? 0,
                     CreatedAt = o.CreatedAt.ToString(),
                     IsDeleted = o.IsDeleted,
-                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
                 })
                 .ToList();
             }
@@ -82,32 +92,32 @@ namespace Dickplom1.Pages.Manager
             {
                 allSubscriptions = context.Subscription
                 .Where(x => x.IsDeleted)
+                .ToList()
                 .Select(o => new SubscriptionsViewModel
                 {
                     SubscriptionId = o.SubscriptionId,
                     SubscriptionName = o.SubscriptionName,
-                    SubscriptionPeriodId = (int)o.SubscriptionPeriodId,
-                    SubscriptionTypeId = (int)o.SubscriptionTypeId,
+                    SubscriptionPeriodId = o.SubscriptionPeriodId ?? 0,
+                    SubscriptionPeriod = o.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue.ToString() ?? " ",
+                    SubscriptionTypeId = o.SubscriptionTypeId ?? 0,
+                    SubscriptionType = o.SubscriptionType.SubscriptionTypeValue,
                     Comment = o.Comment,
-                    PriceForMonth = o.PriceForMonth.ToString(),
+                    PriceForMonth = o.PriceForMonth.ToString() + " руб",
                     PriceFull = o.PriceFull.ToString(),
                     CreatorId = o.CreatorId ?? 0,
                     CreatedAt = o.CreatedAt.ToString(),
                     IsDeleted = o.IsDeleted,
-                    FIOManager = o.Users.UserData.Surname + " " + o.Users.UserData.Name + " " + o.Users.UserData.MiddleName
+                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
                 })
                 .ToList();
             }
 
-            totalPages = (int)Math.Ceiling((double)allSubscriptions.Count / 10);
             currentPage = 1;
-
-            LoadCurrentPage();
-            GeneratePaginationButtons();
+            SetPaggination();
         }
 
         //Загрузка данных в датагрид и паггинация
-        private List<SubscriptionsViewModel> allSubscriptions;
+        public List<SubscriptionsViewModel> allSubscriptions;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -262,7 +272,7 @@ namespace Dickplom1.Pages.Manager
                 ApplyFilters();
             }
         }
-        private void ApplyFilters()
+        public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
             if (!IsDeletedFilter)
@@ -285,19 +295,21 @@ namespace Dickplom1.Pages.Manager
                 var filteredClients = clientsQuery
                     .Where(x => !x.IsDeleted)
                     .ToList() // Загружаем данные в память
-                    .Select(c => new SubscriptionsViewModel
+                    .Select(o => new SubscriptionsViewModel
                     {
-                        SubscriptionId = c.SubscriptionId,
-                        SubscriptionName = c.SubscriptionName,
-                        SubscriptionPeriodId = (int)c.SubscriptionPeriodId,
-                        SubscriptionTypeId = (int)c.SubscriptionTypeId,
-                        Comment = c.Comment,
-                        PriceForMonth = c.PriceForMonth.ToString(),
-                        PriceFull = c.PriceFull.ToString(),
-                        CreatorId = c.CreatorId ?? 0,
-                        CreatedAt = c.CreatedAt.ToString(),
-                        IsDeleted = c.IsDeleted,
-                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                        SubscriptionId = o.SubscriptionId,
+                        SubscriptionName = o.SubscriptionName,
+                        SubscriptionPeriodId = o.SubscriptionPeriodId ?? 0,
+                        SubscriptionPeriod = o.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue.ToString() ?? " ",
+                        SubscriptionTypeId = o.SubscriptionTypeId ?? 0,
+                        SubscriptionType = o.SubscriptionType.SubscriptionTypeValue,
+                        Comment = o.Comment,
+                        PriceForMonth = o.PriceForMonth.ToString() + " руб",
+                        PriceFull = o.PriceFull.ToString(),
+                        CreatorId = o.CreatorId ?? 0,
+                        CreatedAt = o.CreatedAt.ToString(),
+                        IsDeleted = o.IsDeleted,
+                        FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
                     })
                     .ToList();
 
@@ -326,19 +338,21 @@ namespace Dickplom1.Pages.Manager
                 var filteredClients = clientsQuery
                     .Where(x => x.IsDeleted)
                     .ToList() // Загружаем данные в память
-                    .Select(c => new SubscriptionsViewModel
+                    .Select(o => new SubscriptionsViewModel
                     {
-                        SubscriptionId = c.SubscriptionId,
-                        SubscriptionName = c.SubscriptionName,
-                        SubscriptionPeriodId = (int)c.SubscriptionPeriodId,
-                        SubscriptionTypeId = (int)c.SubscriptionTypeId,
-                        Comment = c.Comment,
-                        PriceForMonth = c.PriceForMonth.ToString(),
-                        PriceFull = c.PriceFull.ToString(),
-                        CreatorId = c.CreatorId ?? 0,
-                        CreatedAt = c.CreatedAt.ToString(),
-                        IsDeleted = c.IsDeleted,
-                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName
+                        SubscriptionId = o.SubscriptionId,
+                        SubscriptionName = o.SubscriptionName,
+                        SubscriptionPeriodId = o.SubscriptionPeriodId ?? 0,
+                        SubscriptionPeriod = o.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue.ToString() ?? " ",
+                        SubscriptionTypeId = o.SubscriptionTypeId ?? 0,
+                        SubscriptionType = o.SubscriptionType.SubscriptionTypeValue,
+                        Comment = o.Comment,
+                        PriceForMonth = o.PriceForMonth.ToString() + " руб",
+                        PriceFull = o.PriceFull.ToString(),
+                        CreatorId = o.CreatorId ?? 0,
+                        CreatedAt = o.CreatedAt.ToString(),
+                        IsDeleted = o.IsDeleted,
+                        FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName
                     })
                     .ToList();
 
@@ -402,22 +416,52 @@ namespace Dickplom1.Pages.Manager
         {
             if (dataGrid.dg.SelectedItem is SubscriptionsViewModel item)
             {
+                var context = DBEntities.GetContext();
+
                 try
                 {
-                    if (item.SubscriptionId != 0)
+                    if (!IsDeletedFilter)
                     {
-                        MessageBoxButton btns = MessageBoxButton.YesNo;
-                        MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
-
-                        if (box == MessageBoxResult.Yes)
+                        if (item.SubscriptionId != 0)
                         {
-                            var context = DBEntities.GetContext();
-                            context.Subscription.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId).IsDeleted = true;
-                            context.SaveChanges();
-                            ItemsRefresh();
-                            GeneratePaginationButtons();
+                            var selectedOrder = context.Orders.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId);
+                            var selectedOrderLegal = context.OrdersLegalEntities.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId);
+
+                            if (selectedOrder != null || selectedOrderLegal != null)
+                            {
+                                MessageBox.Show("Сначала необходимо удалить из системы заказы с данной подпиской");
+                                return;
+                            }
+
+                            MessageBoxButton btns = MessageBoxButton.YesNo;
+                            MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+
+                            if (box == MessageBoxResult.Yes)
+                            {
+                                context.Subscription.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId).IsDeleted = true;
+
+                            }
                         }
                     }
+                    else
+                    {
+                        if (item.SubscriptionId != 0)
+                        {
+                            MessageBoxButton btns = MessageBoxButton.YesNo;
+                            MessageBoxResult box = MessageBox.Show("Вы уверенны?", "Внимание", btns);
+
+                            if (box == MessageBoxResult.Yes)
+                            {
+                                var selectedSub = context.Subscription.FirstOrDefault(f => f.SubscriptionId == item.SubscriptionId);
+                                context.Subscription.Remove(selectedSub);
+
+                            }
+                        }
+                    }
+                    context.SaveChanges();
+                    ItemsRefresh();
+                    GeneratePaginationButtons();
+
                 }
                 catch (Exception)
                 {
@@ -519,6 +563,17 @@ namespace Dickplom1.Pages.Manager
             catch (Exception)
             {
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null && mainWindow.gridSearch != null)
+            {
+                mainWindow.gridSearch.Visibility = Visibility.Visible;
+            }
+            Dickplom1.Class.Musor.SearchSelect();
         }
     }
     

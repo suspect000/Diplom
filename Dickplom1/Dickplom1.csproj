@@ -266,6 +266,9 @@
     <Compile Include="Windows\Others\SubscriptionAddWin.xaml.cs">
       <DependentUpon>SubscriptionAddWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Others\SubscriptionPeriodAdd.xaml.cs">
+      <DependentUpon>SubscriptionPeriodAdd.xaml</DependentUpon>
+    </Compile>
     <Page Include="Pages\Manager\ClientsLegalEntities.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -349,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Others\SubscriptionAddWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Others\SubscriptionPeriodAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

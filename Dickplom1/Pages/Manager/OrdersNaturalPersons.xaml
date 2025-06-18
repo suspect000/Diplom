@@ -12,7 +12,8 @@
       MinHeight="820" 
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
-      Background="Transparent">
+      Background="Transparent"
+      Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -82,13 +82,28 @@
                     Orientation="Vertical"
                     Margin="40,120,0,0">
 
-                    <customControls:ComboboxMaterialDesignWithBorder  
-                        Name="cboxCompany" 
-                        Loaded="cboxCompany_Loaded"
-                        Width="360"
-                        HorizontalAlignment="Left"/>
 
-                        <Separator Opacity="0" Height="10"/>
+                    <StackPanel 
+                        x:Name="spCompany"
+                        Orientation="Horizontal"
+                        Panel.ZIndex="1">
+
+                        <customControls:ComboboxMaterialDesignWithBorder  
+                            Name="cboxCompany" 
+                            Loaded="cboxCompany_Loaded"
+                            Width="360"
+                            HorizontalAlignment="Left"/>
+
+                        <Separator Opacity="0" Width="15"/>
+
+                        <customControls:btnAddPlusWhiteTheme
+                            Width="25" Height="30"
+                            Source="../../Resources/Images/OtherWins/btnAddIcnWhiteTheme.png"
+                            MouseLeftButtonUp="btnAddPlusWhiteTheme_MouseLeftButtonUp_2"/>
+
+                    </StackPanel>
+
+                    <Separator Opacity="0" Height="10"/>
                     
                     <StackPanel 
                         x:Name="spContactPerson"
