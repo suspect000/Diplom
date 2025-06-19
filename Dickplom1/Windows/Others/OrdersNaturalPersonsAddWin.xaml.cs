@@ -387,6 +387,12 @@ namespace Dickplom1.Windows.Others
 
                         if (selectedOrder != null)
                         {
+                            var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                            if (orderActiveOld != null)
+                            {
+                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                                return;
+                            }
                             selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
                             selectedOrder.ClientId = (int)cboxClient.cbox.SelectedValue;
                             selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
@@ -428,6 +434,14 @@ namespace Dickplom1.Windows.Others
                         CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
                         //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
                     };
+
+                    var orderActive = context.Orders.FirstOrDefault(f=>f.ClientId == newOrder.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                    if (orderActive != null)
+                    {
+                        MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                        return;
+                    }
+
                     context.Orders.Add(newOrder);
                     context.SaveChanges();
                     MessageBox.Show("Заказ успешно добавлен");

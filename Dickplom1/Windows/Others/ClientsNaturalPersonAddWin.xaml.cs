@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using static MaterialDesignThemes.Wpf.Theme;
 
 
 namespace Dickplom1.Windows.Others
@@ -324,19 +326,49 @@ namespace Dickplom1.Windows.Others
 
             if (tboxSurname.tb.Text == "Фамилия" 
                 || tboxName.tb.Text == "Имя"
-                || tboxMiddleName.tb.Text == "Отчество"
                 || tboxPhoneNumber.tb.Text == "Номер телефона"
                 || tboxEmail.tb.Text == "Электронная почта")
             {
                 MessageBox.Show("Необходимо заполнить все поля");
                 return;
             }
+            //Проверки
+            if (tboxPhoneNumber.tb.Text.Length < 11)
+            {
+                MessageBox.Show("Номер телефона должен содержать 11 цифр");
+                return;
+            }
+            if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
+            {
+                MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
+                return;
+            }
+            if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
+            {
+                MessageBox.Show("Неправильный формат электронной почты");
+                return;
+            }
+            //________________________________________________________________________________
 
             if (ClientId != 0) // При редактировании клиента
             {
                 ClientsNaturalPersons selectedClient = context.ClientsNaturalPersons
                     .Where(c => c.ClientNaturalPersonsId == ClientId)
                     .FirstOrDefault();
+
+                var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.PhoneNumber == tboxPhoneNumber.tb.Text);
+                if (clientConflictPhoneNumber != null)
+                {   
+                    MessageBox.Show("Клиент с таким номером телефона уже есть в системе"); 
+                    return;
+                }
+
+                var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.Email == tboxEmail.tb.Text);
+                if (clientConflictEmail != null)
+                {
+                    MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");   
+                    return;
+                }
 
                 selectedClient.ClientNaturalPersonsId = ClientId;
                 selectedClient.Surname = tboxSurname.tb.Text;
@@ -365,6 +397,20 @@ namespace Dickplom1.Windows.Others
                     PhoneNumber = tboxPhoneNumber.tb.Text,
                     Email = tboxEmail.tb.Text,
                 };
+
+                var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f=>f.PhoneNumber == selectedClient.PhoneNumber);
+                if (clientConflictPhoneNumber != null)
+                {
+                    MessageBox.Show("Клиент с таким номером телефона уже есть в системе");
+                    return;
+                }
+
+                var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.Email == selectedClient.Email);
+                if (clientConflictEmail != null)
+                {
+                    MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");
+                    return;
+                }
 
                 if (ClientPhoto.Source != null)
                     selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
@@ -478,6 +524,60 @@ namespace Dickplom1.Windows.Others
             tboxEmail.IsEnabled = false;
             Dickplom1.Class.Musor.ShowElement(edit5);
             Dickplom1.Class.Musor.HideElement(save5);
+        }
+
+        private void tboxSurname_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxSurname_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxSurname.tb.MaxLength = 50;
+        }
+
+        private void tboxName_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxName.tb.MaxLength = 50;
+        }
+
+        private void tboxMiddleName_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxMiddleName.tb.MaxLength = 50;
+        }
+
+        private void tboxPhoneNumber_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxPhoneNumber.tb.MaxLength = 11;
+        }
+
+        private void tboxPhoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+
+            if (e.Text != "8" & e.Text != "7" && tboxPhoneNumber.tb.SelectionStart == 0)
+                e.Handled = true;
+        }
+            
+
+        private void tboxEmail_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxEmail.tb.MaxLength = 70;
+        }
+
+        private void tboxEmail_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z@.]+$");
+        }
+
+        private void tboxName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxMiddleName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
         }
     }
 }

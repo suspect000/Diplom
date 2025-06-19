@@ -130,7 +130,9 @@
                             LostFocus="tboxSurname_LostFocus"
                             Text="Фамилия"
                             ToolTip="Фамилия"
-                            Width="265"/>
+                            PreviewTextInput="tboxSurname_PreviewTextInput"
+                            Width="265"
+                            Loaded="tboxSurname_Loaded"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
                             x:Name="edit1"
@@ -158,11 +160,13 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                         <customControls:TextboxWithBorder 
-                        x:Name="tboxName"
-                        Width="265"
-                        LostFocus="tboxName_LostFocus"
+                            x:Name="tboxName"
+                            Width="265"
+                            LostFocus="tboxName_LostFocus"
                             ToolTip="Имя"
-                        Text="Имя"/>
+                            Loaded="tboxName_Loaded"
+                            Text="Имя"
+                            PreviewTextInput="tboxName_PreviewTextInput"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
                             x:Name="edit2"
@@ -193,7 +197,9 @@
                             x:Name="tboxMiddleName"
                             Width="265"
                             ToolTip="Отчество"
-                            Text="Отчество"/>
+                            Text="Отчество"
+                            Loaded="tboxMiddleName_Loaded"
+                            PreviewTextInput="tboxMiddleName_PreviewTextInput"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
                             x:Name="edit3"
@@ -224,7 +230,9 @@
                             x:Name="tboxPhoneNumber"
                             Width="265"
                             ToolTip="Номер телефона"
-                            Text="Номер телефона"/>
+                            Text="Номер телефона"
+                            PreviewTextInput="tboxPhoneNumber_PreviewTextInput"
+                            Loaded="tboxPhoneNumber_Loaded"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
                             x:Name="edit4"
@@ -254,7 +262,9 @@
                             Name="tboxEmail"
                             Width="265"
                             ToolTip="Электронная почта"
-                            Text="Электронная почта"/>
+                            Text="Электронная почта"
+                            PreviewTextInput="tboxEmail_PreviewTextInput"
+                            Loaded="tboxEmail_Loaded"/>
                         <Separator Opacity="0" Width="10"/>
                         <Image 
                             x:Name="edit5"

@@ -449,6 +449,8 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }
@@ -489,6 +491,8 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allClients.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }
@@ -524,6 +528,7 @@ namespace Dickplom1.Pages.Manager
             if (mainWindow != null && mainWindow.gridSearch != null)
             {
                 mainWindow.gridSearch.Visibility = Visibility.Visible;
+
             }
             Dickplom1.Class.Musor.SearchSelect();
         }

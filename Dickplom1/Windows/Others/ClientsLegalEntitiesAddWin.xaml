@@ -203,7 +203,9 @@
                             x:Name="tboxSurname"
                             ToolTip="Фамилия представителя"
                             LostFocus="tboxSurname_LostFocus"
-                            Text="Фамилия представителя"/>
+                            Text="Фамилия представителя"
+                            Loaded="tboxSurname_Loaded"
+                            PreviewTextInput="tboxSurname_PreviewTextInput"/>
 
                         <Separator Opacity="0" Height="8"/>
 
@@ -211,27 +213,36 @@
                             x:Name="tboxName"
                             LostFocus="tboxName_LostFocus"
                             ToolTip="Имя представителя"
-                            Text="Имя представителя"/>
+                            Text="Имя представителя"
+                            Loaded="tboxName_Loaded"
+                            PreviewTextInput="tboxName_PreviewTextInput"/>
 
                         <Separator Opacity="0" Height="8"/>
 
                         <customControls:TextboxWithBorder 
                             x:Name="tboxMiddlename"
                             ToolTip="Отчество представителя"
-                            Text="Отчество представителя"/>
-                            <Separator Opacity="0" Height="8"/>
-
-                            <customControls:TextboxWithBorder 
-                                x:Name="tboxEmail"
-                                ToolTip="Электронная почта представителя"
-                                Text="Электронная почта представителя"/>
-
-                            <Separator Opacity="0" Height="8"/>
+                            Text="Отчество представителя"
+                            Loaded="tboxMiddlename_Loaded"
+                            PreviewTextInput="tboxMiddlename_PreviewTextInput"/>
+                            
+                        <Separator Opacity="0" Height="8"/>
+                            
+                        <customControls:TextboxWithBorder    
+                            x:Name="tboxEmail"
+                            ToolTip="Электронная почта представителя"
+                            Text="Электронная почта представителя"
+                            Loaded="tboxEmail_Loaded"
+                            PreviewTextInput="tboxEmail_PreviewTextInput"/>
+    
+                        <Separator Opacity="0" Height="8"/>
 
                         <customControls:TextboxWithBorder 
                             x:Name="tboxPhoneNumber"
                             ToolTip="Номер телефона представителя"
-                            Text="Номер телефона представителя"/>
+                            Text="Номер телефона представителя"
+                            Loaded="tboxPhoneNumber_Loaded"
+                            PreviewTextInput="tboxPhoneNumber_PreviewTextInput"/>
 
                     </StackPanel>
                 </Grid>
@@ -260,7 +271,9 @@
                         x:Name="tboxCompanyName"
                         LostFocus="tboxSurname_LostFocus"
                         ToolTip="Название компании"
-                        Text="Название компании"/>
+                        Text="Название компании" 
+                        Loaded="tboxCompanyName_Loaded"
+                        PreviewTextInput="tboxCompanyName_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
@@ -268,35 +281,45 @@
                         x:Name="tboxINN"
                         LostFocus="tboxName_LostFocus"
                         ToolTip="ИНН компании"
-                        Text="ИНН компании"/>
+                        Text="ИНН компании" 
+                        Loaded="tboxINN_Loaded"
+                        PreviewTextInput="tboxINN_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxKPP"
                         ToolTip="КПП компании"
-                        Text="КПП компании"/>
+                        Text="КПП компании" 
+                        Loaded="tboxKPP_Loaded"
+                        PreviewTextInput="tboxKPP_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxOGRN"
                         ToolTip="ОГРН компании"
-                        Text="ОГРН компании"/>
+                        Text="ОГРН компании" 
+                        Loaded="tboxOGRN_Loaded"
+                        PreviewTextInput="tboxOGRN_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxEmployeeCount"
                         ToolTip="Количество сотрудников компании"
-                        Text="Количество сотрудников компании"/>
+                        Text="Количество сотрудников компании" 
+                        Loaded="tboxEmployeeCount_Loaded"
+                        PreviewTextInput="tboxEmployeeCount_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder
                         x:Name="tboxRegistrationDate"
                         ToolTip="Дата регистрации компании"
-                        Text="Дата регистрации компании"/>
+                        Text="Дата регистрации компании" 
+                        Loaded="tboxRegistrationDate_Loaded"
+                        PreviewTextInput="tboxRegistrationDate_PreviewTextInput"/>
                 </StackPanel>
             </Grid>
 
@@ -321,7 +344,9 @@
                         x:Name="tboxAddressCountry"
                         LostFocus="tboxSurname_LostFocus"
                         ToolTip="Страна"
-                        Text="Страна"/>
+                        Text="Страна"
+                        Loaded="tboxAddressCountry_Loaded"
+                        PreviewTextInput="tboxAddressCountry_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
@@ -329,21 +354,27 @@
                         x:Name="tboxAddressCity"
                         LostFocus="tboxName_LostFocus"
                         ToolTip="Город"
-                        Text="Город"/>
+                        Text="Город"
+                        Loaded="tboxAddressCity_Loaded"
+                        PreviewTextInput="tboxAddressCity_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxAddressStreet"
                         ToolTip="Улица"
-                        Text="Улица"/>
+                        Text="Улица"
+                        Loaded="tboxAddressStreet_Loaded"
+                        PreviewTextInput="tboxAddressStreet_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxAddressHouse"
                         ToolTip="Дом"
-                        Text="Дом"/>
+                        Text="Дом"
+                        Loaded="tboxAddressHouse_Loaded"
+                        PreviewTextInput="tboxAddressHouse_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
@@ -355,7 +386,9 @@
                             Width="140"
                             ToolTip="Квартира"
                             HorizontalAlignment="Left"
-                            Text="Квартира"/>
+                            Text="Квартира"
+                            Loaded="tboxAddressApartment_Loaded"
+                            PreviewTextInput="tboxAddressApartment_PreviewTextInput"/>
 
                         <Separator Opacity="0" Width="20"/>
 
@@ -364,7 +397,9 @@
                             Width="140"
                             ToolTip="Офис"
                             HorizontalAlignment="Right"
-                            Text="Офис"/>
+                            Text="Офис"
+                            Loaded="tboxAddressOffice_Loaded"
+                            PreviewTextInput="tboxAddressOffice_PreviewTextInput"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -392,7 +427,9 @@
                         x:Name="tboxBankName"
                         LostFocus="tboxSurname_LostFocus"
                         ToolTip="Название банка"
-                        Text="Название банка"/>
+                        Text="Название банка"
+                        Loaded="tboxBankName_Loaded"
+                        PreviewTextInput="tboxBankName_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
@@ -400,21 +437,27 @@
                         x:Name="tboxBankBIK"
                         LostFocus="tboxName_LostFocus"
                         ToolTip="БИК банка"
-                        Text="БИК банка"/>
+                        Text="БИК банка"
+                        Loaded="tboxBankBIK_Loaded"
+                        PreviewTextInput="tboxBankBIK_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankAccount"
                         ToolTip="Рас. счет банка"
-                        Text="Рас. счет банка"/>
+                        Text="Рас. счет банка"
+                        Loaded="tboxBankAccount_Loaded"
+                        PreviewTextInput="tboxBankAccount_PreviewTextInput"/>
 
                     <Separator Opacity="0" Height="8"/>
 
                     <customControls:TextboxWithBorder 
                         x:Name="tboxBankCorrAccount"
                         ToolTip="Кор. счет банка"
-                        Text="Кор. счет банка"/>
+                        Text="Кор. счет банка"
+                        Loaded="tboxBankCorrAccount_Loaded"
+                        PreviewTextInput="tboxBankCorrAccount_PreviewTextInput"/>
 
                 </StackPanel>
             </Grid>

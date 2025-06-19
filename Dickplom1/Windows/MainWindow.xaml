@@ -14,6 +14,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize"
         MouseDown="Window_MouseDown"
+        PreviewMouseDown="Window_PreviewMouseDown"
         Background="{StaticResource MainBackgroundColor}">
     <Grid>
         <Grid.ColumnDefinitions>

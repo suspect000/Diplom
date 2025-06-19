@@ -267,6 +267,7 @@ namespace Dickplom1.Pages.Manager
 
 
             cbox.cbox.ItemsSource = items2;
+            cbox.Name = "cbox";
             cbox.cbox.DisplayMemberPath = "StatusValue";
             cbox.cbox.SelectedValuePath = "StatusId";
             cbox.cbox.SelectedIndex = 0;
@@ -491,6 +492,18 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
+                foreach (UIElement child in ComboboxesFilter.spCboxes.Children)
+                {
+                    if (child is ComboboxMaterialDesignWithBorder combo && combo.Name == "cbox")
+                    {
+                        // Нашли нужный ComboBox
+                        combo.cbox.SelectedIndex = 0; // Пример действия
+                        break;
+                    }
+                }
+
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }
@@ -545,6 +558,17 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
+                foreach (UIElement child in ComboboxesFilter.spCboxes.Children)
+                {
+                    if (child is ComboboxMaterialDesignWithBorder combo && combo.Name == "cbox")
+                    {
+                        // Нашли нужный ComboBox
+                        combo.cbox.SelectedIndex = 0; // Пример действия
+                        break;
+                    }
+                }
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }

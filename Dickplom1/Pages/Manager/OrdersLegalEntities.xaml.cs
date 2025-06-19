@@ -249,6 +249,7 @@ namespace Dickplom1.Pages.Manager
 
 
             cbox.cbox.ItemsSource = items2;
+            cbox.Name = "cbox";
             cbox.cbox.DisplayMemberPath = "StatusValue";
             cbox.cbox.SelectedValuePath = "StatusId";
             cbox.cbox.SelectedIndex = 0;
@@ -281,48 +282,94 @@ namespace Dickplom1.Pages.Manager
         public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
-
-            var clientsQuery = context.OrdersLegalEntities
-            .Where(c => !c.IsDeleted);
-
-            // фильтр по создателю записи
-            if (comboboxCreatorValue != 0)
+            if (!IsDeletedFilter)
             {
-                clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
-            }
+                var clientsQuery = context.OrdersLegalEntities
+                    .Where(c => !c.IsDeleted);
 
-            // фильтр по статусу заказа
-            if (comboboxStatusValue != 0)
-            {
-                clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
-            }
-
-            var filteredClients = clientsQuery
-                .ToList() // Загружаем данные в память
-                .Select(c => new OrdersViewModel
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
                 {
-                    OrderId = c.OrderId,
-                    SubcriptionId = (int)c.SubscriptionId,
-                    SubscriptionName = c.Subscription.SubscriptionName,
-                    CompanyName = c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
-                    StartDate = c.StartDate?.ToString("g"),
-                    EndDate = c.EndDate?.ToString("g"),
-                    OrderStatusId = c.OrderStatus.StatusId,
-                    OrderStatus = c.OrderStatus.StatusValue,
-                    ClientId = c.ClientId ?? 0,
-                    CreatorId = c.CreatorId ?? 0,
-                    FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName,
-                    FullNameClient = (
-                    context.ClientsLegalEntitiesContactPerson
-                    .Where(f => f.IsActive == true && f.CompanyId == c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
-                    .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
-                    .FirstOrDefault() ?? "—"
-                    ).Trim()
-                })
-                .ToList();
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
 
-            allOrders.Clear();
-            allOrders = filteredClients;
+                // фильтр по статусу заказа
+                if (comboboxStatusValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
+                }
+
+                var filteredClients = clientsQuery
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new OrdersViewModel
+                    {
+                        OrderId = c.OrderId,
+                        SubcriptionId = (int)c.SubscriptionId,
+                        SubscriptionName = c.Subscription.SubscriptionName,
+                        CompanyName = c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
+                        StartDate = c.StartDate?.ToString("d"),
+                        EndDate = c.EndDate?.ToString("d"),
+                        OrderStatusId = c.OrderStatus.StatusId,
+                        OrderStatus = c.OrderStatus.StatusValue,
+                        ClientId = c.ClientId ?? 0,
+                        CreatorId = c.CreatorId ?? 0,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName,
+                        FullNameClient = (
+                        context.ClientsLegalEntitiesContactPerson
+                        .Where(f => f.IsActive == true && f.CompanyId == c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                        .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                        .FirstOrDefault() ?? "—"
+                        ).Trim()
+                    })
+                    .ToList();
+
+                allOrders.Clear();
+                allOrders = filteredClients;
+            }
+            else // фильтр по удаленным
+            {
+                var clientsQuery = context.OrdersLegalEntities
+                    .Where(c => c.IsDeleted);
+
+                // фильтр по создателю записи
+                if (comboboxCreatorValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.CreatorId == comboboxCreatorValue);
+                }
+
+                // фильтр по статусу заказа
+                if (comboboxStatusValue != 0)
+                {
+                    clientsQuery = clientsQuery.Where(c => c.StatusId == comboboxStatusValue);
+                }
+
+                var filteredClients = clientsQuery
+                    .ToList() // Загружаем данные в память
+                    .Select(c => new OrdersViewModel
+                    {
+                        OrderId = c.OrderId,
+                        SubcriptionId = (int)c.SubscriptionId,
+                        SubscriptionName = c.Subscription.SubscriptionName,
+                        CompanyName = c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
+                        StartDate = c.StartDate?.ToString("d"),
+                        EndDate = c.EndDate?.ToString("d"),
+                        OrderStatusId = c.OrderStatus.StatusId,
+                        OrderStatus = c.OrderStatus.StatusValue,
+                        ClientId = c.ClientId ?? 0,
+                        CreatorId = c.CreatorId ?? 0,
+                        FIOManager = c.Users?.UserData.Surname + " " + c.Users?.UserData.Name + " " + c.Users?.UserData.MiddleName,
+                        FullNameClient = (
+                        context.ClientsLegalEntitiesContactPerson
+                        .Where(f => f.IsActive == true && f.CompanyId == c.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                        .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                        .FirstOrDefault() ?? "—"
+                        ).Trim()
+                    })
+                    .ToList();
+
+                allOrders.Clear();
+                allOrders = filteredClients;
+            }
 
             CheckTotalPages();
             GeneratePaginationButtons();
@@ -399,7 +446,7 @@ namespace Dickplom1.Pages.Manager
 
         private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
         {
-            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp; ;
+            spDeletedRecords.stackPanel.MouseLeftButtonUp += StackPanel_MouseLeftButtonUp;
         }
 
         private void StackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -446,6 +493,18 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
+                foreach (UIElement child in ComboboxesFilter.spCboxes.Children)
+                {
+                    if (child is ComboboxMaterialDesignWithBorder combo && combo.Name == "cbox")
+                    {
+                        // Нашли нужный ComboBox
+                        combo.cbox.SelectedIndex = 0; // Пример действия
+                        break;
+                    }
+                }
+
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }
@@ -485,6 +544,18 @@ namespace Dickplom1.Pages.Manager
 
                 totalPages = (int)Math.Ceiling((double)allOrders.Count / 10);
                 currentPage = 1;
+
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
+                foreach (UIElement child in ComboboxesFilter.spCboxes.Children)
+                {
+                    if (child is ComboboxMaterialDesignWithBorder combo && combo.Name == "cbox")
+                    {
+                        // Нашли нужный ComboBox
+                        combo.cbox.SelectedIndex = 0; // Пример действия
+                        break;
+                    }
+                }
 
                 LoadCurrentPage();
                 GeneratePaginationButtons();

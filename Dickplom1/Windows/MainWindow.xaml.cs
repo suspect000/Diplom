@@ -28,6 +28,37 @@ namespace Dickplom1
 
             Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
+        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Если фокус сейчас в tbSearch, и клик был не по нему — убираем фокус
+            if (Keyboard.FocusedElement is TextBox tb && tb.Name == "tbSearch")
+            {
+                // Пробуем найти, куда именно кликнули
+                var clickedElement = Mouse.DirectlyOver as DependencyObject;
+                if (clickedElement != null)
+                {
+                    // Если клик был ВНЕ tbSearch
+                    if (!IsDescendantOf(tbSearch, clickedElement))
+                    {
+/*                        if (tbSearch.Text != "Найти" && string.IsNullOrWhiteSpace(tbSearch.Text))
+                            tbSearch.Text = string.Empty;*/
+                        // Сброс фокуса — переносим на "пустое" место (например, на окно)
+                        FocusManager.SetFocusedElement(this, this);
+                    }
+                }
+            }
+        }
+
+        private bool IsDescendantOf(DependencyObject parent, DependencyObject child)
+        {
+            while (child != null)
+            {
+                if (child == parent)
+                    return true;
+                child = VisualTreeHelper.GetParent(child);
+            }
+            return false;
+        }
         public string SearchingPage { get; set; } = string.Empty; 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -519,7 +550,7 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (clientsNatural != null)
                         {
-                            if (clientsNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                            if (clientsNatural.ComboboxesFilter.firstCombobox.SelectedIndex == -1 || clientsNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
                                 clientsNatural.RefreshItemsList();
                             else
                                 clientsNatural.ApplyFilters();
@@ -541,7 +572,7 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (clientsLegal != null)
                         {
-                            if (clientsLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                            if (clientsLegal.ComboboxesFilter.firstCombobox.SelectedIndex == -1 || clientsLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
                                 clientsLegal.RefreshItemsList();
                             else
                                 clientsLegal.ApplyFilters();
@@ -563,8 +594,8 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (ordersNatural != null)
                         {
-                            if (ordersNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0
-                                && ordersNatural.comboboxStatusValue == 0)
+                            if (ordersNatural.ComboboxesFilter.firstCombobox.SelectedIndex == -1 | ordersNatural.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && ordersNatural.comboboxStatusValue == -1 | ordersNatural.comboboxStatusValue == 0)
                                 ordersNatural.RefreshItems();
                             else
                                 ordersNatural.ApplyFilters();
@@ -586,8 +617,8 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (ordersLegal != null)
                         {
-                            if (ordersLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0
-                                && ordersLegal.comboboxStatusValue == 0)
+                            if (ordersLegal.ComboboxesFilter.firstCombobox.SelectedIndex == -1 |ordersLegal.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && ordersLegal.comboboxStatusValue == -1 | ordersLegal.comboboxStatusValue == 0)
                                 ordersLegal.ItemsRefresh();
                             else
                                 ordersLegal.ApplyFilters();
@@ -609,8 +640,8 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (subs != null)
                         {
-                            if (subs.ComboboxesFilter.firstCombobox.SelectedIndex == 0
-                                && subs.comboboxTypeValue == 0)
+                            if (subs.ComboboxesFilter.firstCombobox.SelectedIndex == -1 | subs.ComboboxesFilter.firstCombobox.SelectedIndex == 0
+                                && subs.comboboxTypeValue == -1 | subs.comboboxTypeValue == 0)
                                 subs.ItemsRefresh();
                             else
                                 subs.ApplyFilters();
@@ -632,7 +663,7 @@ namespace Dickplom1
                         btnSearch.Visibility = Visibility.Collapsed;
                         if (staff != null)
                         {
-                            if (staff.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
+                            if (staff.ComboboxesFilter.firstCombobox.SelectedIndex == -1 || staff.ComboboxesFilter.firstCombobox.SelectedIndex == 0)
                                 staff.RefreshItems();
                             else
                                 staff.ApplyFilters();

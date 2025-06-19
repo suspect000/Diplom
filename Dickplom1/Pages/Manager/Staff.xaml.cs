@@ -29,8 +29,6 @@ namespace Dickplom1.Pages.Manager
             InitializeComponent();
         }
 
-
-
         //Загрузка данных в датагрид и паггинация
         public List<StaffViewModel> allStaff;
         private int currentPage = 1;
@@ -283,6 +281,7 @@ namespace Dickplom1.Pages.Manager
             if (mainWindow != null && mainWindow.gridSearch != null)
             {
                 mainWindow.gridSearch.Visibility = Visibility.Visible;
+
             }
             Dickplom1.Class.Musor.SearchSelect();
         }

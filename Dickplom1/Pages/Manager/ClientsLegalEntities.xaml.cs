@@ -455,6 +455,8 @@ namespace Dickplom1.Pages.Manager
                 totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);
                 currentPage = 1;
 
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
+
                 LoadCurrentPage();
                 GeneratePaginationButtons();
             }
@@ -537,6 +539,8 @@ namespace Dickplom1.Pages.Manager
 
                 totalPages = (int)Math.Ceiling((double)allClientsLegal.Count / 10);
                 currentPage = 1;
+
+                ComboboxesFilter.firstCombobox.SelectedIndex = 0; // Выключить фильтр
 
                 LoadCurrentPage();
                 GeneratePaginationButtons();

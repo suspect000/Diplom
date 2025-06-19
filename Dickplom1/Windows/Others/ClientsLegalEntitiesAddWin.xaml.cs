@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -365,11 +366,6 @@ namespace Dickplom1.Windows.Others
             }
         }
 
-        private void tboxSurname_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
         {
             btnEdit.btnWithBorder.Height = 30;
@@ -475,6 +471,71 @@ namespace Dickplom1.Windows.Others
                 MessageBox.Show("Необходимо заполнить все поля");
                 return;
             }
+
+            //Проверки
+            if (tboxPhoneNumber.tb.Text.Length < 11)
+            {
+                MessageBox.Show("Номер телефона должен содержать 11 цифр");
+                return;
+            }
+            if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
+            {
+                MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
+                return;
+            }
+            if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
+            {
+                MessageBox.Show("Неправильный формат электронной почты");
+                return;
+            }
+            if (tboxINN.tb.Text.Length < 10)
+            {
+                MessageBox.Show("ИНН компании слишком короткий");
+                return;
+            }
+            if (tboxKPP.tb.Text.Length < 9)
+            {
+                MessageBox.Show("КПП компании слишком короткий");
+                return;
+            }
+            if (tboxOGRN.tb.Text.Length < 13)
+            {
+                MessageBox.Show("КПП компании слишком короткий");
+                return;
+            }
+            if (DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime date))
+            {
+                if (date != null)
+                {
+                    if (date < DateTime.Now.AddYears(-80))
+                    {
+                        MessageBox.Show("Некорректная дата регистрации компании");
+                        return;
+                    }
+                    else if (date > DateTime.Now)
+                    {
+                        MessageBox.Show("Некорректная дата регистрации компании");
+                        return;
+                    }
+                }
+            }
+            if (tboxBankBIK.tb.Text.Length < 9)
+            {
+                MessageBox.Show("БИК банка слишком короткий");
+                return;
+            }
+            if (tboxBankAccount.tb.Text.Length < 30)
+            {
+                MessageBox.Show("Рас. счет банка слишком короткий");
+                return;
+            }
+            if (tboxBankCorrAccount.tb.Text.Length < 30)
+            {
+                MessageBox.Show("Кор. счет банка слишком короткий");
+                return;
+            }
+            //________________________________________________________________________________
+
 
             if (ClientId != 0) // При редактировании клиента
             {
@@ -893,6 +954,219 @@ namespace Dickplom1.Windows.Others
                     }
                 }
             }
+        }
+
+        private void tboxSurname_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxSurname.tb.MaxLength = 50;
+        }
+
+        private void tboxName_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxName.tb.MaxLength = 50;
+        }
+
+        private void tboxMiddlename_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxMiddlename.tb.MaxLength = 50;
+        }
+
+        private void tboxEmail_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxEmail.tb.MaxLength = 70;
+        }
+
+        private void tboxPhoneNumber_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxPhoneNumber.tb.MaxLength = 11;
+        }
+
+        private void tboxCompanyName_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxCompanyName.tb.MaxLength = 70;
+        }
+
+        private void tboxINN_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxINN.tb.MaxLength = 12;
+        }
+
+        private void tboxKPP_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxKPP.tb.MaxLength = 9;
+        }
+
+        private void tboxOGRN_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxOGRN.tb.MaxLength = 15;
+        }
+
+        private void tboxEmployeeCount_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxEmployeeCount.tb.MaxLength = 6;
+        }
+
+        private void tboxRegistrationDate_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxRegistrationDate.tb.MaxLength = 10;
+        }
+
+        private void tboxAddressCity_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressCity.tb.MaxLength = 30;
+        }
+
+        private void tboxAddressCountry_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressCountry.tb.MaxLength = 30;
+        }
+
+        private void tboxAddressStreet_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressStreet.tb.MaxLength = 50;
+        }
+
+        private void tboxAddressHouse_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressHouse.tb.MaxLength = 10;
+        }
+
+        private void tboxAddressApartment_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressApartment.tb.MaxLength = 5;
+        }
+
+        private void tboxAddressOffice_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxAddressOffice.tb.MaxLength = 5;
+        }
+
+        private void tboxBankName_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxBankName.tb.MaxLength = 40;
+        }
+
+        private void tboxBankBIK_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxBankBIK.tb.MaxLength = 9;
+        }
+
+        private void tboxBankAccount_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxBankAccount.tb.MaxLength = 30;
+        }
+
+        private void tboxBankCorrAccount_Loaded(object sender, RoutedEventArgs e)
+        {
+            tboxBankCorrAccount.tb.MaxLength = 30;
+        }
+
+        private void tboxSurname_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxMiddlename_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxEmail_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Z@.]+$");
+        }
+
+        private void tboxPhoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+
+            if (e.Text != "8" & e.Text != "7" && tboxPhoneNumber.tb.SelectionStart == 0)
+                e.Handled = true;
+        }
+
+        private void tboxCompanyName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ«»]+$");
+        }
+
+        private void tboxINN_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+        }
+
+        private void tboxKPP_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+        }
+
+        private void tboxOGRN_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+        }
+
+        private void tboxEmployeeCount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+        }
+
+        private void tboxRegistrationDate_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9.]$");
+        }
+
+        private void tboxAddressCountry_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxAddressCity_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxAddressStreet_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ0-9]+$");
+        }
+
+        private void tboxAddressHouse_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9a-zA-Zа-яА-ЯёЁ/]$");
+        }
+
+        private void tboxAddressApartment_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9]$");
+        }
+
+        private void tboxAddressOffice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9]$");
+        }
+
+        private void tboxBankName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[a-zA-Zа-яА-ЯёЁ]+$");
+        }
+
+        private void tboxBankBIK_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9]$");
+        }
+
+        private void tboxBankAccount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9]$");
+        }
+
+        private void tboxBankCorrAccount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, @"^[0-9]$");
         }
     }
 }
