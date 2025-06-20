@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations.Model;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -205,6 +206,8 @@ namespace Dickplom1.Windows.Others
 
         private void tboxPriceForMonth_Loaded(object sender, RoutedEventArgs e)
         {
+            tboxPriceForMonth.tb.MaxLength = 5;
+
             var context = DBEntities.GetContext();
 
             //Если это не добавление а обновление данных то загружаем данные
@@ -279,6 +282,11 @@ namespace Dickplom1.Windows.Others
         private void Win_Closed(object sender, EventArgs e)
         {
             SubscriptionsPeriodRefresh();
+        }
+
+        private void tboxPriceForMonth_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
         }
     }
 }

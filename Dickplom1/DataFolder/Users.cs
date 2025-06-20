@@ -33,6 +33,7 @@ namespace Dickplom1.DataFolder
         public string Login { get; set; }
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
+        public Nullable<int> FixedOrdersId { get; set; }
         public Nullable<int> CreatorId { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public bool IsDeleted { get; set; }
@@ -42,6 +43,7 @@ namespace Dickplom1.DataFolder
         public virtual ICollection<ClientsLegalEntities> ClientsLegalEntities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientsNaturalPersons> ClientsNaturalPersons { get; set; }
+        public virtual FixedOrders FixedOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Logs> Logs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

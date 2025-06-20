@@ -14,6 +14,12 @@ namespace Dickplom1.DataFolder
     
     public partial class OrdersLegalEntities
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrdersLegalEntities()
+        {
+            this.FixedOrders = new HashSet<FixedOrders>();
+        }
+    
         public int OrderId { get; set; }
         public Nullable<int> SubscriptionId { get; set; }
         public Nullable<int> ClientId { get; set; }
@@ -26,6 +32,8 @@ namespace Dickplom1.DataFolder
         public bool IsDeleted { get; set; }
     
         public virtual ClientsLegalEntities ClientsLegalEntities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FixedOrders> FixedOrders { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual Subscription Subscription { get; set; }
         public virtual Users Users { get; set; }

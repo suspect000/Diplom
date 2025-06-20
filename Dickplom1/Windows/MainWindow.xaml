@@ -126,11 +126,12 @@
                     Text="Найти"
                     Width="228" Height="57"
                     BorderThickness="1"
-                    Padding="45,0,0,0"
+                    Padding="45,0,130,0"
                     BorderBrush="Transparent"
                     HorizontalAlignment="Right"
                     Style="{StaticResource SearchStyle}" 
-                    GotFocus="TextBox_GotFocus" 
+                    FontSize="13"
+                    GotFocus="tbSearch_GotFocus" 
                     LostFocus="tbSearch_LostFocus"
                     TextWrapping="NoWrap"
                     TextChanged="tbSearch_TextChanged"
@@ -150,6 +151,7 @@
                     x:Name="btnSearch"
                     HorizontalAlignment="Right"
                     Visibility="Collapsed"
+                    Width="100"
                     Panel.ZIndex="1"
                     Loaded="btnSearch_Loaded"/>
             </Grid>
@@ -655,46 +657,38 @@
                 CornerRadius="20">
             </Border>
 
-            <TextBlock 
-                    Text="Закрепленные задачи"
-                    Style="{StaticResource DefText15}"
-                    VerticalAlignment="Top" HorizontalAlignment="Center"
-                    Margin="0,20,0,0"/>
+            <TextBlock     
+                Text="Закрепленные задачи"
+                Style="{StaticResource DefText15}"
+                VerticalAlignment="Top" HorizontalAlignment="Center"
+                Margin="0,20,0,0"/>
 
             <StackPanel 
+                x:Name="sp"
                 Orientation="Vertical"
-                HorizontalAlignment="Center" VerticalAlignment="Center">
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Visibility="Collapsed">
 
                 <TextBlock 
+                    x:Name="tBlockFixedOrders"
                     Text="Здесь пока пусто"
                     Style="{StaticResource DefText13}"
                     VerticalAlignment="Center" HorizontalAlignment="Center"
                     Margin="0,0,0,0"/>
-
-                <Separator Opacity="0" Height="10"/>
-
-                <StackPanel
-                    x:Name="spZakrepGoToOrders"
-                    Orientation="Horizontal" 
-                    Opacity="0.5"
-                    MouseEnter="spZakrepGoToOrders_MouseEnter"
-                    MouseLeave="spZakrepGoToOrders_MouseLeave">
-
-                    <TextBlock 
-                        Text="Перейти в заказы"
-                        Style="{StaticResource DefText13}"
-                        VerticalAlignment="Top" HorizontalAlignment="Center"/>
-
-                    <Separator Opacity="0" Width="5"/>
-
-                    <Image 
-                        Source="..//Resources/Images/MainWin/Navigation/imgArrowRight.png"
-                        RenderOptions.BitmapScalingMode="HighQuality"
-                        Width="15"
-                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-
-                </StackPanel>
             </StackPanel>
+
+            <Grid
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Margin="10,60,10,10">
+
+                <customControls:DataGridMaterialDesignFixedOrders   
+                    Name="dgFixedOrders"  
+                    Width="260"
+                    Loaded="dgFixedOrders_Loaded"/>
+            </Grid>
+
         </Grid>
         <!--/Закрепленные задачи-->
 

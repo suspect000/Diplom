@@ -82,6 +82,7 @@ namespace Dickplom1.Pages.Manager
                     StartDate = o.StartDate?.ToString("d"),
                     EndDate = o.EndDate?.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    OrderStatusId = o.StatusId ?? 0,
                     CreatorId = o.CreatorId ?? 0,
                     FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                     ClientId = o.ClientId ?? 0,
@@ -107,6 +108,7 @@ namespace Dickplom1.Pages.Manager
                     StartDate = o.StartDate?.ToString("d"),
                     EndDate = o.EndDate?.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    OrderStatusId = o.StatusId ?? 0,
                     ClientId = o.ClientId ?? 0,
                     CreatorId = o.CreatorId ?? 0,
                     FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
@@ -478,6 +480,7 @@ namespace Dickplom1.Pages.Manager
                     StartDate = o.StartDate?.ToString("d"),
                     EndDate = o.EndDate?.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    OrderStatusId = o.StatusId ?? 0,
                     ClientId = o.ClientId ?? 0,
                     CreatorId = o.CreatorId ?? 0,
                     FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
@@ -573,6 +576,25 @@ namespace Dickplom1.Pages.Manager
             {
                 if (dataGrid.dg.SelectedItem is OrdersViewModel item)
                 {
+                    //Проверка удален ли клиент
+                    var selectedClientInClients = context.ClientsLegalEntities.FirstOrDefault(f => f.ClientsLegalEntitiesId == item.ClientId && f.IsDeleted == true);
+                    if (selectedClientInClients != null)
+                    {
+                        MessageBox.Show("Сначала необходимо восстановить клиента данного заказа из корзины");
+                        return;
+                    }
+
+                    //Поиск активных заказов у этого клиента
+                    var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == item.ClientId && f.OrderId != item.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                    if (orderActiveOld != null)
+                    {
+                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 6)
+                        {
+                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                            return;
+                        }
+                    }
+
                     var selectedClient = context.ClientsLegalEntities.FirstOrDefault(f => f.ClientsLegalEntitiesId == item.ClientId && f.IsDeleted == true);
                     if (selectedClient != null)
                     {
@@ -599,6 +621,11 @@ namespace Dickplom1.Pages.Manager
                 mainWindow.gridSearch.Visibility = Visibility.Visible;
             }
             Dickplom1.Class.Musor.SearchSelect();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

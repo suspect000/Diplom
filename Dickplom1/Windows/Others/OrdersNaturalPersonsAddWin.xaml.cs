@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 
 namespace Dickplom1.Windows.Others
 {
@@ -390,8 +391,26 @@ namespace Dickplom1.Windows.Others
                             var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                             if (orderActiveOld != null)
                             {
-                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                                return;
+                                if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 6)
+                                {
+                                    MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                                    return;
+                                }
+                            }
+                            if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
+                            {
+                                if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
+                                {
+                                    MessageBox.Show("Некорректная указана дата");
+                                    return;
+                                }
+                                if (dateParsedNew.Date < DateTime.Now.Date)
+                                {
+                                    MessageBoxButton btns = MessageBoxButton.YesNo;
+                                    MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                                    if (box == MessageBoxResult.No)
+                                        return;
+                                }
                             }
                             selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
                             selectedOrder.ClientId = (int)cboxClient.cbox.SelectedValue;
@@ -399,14 +418,6 @@ namespace Dickplom1.Windows.Others
                             selectedOrder.EndDate = DateTime.Parse(endDatE);
                             selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
                             selectedOrder.Price = Convert.ToInt32(priceAll);
-                        }
-                        if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
-                        {
-                            if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
-                            {
-                                MessageBox.Show("Некорректная указана дата");
-                                return;
-                            }
                         }
                         context.SaveChanges();
                         MessageBox.Show("Заказ успешно обновлен");
@@ -420,6 +431,13 @@ namespace Dickplom1.Windows.Others
                         {
                             MessageBox.Show("Некорректно указана дата");
                             return;
+                        }
+                        if (dateParsed.Date < DateTime.Now.Date)
+                        {
+                            MessageBoxButton btns = MessageBoxButton.YesNo;
+                            MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                            if (box == MessageBoxResult.No)
+                                return;
                         }
                     }
                     //Создание заказа
@@ -438,8 +456,11 @@ namespace Dickplom1.Windows.Others
                     var orderActive = context.Orders.FirstOrDefault(f=>f.ClientId == newOrder.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                     if (orderActive != null)
                     {
-                        MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                        return;
+                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 6)
+                        {
+                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                            return;
+                        }
                     }
 
                     context.Orders.Add(newOrder);

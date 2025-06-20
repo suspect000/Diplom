@@ -12,22 +12,21 @@ namespace Dickplom1.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class AddressLegalEntities
+    public partial class FixedOrders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AddressLegalEntities()
+        public FixedOrders()
         {
-            this.ClientsLegalEntitiesCompanyData = new HashSet<ClientsLegalEntitiesCompanyData>();
+            this.Users = new HashSet<Users>();
         }
     
-        public int AddressLegalEntitiesId { get; set; }
-        public int StreetId { get; set; }
-        public string HouseNumber { get; set; }
-        public string Apartment { get; set; }
-        public string Office { get; set; }
+        public int FixedOrderId { get; set; }
+        public Nullable<int> NaturalOrderId { get; set; }
+        public Nullable<int> LegalOrderId { get; set; }
     
-        public virtual Street Street { get; set; }
+        public virtual Orders Orders { get; set; }
+        public virtual OrdersLegalEntities OrdersLegalEntities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClientsLegalEntitiesCompanyData> ClientsLegalEntitiesCompanyData { get; set; }
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

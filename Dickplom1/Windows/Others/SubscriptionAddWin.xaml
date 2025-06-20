@@ -126,6 +126,7 @@
                         Text="Цена за месяц"
                         ToolTip="Цена за месяц"
                         Loaded="tboxPriceForMonth_Loaded"
+                        PreviewTextInput="tboxPriceForMonth_PreviewTextInput"
                         Width="360"
                         HorizontalAlignment="Left"/>
 

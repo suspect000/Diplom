@@ -509,6 +509,7 @@ namespace Dickplom1.Pages.Manager
             {
                 if (DataGridCustomForClients.dgForClients.SelectedItem is ClientViewModel item)
                 {
+
                     context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId == item.ClientId).IsDeleted = false;
                     context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.StatusId > 1 & f.StatusId < 6).IsDeleted = false;
                     context.SaveChanges();

@@ -550,14 +550,15 @@ namespace Dickplom1.Windows.Others
                     {
                         var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
 
-                        if (selectedOrder != null)
+                        //Поиск активных заказов у этого клиента
+                        var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                        if (orderActiveOld != null)
                         {
-                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
-                            selectedOrder.ClientId = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId).ClientId;
-                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
-                            selectedOrder.EndDate = DateTime.Parse(endDatE);
-                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
-                            selectedOrder.Price = Convert.ToInt32(priceAll);
+                            if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 6)
+                            {
+                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                                return;
+                            }
                         }
                         if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
                         {
@@ -566,6 +567,23 @@ namespace Dickplom1.Windows.Others
                                 MessageBox.Show("Некорректно указана дата");
                                 return;
                             }
+                            if (dateParsedNew.Date < DateTime.Now.Date)
+                            {
+                                MessageBoxButton btns = MessageBoxButton.YesNo;
+                                MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                                if (box == MessageBoxResult.No)
+                                    return;
+                            }
+                        }
+
+                        if (selectedOrder != null)
+                        {
+                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
+                            selectedOrder.ClientId = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId).ClientId;
+                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
+                            selectedOrder.EndDate = DateTime.Parse(endDatE);
+                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
+                            selectedOrder.Price = Convert.ToInt32(priceAll);
                         }
                         context.SaveChanges();
                         MessageBox.Show("Заказ успешно обновлен");
@@ -578,6 +596,13 @@ namespace Dickplom1.Windows.Others
                         {
                             MessageBox.Show("Некорректно указана дата");
                             return;
+                        }
+                        if (dateParsed.Date < DateTime.Now.Date)
+                        {
+                            MessageBoxButton btns = MessageBoxButton.YesNo;
+                            MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                            if (box == MessageBoxResult.No)
+                                return;
                         }
                     }
 
@@ -593,6 +618,16 @@ namespace Dickplom1.Windows.Others
                         CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
                         //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
                     };
+
+                    var orderActive = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == newOrder.ClientId && f.OrderId != newOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                    if (orderActive != null)
+                    {
+                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 6 )
+                        {
+                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                            return;
+                        }
+                    }
                     context.OrdersLegalEntities.Add(newOrder);
                     context.SaveChanges();
                     MessageBox.Show("Заказ успешно добавлен");

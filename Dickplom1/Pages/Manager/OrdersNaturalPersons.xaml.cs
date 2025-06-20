@@ -73,6 +73,7 @@ namespace Dickplom1.Pages.Manager
                    EndDate = o.EndDate.Value.ToString("d"),
                    ClientId = o.ClientId ?? 0,
                    OrderStatus = o.OrderStatus.StatusValue,
+                   OrderStatusId = o.StatusId ?? 0,
                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                    CreatorId = o.CreatorId ?? 0,
                    IsDeleted = o.IsDeleted
@@ -94,6 +95,7 @@ namespace Dickplom1.Pages.Manager
                    StartDate = o.StartDate.Value.ToString("d"),
                    EndDate = o.EndDate.Value.ToString("d"),
                    OrderStatus = o.OrderStatus.StatusValue,
+                   OrderStatusId = o.StatusId ?? 0,
                    ClientId = o.ClientId ?? 0,
                    FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                    CreatorId = o.CreatorId ?? 0,
@@ -127,6 +129,7 @@ namespace Dickplom1.Pages.Manager
                     StartDate = o.StartDate.Value.ToString("d"),
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    OrderStatusId = o.StatusId ?? 0,
                     ClientId = o.ClientId ?? 0,
                     FIOManager = o.Users ?.UserData.Surname + " " + o.Users ?.UserData.Name + " " + o.Users ?.UserData.MiddleName,
                     CreatorId = o.CreatorId?? 0,
@@ -549,6 +552,7 @@ namespace Dickplom1.Pages.Manager
                     ClientId = o.ClientId ?? 0,
                     EndDate = o.EndDate.Value.ToString("d"),
                     OrderStatus = o.OrderStatus.StatusValue,
+                    OrderStatusId = o.StatusId ?? 0,
                     FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
                     CreatorId = o.CreatorId ?? 0,
                     IsDeleted = o.IsDeleted
@@ -585,12 +589,24 @@ namespace Dickplom1.Pages.Manager
             {
                 if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
                 {
+                    //Проверка удален ли клиент
                     var selectedClient = context.ClientsNaturalPersons.FirstOrDefault(f=>f.ClientNaturalPersonsId == item.ClientId && f.IsDeleted == true);
                     if (selectedClient != null)
                     {
                         MessageBox.Show("Сначала необходимо восстановить клиента данного заказа из корзины");
                         return;
                     }
+                    //Поиск активных заказов у выбранного клиента
+                    var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.OrderId != item.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                    if (orderActiveOld != null)
+                    {
+                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 6)
+                        {
+                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                            return;
+                        }
+                    }
+
                     context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = false;
                     context.SaveChanges();
                     RefreshItems();
@@ -611,6 +627,28 @@ namespace Dickplom1.Pages.Manager
                 mainWindow.gridSearch.Visibility = Visibility.Visible;
             }
             Dickplom1.Class.Musor.SearchSelect();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+            if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
+            {
+                try
+                {
+                    var fixedOrder = new FixedOrders()
+                    {
+                        NaturalOrderId = item.OrderStatusId,
+                    };
+                    context.FixedOrders.Add(fixedOrder);
+                    context.SaveChanges();
+                    context.Users.FirstOrDefault(f => f.UserId == 1).FixedOrdersId = fixedOrder.FixedOrderId;
+                }
+                catch (Exception)
+                {
+                }
+
+            }
         }
     } 
 }

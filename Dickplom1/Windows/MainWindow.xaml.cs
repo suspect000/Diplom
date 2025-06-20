@@ -28,6 +28,8 @@ namespace Dickplom1
 
             Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
+
+        public static DBEntities context = new DBEntities();
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Если фокус сейчас в tbSearch, и клик был не по нему — убираем фокус
@@ -99,7 +101,7 @@ namespace Dickplom1
         }
 
         //Header
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void tbSearch_GotFocus(object sender, RoutedEventArgs e)
         { 
             Musor.HideElement(gridMiniProfile);
             Musor.HideElement(gridSelectWindowThemes);
@@ -118,7 +120,6 @@ namespace Dickplom1
             if (string.IsNullOrWhiteSpace(tbSearch.Text))
             {
                 tbSearch.Text = "Найти";
-                tbSearch.Padding = new Thickness(45, 0, 0, 0);
                 imgLupa.Visibility = Visibility.Visible;
                 Animations.WidthAnimation(tbSearch, tbSearch.Width, 228, 0.2);
             }
@@ -325,19 +326,6 @@ namespace Dickplom1
         }
         //-----------------------------------------------------------------------------------
         //Navigation-----------------------------------------------------------------------------------
-
-
-        //Закрепленные задачи (нижняя навигация)
-        private void spZakrepGoToOrders_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Animations.OpacityAnimation(spZakrepGoToOrders, spZakrepGoToOrders.Opacity, 0.3, 0.3);
-        }
-
-        private void spZakrepGoToOrders_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Animations.OpacityAnimation(spZakrepGoToOrders, spZakrepGoToOrders.Opacity, 0.5, 0.3);
-        }
-        //-----------------------------------------------------------------------------------
 
         //Отчеты (Header)
         private void StackPanel_MouseEnter(object sender, MouseEventArgs e)
@@ -688,7 +676,6 @@ namespace Dickplom1
                 { 
                     try
                     {
-                        var context = DBEntities.GetContext();
                         var mainWin = Application.Current.MainWindow as MainWindow;
 
                         if (mainWin != null && mainWin.SearchingPage != string.Empty)
@@ -808,6 +795,29 @@ namespace Dickplom1
 
                     }
                 }
+            }
+        }
+
+        private void dgFixedOrders_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var fixedOrders = context.Orders
+                    .ToList()
+                    .Select(o => new OrdersViewModel
+                    {
+                        FullNameClient = o.ClientsNaturalPersons.Surname
+                        + ". " + o.ClientsNaturalPersons.Name?.Remove(1, o.ClientsNaturalPersons.Name.Length - 1)
+                        + ". " + o.ClientsNaturalPersons.MiddleName?.Remove(1, o.ClientsNaturalPersons.MiddleName.Length - 1),
+                        OrderStatus = o.OrderStatus.StatusValue
+                    })
+                    .ToList();
+
+                dgFixedOrders.dg.ItemsSource = fixedOrders;
+            }
+            catch (Exception)
+            {
+
             }
         }
         //-----------------------------------------------------------------------------------
