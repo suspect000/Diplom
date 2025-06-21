@@ -19,6 +19,7 @@ namespace Dickplom1.DataFolder
         {
             this.ClientsLegalEntities = new HashSet<ClientsLegalEntities>();
             this.ClientsNaturalPersons = new HashSet<ClientsNaturalPersons>();
+            this.FixedOrders = new HashSet<FixedOrders>();
             this.Logs = new HashSet<Logs>();
             this.Orders = new HashSet<Orders>();
             this.OrdersLegalEntities = new HashSet<OrdersLegalEntities>();
@@ -31,8 +32,8 @@ namespace Dickplom1.DataFolder
         public Nullable<int> UserPassportDataId { get; set; }
         public Nullable<int> RoleId { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
-        public string PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
+        public Nullable<bool> IsTemporaryPassword { get; set; }
         public Nullable<int> FixedOrdersId { get; set; }
         public Nullable<int> CreatorId { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
@@ -43,7 +44,8 @@ namespace Dickplom1.DataFolder
         public virtual ICollection<ClientsLegalEntities> ClientsLegalEntities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientsNaturalPersons> ClientsNaturalPersons { get; set; }
-        public virtual FixedOrders FixedOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FixedOrders> FixedOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Logs> Logs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

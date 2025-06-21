@@ -186,6 +186,7 @@
     <Compile Include="DataFolder\FixedOrders.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\FixedOrdersViewModel.cs" />
     <Compile Include="DataFolder\Logs.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -248,11 +249,17 @@
     <Compile Include="Pages\Manager\Subscriptions.xaml.cs">
       <DependentUpon>Subscriptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Others\ContactPersonAdd.xaml.cs">
       <DependentUpon>ContactPersonAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
       <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Others\MiniProfileForStaff.xaml.cs">
+      <DependentUpon>MiniProfileForStaff.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\StaffManagerMiniProfile.xaml.cs">
       <DependentUpon>StaffManagerMiniProfile.xaml</DependentUpon>
@@ -308,6 +315,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Authorization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Others\ContactPersonAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -337,6 +348,10 @@
     <Page Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Others\MiniProfileForStaff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Others\StaffManagerMiniProfile.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -568,6 +583,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\OtherWins\TrashIconWhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\MainWin\logoCyrcle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\OtherWins\editIcnBig.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

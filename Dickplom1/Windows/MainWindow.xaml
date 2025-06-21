@@ -216,8 +216,6 @@
                 CornerRadius="20">
             </Border>
 
-
-
             <StackPanel
                 Width="auto" Height="auto"
                 HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -668,7 +666,7 @@
                 Orientation="Vertical"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center"
-                Visibility="Collapsed">
+                Visibility="Visible">
 
                 <TextBlock 
                     x:Name="tBlockFixedOrders"
@@ -679,6 +677,7 @@
             </StackPanel>
 
             <Grid
+                x:Name="gridFixedOrders"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
                 Margin="10,60,10,10">
@@ -686,7 +685,16 @@
                 <customControls:DataGridMaterialDesignFixedOrders   
                     Name="dgFixedOrders"  
                     Width="260"
-                    Loaded="dgFixedOrders_Loaded"/>
+                    Loaded="dgFixedOrders_Loaded">
+                    <customControls:DataGridMaterialDesignFixedOrders.ContextMenu>
+                        <ContextMenu 
+                            Background="White"
+                            HasDropShadow="True"
+                            Foreground="#687183">
+                            <MenuItem Header="Открепить заказ" Click="MenuItem_Click_1"/>
+                        </ContextMenu>
+                    </customControls:DataGridMaterialDesignFixedOrders.ContextMenu>
+                </customControls:DataGridMaterialDesignFixedOrders>
             </Grid>
 
         </Grid>
@@ -756,10 +764,12 @@
                     x:Name="btnMiniProfile"
                     Style="{StaticResource BtnCircle}"
                     Background="#E2E5F2"
+                    Cursor="Hand"
                     Content="ВС"
                     FontSize="18"
                     Width="90" Height="90"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    MouseLeftButtonUp="btnMiniProfile_MouseLeftButtonUp"/>
 
                 <Separator 
                     Opacity="0" 

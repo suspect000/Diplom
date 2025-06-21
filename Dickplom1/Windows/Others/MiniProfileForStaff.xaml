@@ -1,0 +1,354 @@
+﻿<Window x:Class="Dickplom1.Windows.Others.MiniProfileForStaff"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dickplom1.Windows.Others" 
+        xmlns:customControls="clr-namespace:CustomControlsForDiplomFramework;assembly=CustomControlsForDiplomFramework"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Width="1500" Height="725"
+        Background="Transparent"
+        Loaded="Window_Loaded">
+    <Border
+        Width="1400" Height="625"
+        CornerRadius="20">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                        <RotateTransform Angle="135" CenterX="0.5" CenterY="0.5"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </LinearGradientBrush.RelativeTransform>
+                <GradientStop Color="#C3C7D2"/>
+                <GradientStop Color="#F7F7FA" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect 
+                BlurRadius="50" 
+                ShadowDepth="10" 
+                Direction="270"/>
+        </Border.Effect>
+        <Grid>
+            <TextBlock
+                Text="Профиль пользователя"
+                Style="{DynamicResource DefText15}"
+                FontSize="25"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Margin="40,40,0,0"/>
+
+            <customControls:ButtonClose
+                MouseLeftButtonUp="ButtonClose_MouseLeftButtonUp"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,20,0"/>
+
+            <Border
+                Width="850" Height="225"
+                CornerRadius="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                BorderBrush="#A5AABA"
+                BorderThickness="0.7"
+                Background="White"
+                Margin="30,115,0,0">
+                <Grid>
+                    <Grid
+                        Width="130" Height="auto"
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Left"
+                        Margin="50,25,0,0">
+                        <Grid.Effect>
+                            <DropShadowEffect
+                            BlurRadius="30"
+                            ShadowDepth="5"
+                            Direction="-90"
+                            Opacity="0.5"/>
+                        </Grid.Effect>
+                        <Border 
+                            ClipToBounds="True"
+                            Background="White"
+                            Width="130" Height="130">
+                            <Border.Clip>
+                                <RectangleGeometry Rect="0,0,130,130" RadiusX="70" RadiusY="70"/>
+                            </Border.Clip>
+                            <Image
+                                x:Name="ClientPhoto"
+                                Stretch="UniformToFill"/>
+                        </Border>
+                        <Image
+                            x:Name="imgDelete"
+                            Source="/Resources/Images/OtherWins/closeInBorderIcn.png" 
+                            Width="25" Height="25" 
+                            Stretch="UniformToFill"
+                            HorizontalAlignment="Right"
+                            Cursor="Hand"
+                            VerticalAlignment="Top"
+                            Visibility="Collapsed"
+                            MouseEnter="imgDelete_MouseEnter"
+                            MouseLeave="imgDelete_MouseLeave"
+                            MouseLeftButtonDown="imgDelete_MouseLeftButtonDown"/>
+                        <TextBlock 
+                            x:Name="ClientPhotoFI"
+                            Style="{StaticResource DefText18}"
+                            Text="НН"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Visibility="Collapsed"/>
+                    </Grid>
+                    <customControls:ButtonBackgroundOff    
+                        Text="Сменить фото"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Margin="75,0,0,40"
+                        MouseLeftButtonUp="ButtonBackgroundOff_MouseLeftButtonUp"/>
+
+                    <StackPanel
+                        Orientation="Vertical"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="230,0,0,0">
+                        <TextBlock
+                            Text="Пользователь"
+                            Style="{DynamicResource DefText15}"
+                            FontSize="25"/>
+                        <Separator Opacity="0" Height="15"/>
+                        <TextBlock
+                            Text="Должность"
+                            Foreground="#A9AEB8"
+                            Style="{DynamicResource DefText15}"
+                            FontSize="25"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border
+                Height="225"
+                CornerRadius="20"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                BorderBrush="#A5AABA"
+                BorderThickness="0.7"
+                Background="White"
+                Margin="30,0,30,30">
+                <Grid>
+                    <Image 
+                        x:Name="btnEdit"
+                        Source="/Resources/Images/OtherWins/editIcnBig.png"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Cursor="Hand"
+                        Width="25" Height="25"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,20,20,0"
+                        MouseEnter="btnEdit_MouseEnter"
+                        MouseLeave="btnEdit_MouseLeave"
+                        MouseLeftButtonUp="btnEdit_MouseLeftButtonUp"/>
+                    
+                    <customControls:ButtomWithBorder
+                        Name="btnSave"
+                        Content="Сохранить"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,10,20,0"
+                        Visibility="Collapsed"
+                        Loaded="btnSave_Loaded"/>
+                    
+                    <TextBlock
+                        Text="Сотрудник"
+                        Style="{DynamicResource DefText15}"
+                        FontSize="20"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0"/>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="20,50,20,0">
+
+                        <StackPanel>
+                            <Label 
+                                Content="Фамилия"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tboxSurname"
+                                IsEnabled="False"
+                                Width="350"
+                                HorizontalAlignment="Left"
+                                ToolTip="Фамилия представителя"
+                                LostFocus="tboxSurname_LostFocus"
+                                Text="Фамилия"/>
+                        </StackPanel>
+
+
+                        <Separator Opacity="0" Width="124"/>
+
+                        <StackPanel>
+                            <Label 
+                                Content="Имя"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tboxName"
+                                IsEnabled="False"
+                                Width="350"
+                                LostFocus="tboxName_LostFocus"
+                                ToolTip="Имя представителя"
+                                Text="Имя"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="124"/>
+
+                        <StackPanel>
+                            <Label 
+                                Content="Отчество"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tboxMiddlename"
+                                IsEnabled="False"
+                                Width="350"
+                                ToolTip="Отчество представителя"
+                                Text="Отчество"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="20,130,20,0">
+
+                        <StackPanel>
+                            <Label 
+                                Content="Дата рождения"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tboxDateOfBirth"
+                                IsEnabled="False"
+                                Width="350"
+                                HorizontalAlignment="Left"
+                                ToolTip="Дата рождения"
+                                Text="Дата рождения"/>
+                        </StackPanel>
+                        
+                        <Separator Opacity="0" Width="124"/>
+
+                        <StackPanel>
+                            <Label  
+                                Content="Номер телефона"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tboxPhone"
+                                IsEnabled="False"
+                                Width="350"
+                                ToolTip="Номер телефона"
+                                Text="Номер телефона"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="124"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Электронная почта"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tboxEmail"
+                                IsEnabled="False"
+                                Width="350"
+                                ToolTip="Электронная почта"
+                                Text="Электронная почта"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border
+                Height="225"
+                CornerRadius="20"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                BorderBrush="#A5AABA"
+                BorderThickness="0.7"
+                Background="White"
+                Margin="920,115,30,30">
+                <Grid>
+                    <TextBlock
+                        Text="Статистика"
+                        Style="{DynamicResource DefText15}"
+                        FontSize="20"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0"/>
+                    <StackPanel
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                            <TextBlock
+                                Text="Обработано заказов: "
+                                Foreground="#A9AEB8"
+                                Style="{DynamicResource DefText15}"
+                                FontSize="20"/>
+                            <Separator Opacity="0" Width="10"/>
+                            <TextBlock
+                                Text="65"
+                                Style="{DynamicResource DefText15}"
+                                FontSize="20"/>
+                        </StackPanel>
+                        
+                        <Separator Opacity="0" Height="15"/>
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                            <TextBlock
+                                Text="KPI Сотрудника: "
+                                Foreground="#A9AEB8"
+                                Style="{DynamicResource DefText15}"
+                                FontSize="20"/>
+                            <Separator Opacity="0" Width="10"/>
+                            <TextBlock
+                                Text="20%"
+                                Style="{DynamicResource DefText15}"
+                                FontSize="20"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+</Window>

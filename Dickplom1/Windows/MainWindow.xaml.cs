@@ -13,6 +13,7 @@ using System.Xml;
 using Dickplom1.Class;
 using Dickplom1.DataFolder;
 using Dickplom1.Pages.Manager;
+using Dickplom1.Windows.Others;
 
 
 namespace Dickplom1
@@ -800,25 +801,89 @@ namespace Dickplom1
 
         private void dgFixedOrders_Loaded(object sender, RoutedEventArgs e)
         {
+            RefreshFixedOreders();
+        }
+
+        public void RefreshFixedOreders()
+        {
+            var newContext = DBEntities.GetContext();
+
             try
             {
-                var fixedOrders = context.Orders
+                List<FixedOrdersViewModel> orders = new List<FixedOrdersViewModel>();
+
+                //Заказы физ лиц
+                var fixedOrdersNatural = newContext.FixedOrders
+                    .Where(w=>w.UserId == 1 && w.NaturalOrderId != null) // Здесь потом заменить на id текущего активного пользователь
                     .ToList()
-                    .Select(o => new OrdersViewModel
+                    .Select(o => new FixedOrdersViewModel
                     {
-                        FullNameClient = o.ClientsNaturalPersons.Surname
-                        + ". " + o.ClientsNaturalPersons.Name?.Remove(1, o.ClientsNaturalPersons.Name.Length - 1)
-                        + ". " + o.ClientsNaturalPersons.MiddleName?.Remove(1, o.ClientsNaturalPersons.MiddleName.Length - 1),
-                        OrderStatus = o.OrderStatus.StatusValue
+                        NaturalOrderId = o.NaturalOrderId ?? 0,
+                        FullNameClient = o.Orders.ClientsNaturalPersons.Surname
+                        + ". " + o.Orders.ClientsNaturalPersons.Name?.Remove(1, o.Orders.ClientsNaturalPersons.Name.Length - 1)
+                        + ". " + o.Orders.ClientsNaturalPersons.MiddleName?.Remove(1, o.Orders.ClientsNaturalPersons.MiddleName.Length - 1),
+                        OrderStatus = o.Orders.OrderStatus.StatusValue
                     })
                     .ToList();
 
-                dgFixedOrders.dg.ItemsSource = fixedOrders;
+                orders.AddRange(fixedOrdersNatural);
+
+                //Заказы юр лиц
+                var fixedOrdersLegal = newContext.FixedOrders
+                    .Where(w => w.UserId == 1 && w.LegalOrderId != null) // Здесь потом заменить на id текущего активного пользователь
+                    .ToList()
+                    .Select(o => new FixedOrdersViewModel
+                    {
+                        LegalOrderId = o.LegalOrderId ?? 0,
+                        FullNameClient = o.OrdersLegalEntities.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(f=>f.CompanyId == o.OrdersLegalEntities.ClientsLegalEntities.CompanyId).Surname
+                        + ". " + o.OrdersLegalEntities.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(f => f.CompanyId == o.OrdersLegalEntities.ClientsLegalEntities.CompanyId).Name?.Remove(1, o.OrdersLegalEntities.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(f => f.CompanyId == o.OrdersLegalEntities.ClientsLegalEntities.CompanyId).Name.Length - 1)
+                        + ". " + o.OrdersLegalEntities.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(f => f.CompanyId == o.OrdersLegalEntities.ClientsLegalEntities.CompanyId).Middlename?.Remove(1, o.OrdersLegalEntities.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.ClientsLegalEntitiesContactPerson.FirstOrDefault(f => f.CompanyId == o.OrdersLegalEntities.ClientsLegalEntities.CompanyId).Middlename.Length - 1),
+                        OrderStatus = o.OrdersLegalEntities.OrderStatus.StatusValue
+                    })
+                    .ToList();
+
+                orders.AddRange(fixedOrdersLegal);
+
+                if (orders.Count < 1)
+                    gridFixedOrders.Visibility = Visibility.Collapsed;
+                else
+                    gridFixedOrders.Visibility = Visibility.Visible;
+
+                dgFixedOrders.dg.ItemsSource = orders;
             }
             catch (Exception)
             {
 
             }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dgFixedOrders.dg.SelectedItem is FixedOrdersViewModel order)
+                {
+                    if (order != null)
+                    {
+                        var selectedOrder = context.FixedOrders.FirstOrDefault(f => f.UserId == 1 && f.NaturalOrderId == order.NaturalOrderId | f.LegalOrderId == order.LegalOrderId); //Здесь потом заменить 1 на id текущего активного пользователь
+                        if (selectedOrder != null)
+                        {
+                            context.FixedOrders.Remove(selectedOrder);
+                            context.SaveChanges();
+                        }
+                        RefreshFixedOreders();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void btnMiniProfile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MiniProfileForStaff win = new MiniProfileForStaff();
+            win.ShowDialog();
         }
         //-----------------------------------------------------------------------------------
     }

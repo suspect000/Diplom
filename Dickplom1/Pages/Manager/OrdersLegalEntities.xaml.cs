@@ -124,6 +124,16 @@ namespace Dickplom1.Pages.Manager
 
             currentPage = 1;
             SetPaggination();
+
+            //Обновление закрепленных заказов
+            try
+            {
+                var mainWin = Application.Current.MainWindow as MainWindow;
+                mainWin.RefreshFixedOreders();
+            }
+            catch (Exception)
+            {
+            }
         }
         private void GeneratePaginationButtons()
         {
@@ -421,10 +431,14 @@ namespace Dickplom1.Pages.Manager
 
         private void miDelete_Click(object sender, RoutedEventArgs e)
         {
+            var mainWin = Application.Current.MainWindow as MainWindow;
+            var context = DBEntities.GetContext();
+
             if (dataGrid.dg.SelectedItem is OrdersViewModel item)
             {
                 try
                 {
+
                     if (item.OrderId != 0)
                     {
                         MessageBoxButton btns = MessageBoxButton.YesNo;
@@ -432,18 +446,33 @@ namespace Dickplom1.Pages.Manager
 
                         if (box == MessageBoxResult.Yes)
                         {
-                            var context = DBEntities.GetContext();
-                            context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
-                            context.SaveChanges();
-                            ItemsRefresh();
-                            GeneratePaginationButtons();
+                            if (!IsDeletedFilter)
+                            {
+                                context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == item.OrderId).IsDeleted = true;
+                                context.SaveChanges();
+                                ItemsRefresh();
+                                GeneratePaginationButtons();
+                            }
+                            else
+                            {
+                                var selectedFixedOrder = context.FixedOrders.FirstOrDefault(f => f.LegalOrderId == item.OrderId && f.UserId == 1); // Здесь потом заменить 1 на id текущего активного пользователь
+                                if (selectedFixedOrder != null)
+                                    context.FixedOrders.Remove(selectedFixedOrder);
+
+                                var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == item.OrderId);
+                                context.OrdersLegalEntities.Remove(selectedOrder);
+                                context.SaveChanges();
+                                mainWin.RefreshFixedOreders();
+                                ItemsRefresh();
+                                GeneratePaginationButtons();
+                            }
                         }
                     }
                 }
                 catch (Exception)
                 {
                 }
-            }
+            }            
         }
 
         private void DeletedRecords_Loaded(object sender, RoutedEventArgs e)
@@ -625,7 +654,35 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var context = DBEntities.GetContext();
+            if (dataGrid.dg.SelectedItem is OrdersViewModel item)
+            {
+                try
+                {
+                    var activeFixedOrder = context.FixedOrders.FirstOrDefault(f => f.UserId == 1 && f.LegalOrderId == item.OrderId); // Здесь потом заменить на id текущего активного пользователя
+                    if (activeFixedOrder != null)
+                    {
+                        MessageBox.Show("Данный заказ уже закреплен");
+                        return;
+                    }
 
+                    var fixedOrder = new FixedOrders()
+                    {
+                        UserId = 1, // Здесь потом заменить на id текущего активного пользователя
+                        LegalOrderId = item.OrderId,
+                    };
+                    context.FixedOrders.Add(fixedOrder);
+                    context.SaveChanges();
+
+                    MessageBox.Show("Заказ успешно закреплен");
+                    mainWindow.RefreshFixedOreders();
+                }
+                catch (Exception)
+                {
+                }
+
+            }
         }
     }
 }

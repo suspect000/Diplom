@@ -4,6 +4,7 @@ using Dickplom1.Windows.Others;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
@@ -428,6 +429,7 @@ namespace Dickplom1.Pages.Manager
         {
             if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
             {
+                var mainWin = Application.Current.MainWindow as MainWindow;
                 var context = DBEntities.GetContext();
 
                 try
@@ -448,9 +450,14 @@ namespace Dickplom1.Pages.Manager
                             }
                             else
                             {
+                                var selectedFixedOrder = context.FixedOrders.FirstOrDefault(f=>f.NaturalOrderId == item.OrderId && f.UserId == 1); // Здесь потом заменить 1 на id текущего активного пользователь
+                                if (selectedFixedOrder != null)
+                                    context.FixedOrders.Remove(selectedFixedOrder);
+
                                 var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == item.OrderId);
                                 context.Orders.Remove(selectedOrder);
                                 context.SaveChanges();
+                                mainWin.RefreshFixedOreders();
                                 RefreshItems();
                                 GeneratePaginationButtons();
                             }
@@ -631,18 +638,31 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
+            //Закрепление заказа
+            var mainWindow = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
             if (DataGridCustomForOrdersNaturalPersons.dg.SelectedItem is OrdersViewModel item)
             {
                 try
                 {
+
+                    var activeFixedOrder = context.FixedOrders.FirstOrDefault(f=>f.UserId == 1 && f.NaturalOrderId == item.OrderId); // Здесь потом заменить на id текущего активного пользователя
+                    if (activeFixedOrder != null)
+                    {
+                        MessageBox.Show("Данный заказ уже закреплен");
+                        return;
+                    }
+
                     var fixedOrder = new FixedOrders()
                     {
-                        NaturalOrderId = item.OrderStatusId,
+                        UserId = 1, // Здесь потом заменить на id текущего активного пользователя
+                        NaturalOrderId = item.OrderId,
                     };
                     context.FixedOrders.Add(fixedOrder);
                     context.SaveChanges();
-                    context.Users.FirstOrDefault(f => f.UserId == 1).FixedOrdersId = fixedOrder.FixedOrderId;
+
+                    MessageBox.Show("Заказ успешно закреплен");
+                    mainWindow.RefreshFixedOreders();
                 }
                 catch (Exception)
                 {

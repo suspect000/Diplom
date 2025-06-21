@@ -123,6 +123,7 @@
             <PropertyRef Name="FixedOrderId" />
           </Key>
           <Property Name="FixedOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
           <Property Name="NaturalOrderId" Type="int" />
           <Property Name="LegalOrderId" Type="int" />
         </EntityType>
@@ -273,8 +274,8 @@
           <Property Name="UserPassportDataId" Type="int" />
           <Property Name="RoleId" Type="int" />
           <Property Name="Login" Type="nvarchar(max)" />
-          <Property Name="Password" Type="nvarchar(max)" />
-          <Property Name="PasswordSalt" Type="nvarchar(max)" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="IsTemporaryPassword" Type="bit" />
           <Property Name="FixedOrdersId" Type="int" />
           <Property Name="CreatorId" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -433,6 +434,18 @@
             </Principal>
             <Dependent Role="FixedOrders">
               <PropertyRef Name="LegalOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FixedOrders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="FixedOrders" Type="Self.FixedOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FixedOrders">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -604,18 +617,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_FixedOrders">
-          <End Role="FixedOrders" Type="Self.FixedOrders" Multiplicity="0..1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FixedOrders">
-              <PropertyRef Name="FixedOrderId" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="FixedOrdersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -731,6 +732,10 @@
             <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
             <End Role="FixedOrders" EntitySet="FixedOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_FixedOrders_Users" Association="Self.FK_FixedOrders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FixedOrders" EntitySet="FixedOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
             <End Role="Orders" EntitySet="Orders" />
@@ -785,10 +790,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Users_AccountStatus" Association="Self.FK_Users_AccountStatus">
             <End Role="AccountStatus" EntitySet="AccountStatus" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_FixedOrders" Association="Self.FK_Users_FixedOrders">
-            <End Role="FixedOrders" EntitySet="FixedOrders" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
@@ -946,11 +947,12 @@
             <PropertyRef Name="FixedOrderId" />
           </Key>
           <Property Name="FixedOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
           <Property Name="NaturalOrderId" Type="Int32" />
           <Property Name="LegalOrderId" Type="Int32" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_FixedOrders_Orders1" FromRole="FixedOrders" ToRole="Orders" />
           <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_FixedOrders_OrdersLegalEntities1" FromRole="FixedOrders" ToRole="OrdersLegalEntities" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Users_FixedOrders" FromRole="FixedOrders" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_FixedOrders_Users" FromRole="FixedOrders" ToRole="Users" />
         </EntityType>
         <EntityType Name="Logs">
           <Key>
@@ -1128,8 +1130,8 @@
           <Property Name="UserPassportDataId" Type="Int32" />
           <Property Name="RoleId" Type="Int32" />
           <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsTemporaryPassword" Type="Boolean" />
           <Property Name="FixedOrdersId" Type="Int32" />
           <Property Name="CreatorId" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
@@ -1137,7 +1139,7 @@
           <NavigationProperty Name="AccountStatus" Relationship="Self.FK_Users_AccountStatus" FromRole="Users" ToRole="AccountStatus" />
           <NavigationProperty Name="ClientsLegalEntities" Relationship="Self.FK_ClientsLegalEntities_Users" FromRole="Users" ToRole="ClientsLegalEntities" />
           <NavigationProperty Name="ClientsNaturalPersons" Relationship="Self.FK_Clients_Users" FromRole="Users" ToRole="ClientsNaturalPersons" />
-          <NavigationProperty Name="FixedOrders" Relationship="Self.FK_Users_FixedOrders" FromRole="Users" ToRole="FixedOrders" />
+          <NavigationProperty Name="FixedOrders" Relationship="Self.FK_FixedOrders_Users" FromRole="Users" ToRole="FixedOrders" />
           <NavigationProperty Name="Logs" Relationship="Self.FK__Logs__UserID__5AEE82B9" FromRole="Users" ToRole="Logs" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_OrdersNaturalPersons_Users" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_Users" FromRole="Users" ToRole="OrdersLegalEntities" />
@@ -1338,15 +1340,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_FixedOrders">
-          <End Role="FixedOrders" Type="Self.FixedOrders" Multiplicity="0..1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        <Association Name="FK_FixedOrders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="FixedOrders" Type="Self.FixedOrders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="FixedOrders">
-              <PropertyRef Name="FixedOrderId" />
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="FixedOrdersId" />
+            <Dependent Role="FixedOrders">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1609,9 +1611,9 @@
             <End Role="OrdersLegalEntities" EntitySet="OrdersLegalEntities" />
             <End Role="FixedOrders" EntitySet="FixedOrders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_FixedOrders" Association="Self.FK_Users_FixedOrders">
-            <End Role="FixedOrders" EntitySet="FixedOrders" />
+          <AssociationSet Name="FK_FixedOrders_Users" Association="Self.FK_FixedOrders_Users">
             <End Role="Users" EntitySet="Users" />
+            <End Role="FixedOrders" EntitySet="FixedOrders" />
           </AssociationSet>
           <AssociationSet Name="FK__Logs__UserID__5AEE82B9" Association="Self.FK__Logs__UserID__5AEE82B9">
             <End Role="Users" EntitySet="Users" />
@@ -1804,6 +1806,7 @@
             <EntityTypeMapping TypeName="DBModel.FixedOrders">
               <MappingFragment StoreEntitySet="FixedOrders">
                 <ScalarProperty Name="FixedOrderId" ColumnName="FixedOrderId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="NaturalOrderId" ColumnName="NaturalOrderId" />
                 <ScalarProperty Name="LegalOrderId" ColumnName="LegalOrderId" />
               </MappingFragment>
@@ -1968,8 +1971,8 @@
                 <ScalarProperty Name="UserPassportDataId" ColumnName="UserPassportDataId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="IsTemporaryPassword" ColumnName="IsTemporaryPassword" />
                 <ScalarProperty Name="FixedOrdersId" ColumnName="FixedOrdersId" />
                 <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />

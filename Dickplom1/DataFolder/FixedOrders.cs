@@ -14,19 +14,13 @@ namespace Dickplom1.DataFolder
     
     public partial class FixedOrders
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public FixedOrders()
-        {
-            this.Users = new HashSet<Users>();
-        }
-    
         public int FixedOrderId { get; set; }
+        public Nullable<int> UserId { get; set; }
         public Nullable<int> NaturalOrderId { get; set; }
         public Nullable<int> LegalOrderId { get; set; }
     
         public virtual Orders Orders { get; set; }
         public virtual OrdersLegalEntities OrdersLegalEntities { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual Users Users { get; set; }
     }
 }
