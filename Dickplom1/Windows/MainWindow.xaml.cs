@@ -29,6 +29,7 @@ namespace Dickplom1
 
             Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
+        public Users ActiveUser { get; set; } = null;
 
         public static DBEntities context = new DBEntities();
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -326,6 +327,18 @@ namespace Dickplom1
                 (borderStaff, (Color)ColorConverter.ConvertFromString(borderStaff.BorderBrush.ToString()), Colors.Transparent, 0.35);
         }
         //-----------------------------------------------------------------------------------
+
+        //Анимация логов (навигация)
+        private void gridLogs_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderLogs, (Color)ColorConverter.ConvertFromString(borderLogs.BorderBrush.ToString()), (Color)ColorConverter.ConvertFromString("#9C9FA6"), 0.15);
+        }
+        private void gridLogs_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.AnimateBorderBrush
+                (borderLogs, (Color)ColorConverter.ConvertFromString(borderLogs.BorderBrush.ToString()), Colors.Transparent, 0.35);
+        }
         //Navigation-----------------------------------------------------------------------------------
 
         //Отчеты (Header)
@@ -514,6 +527,11 @@ namespace Dickplom1
         private void gridStaff_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Musor.Navigation("staff", borderStaff, navIcnStaff, navTboxStaff);
+        }
+
+        private void gridLogs_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Musor.Navigation("logs", borderLogs, navIcnLogs, navTboxLogs);
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -884,6 +902,36 @@ namespace Dickplom1
         {
             MiniProfileForStaff win = new MiniProfileForStaff();
             win.ShowDialog();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ActiveUser = context.Users.FirstOrDefault(f=>f.UserId == 2);
+            if (ActiveUser != null)
+            {
+                if (ActiveUser.RoleId == 1) // Админ
+                {
+                    Class.Musor.HideElement(gridZakrep); // Скрыть закреп
+                    Class.Musor.ShowElement(gridLogs);  // Показать логи
+                    gridNavigation.VerticalAlignment = VerticalAlignment.Stretch;
+                }
+                else if (ActiveUser.RoleId == 2) // Менеджер
+                {
+                    Class.Musor.ShowElement(gridZakrep); // Показать закреп
+                    Class.Musor.HideElement(gridLogs);  // Скрыть логи
+                    gridNavigation.VerticalAlignment = VerticalAlignment.Top;
+                }
+                else if (ActiveUser.RoleId == 3) // Аналитик
+                {
+                    Class.Musor.HideElement(gridZakrep); // Показать закреп
+                    Class.Musor.HideElement(gridClients);  // Скрыть логи
+                    Class.Musor.HideElement(gridOrders);  // Скрыть логи
+                    Class.Musor.HideElement(gridServices);  // Скрыть логи
+                    Class.Musor.HideElement(gridStaff);  // Скрыть логи
+                    Class.Musor.HideElement(gridLogs);  // Скрыть логи
+                    gridNavigation.VerticalAlignment = VerticalAlignment.Top;
+                }
+            }
         }
         //-----------------------------------------------------------------------------------
     }

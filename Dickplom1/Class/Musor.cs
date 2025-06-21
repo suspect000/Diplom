@@ -103,6 +103,15 @@ namespace Dickplom1.Class
                     win.scrollMainWin.Visibility = Visibility.Collapsed;
                     win.MainFrameScrollOff.Visibility = Visibility.Visible;
                     break;
+
+                    case "logs":
+                    img.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/Selected/IcnLogsWhite.png", UriKind.Relative));
+                    win.MainFrameScrollOff.Navigate(new Pages.Manager.Logs());
+
+                    win.MainFrame.Visibility = Visibility.Collapsed;
+                    win.scrollMainWin.Visibility = Visibility.Collapsed;
+                    win.MainFrameScrollOff.Visibility = Visibility.Visible;
+                    break;
             }            
         }
 
@@ -177,6 +186,11 @@ namespace Dickplom1.Class
             win.borderStaff.Background = new SolidColorBrush(Colors.Transparent);
             win.navIcnStaff.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/IcnStaff.png", UriKind.Relative));
             win.navTboxStaff.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#636C7F"));
+
+            //Логи
+            win.borderLogs.Background = new SolidColorBrush(Colors.Transparent);
+            win.navIcnLogs.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/IcnStaff.png", UriKind.Relative));
+            win.navTboxLogs.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#636C7F"));
         }
 
         public static void SearchSelect()

@@ -15,7 +15,8 @@
         ResizeMode="CanResize"
         MouseDown="Window_MouseDown"
         PreviewMouseDown="Window_PreviewMouseDown"
-        Background="{StaticResource MainBackgroundColor}">
+        Background="{StaticResource MainBackgroundColor}"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -208,7 +209,7 @@
             x:Name="gridNavigation"
             Grid.Column="1"
             Grid.Row="1"
-            Width="280" Height="516"
+            Width="280" MinHeight="516"
             VerticalAlignment="Top">
 
             <Border 
@@ -630,6 +631,46 @@
                         <TextBlock 
                             x:Name="navTboxStaff"
                             Text="Сотрудники"
+                            Style="{StaticResource DefText14}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="20,0,0,0"/>
+
+                    </StackPanel>
+                </Grid>
+
+                <Separator
+                    Name="sepLogs"
+                    Opacity="0" Height="15"/>
+
+                <Grid
+                    x:Name="gridLogs"
+                    Width="224" Height="50"
+                    Background="Transparent"
+                    MouseEnter="gridLogs_MouseEnter"
+                    MouseLeave="gridLogs_MouseLeave"
+                    MouseLeftButtonUp="gridLogs_MouseLeftButtonUp">
+
+                    <Border
+                        x:Name="borderLogs"
+                        CornerRadius="15"
+                        BorderThickness="1"
+                        Background="Transparent"
+                        BorderBrush="Transparent"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+
+                        <Image 
+                            x:Name="navIcnLogs"
+                            Source="..//Resources/Images/MainWin/Navigation/IcnLogsBlue.png"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Width="25"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+
+                        <TextBlock 
+                            x:Name="navTboxLogs"
+                            Text="История действий"
                             Style="{StaticResource DefText14}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
                             Margin="20,0,0,0"/>

@@ -1,4 +1,4 @@
-﻿<Page x:Class="Dickplom1.Pages.Manager.Staff"
+﻿<Page x:Class="Dickplom1.Pages.Manager.Logs"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -28,7 +28,7 @@
             x:Name="gridFocus"
             VerticalAlignment="Top"/>
         <TextBlock
-            Text="Сотрудники"
+            Text="История действий системы"
             Style="{DynamicResource DefText15}"
             FontSize="25"
             VerticalAlignment="Top"
@@ -55,19 +55,7 @@
                     Height="625"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
-                    Loaded="dataGrid_Loaded">
-                    <customControls:DataGridMaterialDesignCustomForStaffPage.ContextMenu>
-                        <ContextMenu
-                            Background="White"
-                            HasDropShadow="True"
-                            Foreground="#687183">
-                            <MenuItem Header="О сотруднике" Click="MenuItem_Click_1"/>
-                            <MenuItem Header="О создателе записи" Click="MenuItem_Click_1"/>
-                            <MenuItem Header="Восстановить" Click="MenuItem_Click"/>
-                            <MenuItem Header="Удалить" Click="MenuItem_Click"/>
-                        </ContextMenu>
-                    </customControls:DataGridMaterialDesignCustomForStaffPage.ContextMenu>
-                </customControls:DataGridMaterialDesignCustomForStaffPage>
+                    Loaded="dataGrid_Loaded"/>
             </Grid>
             <Grid
                 VerticalAlignment="Bottom"
@@ -106,15 +94,7 @@
             x:Name="ComboboxesFilter"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Margin="0,50,235,0"
+            Margin="0,50,45,0"
             Loaded="ComboboxesFilter_Loaded"/>
-
-        <customControls:ButtomWithBorder
-            x:Name="btnAddStaff"
-            Content="Добавить сотрудника"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Margin="0,40,40,0"
-            Loaded="ButtomWithBorder_Loaded"/>
     </Grid>
 </Page>

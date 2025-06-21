@@ -20,11 +20,11 @@ using System.Windows.Shapes;
 namespace Dickplom1.Pages.Manager
 {
     /// <summary>
-    /// Логика взаимодействия для Staff.xaml
+    /// Логика взаимодействия для Logs.xaml
     /// </summary>
-    public partial class Staff : Page
+    public partial class Logs : Page
     {
-        public Staff()
+        public Logs()
         {
             InitializeComponent();
         }
@@ -284,21 +284,6 @@ namespace Dickplom1.Pages.Manager
 
             }
             Dickplom1.Class.Musor.SearchSelect();
-        }
-
-        private void ButtomWithBorder_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

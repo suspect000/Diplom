@@ -1,7 +1,11 @@
-﻿using Dickplom1.DataFolder;
+﻿using Dickplom1.Class;
+using Dickplom1.DataFolder;
+using Dickplom1.Windows.Others;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -75,8 +79,10 @@ namespace Dickplom1.Windows
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
+            var context = DBEntities.GetContext();
             string login = tboxLogin.tb.Text;
             string password = pbPassword.Pb.Password;
+
 
             if (tboxLogin.tb.Text == "Логин" 
                 | string.IsNullOrWhiteSpace(tboxLogin.tb.Text) 
@@ -86,10 +92,41 @@ namespace Dickplom1.Windows
                 MessageBox.Show("Необходимо заполнить все поля");
                 return;
             }
+
+            var user = context.Users.FirstOrDefault(u => u.Login == login);
+
+            if (user != null && Dickplom1.Class.PasswordHelper.VerifyPassword(password, user.PasswordHash))
+            {
+                if (user.AccountStatusId == 2)
+                {
+                    MessageBox.Show("Ваша учетная запись неактивна\nОбратитесь к администратору за помощью");
+                    return;
+                }
+                else if (user.AccountStatusId == 3)
+                {
+                    MessageBox.Show("Ваша учетная запись заблокирована\nОбратитесь к администратору за помощью");
+                    return;
+                }
+
+                if ((bool)user.IsTemporaryPassword)
+                {
+                    // Открываем окно смены пароля
+                    var changePassWindow = new ChangePasswordWin();
+                    changePassWindow.ActiveUser = user;
+                    changePassWindow.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    var win = new MainWindow();
+                    win.ActiveUser = user;
+                    win.Show();
+                    this.Close();
+                }
+            }
             else
             {
-                var context = DBEntities.GetContext();
-                var selectedUser = context.Users.FirstOrDefault(f=>f.Login == login)
+                MessageBox.Show("Неверный логин или пароль");
             }
         }
     }

@@ -58,9 +58,26 @@ namespace Dickplom1.Windows.Others
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var mainWin = Application.Current.MainWindow as MainWindow;
+            if (mainWin != null)
+            {
+                if (mainWin.ActiveUser != null)
+                {
+                    if (mainWin.ActiveUser.RoleId == 1)
+                    {
+                        gridStaffStatistic.Visibility = Visibility.Collapsed;
+                    }
+                    else if (mainWin.ActiveUser.RoleId == 2)
+                    {
+                        gridStaffStatistic.Visibility = Visibility.Visible;
+                    }
+                }
+            }
             var context = DBEntities.GetContext().UserData
                 .Where(c=>c.UserDataId == StaffId)
                 .FirstOrDefault();
+            var selectedUser = DBEntities.GetContext().Users
+                .FirstOrDefault(f=>f.UserDataId == StaffId);
 
             if (context == null)
             return;
@@ -78,6 +95,7 @@ namespace Dickplom1.Windows.Others
                 tboxMiddleName.tb.Text = context.MiddleName;
                 tboxPhoneNumber.tb.Text = context.PhoneNumber;
                 tboxEmail.tb.Text = context.Email;
+                tboxRole.tb.Text = selectedUser.Roles.NameRole;
             }
             //Изображение
             if (PhotoPath != null)

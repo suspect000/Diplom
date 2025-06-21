@@ -15,8 +15,7 @@ namespace Dickplom1.DataFolder
         public int UserPasswordDataId { get; set; }
         public int RoleId { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
-        public string PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string MiddleName { get; set; }
