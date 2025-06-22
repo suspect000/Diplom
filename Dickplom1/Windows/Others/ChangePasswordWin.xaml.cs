@@ -133,6 +133,7 @@ namespace Dickplom1.Windows.Others
 
                     var mainWindow = new MainWindow();
                     mainWindow.ActiveUser = ActiveUser;
+                    MessageBox.Show("Данные применятся после перезапуска приложения");
                     mainWindow.ShowDialog();
                     this.Close();
                 }

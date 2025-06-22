@@ -66,10 +66,15 @@ namespace Dickplom1.Windows.Others
                     if (mainWin.ActiveUser.RoleId == 1)
                     {
                         gridStaffStatistic.Visibility = Visibility.Collapsed;
+                        mainBorder.Height = 600;
+                        this.Height = 700;
+
                     }
                     else if (mainWin.ActiveUser.RoleId == 2)
                     {
                         gridStaffStatistic.Visibility = Visibility.Visible;
+                        mainBorder.Height = 734;
+                        this.Height = 834;
                     }
                 }
             }
@@ -111,12 +116,10 @@ namespace Dickplom1.Windows.Others
             if (ProfilePhoto.Source != null)
             {
                 ClientPhotoFI.Visibility = Visibility.Collapsed;
-                imgDelete.Visibility = Visibility.Visible; // Включаем кнопку отмены выбора фотографии пользователя
             }
             else
             {
                 ClientPhotoFI.Visibility = Visibility.Visible;
-                imgDelete.Visibility = Visibility.Collapsed;
             }
                 
         }
@@ -135,7 +138,6 @@ namespace Dickplom1.Windows.Others
             }
                 
 
-            imgDelete.Visibility = Visibility.Visible; // Включаем кнопку отмены выбора фотографии пользователя
             ClientPhotoFI.Visibility = Visibility.Collapsed;
         }
         private void ClientPhoto_SourceUpdated(object sender, DataTransferEventArgs e)
@@ -215,23 +217,6 @@ namespace Dickplom1.Windows.Others
         {
             gridFocus.Focus();
             Keyboard.ClearFocus();
-        }
-
-        private void imgDelete_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Class.Animations.OpacityAnimation(imgDelete, imgDelete.Opacity, 0.7, 0.2);
-        }
-
-        private void imgDelete_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Class.Animations.OpacityAnimation(imgDelete, imgDelete.Opacity, 1, 0.2);
-        }
-
-        private void imgDelete_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ProfilePhoto.Source = null;
-            imgDelete.Visibility = Visibility.Collapsed;
-            ClientPhotoFI.Visibility = Visibility.Visible;
         }
 
         private void tboxName_LostFocus(object sender, RoutedEventArgs e)

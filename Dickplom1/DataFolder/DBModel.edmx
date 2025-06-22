@@ -138,6 +138,16 @@
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="OrderId" />
@@ -449,6 +459,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notifications_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_OrderStatus">
           <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -667,6 +689,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FixedOrders" EntityType="Self.FixedOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrdersLegalEntities" EntityType="Self.OrdersLegalEntities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
@@ -735,6 +758,10 @@
           <AssociationSet Name="FK_FixedOrders_Users" Association="Self.FK_FixedOrders_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="FixedOrders" EntitySet="FixedOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
@@ -966,6 +993,17 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Logs__UserID__5AEE82B9" FromRole="Logs" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Notifications_Users" FromRole="Notifications" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="OrderId" />
@@ -1141,6 +1179,7 @@
           <NavigationProperty Name="ClientsNaturalPersons" Relationship="Self.FK_Clients_Users" FromRole="Users" ToRole="ClientsNaturalPersons" />
           <NavigationProperty Name="FixedOrders" Relationship="Self.FK_FixedOrders_Users" FromRole="Users" ToRole="FixedOrders" />
           <NavigationProperty Name="Logs" Relationship="Self.FK__Logs__UserID__5AEE82B9" FromRole="Users" ToRole="Logs" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_Users" FromRole="Users" ToRole="Notifications" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_OrdersNaturalPersons_Users" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="OrdersLegalEntities" Relationship="Self.FK_OrdersLegalEntities_Users" FromRole="Users" ToRole="OrdersLegalEntities" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
@@ -1364,6 +1403,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notifications_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_OrderStatus">
           <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -1534,6 +1585,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" />
           <EntitySet Name="FixedOrders" EntityType="Self.FixedOrders" />
           <EntitySet Name="Logs" EntityType="Self.Logs" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" />
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="OrdersLegalEntities" EntityType="Self.OrdersLegalEntities" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" />
@@ -1618,6 +1670,10 @@
           <AssociationSet Name="FK__Logs__UserID__5AEE82B9" Association="Self.FK__Logs__UserID__5AEE82B9">
             <End Role="Users" EntitySet="Users" />
             <End Role="Logs" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Users" Association="Self.FK_Notifications_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
@@ -1821,6 +1877,17 @@
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="DBModel.Notifications">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

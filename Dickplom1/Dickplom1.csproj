@@ -50,14 +50,11 @@
     <Reference Include="HarfBuzzSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\HarfBuzzSharp.7.3.0.3\lib\net462\HarfBuzzSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Isopoh.Cryptography.Argon2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ce4f270b5b22aea9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Isopoh.Cryptography.Argon2.2.0.0\lib\netstandard2.0\Isopoh.Cryptography.Argon2.dll</HintPath>
+    <Reference Include="Konscious.Security.Cryptography.Argon2, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Konscious.Security.Cryptography.Argon2.1.3.1\lib\net46\Konscious.Security.Cryptography.Argon2.dll</HintPath>
     </Reference>
-    <Reference Include="Isopoh.Cryptography.Blake2b, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ce4f270b5b22aea9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Isopoh.Cryptography.Blake2b.2.0.0\lib\netstandard2.0\Isopoh.Cryptography.Blake2b.dll</HintPath>
-    </Reference>
-    <Reference Include="Isopoh.Cryptography.SecureArray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ce4f270b5b22aea9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Isopoh.Cryptography.SecureArray.2.0.0\lib\netstandard2.0\Isopoh.Cryptography.SecureArray.dll</HintPath>
+    <Reference Include="Konscious.Security.Cryptography.Blake2, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Konscious.Security.Cryptography.Blake2.1.1.1\lib\net46\Konscious.Security.Cryptography.Blake2.dll</HintPath>
     </Reference>
     <Reference Include="LiveChartsCore, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc92a3e13d40c573, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveChartsCore.2.0.0-rc5.4\lib\net462\LiveChartsCore.dll</HintPath>
@@ -200,6 +197,9 @@
     <Compile Include="DataFolder\Logs.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\Notifications.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFolder\Orders.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -270,6 +270,12 @@
     </Compile>
     <Compile Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml.cs">
       <DependentUpon>ClientsLegalEntitiesAddWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Others\CustomPasswordWindow.xaml.cs">
+      <DependentUpon>CustomPasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Others\MiniProfileForAdminWin.xaml.cs">
+      <DependentUpon>MiniProfileForAdminWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Others\MiniProfileForStaff.xaml.cs">
       <DependentUpon>MiniProfileForStaff.xaml</DependentUpon>
@@ -366,6 +372,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\Others\ClientsLegalEntitiesAddWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Others\CustomPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Others\MiniProfileForAdminWin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -619,6 +633,14 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\MainWin\Navigation\Selected\IcnLogsWhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\MainWin\Navigation\IcnLogsBlue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataFolder\DBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DBModel.edmx</DependentUpon>
@@ -629,10 +651,10 @@
       <DependentUpon>DBModel.edmx</DependentUpon>
       <LastGenOutput>DBModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\Images\MainWin\Navigation\Selected\IcnLogsWhite.png">
+    <Resource Include="Resources\Images\MainWin\smsIcn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Images\MainWin\Navigation\IcnlogsBlue.png">
+    <Resource Include="Resources\Images\MainWin\smsIcnWhite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

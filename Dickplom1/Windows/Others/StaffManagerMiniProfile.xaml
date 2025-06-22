@@ -11,11 +11,12 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
-        VerticalAlignment="Center"
-        Width="500"
+        VerticalAlignment="Stretch"
+        Width="495" Height="837"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Loaded="Window_Loaded">
     <Border
+        Name="mainBorder"
         Width="400"
         VerticalAlignment="Stretch"
         Margin="0,50,0,50"
@@ -85,20 +86,8 @@
                     </Border.Clip>
                     <Image
                         x:Name="ProfilePhoto"
-                        Stretch="Fill"/>
+                        Stretch="UniformToFill"/>
                 </Border>
-                <Image
-                    x:Name="imgDelete"
-                    Source="/Resources/Images/OtherWins/closeInBorderIcn.png" 
-                    Width="25" Height="25" 
-                    Stretch="UniformToFill"
-                    HorizontalAlignment="Right"
-                    Cursor="Hand"
-                    VerticalAlignment="Top"
-                    Visibility="Collapsed"
-                    MouseEnter="imgDelete_MouseEnter"
-                    MouseLeave="imgDelete_MouseLeave"
-                    MouseLeftButtonDown="imgDelete_MouseLeftButtonDown"/>
                 <TextBlock 
                     x:Name="ClientPhotoFI"
                     Style="{StaticResource DefText18}"
@@ -177,17 +166,18 @@
                 Panel.ZIndex="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Width="270" 
-                Margin="0,0,0,69">
+                Width="270" Height="180"
+                Margin="0,0,0,0">
                     <Border
                     BorderBrush="{StaticResource MainTextForeground}"
                     BorderThickness="0.7"
-                    CornerRadius="5">
+                    CornerRadius="5"
+                        Margin="0,0,0,20">
                         <StackPanel
                         Width="250"
                         VerticalAlignment="Top"
                         Orientation="Vertical"
-                        Margin="0,0,0,10">
+                        Margin="0,0,0,0">
                             <Separator Opacity="0" Height="20"/>
                             <TextBlock
                             Text="Успехи сотрудника"
@@ -199,13 +189,13 @@
                                 x:Name="tboxOrdersAll"
                                 IsHitTestVisible="False"
                                 IsEnabled="False"
-                                Text="Количество сделок:"/>
+                                Text="Добавлено заказов:"/>
                             <Separator Opacity="0" Height="10"/>
                             <customControls:TextboxWithBorder 
                                 x:Name="tboxKPI"
                                 IsHitTestVisible="False"
                                 IsEnabled="False"
-                                Text="Количество сделок:"/>
+                                Text="KPI сотрудника:"/>
                         </StackPanel>
                     </Border>
                 </Grid>

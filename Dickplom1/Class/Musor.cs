@@ -189,7 +189,7 @@ namespace Dickplom1.Class
 
             //Логи
             win.borderLogs.Background = new SolidColorBrush(Colors.Transparent);
-            win.navIcnLogs.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/IcnStaff.png", UriKind.Relative));
+            win.navIcnLogs.Source = new BitmapImage(new Uri("..//Resources/Images/MainWin/Navigation/IcnLogsBlue.png", UriKind.Relative));
             win.navTboxLogs.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#636C7F"));
         }
 
@@ -217,6 +217,9 @@ namespace Dickplom1.Class
 
                     else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Subscriptions)
                         mainWin.SearchingPage = "Subscriptions";
+
+                    else if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Logs)
+                        mainWin.SearchingPage = "Logs";
                 }
             }
         }

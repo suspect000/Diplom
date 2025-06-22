@@ -1,4 +1,4 @@
-﻿<Window x:Class="Dickplom1.Windows.Others.MiniProfileForStaff"
+﻿<Window x:Class="Dickplom1.Windows.Others.MiniProfileForAdminWin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,11 +10,11 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         AllowsTransparency="True"
-        Width="1500" Height="725"
+        Width="1500" Height="1045"
         Background="Transparent"
         Loaded="Window_Loaded">
     <Border
-        Width="1400" Height="625"
+        Width="1400" Height="945"
         CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox">
@@ -112,17 +112,6 @@
                         VerticalAlignment="Bottom"
                         Margin="75,0,0,40"
                         MouseLeftButtonUp="ButtonBackgroundOff_MouseLeftButtonUp"/>
-                    
-                    <customControls:ButtonBackgroundOff
-                        Name="btnChangePassword"
-                        Content="Сменить пароль"
-                        Foreground="#A9AEB8"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="0,20,20,0"
-                        MouseEnter="ButtonBackgroundOff_MouseEnter"
-                        MouseLeave="ButtonBackgroundOff_MouseLeave"
-                        MouseLeftButtonUp="ButtonBackgroundOff_MouseLeftButtonUp_1"/>
 
                     <StackPanel
                         Orientation="Vertical"
@@ -137,27 +126,35 @@
                             Style="{DynamicResource DefText15}"
                             FontSize="25"/>
                         <Separator Opacity="0" Height="15"/>
-                        <TextBlock
-                            Name="tbPostStaff"
-                            Text="Должность"
-                            MaxWidth="550"
+                        <customControls:ComboboxMaterialDesignWithBorder 
+                            x:Name="cbPost"
+                            IsEnabled="False"
+                            Width="350"
                             HorizontalAlignment="Left"
-                            Foreground="#A9AEB8"
-                            Style="{DynamicResource DefText15}"
-                            FontSize="25"/>
+                            ToolTip="Должность"
+                            Loaded="cbPost_Loaded"/>
+                        <Separator Opacity="0" Height="15"/>
+                        <customControls:TextboxWithBorder 
+                            x:Name="tbLogin"
+                            IsEnabled="False"
+                            Width="350"
+                            HorizontalAlignment="Left"
+                            ToolTip="Логин в системе"
+                            Loaded="tboxLogin_Loaded"
+                            PreviewTextInput="tboxLogin_PreviewTextInput"
+                            Text="Логин"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <Border
-                Height="225"
                 CornerRadius="20"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Stretch"
                 BorderBrush="#A5AABA"
                 BorderThickness="0.7"
                 Background="White"
-                Margin="30,0,30,30">
+                Margin="30,370,30,30">
                 <Grid>
                     <Image 
                         x:Name="btnEdit"
@@ -316,6 +313,268 @@
                                 Text="Электронная почта"
                                 Loaded="tboxEmail_Loaded"
                                 PreviewTextInput="tboxEmail_PreviewTextInput"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Rectangle 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Top"
+                        Fill="#A5AABA"
+                        Height="1"
+                        Margin="0,235,0,0"/>
+
+                    <TextBlock
+                        Text="Паспортные данные"
+                        Style="{DynamicResource DefText15}"
+                        FontSize="20"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,242,0,0"/>
+                    
+                    
+                    
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="20,290,20,0">
+
+                        <StackPanel>
+                            <Label 
+                                Content="Паспорт страны"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tbPasCountry"
+                                IsEnabled="False"
+                                Width="300"
+                                HorizontalAlignment="Left"
+                                ToolTip="Паспорт страны"
+                                Text="Паспорт страны"
+                                Loaded="tbPasCountry_Loaded"
+                                PreviewTextInput="tbPasCountry_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label  
+                                Content="Код департамента"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbDepartmentCode"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Код департамента"
+                                Text="Код департамента"
+                                Loaded="tbDepartmentCode_Loaded"
+                                PreviewTextInput="tbDepartmentCode_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Место рождения"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbPlaceOfBirth"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Место рождения"
+                                Text="Место рождения"
+                                Loaded="tbPlaceOfBirth_Loaded"
+                                PreviewTextInput="tbPlaceOfBirth_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Пол сотрудника"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:ComboboxMaterialDesignWithBorder     
+                                x:Name="cbSex"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Пол сотрудника"
+                                Loaded="cbSex_Loaded"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="20,370,20,0">
+
+                        <StackPanel>
+                            <Label 
+                                Content="Номер паспорта"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tbPasNumber"
+                                IsEnabled="False"
+                                Width="300"
+                                HorizontalAlignment="Left"
+                                ToolTip="Номер паспорта"
+                                Text="Номер паспорта"
+                                Loaded="tbPasNumber_Loaded"
+                                PreviewTextInput="tbPasNumber_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label  
+                                Content="Серия паспорта"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbPasSeries"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Серия паспорта"
+                                Text="Серия паспорта"
+                                Loaded="tbPasSeries_Loaded"
+                                PreviewTextInput="tbPasSeries_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Дата выдачи"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbDateOfIssued"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Дата выдачи"
+                                Text="Дата выдачи"
+                                Loaded="tbDateOfIssued_Loaded"
+                                PreviewTextInput="tbDateOfIssued_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Страна регистрации"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbAddresCountry"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Страна регистрации"
+                                Text="Страна регистрации"
+                                Loaded="tbAddresCountry_Loaded"
+                                PreviewTextInput="tbAddresCountry_PreviewTextInput"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch"
+                        Margin="20,455,20,0">
+
+                        <StackPanel>
+                            <Label 
+                                Content="Город регистрации"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder 
+                                x:Name="tbAddresCity"
+                                IsEnabled="False"
+                                Width="300"
+                                HorizontalAlignment="Left"
+                                ToolTip="Город регистрации"
+                                Text="Город регистрации"
+                                Loaded="tbAddresCity_Loaded"
+                                PreviewTextInput="tbAddresCity_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label  
+                                Content="Улица регистрации"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbAddresStreet"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Улица регистрации"
+                                Text="Улица регистрации"
+                                Loaded="tbAddresStreet_Loaded"
+                                PreviewTextInput="tbAddresStreet_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Номер дома регистрации"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbAddresHouseNumber"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Номер дома регистрации"
+                                Text="Номер дома регистрации"
+                                Loaded="tbAddresHouseNumber_Loaded"
+                                PreviewTextInput="tbAddresHouseNumber_PreviewTextInput"/>
+                        </StackPanel>
+
+                        <Separator Opacity="0" Width="30"/>
+
+                        <StackPanel>
+                            <Label     
+                                Content="Номер квартиры регистрации"
+                                Style="{StaticResource TextZagolovokDashboard}"
+                                HorizontalAlignment="Left"
+                                Padding="0"
+                                Margin="8,0,0,8"/>
+                            <customControls:TextboxWithBorder     
+                                x:Name="tbAddresAppartmentNumber"
+                                IsEnabled="False"
+                                Width="300"
+                                ToolTip="Номер квартиры регистрации"
+                                Text="Номер квартиры регистрации"
+                                Loaded="tbAddresAppartmentNumber_Loaded"
+                                PreviewTextInput="tbAddresAppartmentNumber_PreviewTextInput"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

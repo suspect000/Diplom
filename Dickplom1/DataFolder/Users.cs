@@ -21,6 +21,7 @@ namespace Dickplom1.DataFolder
             this.ClientsNaturalPersons = new HashSet<ClientsNaturalPersons>();
             this.FixedOrders = new HashSet<FixedOrders>();
             this.Logs = new HashSet<Logs>();
+            this.Notifications = new HashSet<Notifications>();
             this.Orders = new HashSet<Orders>();
             this.OrdersLegalEntities = new HashSet<OrdersLegalEntities>();
             this.Subscription = new HashSet<Subscription>();
@@ -48,6 +49,8 @@ namespace Dickplom1.DataFolder
         public virtual ICollection<FixedOrders> FixedOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Logs> Logs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notifications> Notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Xml;
 using Dickplom1.Class;
 using Dickplom1.DataFolder;
@@ -832,7 +833,7 @@ namespace Dickplom1
 
                 //Заказы физ лиц
                 var fixedOrdersNatural = newContext.FixedOrders
-                    .Where(w=>w.UserId == 1 && w.NaturalOrderId != null) // Здесь потом заменить на id текущего активного пользователь
+                    .Where(w=>w.UserId == ActiveUser.UserId && w.NaturalOrderId != null)
                     .ToList()
                     .Select(o => new FixedOrdersViewModel
                     {
@@ -848,7 +849,7 @@ namespace Dickplom1
 
                 //Заказы юр лиц
                 var fixedOrdersLegal = newContext.FixedOrders
-                    .Where(w => w.UserId == 1 && w.LegalOrderId != null) // Здесь потом заменить на id текущего активного пользователь
+                    .Where(w => w.UserId == ActiveUser.UserId && w.LegalOrderId != null)
                     .ToList()
                     .Select(o => new FixedOrdersViewModel
                     {
@@ -883,7 +884,7 @@ namespace Dickplom1
                 {
                     if (order != null)
                     {
-                        var selectedOrder = context.FixedOrders.FirstOrDefault(f => f.UserId == 1 && f.NaturalOrderId == order.NaturalOrderId | f.LegalOrderId == order.LegalOrderId); //Здесь потом заменить 1 на id текущего активного пользователь
+                        var selectedOrder = context.FixedOrders.FirstOrDefault(f => f.UserId == ActiveUser.UserId && f.NaturalOrderId == order.NaturalOrderId | f.LegalOrderId == order.LegalOrderId);
                         if (selectedOrder != null)
                         {
                             context.FixedOrders.Remove(selectedOrder);
@@ -896,12 +897,6 @@ namespace Dickplom1
             catch (Exception)
             {
             }
-        }
-
-        private void btnMiniProfile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MiniProfileForStaff win = new MiniProfileForStaff();
-            win.ShowDialog();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -931,8 +926,105 @@ namespace Dickplom1
                     Class.Musor.HideElement(gridLogs);  // Скрыть логи
                     gridNavigation.VerticalAlignment = VerticalAlignment.Top;
                 }
+
+                try
+                {
+                    var context = DBEntities.GetContext();
+                    var selectedUser = context.Users.FirstOrDefault(f => f.UserId == ActiveUser.UserId);
+
+                    if (selectedUser != null)
+                    {
+                        tbActiveUserFI.Text = selectedUser.UserData.Name + " " + selectedUser.UserData.Surname.Remove(1, selectedUser.UserData.Surname.Length - 1) + ".";
+                        tbActiveUserPost.Text = selectedUser.Roles.NameRole;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
+
+        private void btnMiniProfile_Click(object sender, RoutedEventArgs e)
+        {
+            MiniProfileForStaff win = new MiniProfileForStaff();
+            win.SelectedUser = ActiveUser;
+            win.ShowDialog();
+        }
+
+        private void lbNotifications_Loaded(object sender, RoutedEventArgs e)
+        {
+            RefreshNotifications();
+        }
+        public void RefreshNotifications()
+        {
+            var context = DBEntities.GetContext();
+            lbNotifications.ItemsSource = null;
+            lbNotifications.ItemsSource = context.Notifications.ToList();
+
+            if (context.Notifications.Where(w => w.UserId == ActiveUser.UserId).Count() < 1)
+            {
+                lbNotifications.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                lbNotifications.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            var border = sender as Border;
+            var notification = border?.DataContext as Notifications;
+            if (notification != null && !notification.IsRead)
+            {
+                try
+                {
+                    var selectedNotification = context.Notifications.FirstOrDefault(f => f.NotificationId == notification.NotificationId).IsRead = true;
+                    context.SaveChanges();
+                    RefreshNotifications();
+
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        private void ButtonBackgroundOff_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(btnClearNotifications, btnClearNotifications.Opacity, 0.6, 0.2);
+        }
+
+        private void ButtonBackgroundOff_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Animations.OpacityAnimation(btnClearNotifications, btnClearNotifications.Opacity, 0.8, 0.2);
+        }
+
+        private void btnClearNotifications_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (lbNotifications.ItemsSource == null)
+                return;
+            try
+            {
+                var context = DBEntities.GetContext();
+                var allNotifications = context.Notifications
+                    .Where(w => w.UserId == ActiveUser.UserId)
+                    .ToList();
+
+                context.Notifications.RemoveRange(allNotifications);
+                context.SaveChanges();
+
+                RefreshNotifications();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         //-----------------------------------------------------------------------------------
     }
 }

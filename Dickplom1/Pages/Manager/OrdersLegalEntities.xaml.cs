@@ -455,7 +455,7 @@ namespace Dickplom1.Pages.Manager
                             }
                             else
                             {
-                                var selectedFixedOrder = context.FixedOrders.FirstOrDefault(f => f.LegalOrderId == item.OrderId && f.UserId == 1); // Здесь потом заменить 1 на id текущего активного пользователь
+                                var selectedFixedOrder = context.FixedOrders.FirstOrDefault(f => f.LegalOrderId == item.OrderId && f.UserId == mainWin.ActiveUser.UserId);
                                 if (selectedFixedOrder != null)
                                     context.FixedOrders.Remove(selectedFixedOrder);
 
