@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
@@ -901,7 +903,7 @@ namespace Dickplom1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ActiveUser = context.Users.FirstOrDefault(f=>f.UserId == 2);
+            ActiveUser = context.Users.FirstOrDefault(f=>f.UserId == 1);
             if (ActiveUser != null)
             {
                 if (ActiveUser.RoleId == 1) // Админ
@@ -926,22 +928,28 @@ namespace Dickplom1
                     Class.Musor.HideElement(gridLogs);  // Скрыть логи
                     gridNavigation.VerticalAlignment = VerticalAlignment.Top;
                 }
+                RefreshName();
+            }
+        }
+        public void RefreshName()
+        {
+            try
+            {
+                var context = DBEntities.GetContext();
+                var selectedUser = context.Users.FirstOrDefault(f => f.UserId == ActiveUser.UserId);
 
-                try
+                if (selectedUser != null)
                 {
-                    var context = DBEntities.GetContext();
-                    var selectedUser = context.Users.FirstOrDefault(f => f.UserId == ActiveUser.UserId);
+                    tbActiveUserFI.Text = selectedUser.UserData.Name + " " + selectedUser.UserData.Surname.Remove(1, selectedUser.UserData.Surname.Length - 1) + ".";
+                    tbActiveUserPost.Text = selectedUser.Roles.NameRole;
 
-                    if (selectedUser != null)
-                    {
-                        tbActiveUserFI.Text = selectedUser.UserData.Name + " " + selectedUser.UserData.Surname.Remove(1, selectedUser.UserData.Surname.Length - 1) + ".";
-                        tbActiveUserPost.Text = selectedUser.Roles.NameRole;
-                    }
+                    btnMiniProfile.Content = selectedUser.UserData.Name.Remove(1, selectedUser.UserData.Name.Length - 1)
+                        + selectedUser.UserData.Surname.Remove(1, selectedUser.UserData.Surname.Length - 1);
                 }
-                catch (Exception)
-                {
+            }
+            catch (Exception)
+            {
 
-                }
             }
         }
 
@@ -949,7 +957,13 @@ namespace Dickplom1
         {
             MiniProfileForStaff win = new MiniProfileForStaff();
             win.SelectedUser = ActiveUser;
+            win.Closed += Win_Closed; ;
             win.ShowDialog();
+        }
+
+        private void Win_Closed(object sender, EventArgs e)
+        {
+            RefreshName();
         }
 
         private void lbNotifications_Loaded(object sender, RoutedEventArgs e)
@@ -960,15 +974,35 @@ namespace Dickplom1
         {
             var context = DBEntities.GetContext();
             lbNotifications.ItemsSource = null;
-            lbNotifications.ItemsSource = context.Notifications.ToList();
+            lbNotifications.ItemsSource = context.Notifications
+                .Where(w => w.UserId == ActiveUser.UserId)
+                .OrderByDescending(w => w.CreatedAt) // <- сортировка от новых к старым
+                .ToList();
 
-            if (context.Notifications.Where(w => w.UserId == ActiveUser.UserId).Count() < 1)
+            int allNotifications = context.Notifications.Where(w => w.UserId == ActiveUser.UserId).Count();
+            int newNotifications = context.Notifications.Where(w => w.UserId == ActiveUser.UserId && w.IsRead == false).Count();
+
+            if (allNotifications < 1)
             {
                 lbNotifications.Visibility = Visibility.Collapsed;
+                gridNotificationsToCheck.Visibility = Visibility.Collapsed;
             }
             else
             {
                 lbNotifications.Visibility = Visibility.Visible;
+
+                if (newNotifications >= 1)
+                {
+                    gridNotificationsToCheck.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    gridNotificationsToCheck.Visibility = Visibility.Collapsed;
+                }
+
+
+                tblockNotificationsToCheckCount.Text = string.Empty;
+                tblockNotificationsToCheckCount.Text = newNotifications.ToString();
             }
         }
 
@@ -1025,6 +1059,10 @@ namespace Dickplom1
             }
         }
 
-        //-----------------------------------------------------------------------------------
+        private void tbActiveUserFI_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+        //------------------------------------------------------------------------------
     }
 }

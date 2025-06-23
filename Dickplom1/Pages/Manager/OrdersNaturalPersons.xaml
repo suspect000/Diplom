@@ -13,6 +13,7 @@
       VerticalAlignment="Stretch"
       RenderOptions.BitmapScalingMode="HighQuality"
       Background="Transparent"
+      PreviewMouseDown="Page_PreviewMouseDown"
       Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
@@ -60,7 +61,7 @@
                             Background="White"
                             HasDropShadow="True"
                             Foreground="#687183">
-                            <MenuItem Header="О клиенте" Click="miClient_Click"/>
+                            <MenuItem Header="О заказе" Click="miClient_Click"/>
                             <MenuItem Header="О создателе записи" Click="miCreator_Click"/>
                             <MenuItem Header="Закрепить заказ" Click="MenuItem_Click"/>
                             <MenuItem Header="Восстановить" Click="dgBtnRecovery_Click" Visibility="Collapsed"/>

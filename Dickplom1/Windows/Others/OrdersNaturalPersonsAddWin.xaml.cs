@@ -15,6 +15,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 
@@ -363,6 +364,7 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
+            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
 
             if (cboxSubscription.cbox.SelectedIndex == 0 
@@ -388,10 +390,12 @@ namespace Dickplom1.Windows.Others
 
                         if (selectedOrder != null)
                         {
+                            var oldStatusId = selectedOrder.StatusId; // Сохраняем старый статус до изменений
+
                             var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                             if (orderActiveOld != null)
                             {
-                                if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 6)
+                                if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
                                 {
                                     MessageBox.Show("У выбранного клиента уже есть активный заказ");
                                     return;
@@ -418,10 +422,34 @@ namespace Dickplom1.Windows.Others
                             selectedOrder.EndDate = DateTime.Parse(endDatE);
                             selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
                             selectedOrder.Price = Convert.ToInt32(priceAll);
+
+                            //context.SaveChanges();
+
+                            // Добавляем уведомление, если статус изменился
+                            if (oldStatusId != selectedOrder.StatusId)
+                            {
+
+                                if (selectedOrder.CreatorId != null && selectedOrder.CreatorId != 0)
+                                {
+                                    var notif = new Notifications()
+                                    {
+                                        UserId = selectedOrder.CreatorId ?? 0,
+                                        Message = $"Новый статус заказа",
+                                        IsRead = false,
+                                        CreatedAt = DateTime.Now
+                                    };
+
+                                    if (notif.UserId != 0)
+                                    {
+                                        context.Notifications.Add(notif);
+                                    }
+                                }
+                            }
                         }
                         context.SaveChanges();
                         MessageBox.Show("Заказ успешно обновлен");
                         this.Close();
+                        mainWin.RefreshNotifications();
                         return;
                     }
 
@@ -456,7 +484,7 @@ namespace Dickplom1.Windows.Others
                     var orderActive = context.Orders.FirstOrDefault(f=>f.ClientId == newOrder.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                     if (orderActive != null)
                     {
-                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 6)
+                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5)
                         {
                             MessageBox.Show("У выбранного клиента уже есть активный заказ");
                             return;

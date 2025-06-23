@@ -607,7 +607,7 @@ namespace Dickplom1.Pages.Manager
                     var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == item.ClientId && f.OrderId != item.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                     if (orderActiveOld != null)
                     {
-                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 6)
+                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 5)
                         {
                             MessageBox.Show("У выбранного клиента уже есть активный заказ");
                             return;
@@ -669,6 +669,36 @@ namespace Dickplom1.Pages.Manager
                 }
 
             }
+        }
+
+        private void Page_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.FocusedElement is CustomComboboxFilterForClients cb && cb.Name == "ComboboxesFilter")
+            {
+                // Пробуем найти, куда именно кликнули
+                var clickedElement = Mouse.DirectlyOver as DependencyObject;
+                if (clickedElement != null)
+                {
+                    // Если клик был ВНЕ tbSearch
+                    if (!IsDescendantOf(ComboboxesFilter, clickedElement))
+                    {
+                        /*                        if (tbSearch.Text != "Найти" && string.IsNullOrWhiteSpace(tbSearch.Text))
+                                                    tbSearch.Text = string.Empty;*/
+                        // Сброс фокуса — переносим на "пустое" место (например, на окно)
+                        FocusManager.SetFocusedElement(this, this);
+                    }
+                }
+            }
+        }
+        private bool IsDescendantOf(DependencyObject parent, DependencyObject child)
+        {
+            while (child != null)
+            {
+                if (child == parent)
+                    return true;
+                child = VisualTreeHelper.GetParent(child);
+            }
+            return false;
         }
     } 
 }

@@ -12,15 +12,26 @@ namespace Dickplom1.Class
 {
     public class Charts
     {
-        public Charts() 
+        public PieSeries<double> CompletedOrdersSeries { get; set; }
+
+        public IEnumerable<ISeries> Series { get; set; }
+
+        public Charts()
         {
-            UpdateXAxis("Месяц");
-        }
-        //Настройки графика пирога для соотношения выполненных заказов
-        public IEnumerable<ISeries> Series { get; set; } =
-        new List<ISeries>
+            CompletedOrdersSeries = new PieSeries<double>
+            {
+                Values = new double[] { 20 },
+                MaxRadialColumnWidth = 10,
+                Fill = new SolidColorPaint(SKColor.Parse("687183")),
+                CornerRadius = 30,
+                IsHoverable = false,
+                DataLabelsPaint = new SolidColorPaint(SKColor.Parse("687183")),
+                DataLabelsSize = 25,
+                DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.ChartCenter
+            };
+
+            Series = new List<ISeries>
         {
-            // Фоновая белая дуга
             new PieSeries<double>
             {
                 Values = new double[] { 100 },
@@ -31,20 +42,16 @@ namespace Dickplom1.Class
                 Pushout = 0,
                 DataLabelsPaint = null
             },
+            CompletedOrdersSeries
+        };
 
-            // Значение (Value)
-            new PieSeries<double>
-            {
-                Values = new double[] { 20 },
-                MaxRadialColumnWidth = 10,
-                Fill = new SolidColorPaint(SKColor.Parse("687183")),
-                CornerRadius = 30,
-                IsHoverable = false,
-                DataLabelsPaint = new SolidColorPaint(SKColor.Parse("687183")),
-                DataLabelsSize = 25,
-                DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.ChartCenter
-            }
-        }; 
+            UpdateXAxis("Месяц");
+        }
+        public void SetCompletedOrdersPercent(double percent)
+        {
+            // Устанавливаем новое значение
+            CompletedOrdersSeries.Values = new double[] { percent };
+        }
 
         //Настройки графика для динамики продаж
         public ISeries[] SeriesDynamicSales { get; set; } =

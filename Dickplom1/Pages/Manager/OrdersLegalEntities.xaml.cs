@@ -617,7 +617,7 @@ namespace Dickplom1.Pages.Manager
                     var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == item.ClientId && f.OrderId != item.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                     if (orderActiveOld != null)
                     {
-                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 6)
+                        if (item.OrderStatusId >= 2 && item.OrderStatusId <= 5)
                         {
                             MessageBox.Show("У выбранного клиента уже есть активный заказ");
                             return;

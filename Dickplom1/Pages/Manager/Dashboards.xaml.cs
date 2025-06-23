@@ -6,6 +6,10 @@ using System.Windows.Input;
 using LiveChartsCore.SkiaSharpView;
 using Dickplom1.Class;
 using System.Windows.Media;
+using Dickplom1.DataFolder;
+using System.Linq;
+using System;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -17,18 +21,6 @@ namespace Dickplom1.Pages.Manager
         public Dashboards()
         {
             InitializeComponent();
-            List< Person> people = new List<Person>
-            {
-                new Person {Number = "№ 21321321", Name = "Сапожников В. И.", Status = "Выполняется"},
-                new Person {Number = "№ 11321321", Name = "Аапожников В. И.", Status = "В процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
-                new Person {Number = "№ 61321321", Name = "Нажопников В. И.", Status = "Новое процессе"},
-
-            };
-            DataGridCustom.dg.ItemsSource = people;
 
             List<Staff> staff = new List<Staff>
             {
@@ -43,6 +35,7 @@ namespace Dickplom1.Pages.Manager
             dgStaff.dgStaff.ItemsSource = staff;
 
         }
+        private Dickplom1.Class.Charts charts;
         public ISeries[] Series { get; set; }
             = new ISeries[]
             {
@@ -165,29 +158,6 @@ namespace Dickplom1.Pages.Manager
             }
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (this.ActualWidth >= 1545)
-            {
-                if (spSuccessfulSalesDop.Opacity == 1)
-                {
-                    return;
-                }
-                else
-                    Dickplom1.Class.Animations.OpacityAnimation(spSuccessfulSalesDop, spSuccessfulSalesDop.Opacity, 1, 0.3);
-
-            }
-            if (this.ActualWidth <= 1545)
-            {
-                if (spSuccessfulSalesDop.Opacity == 0)
-                {
-                    return;
-                }
-                else
-                    Dickplom1.Class.Animations.OpacityAnimation(spSuccessfulSalesDop, spSuccessfulSalesDop.Opacity, 0, 0.3);
-            }
-
-        }
 
         private void btnDynamicSalesChoseMounth_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -234,6 +204,8 @@ namespace Dickplom1.Pages.Manager
 
         private void btnDynamicSalesChoseMounth_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            ChartDynamicSales.XAxes = null;
+            ChartDynamicSales.Series = null;
             var charts = this.DataContext as Dickplom1.Class.Charts;
             if (charts != null)
             {
@@ -243,6 +215,8 @@ namespace Dickplom1.Pages.Manager
 
         private void btnDynamicSalesChoseWeek_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            ChartDynamicSales.XAxes = null;
+            ChartDynamicSales.Series = null;
             var charts = this.DataContext as Dickplom1.Class.Charts;
             if (charts != null)
             {
@@ -324,6 +298,361 @@ namespace Dickplom1.Pages.Manager
             {
                 mainWindow.gridSearch.Visibility = Visibility.Collapsed;
             }
+            charts = DataContext as Dickplom1.Class.Charts;
+
+            MakeStatistic();
+
+        }
+        private Dickplom1.Class.Charts _charts = new Dickplom1.Class.Charts();
+        public void MakeStatistic()
+        {
+            var context = DBEntities.GetContext();
+
+            //Продано всего
+            try
+            {
+                if (tbSalesAllChosenDate.Text.Contains("за год"))
+                {
+                    int ordersAll =
+                        context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
+                        context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
+                    tbSallesAll.Text = ordersAll.ToString();
+                }
+                if (tbSalesAllChosenDate.Text.Contains("за месяц"))
+                {
+                    int ordersAll =
+                        context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month) +
+                        context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month);
+                    tbSallesAll.Text = ordersAll.ToString();
+                }
+                if (tbSalesAllChosenDate.Text.Contains("за неделю"))
+                {
+                    var today = DateTime.Today;
+                    int diff = (7 + (today.DayOfWeek - DayOfWeek.Monday)) % 7;
+                    DateTime weekStart = today.AddDays(-1 * diff).Date;
+                    DateTime weekEnd = weekStart.AddDays(7).Date;
+
+                    int ordersAll =
+                        context.Orders.Count(s =>
+                            s.StatusId == 6 &&
+                            s.CreatedAt.HasValue &&
+                            s.CreatedAt.Value >= weekStart &&
+                            s.CreatedAt.Value < weekEnd) +
+                        context.OrdersLegalEntities.Count(s =>
+                            s.StatusId == 6 &&
+                            s.CreatedAt.HasValue &&
+                            s.CreatedAt.Value >= weekStart &&
+                            s.CreatedAt.Value < weekEnd);
+
+                    tbSallesAll.Text = ordersAll.ToString();
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            //_________
+            try
+            {
+                DateTime now = DateTime.Now;
+                DateTime weekStart = now.AddDays(-(int)now.DayOfWeek + 1); // начало недели (понедельник)
+                DateTime weekEnd = weekStart.AddDays(7);
+
+                if (tbdate1 != null)
+                {
+                    if (tbdate1.tb.Text.Contains("за год"))
+                    {
+                        int ordersYear = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year);
+
+                        var selectedSub = context.Subscription.FirstOrDefault(f=>f.SubscriptionId == ordersYear);
+
+                        if (selectedSub != null)
+                            tbLead.Text = selectedSub.SubscriptionName;
+                        else
+                            tbLead.Text = "-";
+                    }
+                    if (tbdate1.tb.Text.Contains("за месяц"))
+                    {
+                        int ordersMonth = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year);
+
+                        var selectedSub = context.Subscription.FirstOrDefault(f => f.SubscriptionId == ordersMonth);
+
+                        if (selectedSub != null)
+                            tbLead.Text = selectedSub.SubscriptionName;
+                        else
+                            tbLead.Text = "-";
+                    }
+                    if (tbdate1.tb.Text.Contains("за неделю"))
+                    {
+                        int ordersWeek = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd);
+
+                        var selectedSub = context.Subscription.FirstOrDefault(f => f.SubscriptionId == ordersWeek);
+
+                        if (selectedSub != null)
+                            tbLead.Text = selectedSub.SubscriptionName;
+                        else
+                            tbLead.Text = "-";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                if (tbdate2 != null)
+                {
+                    if (tbdate2.tb.Text.Contains("за год"))
+                    {
+                        int ordersReady =
+                            context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
+                            context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
+                        int ordersCanceled =
+                            context.Orders.Count(s => s.StatusId == 7 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
+                            context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
+
+                        tbSallesReady.Text = ordersReady.ToString() + " ";
+                        tbSallesCanceled.Text = ordersCanceled.ToString() + " ";
+
+
+                        int totalOrders = ordersReady + ordersCanceled;
+
+                        var pieSeries = _charts.Series.ElementAt(1) as PieSeries<double>;
+
+                        if (pieSeries != null && totalOrders > 0)
+                        {
+                            charts.SetCompletedOrdersPercent((double)ordersReady / totalOrders * 100);
+                        }
+                        else
+                        {
+                            charts.SetCompletedOrdersPercent(0);
+                        }
+                    }
+                    if (tbdate2.tb.Text.Contains("за месяц"))
+                    {
+                        int ordersReady =
+                            context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month) +
+                            context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month);
+                        int ordersCanceled =
+                            context.Orders.Count(s => s.StatusId == 7 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month) +
+                            context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month);
+
+                        tbSallesReady.Text = ordersReady.ToString() + " ";
+                        tbSallesCanceled.Text = ordersCanceled.ToString() + " ";
+
+
+                        int totalOrders = ordersReady + ordersCanceled;
+
+                        var pieSeries = _charts.Series.ElementAt(1) as PieSeries<double>;
+
+                        if (pieSeries != null && totalOrders > 0)
+                        {
+                            charts.SetCompletedOrdersPercent((double)ordersReady / totalOrders * 100);
+                        }
+                        else
+                        {
+                            charts.SetCompletedOrdersPercent(0);
+                        }
+                    }
+                    if (tbdate2.tb.Text.Contains("за неделю"))
+                    {
+                        var today = DateTime.Today;
+                        int diff = (7 + (today.DayOfWeek - DayOfWeek.Monday)) % 7;
+                        DateTime weekStart = today.AddDays(-1 * diff).Date;
+                        DateTime weekEnd = weekStart.AddDays(7).Date;
+
+                        int ordersReady =
+                            context.Orders.Count(s =>
+                                s.StatusId == 6 &&
+                                s.CreatedAt.HasValue &&
+                                s.CreatedAt.Value >= weekStart &&
+                                s.CreatedAt.Value < weekEnd) +
+                            context.OrdersLegalEntities.Count(s =>
+                                s.StatusId == 6 &&
+                                s.CreatedAt.HasValue &&
+                                s.CreatedAt.Value >= weekStart &&
+                                s.CreatedAt.Value < weekEnd);
+
+                        int ordersCanceled =
+                            context.Orders.Count(s =>
+                                s.StatusId == 7 &&
+                                s.CreatedAt.HasValue &&
+                                s.CreatedAt.Value >= weekStart &&
+                                s.CreatedAt.Value < weekEnd) +
+                            context.OrdersLegalEntities.Count(s =>
+                                s.StatusId == 7 &&
+                                s.CreatedAt.HasValue &&
+                                s.CreatedAt.Value >= weekStart &&
+                                s.CreatedAt.Value < weekEnd);
+
+                        tbSallesReady.Text = ordersReady.ToString() + " ";
+                        tbSallesCanceled.Text = ordersCanceled.ToString() + " ";
+
+
+                        int totalOrders = ordersReady + ordersCanceled;
+
+                        var pieSeries = _charts.Series.ElementAt(1) as PieSeries<double>;
+
+                        if (pieSeries != null && totalOrders > 0)
+                        {
+                            charts.SetCompletedOrdersPercent((double)ordersReady / totalOrders * 100);
+                        }
+                        else
+                        {
+                            charts.SetCompletedOrdersPercent(0);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+
+        private void tbSalesAllChosenDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MakeStatistic();
+        }
+
+        private void CustomComboboxForChoseDateGray_Loaded(object sender, RoutedEventArgs e)
+        {
+            //tbSallesLid.Text
+        }
+
+        private void tbSallesLid_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MakeStatistic();
+        }
+
+        private void CustomComboboxForChoseDateGray_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            tbdate1.tb.TextChanged += Tb_TextChanged;
+        }
+
+        private void Tb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MakeStatistic();
+        }
+
+        private void CustomComboboxForChoseDateGray_Loaded_2(object sender, RoutedEventArgs e)
+        {
+            tbdate2.tb.TextChanged += Tb_TextChanged1;
+        }
+
+        private void Tb_TextChanged1(object sender, TextChangedEventArgs e)
+        {
+            MakeStatistic();
+        }
+
+        private void cbOrders_Loaded(object sender, RoutedEventArgs e)
+        {
+            var context = DBEntities.GetContext();
+
+            var items = new List<object>();
+
+            // Заглушка
+            items.Add(new { OrdersId = 1, OrdersName = "Заказы для физических лиц" });
+            items.Add(new { OrdersId = 2, OrdersName = "Заказы для юридических лиц" });
+
+            cbOrders.cbox.ItemsSource = items;
+            cbOrders.cbox.DisplayMemberPath = "OrdersName";
+            cbOrders.cbox.SelectedValuePath = "OrdersId";
+            cbOrders.cbox.SelectedIndex = 0;
+            cbOrders.cbox.SelectionChanged += Cbox_SelectionChanged;
+        }
+
+        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGridOrdersRefresh();
+        }
+        public void DataGridOrdersRefresh()
+        {
+            var context = DBEntities.GetContext();
+
+            try
+            {
+                if (cbOrders != null)
+                {
+                    if ((int)cbOrders.cbox.SelectedValue == 1)
+                    {
+                        var orders = context
+                            .Orders
+                            .Where(c => c.IsDeleted == false && c.Subscription.SubscriptionTypeId == 1)
+                            .ToList()
+                            .Select(o => new OrdersViewModel
+                            {
+                                OrderId = o.OrderId,
+                                SubscriptionName = o.Subscription.SubscriptionName,
+                                FullNameClient = o.ClientsNaturalPersons.Surname
+                                + " " + o.ClientsNaturalPersons.Name
+                                + " " + o.ClientsNaturalPersons.MiddleName,
+                                StartDate = o.StartDate.Value.ToString("d"),
+                                EndDate = o.EndDate.Value.ToString("d"),
+                                ClientId = o.ClientId ?? 0,
+                                OrderStatus = o.OrderStatus.StatusValue,
+                                OrderStatusId = o.StatusId ?? 0,
+                                FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                                CreatorId = o.CreatorId ?? 0,
+                                IsDeleted = o.IsDeleted
+                            })
+                            .ToList();
+
+                        for (int i = 0; i < orders.Count; i++)
+                        {
+                            orders[i].Number = i + 1; // начинаем с 1
+                        }
+
+                        DataGridCustom.dg.ItemsSource = orders;
+                    }
+                    else if ((int)cbOrders.cbox.SelectedValue == 2)
+                    {
+                        var ordersLegal = context.OrdersLegalEntities
+                            .Where(c => c.IsDeleted == true)
+                            .ToList()
+                            .Select(o => new OrdersViewModel
+                            {
+                                OrderId = o.OrderId,
+                                SubscriptionName = o.Subscription.SubscriptionName,
+                                CompanyName = o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyName,
+                                StartDate = o.StartDate?.ToString("d"),
+                                EndDate = o.EndDate?.ToString("d"),
+                                OrderStatus = o.OrderStatus.StatusValue,
+                                OrderStatusId = o.StatusId ?? 0,
+                                ClientId = o.ClientId ?? 0,
+                                CreatorId = o.CreatorId ?? 0,
+                                FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                                FullNameClient = (
+                                context.ClientsLegalEntitiesContactPerson
+                                .Where(f => f.IsActive == true && f.CompanyId == o.ClientsLegalEntities.ClientsLegalEntitiesCompanyData.CompanyId)
+                                .Select(f => (f.Surname ?? " ") + " " + (f.Name ?? " ") + " " + (f.Middlename ?? " "))
+                                .FirstOrDefault() ?? "—"
+                                ).Trim()
+                            })
+                            .ToList();
+
+                        for (int i = 0; i < ordersLegal.Count; i++)
+                        {
+                            ordersLegal[i].Number = i + 1;
+                        }
+
+                        DataGridCustom.dg.ItemsSource = ordersLegal;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        private void DataGridCustom_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataGridOrdersRefresh();
         }
     }
 }

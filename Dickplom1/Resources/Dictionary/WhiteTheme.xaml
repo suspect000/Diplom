@@ -86,17 +86,21 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate x:Name="controlTemplate" TargetType="TextBox">
+                <ControlTemplate TargetType="TextBox">
                     <Border Name="borderForTextBox"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Background="{TemplateBinding Background}"
-                        CornerRadius="25">
-                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="25">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="borderForTextBox" Property="BorderBrush" Value="{StaticResource SelectedBorder}"/>
+                            <Setter TargetName="borderForTextBox"
+                            Property="BorderBrush"
+                            Value="{StaticResource SelectedBorder}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -104,7 +108,38 @@
         </Setter>
     </Style>
     <!---->
-    
+
+    <Style x:Key="tbNoBorder" TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>
+        <Setter Property="FontFamily" Value="Proletarsk"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Background" Value="{StaticResource OtherBackground}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Name="borderForTextBox"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="Transparent"
+                        Background="Transparent">
+                        <Border Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="borderForTextBox"
+                        Property="BorderBrush"
+                        Value="{StaticResource SelectedBorder}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!---->
+
     <Style x:Key="BtnCircle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource OtherBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource MainTextForeground}"/>

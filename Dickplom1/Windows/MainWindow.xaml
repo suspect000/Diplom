@@ -7,7 +7,6 @@
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         xmlns:local="clr-namespace:Dickplom1"
         mc:Ignorable="d"
-        Title="ClientPro" 
         Height="1000" Width="1540"
         MinWidth="1560" MinHeight="1000"
         MaxWidth="2000" MaxHeight="2000"
@@ -191,6 +190,24 @@
                         IsHitTestVisible="False"
                         Width="20" Height="20"/>
                 </Button>
+                <Grid
+                    Name="gridNotificationsToCheck"
+                    HorizontalAlignment="Right"
+                    IsHitTestVisible="False"
+                    VerticalAlignment="Top">
+                    <Ellipse
+                        Fill="Red"
+                        Width="20"
+                        Height="20"/>
+                    <TextBlock
+                        Name="tblockNotificationsToCheckCount"
+                        Style="{StaticResource DefText13}"
+                        FontSize="12"
+                        Text="1"
+                        Foreground="White"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                </Grid>
             </Grid>
             <Grid
                 x:Name="gridProfile"
@@ -201,13 +218,19 @@
 
                 <Button
                     Name="btnProfile"
-                    Content="ВС"
                     Width="54" Height="57"
                     BorderThickness="1"
                     Style="{StaticResource BtnCircle}"
                     FontFamily="Proletarsk" FontSize="15"
                     MouseEnter="btnProfile_MouseEnter" MouseLeave="btnProfile_MouseLeave" 
-                    Click="btnProfile_Click"/>
+                    Click="btnProfile_Click">
+                    <Button.Content>
+                        <Image 
+                            Source="/Resources/Images/MainWin/peopleIcnBlue.png"
+                            Width="15"
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button.Content>
+                </Button>
             </Grid>
         </StackPanel>
         <!--/Header-->
@@ -607,7 +630,7 @@
                             Margin="20,0,0,0"/>
                     </StackPanel>
                 </Grid>
-                
+
                 <Separator Opacity="0" Height="15"/>
 
                 <Grid
@@ -758,7 +781,7 @@
             Panel.ZIndex="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Visibility="Visible"
+            Visibility="Collapsed"
             Width="300" Height="350"
             Margin="0,115,69,0">
 
@@ -913,7 +936,7 @@
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Click="btnMiniProfile_Click"/>
 
-                <Separator 
+               <Separator 
                     Opacity="0" 
                     Height="50" Width="20"
                     VerticalAlignment="Center"/>
@@ -938,7 +961,7 @@
 
                 </StackPanel>
             </StackPanel>
-
+               
             <Line 
                 Stroke="#E2E5F2"
                 X1="242"
@@ -1190,5 +1213,5 @@
 
         <!--/Основное наполнение-->
     </Grid>
-    
+
 </Window>

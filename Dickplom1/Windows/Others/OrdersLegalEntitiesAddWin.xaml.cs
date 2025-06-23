@@ -554,7 +554,7 @@ namespace Dickplom1.Windows.Others
                         var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                         if (orderActiveOld != null)
                         {
-                            if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 6)
+                            if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
                             {
                                 MessageBox.Show("У выбранного клиента уже есть активный заказ");
                                 return;
@@ -622,7 +622,7 @@ namespace Dickplom1.Windows.Others
                     var orderActive = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == newOrder.ClientId && f.OrderId != newOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
                     if (orderActive != null)
                     {
-                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 6 )
+                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5 )
                         {
                             MessageBox.Show("У выбранного клиента уже есть активный заказ");
                             return;
