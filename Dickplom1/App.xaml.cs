@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using Dickplom1.Properties;
+using Dickplom1.Windows;
 
 namespace Dickplom1
 {
@@ -14,40 +16,8 @@ namespace Dickplom1
     /// </summary>
     public partial class App : Application
     {
-        /*protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
 
-            // Загружаем сохранённую тему при запуске
-            ApplyTheme(Settings.Default.AppTheme);
-        }
-
-        public static void ApplyTheme(string theme)
-        {
-            ResourceDictionary themeDict = new ResourceDictionary();
-
-            if (theme == "Black")
-            {
-                themeDict.Source = new Uri("Resources/Dictionary/BlackTheme.xaml", UriKind.Relative);
-                SaveTheme("Resources/Dictionary/BlackTheme.xaml");
-            }
-
-            else if (theme == "White")
-            {
-                themeDict.Source = new Uri("Resources/Dictionary/WhiteTheme.xaml", UriKind.Relative);
-                SaveTheme("Resources/Dictionary/WhiteTheme.xaml");
-            }
-
-            // Очищаем старую тему и добавляем новую
-            Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(themeDict);
-        }
-
-        public static void SaveTheme(string theme)
-        {
-            // Сохраняем выбор пользователя
-            Settings.Default.AppTheme = theme;
-            Settings.Default.Save();
-        }*/
     }
 }
+    
+

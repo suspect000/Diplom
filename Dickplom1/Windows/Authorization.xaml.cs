@@ -77,6 +77,7 @@ namespace Dickplom1.Windows
             btnJoin.btnWithBorder.Click += BtnWithBorder_Click;
         }
 
+        public Users ActiveUser { get; private set; } = null;
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
             var context = DBEntities.GetContext();
@@ -97,12 +98,8 @@ namespace Dickplom1.Windows
 
             if (user != null && Dickplom1.Class.PasswordHelper.VerifyPassword(password, user.PasswordHash))
             {
-                if (user.AccountStatusId == 2)
-                {
-                    MessageBox.Show("Ваша учетная запись неактивна\nОбратитесь к администратору за помощью");
-                    return;
-                }
-                else if (user.AccountStatusId == 3)
+ 
+                if (user.AccountStatusId == 3)
                 {
                     MessageBox.Show("Ваша учетная запись заблокирована\nОбратитесь к администратору за помощью");
                     return;
@@ -111,16 +108,25 @@ namespace Dickplom1.Windows
                 if ((bool)user.IsTemporaryPassword)
                 {
                     // Открываем окно смены пароля
+                    this.ActiveUser = user;
                     var changePassWindow = new ChangePasswordWin();
                     changePassWindow.ActiveUser = user;
+                    MessageBox.Show("Необходимо сбросить пароль");
                     changePassWindow.ShowDialog();
                     this.Close();
                 }
+                else if (user.AccountStatusId == 2)
+                {
+                    MessageBox.Show("Ваша учетная запись неактивна\nОбратитесь к администратору за помощью");
+                    return;
+                }
                 else
                 {
-                    var win = new MainWindow();
-                    win.ActiveUser = user;
-                    win.Show();
+                    var mainWin = Application.Current.MainWindow as MainWindow;
+                    mainWin.ActiveUser = user;
+                    mainWin.Join();
+                    //this.ActiveUser = user;
+                    this.DialogResult = true;
                     this.Close();
                 }
             }

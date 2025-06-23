@@ -427,314 +427,319 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click1(object sender, RoutedEventArgs e)
         {
-            var context = DBEntities.GetContext();
+            try
+            {
+                var mainWin = Application.Current.MainWindow as MainWindow;
+                var context = DBEntities.GetContext();
 
 
-            if (tboxSurname.tb.Text == "Фамилия"
-                || tboxName.tb.Text == "Имя"
-                || tboxPhoneNumber.tb.Text == "Номер телефона"
-                || tboxEmail.tb.Text == "Электронная почта"
-                || tboxCompanyName.tb.Text == "Название компании"
-                || tboxINN.tb.Text == "ИНН"
-                || tboxKPP.tb.Text == "КПП"
-                || tboxOGRN.tb.Text == "ОГРН"
-                || tboxAddressCountry.tb.Text == "Страна"
-                || tboxAddressCity.tb.Text == "Город"
-                || tboxAddressStreet.tb.Text == "Улица"
-                || tboxAddressHouse.tb.Text == "Дом"
-                || tboxBankName.tb.Text == "Название банка"
-                || tboxBankBIK.tb.Text == "БИК банка"
-                || tboxBankAccount.tb.Text == "Рос. счет банка"
-                || tboxBankCorrAccount.tb.Text == "Кор. счет банка"
-                || tboxEmployeeCount.tb.Text == "Количество сотрудников"
-                || tboxRegistrationDate.tb.Text == "Дата регистрации компании"
+                if (tboxSurname.tb.Text == "Фамилия"
+                    || tboxName.tb.Text == "Имя"
+                    || tboxPhoneNumber.tb.Text == "Номер телефона"
+                    || tboxEmail.tb.Text == "Электронная почта"
+                    || tboxCompanyName.tb.Text == "Название компании"
+                    || tboxINN.tb.Text == "ИНН"
+                    || tboxKPP.tb.Text == "КПП"
+                    || tboxOGRN.tb.Text == "ОГРН"
+                    || tboxAddressCountry.tb.Text == "Страна"
+                    || tboxAddressCity.tb.Text == "Город"
+                    || tboxAddressStreet.tb.Text == "Улица"
+                    || tboxAddressHouse.tb.Text == "Дом"
+                    || tboxBankName.tb.Text == "Название банка"
+                    || tboxBankBIK.tb.Text == "БИК банка"
+                    || tboxBankAccount.tb.Text == "Рос. счет банка"
+                    || tboxBankCorrAccount.tb.Text == "Кор. счет банка"
+                    || tboxEmployeeCount.tb.Text == "Количество сотрудников"
+                    || tboxRegistrationDate.tb.Text == "Дата регистрации компании"
 
-                || string.IsNullOrWhiteSpace(tboxSurname.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxName.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxPhoneNumber.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxEmail.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxCompanyName.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxINN.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxKPP.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxOGRN.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxAddressCountry.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxAddressCity.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxAddressStreet.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxAddressHouse.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxBankName.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxBankBIK.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxBankAccount.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxBankCorrAccount.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxEmployeeCount.tb.Text)
-                || string.IsNullOrWhiteSpace(tboxRegistrationDate.tb.Text))
-            {
-                MessageBox.Show("Необходимо заполнить все поля");
-                return;
-            }
-
-            //Проверки
-            if (tboxPhoneNumber.tb.Text.Length < 11)
-            {
-                MessageBox.Show("Номер телефона должен содержать 11 цифр");
-                return;
-            }
-            if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
-            {
-                MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
-                return;
-            }
-            if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
-            {
-                MessageBox.Show("Неправильный формат электронной почты");
-                return;
-            }
-            if (tboxINN.tb.Text.Length < 10)
-            {
-                MessageBox.Show("ИНН компании слишком короткий");
-                return;
-            }
-            if (tboxKPP.tb.Text.Length < 9)
-            {
-                MessageBox.Show("КПП компании слишком короткий");
-                return;
-            }
-            if (tboxOGRN.tb.Text.Length < 13)
-            {
-                MessageBox.Show("КПП компании слишком короткий");
-                return;
-            }
-            if (DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime date))
-            {
-                if (date != null)
+                    || string.IsNullOrWhiteSpace(tboxSurname.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxName.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxPhoneNumber.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxEmail.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxCompanyName.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxINN.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxKPP.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxOGRN.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxAddressCountry.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxAddressCity.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxAddressStreet.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxAddressHouse.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxBankName.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxBankBIK.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxBankAccount.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxBankCorrAccount.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxEmployeeCount.tb.Text)
+                    || string.IsNullOrWhiteSpace(tboxRegistrationDate.tb.Text))
                 {
-                    if (date < DateTime.Now.AddYears(-80))
-                    {
-                        MessageBox.Show("Некорректная дата регистрации компании");
-                        return;
-                    }
-                    else if (date > DateTime.Now)
-                    {
-                        MessageBox.Show("Некорректная дата регистрации компании");
-                        return;
-                    }
+                    MessageBox.Show("Необходимо заполнить все поля");
+                    return;
                 }
-            }
-            if (tboxBankBIK.tb.Text.Length < 9)
-            {
-                MessageBox.Show("БИК банка слишком короткий");
-                return;
-            }
-            if (tboxBankAccount.tb.Text.Length < 30)
-            {
-                MessageBox.Show("Рас. счет банка слишком короткий");
-                return;
-            }
-            if (tboxBankCorrAccount.tb.Text.Length < 30)
-            {
-                MessageBox.Show("Кор. счет банка слишком короткий");
-                return;
-            }
-            //________________________________________________________________________________
 
-
-            if (ClientId != 0) // При редактировании клиента
-            {
-                ClientsLegalEntities selectedClient = context.ClientsLegalEntities
-                    .Where(c => c.ClientsLegalEntitiesId == ClientId)
-                    .FirstOrDefault();
-
-                ClientsLegalEntitiesContactPerson firstClientContactPerson = selectedClient
-                    .ClientsLegalEntitiesCompanyData
-                    .ClientsLegalEntitiesContactPerson
-                    .FirstOrDefault(f=>f.IsActive == true);
-
-                ClientsLegalEntitiesContactPerson selectedClientContactPerson = context
-                    .ClientsLegalEntitiesContactPerson
-                    .Where(w=>w.ContactPersonId == (int)cboxActiveContactPerson.cbox.SelectedValue)
-                    .FirstOrDefault();
-
-
-                //selectedClient.ClientsLegalEntitiesId = ClientId;
-                if (firstClientContactPerson != null)
+                //Проверки
+                if (tboxPhoneNumber.tb.Text.Length < 11)
                 {
-                    if (firstClientContactPerson.ContactPersonId != selectedClientContactPerson.ContactPersonId)
+                    MessageBox.Show("Номер телефона должен содержать 11 цифр");
+                    return;
+                }
+                if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
+                {
+                    MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
+                    return;
+                }
+                if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
+                {
+                    MessageBox.Show("Неправильный формат электронной почты");
+                    return;
+                }
+                if (tboxINN.tb.Text.Length < 10)
+                {
+                    MessageBox.Show("ИНН компании слишком короткий");
+                    return;
+                }
+                if (tboxKPP.tb.Text.Length < 9)
+                {
+                    MessageBox.Show("КПП компании слишком короткий");
+                    return;
+                }
+                if (tboxOGRN.tb.Text.Length < 13)
+                {
+                    MessageBox.Show("КПП компании слишком короткий");
+                    return;
+                }
+                if (DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime date))
+                {
+                    if (date != null)
                     {
-                        var clients = context.ClientsLegalEntitiesContactPerson
-                            .Where(c => c.CompanyId == selectedClient.CompanyId)
-                            .ToList();
-
-                        foreach (var client in clients)
+                        if (date < DateTime.Now.AddYears(-80))
                         {
-                            client.IsActive = false;
+                            MessageBox.Show("Некорректная дата регистрации компании");
+                            return;
+                        }
+                        else if (date > DateTime.Now)
+                        {
+                            MessageBox.Show("Некорректная дата регистрации компании");
+                            return;
                         }
                     }
                 }
-
-                selectedClientContactPerson.Surname = tboxSurname.tb.Text;
-                selectedClientContactPerson.Name = tboxName.tb.Text;
-
-                if (tboxMiddlename.tb.Text != "Отчество" && !string.IsNullOrWhiteSpace(tboxMiddlename.tb.Text))
-                    selectedClientContactPerson.Middlename = tboxMiddlename.tb.Text;
-                else
-                    selectedClientContactPerson.Middlename = "-";
-
-                selectedClientContactPerson.Phone = tboxPhoneNumber.tb.Text;
-                selectedClientContactPerson.Email= tboxEmail.tb.Text;
-                selectedClientContactPerson.IsActive = true;
-
-                selectedClient.ClientsLegalEntitiesCompanyData.CompanyName = tboxCompanyName.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.INN = tboxINN.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.KPP = tboxKPP.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.OGRN = tboxOGRN.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.City.Country.CountryName = tboxAddressCountry.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.City.CityName = tboxAddressCity.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.StreetName = tboxAddressStreet.tb.Text;
-                selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.HouseNumber = tboxAddressHouse.tb.Text;
-
-                if (tboxAddressApartment.tb.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.tb.Text))
-                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = tboxAddressApartment.tb.Text;
-                else
-                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = "-";
-
-                if (tboxAddressOffice.tb.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.tb.Text))
-                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = tboxAddressOffice.tb.Text;
-                else
-                    selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = "-";
-
-                try
+                if (tboxBankBIK.tb.Text.Length < 9)
                 {
-                    selectedClient.ClientsLegalEntitiesCompanyData.EmployeeCount = Convert.ToInt32(tboxEmployeeCount.tb.Text);
+                    MessageBox.Show("БИК банка слишком короткий");
+                    return;
+                }
+                if (tboxBankAccount.tb.Text.Length < 30)
+                {
+                    MessageBox.Show("Рас. счет банка слишком короткий");
+                    return;
+                }
+                if (tboxBankCorrAccount.tb.Text.Length < 30)
+                {
+                    MessageBox.Show("Кор. счет банка слишком короткий");
+                    return;
+                }
+                //________________________________________________________________________________
+
+
+                if (ClientId != 0) // При редактировании клиента
+                {
+                    ClientsLegalEntities selectedClient = context.ClientsLegalEntities
+                        .Where(c => c.ClientsLegalEntitiesId == ClientId)
+                        .FirstOrDefault();
+
+                    ClientsLegalEntitiesContactPerson firstClientContactPerson = selectedClient
+                        .ClientsLegalEntitiesCompanyData
+                        .ClientsLegalEntitiesContactPerson
+                        .FirstOrDefault(f => f.IsActive == true);
+
+                    ClientsLegalEntitiesContactPerson selectedClientContactPerson = context
+                        .ClientsLegalEntitiesContactPerson
+                        .Where(w => w.ContactPersonId == (int)cboxActiveContactPerson.cbox.SelectedValue)
+                        .FirstOrDefault();
+
+
+                    //selectedClient.ClientsLegalEntitiesId = ClientId;
+                    if (firstClientContactPerson != null)
+                    {
+                        if (firstClientContactPerson.ContactPersonId != selectedClientContactPerson.ContactPersonId)
+                        {
+                            var clients = context.ClientsLegalEntitiesContactPerson
+                                .Where(c => c.CompanyId == selectedClient.CompanyId)
+                                .ToList();
+
+                            foreach (var client in clients)
+                            {
+                                client.IsActive = false;
+                            }
+                        }
+                    }
+
+                    selectedClientContactPerson.Surname = tboxSurname.tb.Text;
+                    selectedClientContactPerson.Name = tboxName.tb.Text;
+
+                    if (tboxMiddlename.tb.Text != "Отчество" && !string.IsNullOrWhiteSpace(tboxMiddlename.tb.Text))
+                        selectedClientContactPerson.Middlename = tboxMiddlename.tb.Text;
+                    else
+                        selectedClientContactPerson.Middlename = "-";
+
+                    selectedClientContactPerson.Phone = tboxPhoneNumber.tb.Text;
+                    selectedClientContactPerson.Email = tboxEmail.tb.Text;
+                    selectedClientContactPerson.IsActive = true;
+
+                    selectedClient.ClientsLegalEntitiesCompanyData.CompanyName = tboxCompanyName.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.INN = tboxINN.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.KPP = tboxKPP.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.OGRN = tboxOGRN.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.City.Country.CountryName = tboxAddressCountry.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.City.CityName = tboxAddressCity.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Street.StreetName = tboxAddressStreet.tb.Text;
+                    selectedClient.ClientsLegalEntitiesCompanyData.AddressLegalEntities.HouseNumber = tboxAddressHouse.tb.Text;
+
+                    if (tboxAddressApartment.tb.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.tb.Text))
+                        selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = tboxAddressApartment.tb.Text;
+                    else
+                        selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Apartment = "-";
+
+                    if (tboxAddressOffice.tb.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.tb.Text))
+                        selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = tboxAddressOffice.tb.Text;
+                    else
+                        selectedClientContactPerson.ClientsLegalEntitiesCompanyData.AddressLegalEntities.Office = "-";
+
+                    try
+                    {
+                        selectedClient.ClientsLegalEntitiesCompanyData.EmployeeCount = Convert.ToInt32(tboxEmployeeCount.tb.Text);
+
+                        DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime res);
+                        selectedClient.ClientsLegalEntitiesCompanyData.RegistrationDate = res;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    selectedClient.ClientsLegalEntitiesBankData.BankName = tboxBankName.tb.Text;
+                    selectedClient.ClientsLegalEntitiesBankData.BankBik = tboxBankBIK.tb.Text;
+                    selectedClient.ClientsLegalEntitiesBankData.BankAccount = tboxBankAccount.tb.Text;
+                    selectedClient.ClientsLegalEntitiesBankData.BankCorrAccount = tboxBankCorrAccount.tb.Text;
+
+                    if (ClientPhoto.Source != null)
+                        selectedClientContactPerson.Photo = BitmapImageToByteArray(PhotoPath);
+                    else
+                        selectedClientContactPerson.Photo = null;
+
+                    context.SaveChanges();
+                    Thread.Sleep(100);
+                    MessageBox.Show("Запись успешно обновлена");
+                    this.Close();
+                }
+                else // При создании клиента
+                {
+                    //Адресс
+                    var countryName = tboxAddressCountry.Text.Trim();
+                    var country = context.Country.FirstOrDefault(c => c.CountryName == countryName);
+                    if (country == null)
+                    {
+                        country = new Country { CountryName = countryName };
+                        context.Country.Add(country);
+                        context.SaveChanges();
+                    }
+
+                    // 2. Ищем или создаём город
+                    var cityName = tboxAddressCity.Text.Trim();
+                    var city = context.City.FirstOrDefault(c => c.CityName == cityName && c.CountryId == country.CountryId);
+                    if (city == null)
+                    {
+                        city = new City { CityName = cityName, CountryId = country.CountryId };
+                        context.City.Add(city);
+                        context.SaveChanges();
+                    }
+
+                    // 3. Ищем или создаём улицу
+                    var streetName = tboxAddressStreet.Text.Trim();
+                    var street = context.Street.FirstOrDefault(s => s.StreetName == streetName && s.CityId == city.CityId);
+                    if (street == null)
+                    {
+                        street = new Street { StreetName = streetName, CityId = city.CityId };
+                        context.Street.Add(street);
+                        context.SaveChanges();
+                    }
+
+                    // 4. Добавляем AddressLegalEntities
+                    var address = new AddressLegalEntities
+                    {
+                        StreetId = street.StreetId,
+                        HouseNumber = tboxAddressHouse.Text
+                    };
+
+                    if (tboxAddressApartment.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.Text))
+                        address.Apartment = tboxAddressApartment.Text;
+
+                    if (tboxAddressOffice.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.Text))
+                        address.Office = tboxAddressOffice.Text;
+
+                    context.AddressLegalEntities.Add(address);
+                    context.SaveChanges();
 
                     DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime res);
-                    selectedClient.ClientsLegalEntitiesCompanyData.RegistrationDate = res;
-                }
-                catch (Exception)
-                {
-                }
-                selectedClient.ClientsLegalEntitiesBankData.BankName = tboxBankName.tb.Text;
-                selectedClient.ClientsLegalEntitiesBankData.BankBik = tboxBankBIK.tb.Text;
-                selectedClient.ClientsLegalEntitiesBankData.BankAccount = tboxBankAccount.tb.Text;
-                selectedClient.ClientsLegalEntitiesBankData.BankCorrAccount = tboxBankCorrAccount.tb.Text;
 
-                if (ClientPhoto.Source != null)
-                    selectedClientContactPerson.Photo = BitmapImageToByteArray(PhotoPath);
-                else
-                    selectedClientContactPerson.Photo = null;
+                    //Создание компании
+                    ClientsLegalEntitiesCompanyData newCompanyData = new ClientsLegalEntitiesCompanyData()
+                    {
+                        CompanyName = tboxCompanyName.tb.Text,
+                        INN = tboxINN.tb.Text,
+                        KPP = tboxKPP.tb.Text,
+                        OGRN = tboxOGRN.tb.Text,
+                        EmployeeCount = Convert.ToInt32(tboxEmployeeCount.tb.Text),
+                        RegistrationDate = res,
+                        AddressLegalEntitiesId = address.AddressLegalEntitiesId
+                    };
+                    context.ClientsLegalEntitiesCompanyData.Add(newCompanyData);
+                    context.SaveChanges();
 
-                context.SaveChanges();
-                Thread.Sleep(100);
-                MessageBox.Show("Запись успешно обновлена");
-                this.Close();
+                    //Создание банковских данных
+                    ClientsLegalEntitiesBankData newCompanyBank = new ClientsLegalEntitiesBankData()
+                    {
+                        BankName = tboxBankName.tb.Text,
+                        BankAccount = tboxBankAccount.tb.Text,
+                        BankCorrAccount = tboxBankCorrAccount.tb.Text,
+                        BankBik = tboxBankBIK.tb.Text,
+                    };
+                    context.ClientsLegalEntitiesBankData.Add(newCompanyBank);
+                    context.SaveChanges();
+
+
+                    ClientsLegalEntities newClientLegalEntitites = new ClientsLegalEntities()
+                    {
+                        CompanyId = newCompanyData.CompanyId,
+                        BankDataId = newCompanyBank.BankDataId,
+                        CreatorId = mainWin?.ActiveUser.UserId ?? 0
+                    };
+
+                    context.ClientsLegalEntities.Add(newClientLegalEntitites);
+                    context.SaveChanges();
+
+                    ClientsLegalEntitiesContactPerson newContactPeson = new ClientsLegalEntitiesContactPerson()
+                    {
+                        CompanyId = newCompanyData.CompanyId,
+                        IsActive = true,
+                        Surname = tboxSurname.tb.Text,
+                        Name = tboxName.tb.Text,
+                        Middlename = tboxMiddlename.tb.Text,
+                        Phone = tboxPhoneNumber.tb.Text,
+                        Email = tboxEmail.tb.Text,
+                    };
+                    if (ClientPhoto.Source != null)
+                        newContactPeson.Photo = BitmapImageToByteArray(PhotoPath);
+                    else
+                        newContactPeson.Photo = null;
+
+                    context.ClientsLegalEntitiesContactPerson.Add(newContactPeson);
+                    context.SaveChanges();
+                    Thread.Sleep(200);
+                    MessageBox.Show("Запись успешно добавлена");
+                    this.Close();
+                }
             }
-            else // При создании клиента
+            catch (Exception)
             {
-                //Адресс
-                var countryName = tboxAddressCountry.Text.Trim();
-                var country = context.Country.FirstOrDefault(c => c.CountryName == countryName);
-                if (country == null)
-                {
-                    country = new Country { CountryName = countryName };
-                    context.Country.Add(country);
-                    context.SaveChanges();
-                }
 
-                // 2. Ищем или создаём город
-                var cityName = tboxAddressCity.Text.Trim();
-                var city = context.City.FirstOrDefault(c => c.CityName == cityName && c.CountryId == country.CountryId);
-                if (city == null)
-                {
-                    city = new City { CityName = cityName, CountryId = country.CountryId };
-                    context.City.Add(city);
-                    context.SaveChanges();
-                }
-
-                // 3. Ищем или создаём улицу
-                var streetName = tboxAddressStreet.Text.Trim();
-                var street = context.Street.FirstOrDefault(s => s.StreetName == streetName && s.CityId == city.CityId);
-                if (street == null)
-                {
-                    street = new Street { StreetName = streetName, CityId = city.CityId };
-                    context.Street.Add(street);
-                    context.SaveChanges();
-                }
-
-                // 4. Добавляем AddressLegalEntities
-                var address = new AddressLegalEntities
-                {
-                    StreetId = street.StreetId,
-                    HouseNumber = tboxAddressHouse.Text
-                };
-
-                if (tboxAddressApartment.Text != "Квартира" && !string.IsNullOrWhiteSpace(tboxAddressApartment.Text))
-                    address.Apartment = tboxAddressApartment.Text;
-
-                if (tboxAddressOffice.Text != "Офис" && !string.IsNullOrWhiteSpace(tboxAddressOffice.Text))
-                    address.Office = tboxAddressOffice.Text;
-
-                context.AddressLegalEntities.Add(address);
-                context.SaveChanges();
-
-                DateTime.TryParse(tboxRegistrationDate.tb.Text, out DateTime res);
-
-                //Создание компании
-                ClientsLegalEntitiesCompanyData newCompanyData = new ClientsLegalEntitiesCompanyData()
-                {
-                    CompanyName = tboxCompanyName.tb.Text,
-                    INN = tboxINN.tb.Text,
-                    KPP = tboxKPP.tb.Text,
-                    OGRN = tboxOGRN.tb.Text,
-                    EmployeeCount = Convert.ToInt32(tboxEmployeeCount.tb.Text),
-                    RegistrationDate = res,
-                    AddressLegalEntitiesId = address.AddressLegalEntitiesId
-                };
-                context.ClientsLegalEntitiesCompanyData.Add(newCompanyData);
-                context.SaveChanges();
-
-                //Создание банковских данных
-                ClientsLegalEntitiesBankData newCompanyBank = new ClientsLegalEntitiesBankData()
-                {
-                    BankName = tboxBankName.tb.Text,
-                    BankAccount = tboxBankAccount.tb.Text,
-                    BankCorrAccount = tboxBankCorrAccount.tb.Text,
-                    BankBik = tboxBankBIK.tb.Text,
-                };
-                context.ClientsLegalEntitiesBankData.Add(newCompanyBank);
-                context.SaveChanges();
-
-                ClientsLegalEntities newClientLegalEntitites = new ClientsLegalEntities()
-                {
-                    CompanyId = newCompanyData.CompanyId,
-                    //ContactPersonId = newContactPeson.ContactPersonId,
-                    BankDataId = newCompanyBank.BankDataId
-                    //Здесь добавить creatorId = указать авторизованный id менеджера
-                };
-
-                context.ClientsLegalEntities.Add(newClientLegalEntitites);
-                context.SaveChanges();
-
-                //Создание данных контактного лица
-                ClientsLegalEntitiesContactPerson newContactPeson = new ClientsLegalEntitiesContactPerson()
-                {
-                    Surname = tboxSurname.tb.Text,
-                    Name = tboxName.tb.Text,
-                    Phone = tboxPhoneNumber.tb.Text,
-                    Email = tboxEmail.tb.Text,
-                    IsActive = true,
-                    CompanyId = context.ClientsLegalEntitiesCompanyData.FirstOrDefault(f=>f.CompanyName == newCompanyData.CompanyName).CompanyId
-                };
-                if (tboxMiddlename.Text != "Отчество" && !string.IsNullOrWhiteSpace(tboxMiddlename.Text))
-                    newContactPeson.Middlename = tboxMiddlename.tb.Text;
-
-                if (ClientPhoto.Source != null)
-                    newContactPeson.Photo = BitmapImageToByteArray(PhotoPath);
-                else
-                    newContactPeson.Photo = null;
-
-                context.ClientsLegalEntitiesContactPerson.Add(newContactPeson);
-                context.SaveChanges();
-                Thread.Sleep(200);
-                MessageBox.Show("Запись успешно добавлена");
-                this.Close();
             }
         }
 

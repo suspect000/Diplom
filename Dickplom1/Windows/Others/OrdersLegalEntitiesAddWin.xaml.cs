@@ -396,7 +396,7 @@ namespace Dickplom1.Windows.Others
 
                     int subId = Convert.ToInt32(cboxSubscription.cbox.SelectedValue);
                     var subscription = context.Subscription.FirstOrDefault(f=>f.SubscriptionId == (int)cboxSubscription.cbox.SelectedValue);
-                    int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth.SubscriptionPeriodMonthValue);
+                    int month = Convert.ToInt32(subscription.SubscriptionPeriodMonth?.SubscriptionPeriodMonthValue);
                     int price = Convert.ToInt32(subscription.PriceForMonth) * month;
 
                     tblockItogo.Text = price.ToString() + " руб";
@@ -527,47 +527,80 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
-            var context = DBEntities.GetContext();
+            try
+            {
+                var mainWin = Application.Current.MainWindow as MainWindow;
+                var context = DBEntities.GetContext();
 
-            if (cboxCompany.cbox.SelectedIndex == 0
-                || cboxContactPerson.cbox.SelectedIndex == 0
-                || cboxSubscription.cbox.SelectedIndex == 0
-                || datePicker.dp.SelectedDate == null
-                || cboxOrderStatus.cbox.SelectedIndex == 0)
-            {
-                MessageBox.Show("Необходимо заполнить все поля");
-                return;
-            }
-            else
-            {
-                try
+                if (cboxCompany.cbox.SelectedIndex == 0
+                    || cboxContactPerson.cbox.SelectedIndex == 0
+                    || cboxSubscription.cbox.SelectedIndex == 0
+                    || datePicker.dp.SelectedDate == null
+                    || cboxOrderStatus.cbox.SelectedIndex == 0)
                 {
-                    if (endDatE == null) return;
-                    if (priceAll == null) return;
-
-                    //Рекдактирование заказа
-                    if (OrderId != 0)
+                    MessageBox.Show("Необходимо заполнить все поля");
+                    return;
+                }
+                else
+                {
+                    try
                     {
-                        var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+                        if (endDatE == null) return;
+                        if (priceAll == null) return;
 
-                        //Поиск активных заказов у этого клиента
-                        var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
-                        if (orderActiveOld != null)
+                        //Рекдактирование заказа
+                        if (OrderId != 0)
                         {
-                            if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
+                            var selectedOrder = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId);
+
+                            //Поиск активных заказов у этого клиента
+                            var orderActiveOld = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                            if (orderActiveOld != null)
                             {
-                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                                return;
+                                if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
+                                {
+                                    MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                                    return;
+                                }
                             }
+                            if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
+                            {
+                                if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
+                                {
+                                    MessageBox.Show("Некорректно указана дата");
+                                    return;
+                                }
+                                if (dateParsedNew.Date < DateTime.Now.Date)
+                                {
+                                    MessageBoxButton btns = MessageBoxButton.YesNo;
+                                    MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                                    if (box == MessageBoxResult.No)
+                                        return;
+                                }
+                            }
+
+                            if (selectedOrder != null)
+                            {
+                                selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
+                                selectedOrder.ClientId = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId).ClientId;
+                                selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
+                                selectedOrder.EndDate = DateTime.Parse(endDatE);
+                                selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
+                                selectedOrder.Price = Convert.ToInt32(priceAll);
+                            }
+                            context.SaveChanges();
+                            MessageBox.Show("Заказ успешно обновлен");
+                            this.Close();
+                            return;
                         }
-                        if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
+                        if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
                         {
-                            if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
+                            if (dateParsed.Date < DateTime.Now.AddMonths(-18) || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
                             {
                                 MessageBox.Show("Некорректно указана дата");
                                 return;
                             }
-                            if (dateParsedNew.Date < DateTime.Now.Date)
+                            if (dateParsed.Date < DateTime.Now.Date)
                             {
                                 MessageBoxButton btns = MessageBoxButton.YesNo;
                                 MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
@@ -576,66 +609,42 @@ namespace Dickplom1.Windows.Others
                             }
                         }
 
-                        if (selectedOrder != null)
+                        //Создание заказа
+                        OrdersLegalEntities newOrder = new OrdersLegalEntities
                         {
-                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
-                            selectedOrder.ClientId = context.OrdersLegalEntities.FirstOrDefault(f => f.OrderId == OrderId).ClientId;
-                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
-                            selectedOrder.EndDate = DateTime.Parse(endDatE);
-                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
-                            selectedOrder.Price = Convert.ToInt32(priceAll);
-                        }
-                        context.SaveChanges();
-                        MessageBox.Show("Заказ успешно обновлен");
-                        this.Close();
-                        return;
-                    }
-                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
-                    {
-                        if (dateParsed.Date < DateTime.Now.AddMonths(-18) || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
+                            SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
+                            ClientId = context.ClientsLegalEntities.FirstOrDefault(f => f.CompanyId == (int)cboxCompany.cbox.SelectedValue).ClientsLegalEntitiesId,
+                            StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
+                            EndDate = DateTime.Parse(endDatE),
+                            StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
+                            Price = Convert.ToInt32(priceAll),
+                            CreatedAt = DateTime.Parse(DateTime.Now.ToString("g")),
+                            CreatorId = mainWin?.ActiveUser.UserId ?? 0
+                        };
+
+                        var orderActive = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == newOrder.ClientId && f.OrderId != newOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                        if (orderActive != null)
                         {
-                            MessageBox.Show("Некорректно указана дата");
-                            return;
-                        }
-                        if (dateParsed.Date < DateTime.Now.Date)
-                        {
-                            MessageBoxButton btns = MessageBoxButton.YesNo;
-                            MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
-                            if (box == MessageBoxResult.No)
+                            if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5)
+                            {
+                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
                                 return;
+                            }
                         }
+                        context.OrdersLegalEntities.Add(newOrder);
+                        context.SaveChanges();
+                        MessageBox.Show("Заказ успешно добавлен");
+                        this.Close();
                     }
-
-                    //Создание заказа
-                    OrdersLegalEntities newOrder = new OrdersLegalEntities
+                    catch (Exception)
                     {
-                        SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
-                        ClientId = context.ClientsLegalEntities.FirstOrDefault(f => f.CompanyId == (int)cboxCompany.cbox.SelectedValue).ClientsLegalEntitiesId,
-                        StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
-                        EndDate = DateTime.Parse(endDatE),
-                        StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
-                        Price = Convert.ToInt32(priceAll),
-                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
-                        //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
-                    };
-
-                    var orderActive = context.OrdersLegalEntities.FirstOrDefault(f => f.ClientId == newOrder.ClientId && f.OrderId != newOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
-                    if (orderActive != null)
-                    {
-                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5 )
-                        {
-                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                            return;
-                        }
                     }
-                    context.OrdersLegalEntities.Add(newOrder);
-                    context.SaveChanges();
-                    MessageBox.Show("Заказ успешно добавлен");
-                    this.Close();
                 }
-                catch (Exception)
-                {
-                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

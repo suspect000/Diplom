@@ -27,6 +27,7 @@ namespace Dickplom1.DataFolder
         public int CreatorId { get; set; }
         public DateTime CreatedAt { get; set; }
         public string AccountStatus { get; set; }
+        public double KPI { get; set; } // например, от 0 до 100
         public bool IsDeleted { get; set; }
         public byte[] UserPhoto { get; set; }
     }

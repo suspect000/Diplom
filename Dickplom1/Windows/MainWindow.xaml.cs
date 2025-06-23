@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ using System.Xml;
 using Dickplom1.Class;
 using Dickplom1.DataFolder;
 using Dickplom1.Pages.Manager;
+using Dickplom1.Windows;
 using Dickplom1.Windows.Others;
 
 
@@ -30,7 +32,6 @@ namespace Dickplom1
         {
             InitializeComponent();
 
-            Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
         }
         public Users ActiveUser { get; set; } = null;
 
@@ -539,11 +540,10 @@ namespace Dickplom1
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
 
-            if (mainWin.MainFrameScrollOff != null)
+            if (this.MainFrameScrollOff != null)
             {
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsNaturalPersons clientsNatural) // Для клиентов (физ. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.ClientsNaturalPersons clientsNatural) // Для клиентов (физ. лиц)
                 {
                     
 
@@ -567,7 +567,7 @@ namespace Dickplom1
                         }
                     }
                 }
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.ClientsLegalEntities clientsLegal) // Для клиентов (юр. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.ClientsLegalEntities clientsLegal) // Для клиентов (юр. лиц)
                 {
                     if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
                     {
@@ -589,7 +589,7 @@ namespace Dickplom1
                         }
                     }
                 }
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.OrdersNaturalPersons ordersNatural) // Для заказов (физ. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.OrdersNaturalPersons ordersNatural) // Для заказов (физ. лиц)
                 {
                     if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
                     {
@@ -612,7 +612,7 @@ namespace Dickplom1
                         }
                     }
                 }
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.OrdersLegalEntities ordersLegal) // Для заказов (юр. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.OrdersLegalEntities ordersLegal) // Для заказов (юр. лиц)
                 {
                     if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
                     {
@@ -635,7 +635,7 @@ namespace Dickplom1
                         }
                     }
                 }
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Subscriptions subs) // Для заказов (юр. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.Subscriptions subs) // Для заказов (юр. лиц)
                 {
                     if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
                     {
@@ -658,7 +658,7 @@ namespace Dickplom1
                         }
                     }
                 }
-                if (mainWin.MainFrameScrollOff.Content is Pages.Manager.Staff staff) // Для заказов (юр. лиц)
+                if (this.MainFrameScrollOff.Content is Pages.Manager.Staff staff) // Для заказов (юр. лиц)
                 {
                     if (tbSearch.Text != "Найти" && !string.IsNullOrWhiteSpace(tbSearch.Text))
                     {
@@ -903,33 +903,65 @@ namespace Dickplom1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ActiveUser = context.Users.FirstOrDefault(f=>f.UserId == 1);
-            if (ActiveUser != null)
+            var loginWindow = new Windows.Authorization();
+            bool? dialogResult = loginWindow.ShowDialog();
+
+            if (dialogResult == true)
             {
-                if (ActiveUser.RoleId == 1) // Админ
+                // Передаём авторизованного пользователя в MainWindow
+                if (loginWindow.ActiveUser != null)
                 {
-                    Class.Musor.HideElement(gridZakrep); // Скрыть закреп
-                    Class.Musor.ShowElement(gridLogs);  // Показать логи
-                    gridNavigation.VerticalAlignment = VerticalAlignment.Stretch;
+                    this.ActiveUser = loginWindow.ActiveUser;
                 }
-                else if (ActiveUser.RoleId == 2) // Менеджер
-                {
-                    Class.Musor.ShowElement(gridZakrep); // Показать закреп
-                    Class.Musor.HideElement(gridLogs);  // Скрыть логи
-                    gridNavigation.VerticalAlignment = VerticalAlignment.Top;
-                }
-                else if (ActiveUser.RoleId == 3) // Аналитик
-                {
-                    Class.Musor.HideElement(gridZakrep); // Показать закреп
-                    Class.Musor.HideElement(gridClients);  // Скрыть логи
-                    Class.Musor.HideElement(gridOrders);  // Скрыть логи
-                    Class.Musor.HideElement(gridServices);  // Скрыть логи
-                    Class.Musor.HideElement(gridStaff);  // Скрыть логи
-                    Class.Musor.HideElement(gridLogs);  // Скрыть логи
-                    gridNavigation.VerticalAlignment = VerticalAlignment.Top;
-                }
-                RefreshName();
+                
             }
+            else
+            {
+                this.Close(); // Закрыть, если отмена
+            }
+
+            Musor.Navigation("dashboards", borderDashboard, navImgDashboards, navTboxDashboards);
+
+            Join();
+            
+        }
+        public void Join()
+        {
+            try
+            {
+                ActiveUser = context.Users.FirstOrDefault(f => f.UserId == ActiveUser.UserId);
+                if (ActiveUser != null)
+                {
+                    if (ActiveUser.RoleId == 1) // Админ
+                    {
+                        Class.Musor.HideElement(gridZakrep); // Скрыть закреп
+                        Class.Musor.ShowElement(gridLogs);  // Показать логи
+                        gridNavigation.VerticalAlignment = VerticalAlignment.Stretch;
+                    }
+                    else if (ActiveUser.RoleId == 2) // Менеджер
+                    {
+                        Class.Musor.ShowElement(gridZakrep); // Показать закреп
+                        Class.Musor.HideElement(gridLogs);  // Скрыть логи
+                        gridNavigation.VerticalAlignment = VerticalAlignment.Top;
+                    }
+                    else if (ActiveUser.RoleId == 3) // Аналитик
+                    {
+                        Class.Musor.HideElement(gridZakrep); // Показать закреп
+                        Class.Musor.HideElement(gridClients);  // Скрыть логи
+                        Class.Musor.HideElement(gridOrders);  // Скрыть логи
+                        Class.Musor.HideElement(gridServices);  // Скрыть логи
+                        Class.Musor.HideElement(gridStaff);  // Скрыть логи
+                        Class.Musor.HideElement(gridLogs);  // Скрыть логи
+                        gridNavigation.VerticalAlignment = VerticalAlignment.Top;
+                    }
+                    RefreshName();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
         public void RefreshName()
         {
@@ -957,7 +989,7 @@ namespace Dickplom1
         {
             MiniProfileForStaff win = new MiniProfileForStaff();
             win.SelectedUser = ActiveUser;
-            win.Closed += Win_Closed; ;
+            win.Closed += Win_Closed;
             win.ShowDialog();
         }
 
@@ -1062,6 +1094,24 @@ namespace Dickplom1
         private void tbActiveUserFI_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void gridMiniProfileExit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var loginWindow = new Windows.Authorization();
+            bool? dialogResult = loginWindow.ShowDialog();
+
+            if (dialogResult == true)
+            {
+                // Передаём авторизованного пользователя в MainWindow
+                this.ActiveUser = loginWindow.ActiveUser;
+
+                // Теперь можно использовать this.SelectedUser
+            }
+            else
+            {
+                this.Close(); // Закрыть, если отмена
+            }
         }
         //------------------------------------------------------------------------------
     }

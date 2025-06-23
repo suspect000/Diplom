@@ -115,31 +115,84 @@ namespace Dickplom1.Windows.Others
                 string newPassword = pbNewPassword.Password;
                 string confirmPassword = pbNewPasswordRepeat.Password;
 
+                // Проверка на совпадение паролей
                 if (newPassword != confirmPassword)
                 {
                     MessageBox.Show("Пароли не совпадают");
                     return;
                 }
 
+                // Проверка длины пароля (минимум 8 символов)
+                if (newPassword.Length < 8)
+                {
+                    MessageBox.Show("Пароль должен содержать минимум 8 символов");
+                    return;
+                }
+
+                // Проверка на наличие цифр
+                if (!newPassword.Any(char.IsDigit))
+                {
+                    MessageBox.Show("Пароль должен содержать хотя бы одну цифру");
+                    return;
+                }
+
+                // Проверка на наличие заглавных букв
+                if (!newPassword.Any(char.IsUpper))
+                {
+                    MessageBox.Show("Пароль должен содержать хотя бы одну заглавную букву");
+                    return;
+                }
+
+                // Проверка на наличие строчных букв
+                if (!newPassword.Any(char.IsLower))
+                {
+                    MessageBox.Show("Пароль должен содержать хотя бы одну строчную букву");
+                    return;
+                }
+
+                // Проверка на наличие спецсимволов
+                var specialChars = "!@#$%^&*()_-+=[{]};:<>|./?";
+                if (!newPassword.Any(c => specialChars.Contains(c)))
+                {
+                    MessageBox.Show("Пароль должен содержать хотя бы один спецсимвол: " + specialChars);
+                    return;
+                }
+
+                // Проверка на наличие пробелов
+                if (newPassword.Contains(" "))
+                {
+                    MessageBox.Show("Пароль не должен содержать пробелов");
+                    return;
+                }
+
                 if (ActiveUser != null)
                 {
+                    // Хеширование пароля
                     ActiveUser.PasswordHash = Dickplom1.Class.PasswordHelper.HashPassword(newPassword);
                     ActiveUser.IsTemporaryPassword = false;
                     ActiveUser.AccountStatusId = 1;
 
                     context.SaveChanges();
 
-                    MessageBox.Show("Пароль успешно изменён");
+                    try
+                    {
+                        MessageBox.Show("Пароль успешно изменён");
+                        var mainWin = Application.Current.MainWindow as MainWindow;
+                        mainWin.ActiveUser = ActiveUser;
+                        mainWin.Join();
+                        this.DialogResult = true;
+                        this.Close();
+                    }
+                    catch (Exception)
+                    {
 
-                    var mainWindow = new MainWindow();
-                    mainWindow.ActiveUser = ActiveUser;
-                    MessageBox.Show("Данные применятся после перезапуска приложения");
-                    mainWindow.ShowDialog();
-                    this.Close();
+                    }
+                    
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
         }
     }

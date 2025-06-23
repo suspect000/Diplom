@@ -138,75 +138,88 @@ namespace Dickplom1.Windows.Others
         public void LoadDataToWin()
         {
             var mainWin = Application.Current.MainWindow as MainWindow;
-            var context = DBEntities.GetContext();
-            var selectedUserFromDB = context.Users.FirstOrDefault(f=>f.UserId == SelectedUser.UserId);
-            //Проверки
-            if (SelectedUser.UserId == mainWin.ActiveUser.UserId)
-            {
-                Class.Musor.ShowElement(btnEdit);
-                Class.Musor.ShowElement(btnChangePassword);
-                Class.Musor.ShowElement(ChangePhoto);
-                imgDelete.IsHitTestVisible = true;
-            }
-            else
-            {
-                Class.Musor.HideElement(btnEdit);
-                Class.Musor.HideElement(btnChangePassword);
-                Class.Musor.HideElement(ChangePhoto);
-                imgDelete.IsHitTestVisible = false;
-            }
-            //____________
 
-
-            if (SelectedUser != null)
+            try
             {
-                try
+                if (mainWin == null)
                 {
-                    if (selectedUserFromDB.UserData.UserPhoto != null)
-                    {
-                        PhotoPath = LoadImage(selectedUserFromDB.UserData.UserPhoto);
-                    }
-                    else
-                    {
-                        PhotoPath = null;
-                    }
+                    // Обработка случая, когда MainWindow не найден, например, возврат или исключение
+                    return;
+                }
+                var context = DBEntities.GetContext();
+                var selectedUserFromDB = context.Users.FirstOrDefault(f => f.UserId == mainWin.ActiveUser.UserId);
+                //Проверки
+                if (SelectedUser.UserId == mainWin.ActiveUser.UserId)
+                {
+                    Class.Musor.ShowElement(btnEdit);
+                    Class.Musor.ShowElement(btnChangePassword);
+                    Class.Musor.ShowElement(ChangePhoto);
+                    imgDelete.IsHitTestVisible = true;
+                }
+                else
+                {
+                    Class.Musor.HideElement(btnEdit);
+                    Class.Musor.HideElement(btnChangePassword);
+                    Class.Musor.HideElement(ChangePhoto);
+                    imgDelete.IsHitTestVisible = false;
+                }
+                //____________
 
-                    tbFullNameStaff.Text = SelectedUser?.UserData.Surname + " " + SelectedUser?.UserData.Name + " " + SelectedUser?.UserData.MiddleName;
-                    tbPostStaff.Text = selectedUserFromDB?.Roles.NameRole;
 
-                    //Тб данные пользователя
-                    tboxSurname.Text = SelectedUser.UserData.Surname;
-                    tboxName.Text = SelectedUser.UserData.Name;
-                    tboxMiddlename.Text = SelectedUser.UserData.MiddleName;
-                    tboxDateOfBirth.Text = SelectedUser.UserData.DateOfBirth?.ToString("d");
-                    tboxPhone.Text = SelectedUser.UserData.PhoneNumber;
-                    tboxEmail.Text = SelectedUser.UserData.Email;
-
-                    if (PhotoPath != null)
+                if (SelectedUser != null)
+                {
+                    try
                     {
-                        try
+                        if (selectedUserFromDB.UserData.UserPhoto != null)
                         {
-                            ClientPhoto.Source = PhotoPath;
+                            PhotoPath = LoadImage(selectedUserFromDB.UserData.UserPhoto);
                         }
-                        catch (Exception)
+                        else
                         {
+                            PhotoPath = null;
+                        }
+
+                        tbFullNameStaff.Text = SelectedUser?.UserData.Surname + " " + SelectedUser?.UserData.Name + " " + SelectedUser?.UserData.MiddleName;
+                        tbPostStaff.Text = selectedUserFromDB?.Roles.NameRole;
+
+                        //Тб данные пользователя
+                        tboxSurname.Text = SelectedUser.UserData.Surname;
+                        tboxName.Text = SelectedUser.UserData.Name;
+                        tboxMiddlename.Text = SelectedUser.UserData.MiddleName;
+                        tboxDateOfBirth.Text = SelectedUser.UserData.DateOfBirth?.ToString("d");
+                        tboxPhone.Text = SelectedUser.UserData.PhoneNumber;
+                        tboxEmail.Text = SelectedUser.UserData.Email;
+
+                        if (PhotoPath != null)
+                        {
+                            try
+                            {
+                                ClientPhoto.Source = PhotoPath;
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                        if (ClientPhoto.Source != null)
+                        {
+                            Dickplom1.Class.Musor.HideElement(ClientPhotoFI);
+                            Dickplom1.Class.Musor.ShowElement(imgDelete); // Включаем кнопку отмены выбора фотографии пользователя
+                        }
+                        else
+                        {
+                            Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
+                            Dickplom1.Class.Musor.HideElement(imgDelete);
                         }
                     }
-                    if (ClientPhoto.Source != null)
+                    catch (Exception)
                     {
-                        Dickplom1.Class.Musor.HideElement(ClientPhotoFI);
-                        Dickplom1.Class.Musor.ShowElement(imgDelete); // Включаем кнопку отмены выбора фотографии пользователя
-                    }
-                    else
-                    {
-                        Dickplom1.Class.Musor.ShowElement(ClientPhotoFI);
-                        Dickplom1.Class.Musor.HideElement(imgDelete);
+
                     }
                 }
-                catch (Exception)
-                {
+            }
+            catch (Exception)
+            {
 
-                }
             }
         }
 
@@ -299,6 +312,16 @@ namespace Dickplom1.Windows.Others
                 else
                 {
                     MessageBox.Show("Некорректная дата рождения");
+                    return;
+                }
+                if (context.Users.FirstOrDefault(f => f.UserId != SelectedUser.UserId && f.UserData.Email == SelectedUser.UserData.Email) != null)
+                {
+                    MessageBox.Show("Пользователь с такой электронной почтой уже есть в системе");
+                    return;
+                }
+                if (context.Users.FirstOrDefault(f => f.UserId != SelectedUser.UserId && f.UserData.PhoneNumber == SelectedUser.UserData.PhoneNumber) != null)
+                {
+                    MessageBox.Show("Пользователь с таким номером телефона уже есть в системе");
                     return;
                 }
                 if (SelectedUser != null) // Действия и сохранение

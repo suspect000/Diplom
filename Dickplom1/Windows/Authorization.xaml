@@ -14,6 +14,8 @@
         Background="Transparent">
     <Border
         Background="White"
+        BorderBrush="DarkSlateGray"
+        BorderThickness="0"
         CornerRadius="20">
         <Grid>
             <customControls:ButtonClose

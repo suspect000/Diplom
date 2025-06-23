@@ -321,106 +321,118 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
+            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
 
-
-            if (tboxSurname.tb.Text == "Фамилия" 
+            try
+            {
+                if (tboxSurname.tb.Text == "Фамилия"
                 || tboxName.tb.Text == "Имя"
                 || tboxPhoneNumber.tb.Text == "Номер телефона"
                 || tboxEmail.tb.Text == "Электронная почта")
-            {
-                MessageBox.Show("Необходимо заполнить все поля");
-                return;
-            }
-            //Проверки
-            if (tboxPhoneNumber.tb.Text.Length < 11)
-            {
-                MessageBox.Show("Номер телефона должен содержать 11 цифр");
-                return;
-            }
-            if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
-            {
-                MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
-                return;
-            }
-            if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
-            {
-                MessageBox.Show("Неправильный формат электронной почты");
-                return;
-            }
-            //________________________________________________________________________________
-
-            if (ClientId != 0) // При редактировании клиента
-            {
-                ClientsNaturalPersons selectedClient = context.ClientsNaturalPersons
-                    .Where(c => c.ClientNaturalPersonsId == ClientId)
-                    .FirstOrDefault();
-
-                var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.PhoneNumber == tboxPhoneNumber.tb.Text);
-                if (clientConflictPhoneNumber != null)
-                {   
-                    MessageBox.Show("Клиент с таким номером телефона уже есть в системе"); 
-                    return;
-                }
-
-                var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.Email == tboxEmail.tb.Text);
-                if (clientConflictEmail != null)
                 {
-                    MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");   
+                    MessageBox.Show("Необходимо заполнить все поля");
                     return;
                 }
+                //Проверки
+                if (tboxPhoneNumber.tb.Text.Length < 11)
+                {
+                    MessageBox.Show("Номер телефона должен содержать 11 цифр");
+                    return;
+                }
+                if (!tboxPhoneNumber.tb.Text.StartsWith("8") && !tboxPhoneNumber.tb.Text.StartsWith("7"))
+                {
+                    MessageBox.Show("Номер телефона должен начинаться на 7 или 8");
+                    return;
+                }
+                if (!tboxEmail.tb.Text.Contains("@") | !tboxEmail.tb.Text.Contains("."))
+                {
+                    MessageBox.Show("Неправильный формат электронной почты");
+                    return;
+                }
+                //________________________________________________________________________________
 
-                selectedClient.ClientNaturalPersonsId = ClientId;
-                selectedClient.Surname = tboxSurname.tb.Text;
-                selectedClient.Name = tboxName.tb.Text;
-                selectedClient.MiddleName = tboxMiddleName.tb.Text;
-                selectedClient.PhoneNumber = tboxPhoneNumber.tb.Text;
-                selectedClient.Email = tboxEmail.tb.Text;
+                if (ClientId != 0) // При редактировании клиента
+                {
+                    ClientsNaturalPersons selectedClient = context.ClientsNaturalPersons
+                        .Where(c => c.ClientNaturalPersonsId == ClientId)
+                        .FirstOrDefault();
 
-                if (ClientPhoto.Source != null)
-                    selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
+                    var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.PhoneNumber == tboxPhoneNumber.tb.Text);
+                    if (clientConflictPhoneNumber != null)
+                    {
+                        MessageBox.Show("Клиент с таким номером телефона уже есть в системе");
+                        return;
+                    }
+
+                    var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.ClientNaturalPersonsId != selectedClient.ClientNaturalPersonsId && f.Email == tboxEmail.tb.Text);
+                    if (clientConflictEmail != null)
+                    {
+                        MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");
+                        return;
+                    }
+
+                    selectedClient.ClientNaturalPersonsId = ClientId;
+                    selectedClient.Surname = tboxSurname.tb.Text;
+                    selectedClient.Name = tboxName.tb.Text;
+                    selectedClient.MiddleName = tboxMiddleName.tb.Text;
+                    selectedClient.PhoneNumber = tboxPhoneNumber.tb.Text;
+                    selectedClient.Email = tboxEmail.tb.Text;
+
+                    if (ClientPhoto.Source != null)
+                        selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
+                    else
+                        selectedClient.ClientPhoto = null;
+
+
+
+                    context.SaveChanges();
+                    MessageBox.Show("Запись успешно обновлена");
+                    this.Close();
+                }
                 else
-                    selectedClient.ClientPhoto = null;
+                {
+                    ClientsNaturalPersons selectedClient = new ClientsNaturalPersons()
+                    {
+                        Surname = tboxSurname.tb.Text,
+                        Name = tboxName.tb.Text,
+                        MiddleName = tboxMiddleName.tb.Text,
+                        PhoneNumber = tboxPhoneNumber.tb.Text,
+                        Email = tboxEmail.tb.Text,
+                        CreatorId = mainWin?.ActiveUser.UserId ?? 0
+                    };
 
+                    var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f => f.PhoneNumber == selectedClient.PhoneNumber);
+                    if (clientConflictPhoneNumber != null)
+                    {
+                        MessageBox.Show("Клиент с таким номером телефона уже есть в системе");
+                        return;
+                    }
 
+                    var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.Email == selectedClient.Email);
+                    if (clientConflictEmail != null)
+                    {
+                        MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");
+                        return;
+                    }
 
-                context.SaveChanges();
-                this.Close();
+                    if (ClientPhoto.Source != null)
+                        selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
+                    else
+                        selectedClient.ClientPhoto = null;
+
+                    context.ClientsNaturalPersons.Add(selectedClient);
+                    context.SaveChanges();
+                    MessageBox.Show("Запись успешно добавлена");
+                    this.Close();
+                }
             }
-            else
+            catch (Exception)
             {
-                ClientsNaturalPersons selectedClient = new  ClientsNaturalPersons()
-                {
-                    Surname = tboxSurname.tb.Text,
-                    Name = tboxName.tb.Text,
-                    MiddleName = tboxMiddleName.tb.Text,
-                    PhoneNumber = tboxPhoneNumber.tb.Text,
-                    Email = tboxEmail.tb.Text,
-                };
 
-                var clientConflictPhoneNumber = context.ClientsNaturalPersons.FirstOrDefault(f=>f.PhoneNumber == selectedClient.PhoneNumber);
-                if (clientConflictPhoneNumber != null)
-                {
-                    MessageBox.Show("Клиент с таким номером телефона уже есть в системе");
-                    return;
-                }
-
-                var clientConflictEmail = context.ClientsNaturalPersons.FirstOrDefault(f => f.Email == selectedClient.Email);
-                if (clientConflictEmail != null)
-                {
-                    MessageBox.Show("Клиент с такой электронной почтой уже есть в системе");
-                    return;
-                }
-
-                if (ClientPhoto.Source != null)
-                    selectedClient.ClientPhoto = BitmapImageToByteArray(PhotoPath);
-                else
-                    selectedClient.ClientPhoto = null;
-
-                context.ClientsNaturalPersons.Add(selectedClient);
-                context.SaveChanges();
-                this.Close();
             }
+
+
         }
         public static byte[] BitmapImageToByteArray(BitmapImage bitmapImage)
         {

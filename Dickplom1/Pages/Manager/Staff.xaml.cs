@@ -31,7 +31,22 @@ namespace Dickplom1.Pages.Manager
         public Staff()
         {
             InitializeComponent();
+
+            foreach (Window w in Application.Current.Windows)
+            {
+                if (w is MainWindow mainWnd)
+                {
+                    mainWin = mainWnd;
+                    break;
+                }
+            }
+
+            if (mainWin == null)
+            {
+                return;
+            }
         }
+        public MainWindow mainWin = null;
         public bool IsDeletedFilter { get; set; } = false;
 
         //Загрузка данных в датагрид и паггинация
@@ -366,11 +381,10 @@ namespace Dickplom1.Pages.Manager
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
 
-            if (mainWindow != null && mainWindow.gridSearch != null)
+            if (mainWin!= null && mainWin.gridSearch != null)
             {
-                mainWindow.gridSearch.Visibility = Visibility.Visible;
+                mainWin.gridSearch.Visibility = Visibility.Visible;
 
             }
             Dickplom1.Class.Musor.SearchSelect();
@@ -396,7 +410,6 @@ namespace Dickplom1.Pages.Manager
         private void MenuItem_Click(object sender, RoutedEventArgs e) // Удаление
         {
             var context = DBEntities.GetContext();
-            var mainWin = Application.Current.MainWindow as MainWindow;
             if (dataGrid.dg.SelectedItem is StaffViewModel itemNew)
             {
                 if (itemNew.UserId == mainWin.ActiveUser.UserId)
@@ -453,7 +466,6 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
 
             if (dataGrid.dg.SelectedItem is StaffViewModel item)
@@ -519,7 +531,6 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) // Заблокировать
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
             if (dataGrid.dg.SelectedItem is StaffViewModel item)
             {
@@ -572,7 +583,6 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click_5(object sender, RoutedEventArgs e) // Разблокировать
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
 
             try
@@ -617,7 +627,6 @@ namespace Dickplom1.Pages.Manager
 
         private void dataGrid_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
             try
             {
                 MenuItem miBtnRecovery = dataGrid.ContextMenu?.Items
@@ -838,7 +847,6 @@ namespace Dickplom1.Pages.Manager
 
         private void MenuItem_Click_6(object sender, RoutedEventArgs e) // Восстановить
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
 
             try

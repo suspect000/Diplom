@@ -477,7 +477,7 @@
 
             <Label
                 Style="{StaticResource TextZagolovokDashboard}"
-                Content="Динамика продаж"
+                Content="Динамика заказов за месяц"
                 Margin="20,20"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -494,7 +494,7 @@
 
                         <StackPanel 
                             Orientation="Horizontal"
-                            Margin="20,0,0,0"
+                            Margin="20,20,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top">
                             <TextBlock
                                 x:Name="tbDynamicSalesValue"
@@ -503,53 +503,11 @@
 
                             <TextBlock
                                 x:Name="tbDynamicSalesValueSalesOfChosenDate"
-                                Text="продаж за месяц"
+                                Text="заказов за месяц"
                                 Style="{DynamicResource DefText15}"
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Margin="20,0,0,0"/>
                         </StackPanel>
-
-                        <Grid 
-                            Height="33"
-                            HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Top"
-                            Margin="0,100,0,0">
-
-
-                            <TextBlock
-                                x:Name="btnDynamicSalesChoseWeek"
-                                Text="Неделя"
-                                Style="{DynamicResource DefText15}"
-                                HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Cursor="Hand"
-                                MouseEnter="btnDynamicSalesChoseWeek_MouseEnter"
-                                MouseLeave="btnDynamicSalesChoseWeek_MouseLeave"
-                                MouseLeftButtonDown="btnDynamicSalesChoseWeek_MouseLeftButtonDown"
-                                Margin="25,0"/>
-
-
-                            <TextBlock
-                                x:Name="btnDynamicSalesChoseMounth"
-                                Text="Месяц"
-                                Style="{DynamicResource DefText15}"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                Cursor="Hand"
-                                MouseEnter="btnDynamicSalesChoseMounth_MouseEnter"
-                                MouseLeave="btnDynamicSalesChoseMounth_MouseLeave"
-                                MouseLeftButtonDown="btnDynamicSalesChoseMounth_MouseLeftButtonDown"/>
-
-
-                            <TextBlock
-                                x:Name="btnDynamicSalesChoseYear"
-                                Text="Год"
-                                Style="{DynamicResource DefText15}"
-                                HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Cursor="Hand"
-                                MouseEnter="btnDynamicSalesChoseYear_MouseEnter"
-                                MouseLeave="btnDynamicSalesChoseYear_MouseLeave"
-                                MouseLeftButtonDown="btnDynamicSalesChoseYear_MouseLeftButtonDown"
-                                Margin="25,0"/>
-                        </Grid>
                         <lvc:CartesianChart
                             x:Name="ChartDynamicSales"
                             Height="205"
@@ -557,7 +515,8 @@
                             HorizontalAlignment="Stretch"
                             Margin="15,0,15,15"
                             Series="{Binding SeriesDynamicSales}"
-                            XAxes="{Binding XAxesDynamicSales}">
+                            XAxes="{Binding XAxesDynamicSales}"
+                            Loaded="ChartDynamicSales_Loaded">
                         </lvc:CartesianChart>
                     </Grid>
                 </Border>
@@ -639,10 +598,10 @@
                             Height="150"
                             MaxWidth="190"
                             RenderOptions.BitmapScalingMode="HighQuality"
-                            Loaded="imgStaffLid_Loaded"
                             Source="/Resources/Images/Dashboards/peopleStaff.jpg"/>
 
-                        <Rectangle x:Name="rectStaffLidBlur" Height="75" ClipToBounds="True" Margin="0,106,0,0">
+                        <Rectangle x:Name="rectStaffLidBlur" Height="70" ClipToBounds="True" Margin="0,105,0,0"
+                                   Loaded="rectStaffLidBlur_Loaded">
                             <Rectangle.Fill>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="Black" Offset="1"/>
@@ -673,17 +632,21 @@
                             x:Name="tbStaffLidName"
                             Style="{DynamicResource DefText13}"
                             Foreground="White"
+                            MinWidth="140"
+                            FontSize="12"
                             Text="-"
+                            TextWrapping="NoWrap"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Loaded="tbStaffLidName_Loaded"
-                            Margin="10,0,0,28"/>
+                            Margin="10,0,0,38"/>
                         
                         <TextBlock
                             x:Name="tbStaffLidPost"
                             Style="{DynamicResource DefText13}"
                             Foreground="Gray"
                             Text="-"
+                            FontSize="12"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             MaxWidth="125"
@@ -735,7 +698,7 @@
                         Padding="0"/>
                     <TextBlock
                         Style="{StaticResource DefText13}"
-                        Text="0%"
+                        Text="2%"
                         Margin="0,35"
                         FontSize="37.5"
                         HorizontalAlignment="Center"
@@ -751,7 +714,7 @@
                         Padding="0"/>
                     <TextBlock
                         Style="{StaticResource DefText13}"
-                        Text="0%"
+                        Text="2%"
                         Margin="0,130"
                         FontSize="37.5"
                         HorizontalAlignment="Center"
@@ -760,14 +723,14 @@
 
                     <TextBlock
                         Style="{StaticResource DefText13}"
-                        Text="Среднее время сделок"
+                        Text="Успешные сделки"
                         Margin="0,70"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
                         Padding="0"/>
                     <TextBlock
                         Style="{StaticResource DefText13}"
-                        Text="0 ч"
+                        Text="98%"
                         Margin="0,20"
                         FontSize="37.5"
                         HorizontalAlignment="Center"
@@ -792,17 +755,32 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Padding="0"/>
-                    <TextBlock
-                        Style="{StaticResource DefText13}"
-                        Text="Средний KPI 0%"
-                        Foreground="Gray"
-                        Margin="55,40"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Padding="0"/>
+                    <Border 
+                        Height="25"
+                        Background="#E8E8E8"
+                        CornerRadius="5"
+                        Margin="20,0,55,154">
+                        <Grid>
+                            <TextBlock Style="{StaticResource DefText13}"
+                               Text="Сотрудник"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                                       Margin="50,0,0,0"/>
+                            <TextBlock Style="{StaticResource DefText13}"
+                               Text="Должность"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource DefText13}"
+                               Text="KPI"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"
+                                       Margin="0,0,50,0"/>
+                        </Grid>
+                    </Border>
+
                     <ScrollViewer
                         x:Name="StaffContentScroll"
-                        Height="210"
+                        Height="180"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Bottom"
                         Style="{StaticResource VerticalScrollViewer}"
@@ -810,7 +788,8 @@
                         CanContentScroll="True">
                         <customControls:DataGridMaterialDesignCustomForStaff    
                             x:Name="dgStaff"
-                            PreviewMouseWheel="dgStaff_PreviewMouseWheel"/>
+                            PreviewMouseWheel="dgStaff_PreviewMouseWheel"
+                            Loaded="dgStaff_Loaded"/>
                     </ScrollViewer>
                 </Grid>
             </Border>

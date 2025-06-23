@@ -215,6 +215,7 @@
     <Compile Include="DataFolder\Sexes.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\LogsViewModel.cs" />
     <Compile Include="DataFolder\StaffViewModel.cs" />
     <Compile Include="DataFolder\Street.cs">
       <DependentUpon>DBModel.tt</DependentUpon>

@@ -980,6 +980,7 @@
                 <Grid
                     x:Name="gridWindowThemes"
                     Width="242" Height="50"
+                    Visibility="Collapsed"
                     Background="Transparent"
                     MouseLeftButtonUp="gridWindowThemes_MouseLeftButtonUp"
                     MouseEnter="gridMiniProfileWindowThemes_MouseEnter"
@@ -1020,7 +1021,8 @@
                     Width="242" Height="50"
                     Background="Transparent"
                     MouseEnter="gridMiniProfileExit_MouseEnter"
-                    MouseLeave="gridMiniProfileExit_MouseLeave">
+                    MouseLeave="gridMiniProfileExit_MouseLeave"
+                    MouseLeftButtonUp="gridMiniProfileExit_MouseLeftButtonUp">
 
                     <Border
                         x:Name="borderMiniProfileExit"

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -30,7 +31,7 @@ namespace Dickplom1.Pages.Manager
         }
 
         //Загрузка данных в датагрид и паггинация
-        public List<StaffViewModel> allStaff;
+        public List<LogsViewModel> allLogs;
         private int currentPage = 1;
         private int itemsPerPage = 10;
         private int totalPages = 1;
@@ -50,17 +51,20 @@ namespace Dickplom1.Pages.Manager
         public void RefreshItems()
         {
             var context = DBEntities.GetContext();
-            allStaff = context.UserData
-                .Select
-                (o => new StaffViewModel 
+            allLogs = context.Logs
+                .Where(o => o.UserID != null)
+                .ToList()
+                .Select(o => new LogsViewModel
                 {
-                    UserPhoto = o.UserPhoto,
-                    FIOStaff = o.Surname + " " + o.Name + " " + o.MiddleName + " ",
-                    Email = o.Email,
-                    PhoneNumber = o.PhoneNumber ?? " ",
-                    Role = o.Users.FirstOrDefault(u => u.UserDataId == o.UserDataId).Roles.NameRole ?? " ",
-                    AccountStatus = o.Users.FirstOrDefault(u => u.UserDataId == o.UserDataId).AccountStatus.AccountStatusValue ?? " ",
-                    IsDeleted = context.Users.FirstOrDefault(f=>f.UserDataId == o.UserDataId && f.IsDeleted == false).IsDeleted 
+                    LogId = o.LogID,
+                    UserId = o.UserID ?? 0,
+                    FIO = o.Users != null && o.Users.UserData != null
+                        ? o.Users.UserData.Surname + " " + o.Users.UserData.Name +
+                          (string.IsNullOrWhiteSpace(o.Users.UserData.MiddleName) ? "" : " " + o.Users.UserData.MiddleName)
+                        : "Неизвестный пользователь",
+                    Action = o.Action,
+                    Date = o.DateTime?.ToString("d"),
+                    Description = o.Description,
                 })
                 .ToList();
 
@@ -69,7 +73,7 @@ namespace Dickplom1.Pages.Manager
         }
         private void CheckTotalPages()
         {
-            totalPages = (int)Math.Ceiling((double)allStaff.Count / 10);
+            totalPages = (int)Math.Ceiling((double)allLogs.Count / 10);
         }
         private void GeneratePaginationButtons()
         {
@@ -141,7 +145,7 @@ namespace Dickplom1.Pages.Manager
         }
         private void LoadCurrentPage()
         {
-            var itemsToShow = allStaff
+            var itemsToShow = allLogs
                 .Skip((currentPage - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .Select((c, index) => {
@@ -165,109 +169,69 @@ namespace Dickplom1.Pages.Manager
             var items = new List<object>();
 
             // Заглушка — объект с FullName и UserDataId = 0 или null
-            items.Add(new { AccountStatusId = 0, AccountStatusValue = "Статус учетной записи" });
+            items.Add(new {  ActionValue = "Выберите действие" });
+            items.Add(new {  ActionValue = "INSERT" });
+            items.Add(new {  ActionValue = "UPDATE" });
+            items.Add(new {  ActionValue = "DELETE" });
 
-            items.AddRange(context.AccountStatus
-                .Select(u => new
-                {
-                    AccountStatusId = u.AccountStatusId,
-                    AccountStatusValue = u.AccountStatusValue
-                }));
 
             ComboboxesFilter.firstCombobox.ItemsSource = items;
-            ComboboxesFilter.firstCombobox.DisplayMemberPath = "AccountStatusValue";
-            ComboboxesFilter.firstCombobox.SelectedValuePath = "AccountStatusId";
+            ComboboxesFilter.firstCombobox.DisplayMemberPath = "ActionValue";
+            ComboboxesFilter.firstCombobox.SelectedValuePath = "ActionValue";
             ComboboxesFilter.firstCombobox.SelectedIndex = 0;
             ComboboxesFilter.firstCombobox.SelectionChanged += FirstCombobox_SelectionChanged;
             ComboboxesFilter.gridFilter.Height = 150;
-
-
-            //Добавить 2-ой комбобокс
-            ComboboxMaterialDesignWithBorder cbox = new ComboboxMaterialDesignWithBorder();
-
-            var items2 = new List<object>();
-            items2.Add(new { RoleId = 0, NameRole = "Должность" });
-
-            items2.AddRange(context.Roles
-                .Select(u => new
-                {
-                    RoleId = u.RoleId,
-                    NameRole = u.NameRole,
-                }));
-
-            cbox.cbox.ItemsSource = items2;
-            cbox.cbox.DisplayMemberPath = "NameRole";
-            cbox.cbox.SelectedValuePath = "RoleId";
-            cbox.cbox.SelectedIndex = 0;
-            cbox.cbox.SelectionChanged += Cbox_SelectionChanged;
-            cbox.Margin = new Thickness(15, 0, 15, 0);
-
-            ComboboxesFilter.spCboxes.Children.Add(cbox);
         }
-        public int cboxAccountStatusId { get; set; } = 0;
-        public int cboxRoleId { get; set; } = 0;
+        public string cboxActionValue { get; set; } = string.Empty;
 
         private void FirstCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cboxAccountStatusId = Convert.ToInt32(ComboboxesFilter.firstCombobox.SelectedValue);
+            cboxActionValue = ComboboxesFilter.firstCombobox.SelectedValue.ToString();
             ApplyFilters();
-        }
-        private void Cbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is System.Windows.Controls.ComboBox cbox)
-            {
-                cboxRoleId = Convert.ToInt32(cbox.SelectedValue);
-                ApplyFilters();
-            }
         }
 
         public void ApplyFilters()
         {
             var context = DBEntities.GetContext();
 
-            var clientsQuery = context.Users
-            .Where(c => !c.IsDeleted);
+            var clientsQuery = context.Logs
+            .Where(c => c.LogID != null);
 
-            // фильтр по статусу учетной записи
-            if (cboxAccountStatusId != 0)
+            // фильтр по действию
+            if (cboxActionValue != string.Empty)
             {
-                clientsQuery = clientsQuery.Where(c => c.AccountStatusId == cboxAccountStatusId);
+                if (cboxActionValue == "Выберите действие")
+                {
+                    clientsQuery = clientsQuery;
+                }
+                else
+                {
+                    clientsQuery = clientsQuery.Where(c => c.Action == cboxActionValue);
+                }
             }
-
-            // фильтр по должности
-            if (cboxRoleId != 0)
-            {
-                clientsQuery = clientsQuery.Where(c => c.RoleId == cboxRoleId);
-            }
+            
 
             var filteredUsers = clientsQuery
-                .Where(x => !x.IsDeleted)
-                .ToList() // Загружаем данные в память
-                .Select(c => new StaffViewModel
+                .Where(o => o.UserID != null)
+                .ToList()
+                .Select(o => new LogsViewModel
                 {
-                    UserId = c.UserId,
-                    AccountStatusId = (int)c.AccountStatusId,
-                    UserDataId = (int)c.UserDataId,
-                    UserPasswordDataId = (int)c.UserPassportDataId,
-                    RoleId = (int)c.RoleId,
-                    Login = c.Login,
-                    PasswordHash = c.PasswordHash,
-                    CreatorId = c.CreatorId ?? 1,
-                    CreatedAt = (DateTime)c.CreatedAt,
-                    IsDeleted = c.IsDeleted,
-
-                    FIOStaff = c.UserData?.Surname + " " + c.UserData?.Name + " " + c.UserData?.MiddleName + " ",
-                    Email = c.UserData?.Email,
-                    PhoneNumber = c.UserData?.PhoneNumber,
-                    Role = c.Roles.NameRole,
-                    AccountStatus = c.AccountStatus.AccountStatusValue
+                    LogId = o.LogID,
+                    UserId = o.UserID ?? 0,
+                    FIO = o.Users != null && o.Users.UserData != null
+                        ? o.Users.UserData.Surname + " " + o.Users.UserData.Name +
+                          (string.IsNullOrWhiteSpace(o.Users.UserData.MiddleName) ? "" : " " + o.Users.UserData.MiddleName)
+                        : "Неизвестный пользователь",
+                    Action = o.Action,
+                    Date = o.DateTime?.ToString("d"),
+                    Description = o.Description,
                 })
                 .ToList();
 
-            if (allStaff != null)
-                allStaff.Clear();
+            if (allLogs != null)
+                allLogs.Clear();
 
-            allStaff = filteredUsers;
+            allLogs = filteredUsers;
 
             CheckTotalPages();
             GeneratePaginationButtons();

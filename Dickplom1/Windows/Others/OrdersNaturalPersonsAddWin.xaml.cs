@@ -229,31 +229,40 @@ namespace Dickplom1.Windows.Others
             var context = DBEntities.GetContext();
             var selectedItem = cboxSubscription.cbox.SelectedItem;
 
-            if (selectedItem != null)
+            try
             {
-                var subscriptionName = selectedItem
-                    .GetType()
-                    .GetProperty("SubscriptionName")
-                    ?.GetValue(selectedItem)
-                    ?.ToString();
 
-                var subscriptionId = selectedItem
-                    .GetType()
-                    .GetProperty("SubscriptionId")
-                    ?.GetValue(selectedItem)
-                    ?.ToString();
+                if (selectedItem != null)
+                {
+                    var subscriptionName = selectedItem
+                        .GetType()
+                        .GetProperty("SubscriptionName")
+                        ?.GetValue(selectedItem)
+                        ?.ToString();
 
-                if (Convert.ToInt32(subscriptionId) == 0)
-                {
-                    tblockSubscription.Text = string.Empty;
-                }
-                else
-                {
-                    //Подписка
-                    tblockSubscription.Text = string.Empty;
-                    tblockSubscription.Text = subscriptionName.ToString();
+                    var subscriptionId = selectedItem
+                        .GetType()
+                        .GetProperty("SubscriptionId")
+                        ?.GetValue(selectedItem)
+                        ?.ToString();
+
+                    if (Convert.ToInt32(subscriptionId) == 0)
+                    {
+                        tblockSubscription.Text = string.Empty;
+                    }
+                    else
+                    {
+                        //Подписка
+                        tblockSubscription.Text = string.Empty;
+                        tblockSubscription.Text = subscriptionName.ToString();
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             //Период
             try
@@ -364,142 +373,151 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
-            var mainWin = Application.Current.MainWindow as MainWindow;
-            var context = DBEntities.GetContext();
+            try
+            {
+                var mainWin = Application.Current.MainWindow as MainWindow;
+                var context = DBEntities.GetContext();
 
-            if (cboxSubscription.cbox.SelectedIndex == 0 
-                || cboxClient.cbox.SelectedIndex == 0 
-                || cboxOrderStatus.cbox.SelectedIndex == 0
-                || datePicker.dp.SelectedDate == null)
-            {
-                MessageBox.Show("Необходимо заполнить все поля");
-                return;
-            }
-            else
-            {
-                
-                try
+                if (cboxSubscription.cbox.SelectedIndex == 0
+                    || cboxClient.cbox.SelectedIndex == 0
+                    || cboxOrderStatus.cbox.SelectedIndex == 0
+                    || datePicker.dp.SelectedDate == null)
                 {
-                    if (endDatE == null) return;
-                    if (priceAll == null) return;
+                    MessageBox.Show("Необходимо заполнить все поля");
+                    return;
+                }
+                else
+                {
 
-                    //Рекдактирование заказа
-                    if (OrderId != 0)
+                    try
                     {
-                        var selectedOrder = context.Orders.FirstOrDefault(f=>f.OrderId == OrderId);
+                        if (endDatE == null) return;
+                        if (priceAll == null) return;
 
-                        if (selectedOrder != null)
+                        //Рекдактирование заказа
+                        if (OrderId != 0)
                         {
-                            var oldStatusId = selectedOrder.StatusId; // Сохраняем старый статус до изменений
+                            var selectedOrder = context.Orders.FirstOrDefault(f => f.OrderId == OrderId);
 
-                            var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
-                            if (orderActiveOld != null)
+                            if (selectedOrder != null)
                             {
-                                if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
+                                var oldStatusId = selectedOrder.StatusId; // Сохраняем старый статус до изменений
+
+                                var orderActiveOld = context.Orders.FirstOrDefault(f => f.ClientId == selectedOrder.ClientId && f.OrderId != selectedOrder.OrderId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                                if (orderActiveOld != null)
                                 {
-                                    MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                                    return;
-                                }
-                            }
-                            if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
-                            {
-                                if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
-                                {
-                                    MessageBox.Show("Некорректная указана дата");
-                                    return;
-                                }
-                                if (dateParsedNew.Date < DateTime.Now.Date)
-                                {
-                                    MessageBoxButton btns = MessageBoxButton.YesNo;
-                                    MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
-                                    if (box == MessageBoxResult.No)
+                                    if ((int)cboxOrderStatus.cbox.SelectedValue >= 2 && (int)cboxOrderStatus.cbox.SelectedValue <= 5)
+                                    {
+                                        MessageBox.Show("У выбранного клиента уже есть активный заказ");
                                         return;
+                                    }
                                 }
-                            }
-                            selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
-                            selectedOrder.ClientId = (int)cboxClient.cbox.SelectedValue;
-                            selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
-                            selectedOrder.EndDate = DateTime.Parse(endDatE);
-                            selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
-                            selectedOrder.Price = Convert.ToInt32(priceAll);
-
-                            //context.SaveChanges();
-
-                            // Добавляем уведомление, если статус изменился
-                            if (oldStatusId != selectedOrder.StatusId)
-                            {
-
-                                if (selectedOrder.CreatorId != null && selectedOrder.CreatorId != 0)
+                                if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsedNew))
                                 {
-                                    var notif = new Notifications()
+                                    if (dateParsedNew.Date < DateTime.Now.AddMonths(-18) || dateParsedNew.Date > DateTime.Now.Date.AddMonths(18))
                                     {
-                                        UserId = selectedOrder.CreatorId ?? 0,
-                                        Message = $"Новый статус заказа",
-                                        IsRead = false,
-                                        CreatedAt = DateTime.Now
-                                    };
+                                        MessageBox.Show("Некорректная указана дата");
+                                        return;
+                                    }
+                                    if (dateParsedNew.Date < DateTime.Now.Date)
+                                    {
+                                        MessageBoxButton btns = MessageBoxButton.YesNo;
+                                        MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                                        if (box == MessageBoxResult.No)
+                                            return;
+                                    }
+                                }
+                                selectedOrder.SubscriptionId = (int)cboxSubscription.cbox.SelectedValue;
+                                selectedOrder.ClientId = (int)cboxClient.cbox.SelectedValue;
+                                selectedOrder.StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue;
+                                selectedOrder.EndDate = DateTime.Parse(endDatE);
+                                selectedOrder.StatusId = (int)cboxOrderStatus.cbox.SelectedValue;
+                                selectedOrder.Price = Convert.ToInt32(priceAll);
 
-                                    if (notif.UserId != 0)
+                                //context.SaveChanges();
+
+                                // Добавляем уведомление, если статус изменился
+                                if (oldStatusId != selectedOrder.StatusId)
+                                {
+
+                                    if (selectedOrder.CreatorId != null && selectedOrder.CreatorId != 0)
                                     {
-                                        context.Notifications.Add(notif);
+                                        var notif = new Notifications()
+                                        {
+                                            UserId = selectedOrder.CreatorId ?? 0,
+                                            Message = $"Новый статус заказа",
+                                            IsRead = false,
+                                            CreatedAt = DateTime.Now
+                                        };
+
+                                        if (notif.UserId != 0)
+                                        {
+                                            context.Notifications.Add(notif);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        context.SaveChanges();
-                        MessageBox.Show("Заказ успешно обновлен");
-                        this.Close();
-                        mainWin.RefreshNotifications();
-                        return;
-                    }
-
-                    if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
-                    {
-                        if (dateParsed.Date < DateTime.Now.AddMonths(-18) || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
-                        {
-                            MessageBox.Show("Некорректно указана дата");
+                            context.SaveChanges();
+                            MessageBox.Show("Заказ успешно обновлен");
+                            this.Close();
+                            mainWin.RefreshNotifications();
                             return;
                         }
-                        if (dateParsed.Date < DateTime.Now.Date)
+
+                        if (DateTime.TryParse(datePicker.dp.Text, out DateTime dateParsed))
                         {
-                            MessageBoxButton btns = MessageBoxButton.YesNo;
-                            MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
-                            if (box == MessageBoxResult.No)
+                            if (dateParsed.Date < DateTime.Now.AddMonths(-18) || dateParsed.Date > DateTime.Now.Date.AddMonths(18))
+                            {
+                                MessageBox.Show("Некорректно указана дата");
                                 return;
+                            }
+                            if (dateParsed.Date < DateTime.Now.Date)
+                            {
+                                MessageBoxButton btns = MessageBoxButton.YesNo;
+                                MessageBoxResult box = MessageBox.Show("Дата заказа указана за прошлое время\nЖелаете продолжить?", "Внимание", btns);
+                                if (box == MessageBoxResult.No)
+                                    return;
+                            }
                         }
-                    }
-                    //Создание заказа
-                    Orders newOrder = new Orders
-                    {
-                        SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
-                        ClientId = (int)cboxClient.cbox.SelectedValue,
-                        StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
-                        EndDate = DateTime.Parse(endDatE),
-                        StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
-                        Price = Convert.ToInt32(priceAll),
-                        CreatedAt = DateTime.Parse(DateTime.Now.ToString("g"))
-                        //CreatorId = this Как сделаю авторизацию в приложении добавить сюда текущий manager id 
-                    };
-
-                    var orderActive = context.Orders.FirstOrDefault(f=>f.ClientId == newOrder.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
-                    if (orderActive != null)
-                    {
-                        if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5)
+                        //Создание заказа
+                        Orders newOrder = new Orders
                         {
-                            MessageBox.Show("У выбранного клиента уже есть активный заказ");
-                            return;
-                        }
-                    }
+                            SubscriptionId = (int)cboxSubscription.cbox.SelectedValue,
+                            ClientId = (int)cboxClient.cbox.SelectedValue,
+                            StartDate = datePicker.dp.SelectedDate ?? DateTime.MinValue,
+                            EndDate = DateTime.Parse(endDatE),
+                            StatusId = (int)cboxOrderStatus.cbox.SelectedValue,
+                            Price = Convert.ToInt32(priceAll),
+                            CreatedAt = DateTime.Parse(DateTime.Now.ToString("g")),
+                            CreatorId = mainWin.ActiveUser.UserId
+                        };
 
-                    context.Orders.Add(newOrder);
-                    context.SaveChanges();
-                    MessageBox.Show("Заказ успешно добавлен");
-                    this.Close();
-                }
-                catch (Exception)
-                {
+                        var orderActive = context.Orders.FirstOrDefault(f => f.ClientId == newOrder.ClientId && f.StatusId > 1 & f.StatusId < 6 && f.IsDeleted == false);
+                        if (orderActive != null)
+                        {
+                            if (newOrder.StatusId >= 2 && newOrder.StatusId <= 5)
+                            {
+                                MessageBox.Show("У выбранного клиента уже есть активный заказ");
+                                return;
+                            }
+                        }
+
+                        context.Orders.Add(newOrder);
+                        context.SaveChanges();
+                        MessageBox.Show("Заказ успешно добавлен");
+                        this.Close();
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         private void btnAddSubscription_Click(object sender, RoutedEventArgs e)

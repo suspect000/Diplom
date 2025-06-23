@@ -278,6 +278,7 @@ namespace Dickplom1.Windows.Others
 
         private void BtnWithBorder_Click(object sender, RoutedEventArgs e)
         {
+            var mainWin = Application.Current.MainWindow as MainWindow;
             var context = DBEntities.GetContext();
             try
             {
@@ -362,6 +363,8 @@ namespace Dickplom1.Windows.Others
                     MessageBox.Show("Некорректная дата рождения");
                     return;
                 }
+                
+
                 if (SelectedUser != null) // Действия и сохранение
                 {
                     var selectedUserWithNewData = context.Users.FirstOrDefault(f => f.UserId == SelectedUser.UserId);
@@ -397,7 +400,6 @@ namespace Dickplom1.Windows.Others
                 }
                 else
                 {
-                    var mainWin = Application.Current.MainWindow as MainWindow;
 
                     var newUserData = new UserData
                     {

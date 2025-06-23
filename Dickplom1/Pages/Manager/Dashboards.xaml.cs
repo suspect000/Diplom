@@ -10,6 +10,9 @@ using Dickplom1.DataFolder;
 using System.Linq;
 using System;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Runtime.Remoting.Contexts;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace Dickplom1.Pages.Manager
 {
@@ -158,86 +161,35 @@ namespace Dickplom1.Pages.Manager
             }
         }
 
+        DBEntities context = DBEntities.GetContext();
 
-        private void btnDynamicSalesChoseMounth_MouseEnter(object sender, MouseEventArgs e)
-        {
-                
-                Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseMounth, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
-        }
+        public List<OrdersViewModel> allOrders = DBEntities.GetContext().Orders
+    .Where(c => c.IsDeleted == false)
+    .ToList()
+    .Select(o => new OrdersViewModel
+    {
+        OrderId = o.OrderId,
+        SubscriptionName = o.Subscription.SubscriptionName,
+        FullNameClient = o.ClientsNaturalPersons != null
+            ? o.ClientsNaturalPersons.Surname + " " +
+              o.ClientsNaturalPersons.Name + " " +
+              o.ClientsNaturalPersons.MiddleName
+            : string.Empty,
+        StartDate = o.StartDate?.ToString("d") ?? string.Empty,
+        EndDate = o.EndDate?.ToString("d") ?? string.Empty,
+        ClientId = o.ClientId ?? 0,
+        OrderStatus = o.OrderStatus?.StatusValue ?? string.Empty,
+        OrderStatusId = o.StatusId ?? 0,
+        FIOManager = o.Users?.UserData != null
+            ? o.Users.UserData.Surname + " " +
+              o.Users.UserData.Name + " " +
+              o.Users.UserData.MiddleName
+            : string.Empty,
+        CreatorId = o.CreatorId ?? 0,
+        IsDeleted = o.IsDeleted
+    })
+    .ToList();
 
-        private void btnDynamicSalesChoseMounth_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseMounth, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
-        }
-
-        private void btnDynamicSalesChoseWeek_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseWeek, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
-        }
-
-        private void btnDynamicSalesChoseWeek_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseWeek, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
-        }
-
-        private void btnDynamicSalesChoseYear_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseYear, btnDynamicSalesChoseMounth.Opacity, 0.7, 0.3);
-        }
-
-        private void btnDynamicSalesChoseYear_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Dickplom1.Class.Animations.OpacityAnimation(btnDynamicSalesChoseYear, btnDynamicSalesChoseMounth.Opacity, 1, 0.3);
-
-        }
-
-        private void btnDynamicSalesChoseYear_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ChartDynamicSales.XAxes = null;
-            ChartDynamicSales.Series = null;
-            var charts = this.DataContext as Dickplom1.Class.Charts;
-            if (charts != null)
-            {
-                charts.UpdateXAxis("Год");
-            }
-        }
-
-        private void btnDynamicSalesChoseMounth_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ChartDynamicSales.XAxes = null;
-            ChartDynamicSales.Series = null;
-            var charts = this.DataContext as Dickplom1.Class.Charts;
-            if (charts != null)
-            {
-                charts.UpdateXAxis("Месяц");
-            }
-        }
-
-        private void btnDynamicSalesChoseWeek_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ChartDynamicSales.XAxes = null;
-            ChartDynamicSales.Series = null;
-            var charts = this.DataContext as Dickplom1.Class.Charts;
-            if (charts != null)
-            {
-                charts.UpdateXAxis("Неделя");
-            }
-        }
-
-        private void imgStaffLid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var image = sender as Image;
-            
-            var cornerRadius = 20.0;
-            var clipRect = new RectangleGeometry
-            {
-                Rect = new Rect(0, 0, image.ActualWidth, image.ActualHeight),
-                RadiusX = cornerRadius,
-                RadiusY = cornerRadius
-            };
-
-            image.Clip = clipRect;
-        }
 
         private void tbStaffLidName_Loaded(object sender, RoutedEventArgs e)
         {
@@ -288,6 +240,7 @@ namespace Dickplom1.Pages.Manager
                     }
                 }
             }
+            LeaderKPI();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -314,15 +267,15 @@ namespace Dickplom1.Pages.Manager
                 if (tbSalesAllChosenDate.Text.Contains("за год"))
                 {
                     int ordersAll =
-                        context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
-                        context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
+                        context.Orders.Count(s => s.StatusId > 1 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
+                        context.OrdersLegalEntities.Count(s => s.StatusId > 1 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
                     tbSallesAll.Text = ordersAll.ToString();
                 }
                 if (tbSalesAllChosenDate.Text.Contains("за месяц"))
                 {
                     int ordersAll =
-                        context.Orders.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month) +
-                        context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month);
+                        context.Orders.Count(s => s.StatusId > 1 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month) +
+                        context.OrdersLegalEntities.Count(s => s.StatusId > 1 && s.CreatedAt.HasValue && s.CreatedAt.Value.Month == DateTime.Now.Month);
                     tbSallesAll.Text = ordersAll.ToString();
                 }
                 if (tbSalesAllChosenDate.Text.Contains("за неделю"))
@@ -334,12 +287,12 @@ namespace Dickplom1.Pages.Manager
 
                     int ordersAll =
                         context.Orders.Count(s =>
-                            s.StatusId == 6 &&
+                            s.StatusId > 1 &&
                             s.CreatedAt.HasValue &&
                             s.CreatedAt.Value >= weekStart &&
                             s.CreatedAt.Value < weekEnd) +
                         context.OrdersLegalEntities.Count(s =>
-                            s.StatusId == 6 &&
+                            s.StatusId > 1 &&
                             s.CreatedAt.HasValue &&
                             s.CreatedAt.Value >= weekStart &&
                             s.CreatedAt.Value < weekEnd);
@@ -363,8 +316,8 @@ namespace Dickplom1.Pages.Manager
                 {
                     if (tbdate1.tb.Text.Contains("за год"))
                     {
-                        int ordersYear = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year)
-                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year);
+                        int ordersYear = context.Orders.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value.Year == now.Year);
 
                         var selectedSub = context.Subscription.FirstOrDefault(f=>f.SubscriptionId == ordersYear);
 
@@ -375,8 +328,8 @@ namespace Dickplom1.Pages.Manager
                     }
                     if (tbdate1.tb.Text.Contains("за месяц"))
                     {
-                        int ordersMonth = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year)
-                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year);
+                        int ordersMonth = context.Orders.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value.Month == now.Month && o.CreatedAt.Value.Year == now.Year);
 
                         var selectedSub = context.Subscription.FirstOrDefault(f => f.SubscriptionId == ordersMonth);
 
@@ -387,8 +340,8 @@ namespace Dickplom1.Pages.Manager
                     }
                     if (tbdate1.tb.Text.Contains("за неделю"))
                     {
-                        int ordersWeek = context.Orders.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd)
-                            + context.OrdersLegalEntities.Count(o => o.StatusId == 6 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd);
+                        int ordersWeek = context.Orders.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd)
+                            + context.OrdersLegalEntities.Count(o => o.StatusId > 1 && o.CreatedAt.HasValue && o.CreatedAt.Value >= weekStart && o.CreatedAt.Value < weekEnd);
 
                         var selectedSub = context.Subscription.FirstOrDefault(f => f.SubscriptionId == ordersWeek);
 
@@ -413,7 +366,7 @@ namespace Dickplom1.Pages.Manager
                             context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
                         int ordersCanceled =
                             context.Orders.Count(s => s.StatusId == 7 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year) +
-                            context.OrdersLegalEntities.Count(s => s.StatusId == 6 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
+                            context.OrdersLegalEntities.Count(s => s.StatusId == 7 && s.CreatedAt.HasValue && s.CreatedAt.Value.Year == DateTime.Now.Year);
 
                         tbSallesReady.Text = ordersReady.ToString() + " ";
                         tbSallesCanceled.Text = ordersCanceled.ToString() + " ";
@@ -499,7 +452,8 @@ namespace Dickplom1.Pages.Manager
 
                         if (pieSeries != null && totalOrders > 0)
                         {
-                            charts.SetCompletedOrdersPercent((double)ordersReady / totalOrders * 100);
+                            double percent = Math.Round((double)ordersReady / totalOrders * 100, 2);
+                            charts.SetCompletedOrdersPercent(percent);
                         }
                         else
                         {
@@ -511,6 +465,41 @@ namespace Dickplom1.Pages.Manager
             }
             catch (Exception)
             {
+            }
+
+            try
+            {
+                var allOrders = DBEntities.GetContext().Orders
+                    .Where(c => c.IsDeleted == false && c.Subscription.SubscriptionTypeId == 1)
+                    .ToList()
+                    .Select(o => new OrdersViewModel
+                    {
+                        OrderId = o.OrderId,
+                        SubscriptionName = o.Subscription.SubscriptionName,
+                        FullNameClient = o.ClientsNaturalPersons.Surname
+                            + " " + o.ClientsNaturalPersons.Name
+                            + " " + o.ClientsNaturalPersons.MiddleName,
+                        StartDate = o.StartDate.Value.ToString("d"),
+                        EndDate = o.EndDate.Value.ToString("d"),
+                        ClientId = o.ClientId ?? 0,
+                        OrderStatus = o.OrderStatus.StatusValue,
+                        OrderStatusId = o.StatusId ?? 0,
+                        FIOManager = o.Users?.UserData.Surname + " " + o.Users?.UserData.Name + " " + o.Users?.UserData.MiddleName,
+                        CreatorId = o.CreatorId ?? 0,
+                        IsDeleted = o.IsDeleted
+                    })
+                    .ToList();
+
+                var charts = this.DataContext as Dickplom1.Class.Charts;
+                if (charts != null)
+                {
+                    var ordersData = charts.PrepareOrdersData(allOrders, "Месяц"); // или "Неделя", "Год"
+                    charts.UpdateDynamicSalesData(ordersData, "Месяц");
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
         }
@@ -653,6 +642,151 @@ namespace Dickplom1.Pages.Manager
         private void DataGridCustom_Loaded(object sender, RoutedEventArgs e)
         {
             DataGridOrdersRefresh();
+        }
+
+        private void ChartDynamicSales_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (tbDynamicSalesValue != null)
+            {
+                var context = DBEntities.GetContext();
+                var allOrders = context.Orders.Where(f=>!f.IsDeleted).Count();
+                if (allOrders != null && allOrders != 0)
+                {
+                    tbDynamicSalesValue.Text = allOrders.ToString();
+                }
+            }
+        }
+
+        private void dgStaff_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadStaffWithKPI();
+        }
+        public List<StaffViewModel> AllStaff {  get; set; } = null;
+        public void LoadStaffWithKPI()
+        {
+            try
+            {
+                var context = DBEntities.GetContext();
+
+                // Загружаем заказы (физические + юридические)
+                var ordersPhysical = context.Orders
+                    .Where(o => o.IsDeleted == false && o.CreatorId != null)
+                    .ToList();
+
+                var ordersLegal = context.OrdersLegalEntities
+                    .Where(o => o.IsDeleted == false && o.CreatorId != null)
+                    .ToList();
+
+                // Группируем по CreatorId, считаем количество заказов на каждого
+                var allOrdersGrouped = ordersPhysical
+                    .Concat<object>(ordersLegal)
+                    .GroupBy(o => ((dynamic)o).CreatorId)
+                    .ToDictionary(g => (int)g.Key, g => g.Count());
+
+                // Считаем максимум для нормализации KPI
+                int maxOrders = allOrdersGrouped.Values.Any() ? allOrdersGrouped.Values.Max() : 1;
+
+                // Загружаем сотрудников с KPI
+                var allStaff = context.Users
+                    .Where(o => o.IsDeleted == false && o.UserData != null)
+                    .ToList()
+                    .Select(o => new StaffViewModel
+                    {
+                        UserId = o.UserId,
+                        UserDataId = o.UserData.UserDataId,
+                        UserPhoto = o.UserData.UserPhoto,
+                        Surname = o.UserData?.Surname ?? "",
+                        Name =  o.UserData?.Name ?? "",
+                        MiddleName = o.UserData?.MiddleName ?? "",
+                        FIOStaff = o.UserData.Surname + " " + o.UserData.Name + " " + o.UserData.MiddleName,
+                        Email = o.UserData.Email,
+                        Login = o.Login,
+                        PhoneNumber = o.UserData.PhoneNumber ?? " ",
+                        Role = o.Roles.NameRole ?? " ",
+                        AccountStatusId = o.AccountStatusId ?? 0,
+                        AccountStatus = o.AccountStatus.AccountStatusValue ?? " ",
+                        IsDeleted = o.IsDeleted,
+                        CreatorId = o.CreatorId ?? 2,
+                        CreatedAt = o.CreatedAt ?? DateTime.MinValue,
+                        KPI = allOrdersGrouped.ContainsKey(o.UserId)
+                            ? Math.Round((double)allOrdersGrouped[o.UserId] / maxOrders * 100, 2)
+                            : 0
+                    })
+                    .ToList();
+                AllStaff = allStaff;
+
+                // Привязка к DataGrid
+                dgStaff.dgStaff.ItemsSource = allStaff;
+                LeaderKPI();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+
+        }
+        public void LeaderKPI()
+        {
+            try
+            {
+                if (AllStaff != null)
+                {
+                    var leader = AllStaff
+                        .Where(s => !s.IsDeleted)
+                        .OrderByDescending(s => s.KPI)
+                        .FirstOrDefault();
+                    if (leader != null)
+                    {
+                       
+
+                        string leaderRole = leader.Role;
+                        double leaderKPI = leader.KPI;
+
+                        if (leader.Surname != null && leader.Name != null)
+                            tbStaffLidName.Text = leader.Surname + " " + leader.Name.Remove(1,leader.Name.Length - 1) + ".";
+
+                        tbStaffLidPost.Text = leaderRole;
+                        tbStaffLidKPI.Text = leaderKPI.ToString("F1");
+                    }
+                    // Проверка и загрузка фото
+                    if (leader.UserPhoto != null && leader.UserPhoto.Length > 0)
+                    {
+                        using (var stream = new MemoryStream(leader.UserPhoto))
+                        {
+                            var image = new BitmapImage();
+                            image.BeginInit();
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = stream;
+                            image.EndInit();
+                            image.Freeze(); // Чтобы можно было использовать в UI-потоке
+
+                            imgStaffLid.Source = image;
+                            imgStaffLidBackground.Source = image;
+
+                            imgStaffLidBackground.Clip = new RectangleGeometry
+                            {
+                                Rect = new Rect(0, 0, imgStaffLidBackground.Width, imgStaffLidBackground.Height),
+                                RadiusX = 20,
+                                RadiusY = 20
+                            };
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void rectStaffLidBlur_Loaded(object sender, RoutedEventArgs e)
+        {
+            LeaderKPI();
         }
     }
 }
